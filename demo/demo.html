@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Image Lightbox: Responsive and Touch-Friendly demo by Osvaldas Valutis</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Demo of Image Lightbox: Responsive and Touch-Friendly">
+    <meta name="robots" content="all">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link rel="canonical" href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly">
+    <link rel="stylesheet" href="demo.css">
+    <link rel="stylesheet" href="imagelightbox.css">
+</head>
+
+<body data-twttr-rendered="true">
+
+<div id="container">
+    <header>
+        <h1><a href="http://osvaldas.info/image-lightbox-responsive-touch-friendly">Image Lightbox<br><span>Responsive &amp; Touch-Friendly</span></a>
+        </h1>
+    </header>
+    <h2>With activity indication</h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/1.jpg"
+               data-imagelightbox="a"><img src="images/1.jpg" alt="Klaipeda in the night"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/2.jpg"
+               data-imagelightbox="a"><img src="images/2.jpg" alt="Frozen river Dane"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/3.jpg"
+               data-imagelightbox="a"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
+    </ul>
+    <h2>With overlay <span>&amp; activity indication</span></h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/4.jpg"
+               data-imagelightbox="b"><img src="images/4.jpg" alt="Sun, grass and hydrant"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/5.jpg"
+               data-imagelightbox="b"><img src="images/5.jpg" alt="Bridge over the railway"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/6.jpg"
+               data-imagelightbox="b"><img src="images/6.jpg" alt="Railway light"></a></li>
+    </ul>
+    <h2>With "close" button <span>&amp; activity indication</span></h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/10.jpg"
+               data-imagelightbox="c"><img src="images/10.jpg" alt="Countryside somewhere in Lithuania"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/11.jpg"
+               data-imagelightbox="c"><img src="images/11.jpg" alt="Storm in Klaipeda"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/12.jpg"
+               data-imagelightbox="c"><img src="images/12.jpg" alt="Sunset over Plateliai lake"></a></li>
+    </ul>
+    <h2>With caption <span>&amp; activity indication</span></h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/7.jpg"
+               data-imagelightbox="d"><img src="images/7.jpg" alt="The end of the railway"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/8.jpg"
+               data-imagelightbox="d"><img src="images/8.jpg" alt="Railway in Klaipeda"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/9.jpg"
+               data-imagelightbox="d"><img src="images/9.jpg" alt="Herkaus Manto street in Klaipeda"></a></li>
+    </ul>
+    <h2>With navigation <span>&amp; activity indication</span></h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/13.jpg"
+               data-imagelightbox="e"><img src="images/13.jpg" alt="Afternoon in Klaipeda"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/14.jpg"
+               data-imagelightbox="e"><img src="images/14.jpg" alt="Klaipeda from Smiltyne side"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/15.jpg"
+               data-imagelightbox="e"><img src="images/15.jpg" alt="Some kind of bird, hopefully"></a></li>
+    </ul>
+    <h2>Combination</h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/16.jpg"
+               data-imagelightbox="f"><img src="images/16.jpg" alt="Snail"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/17.jpg"
+               data-imagelightbox="f"><img src="images/17.jpg" alt="Cloud pump"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/18.jpg"
+               data-imagelightbox="f"><img src="images/18.jpg" alt="Gardening in lithuanian countryside"></a></li>
+    </ul>
+    <footer>
+        <p>Photos taken by me using iPhone 4S and lovely Instagram. Just in case.</p>
+    </footer>
+</div>
+
+<script src="jquery-1.11.0.min.js"></script>
+<script src="../imagelightbox.js"></script>
+<script>
+
+    $(function () {
+        var activityIndicatorOn = function () {
+                    $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
+                },
+                activityIndicatorOff = function () {
+                    $('#imagelightbox-loading').remove();
+                },
+
+                overlayOn = function () {
+                    $('<div id="imagelightbox-overlay"></div>').appendTo('body');
+                },
+                overlayOff = function () {
+                    $('#imagelightbox-overlay').remove();
+                },
+
+                closeButtonOn = function (instance) {
+                    $('<a href="#" id="imagelightbox-close">Close</a>').appendTo('body').on('click', function () {
+                        $(this).remove();
+                        instance.quitImageLightbox();
+                        return false;
+                    });
+                },
+                closeButtonOff = function () {
+                    $('#imagelightbox-close').remove();
+                },
+
+                captionOn = function () {
+                    var description = $('a[href="' + $('#imagelightbox').attr('src') + '"] img').attr('alt');
+                    if (description.length > 0)
+                        $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
+                },
+                captionOff = function () {
+                    $('#imagelightbox-caption').remove();
+                },
+
+                navigationOn = function (instance, selector) {
+                    var images = $(selector);
+                    if (images.length) {
+                        var nav = $('<div id="imagelightbox-nav"></div>');
+                        for (var i = 0; i < images.length; i++)
+                            nav.append('<a href="#"></a>');
+
+                        nav.appendTo('body');
+                        nav.on('click touchend', function () {
+                            return false;
+                        });
+
+                        var navItems = nav.find('a');
+                        navItems.on('click touchend', function () {
+                            var $this = $(this);
+                            if (images.eq($this.index()).attr('href') != $('#imagelightbox').attr('src'))
+                                instance.switchImageLightbox($this.index());
+
+                            navItems.removeClass('active');
+                            navItems.eq($this.index()).addClass('active');
+
+                            return false;
+                        })
+                                .on('touchend', function () {
+                                    return false;
+                                });
+                    }
+                },
+                navigationUpdate = function (selector) {
+                    var items = $('#imagelightbox-nav a');
+                    items.removeClass('active');
+                    items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+                },
+                navigationOff = function () {
+                    $('#imagelightbox-nav').remove();
+                };
+
+
+        //	WITH ACTIVITY INDICATION
+
+        $('a[data-imagelightbox="a"]').imageLightbox(
+                {
+                    onLoadStart: function () {
+                        activityIndicatorOn();
+                    },
+                    onLoadEnd: function () {
+                        activityIndicatorOff();
+                    },
+                    onEnd: function () {
+                        activityIndicatorOff();
+                    }
+                });
+
+
+        //	WITH OVERLAY & ACTIVITY INDICATION
+
+        $('a[data-imagelightbox="b"]').imageLightbox(
+                {
+                    onStart: function () {
+                        overlayOn();
+                    },
+                    onEnd: function () {
+                        overlayOff();
+                        activityIndicatorOff();
+                    },
+                    onLoadStart: function () {
+                        activityIndicatorOn();
+                    },
+                    onLoadEnd: function () {
+                        activityIndicatorOff();
+                    }
+                });
+
+
+        //	WITH "CLOSE" BUTTON & ACTIVITY INDICATION
+
+        var instanceC = $('a[data-imagelightbox="c"]').imageLightbox(
+                {
+                    quitOnDocClick: false,
+                    onStart: function () {
+                        closeButtonOn(instanceC);
+                    },
+                    onEnd: function () {
+                        closeButtonOff();
+                        activityIndicatorOff();
+                    },
+                    onLoadStart: function () {
+                        activityIndicatorOn();
+                    },
+                    onLoadEnd: function () {
+                        activityIndicatorOff();
+                    }
+                });
+
+
+        //	WITH CAPTION & ACTIVITY INDICATION
+
+        $('a[data-imagelightbox="d"]').imageLightbox(
+                {
+                    onLoadStart: function () {
+                        captionOff();
+                        activityIndicatorOn();
+                    },
+                    onLoadEnd: function () {
+                        captionOn();
+                        activityIndicatorOff();
+                    },
+                    onEnd: function () {
+                        captionOff();
+                        activityIndicatorOff();
+                    }
+                });
+
+
+        //	WITH DIRECTION REFERENCE
+
+        var selectorE = 'a[data-imagelightbox="e"]';
+        var instanceE = $(selectorE).imageLightbox(
+                {
+                    onStart: function () {
+                        navigationOn(instanceE, selectorE);
+                    },
+                    onEnd: function () {
+                        navigationOff();
+                        activityIndicatorOff();
+                    },
+                    onLoadStart: function () {
+                        activityIndicatorOn();
+                    },
+                    onLoadEnd: function () {
+                        navigationUpdate(selectorE);
+                        activityIndicatorOff();
+                    }
+                });
+
+
+        //	ALL COMBINED
+
+        var instanceF = $('a[data-imagelightbox="f"]').imageLightbox(
+                {
+                    onStart: function () {
+                        overlayOn();
+                        closeButtonOn(instanceF);
+                    },
+                    onEnd: function () {
+                        overlayOff();
+                        captionOff();
+                        closeButtonOff();
+                        activityIndicatorOff();
+                    },
+                    onLoadStart: function () {
+                        captionOff();
+                        activityIndicatorOn();
+                    },
+                    onLoadEnd: function () {
+                        captionOn();
+                        activityIndicatorOff();
+                    }
+                });
+
+    });
+</script>
+</body>
+</html>

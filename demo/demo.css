@@ -1,0 +1,88 @@
+
+html {
+    /* killing 300ms touch delay in IE */
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+}
+
+body {
+    font-family: 'Fjalla One', sans-serif;
+    background-color: #efefef;
+}
+
+#container {
+    width: 41.25em; /* 660 */
+    text-align: center;
+    padding: 0 20px;
+    margin: 3.125em auto 6.25em; /* 50 100 */
+}
+
+#container h1 {
+    font-size: 2.125em; /* 34 */
+    line-height: 0.882em; /* 30 (34) */
+    text-transform: uppercase;
+}
+
+#container h1 span {
+    font-size: 0.588em; /* 20 (34) */
+    line-height: 1em; /* 20 (20) */
+    color: #aaa;
+    display: block;
+}
+
+#container h1 a:hover,
+#container h1 a:hover span {
+    color: #666;
+}
+
+#container h2 {
+    border-top: 1px solid #ddd;
+    padding-top: 1.875em; /* 30 */
+    margin-top: 1.875em; /* 30 */
+    margin-bottom: 0.625em; /* 10 */
+}
+
+#container h2 span {
+    color: #666;
+}
+
+#container ul {
+}
+
+#container li {
+    display: inline-block;
+    margin: 0.625em; /* 10 */
+}
+
+#container img {
+    width: 8.75em; /* 140 */
+    height: 8.75em; /* 140 */
+    border-color: #eee;
+    border: 0.625em solid rgba(255, 255, 255, .5); /* 10 */
+
+    -webkit-box-shadow: 0 0 0.313em rgba(0, 0, 0, .05); /* 5 */
+    -moz-box-shadow: 0 0 0.313em rgba(0, 0, 0, .05); /* 5 */
+    box-shadow: 0 0 0.313em rgba(0, 0, 0, .05); /* 5 */
+
+    -webkit-transition: -webkit-box-shadow .3s ease, border-color .3s ease;
+    -moz-transition: -moz-box-shadow .3s ease, border-color .3s ease;
+    -ms-transition: -ms-box-shadow .3s ease, border-color .3s ease;
+    -o-transition: -o-box-shadow .3s ease, border-color .3s ease;
+    transition: box-shadow .3s ease, border-color .3s ease;
+}
+
+#container img:hover {
+    border-color: #fff;
+
+    -webkit-box-shadow: 0 0 0.938em rgba(0, 0, 0, .25); /* 15 */
+    -moz-box-shadow: 0 0 0.938em rgba(0, 0, 0, .25); /* 15 */
+    box-shadow: 0 0 0.938em rgba(0, 0, 0, .25); /* 15 */
+}
+
+footer {
+    font-size: 0.875em; /* 14 */
+    color: #aaa;
+    border-top: 1px solid #ddd;
+    padding-top: 2.143em; /* 30 (14) */
+    margin-top: 2.143em; /* 30 (14) */
+}
