@@ -17,9 +17,9 @@
 
 #imagelightbox-loading,
 #imagelightbox-loading div {
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
+    -webkit-border-radius: 1.25em;
+    -moz-border-radius: 1.25em;
+    border-radius: 1.25em;
 }
 
 #imagelightbox-loading {
