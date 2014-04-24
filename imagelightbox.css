@@ -17,15 +17,14 @@
 
 #imagelightbox-loading,
 #imagelightbox-loading div {
-    -webkit-border-radius: 1.25em;
-    -moz-border-radius: 1.25em;
-    border-radius: 1.25em;
+    -webkit-border-radius: 9999px;
+    -moz-border-radius: 9999px;
+    border-radius: 9999px;
 }
 
 #imagelightbox-loading {
     width: 2.5em; /* 40 */
     height: 2.5em; /* 40 */
-    background-color: #444;
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     z-index: 10003;
