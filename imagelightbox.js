@@ -75,7 +75,7 @@
 
             isTargetValid = function( element )
             {
-                return $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '\.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
+                return $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
             },
 
             setImage = function()

@@ -24,4 +24,4 @@ gulp.task('minify', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('default', ['jshint', 'minify']);
+gulp.task('default', ['csslint', 'jshint', 'minify']);
