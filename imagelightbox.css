@@ -25,6 +25,7 @@
 #imagelightbox-loading {
     width: 2.5em; /* 40 */
     height: 2.5em; /* 40 */
+    background-color: rgb(128, 128, 128);
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     z-index: 10003;
@@ -127,8 +128,6 @@
 #imagelightbox-close {
     width: 2.5em; /* 40 */
     height: 2.5em; /* 40 */
-    text-align: left;
-    text-indent: -9999px;
     background-color: #666;
     position: fixed;
     z-index: 10002;
@@ -226,7 +225,7 @@
     border-radius: 50%;
 }
 
-#imagelightbox-nav a.active {
+#imagelightbox-nav .active {
     background-color: #fff;
 }
 

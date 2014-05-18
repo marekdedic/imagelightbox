@@ -6,8 +6,8 @@ var uglify  = require('gulp-uglify');
 var stylish = require('jshint-stylish');
 
 gulp.task('csslint', function () {
-    return gulp.src('imagelightbox.js')
-        .pipe(csslint())
+    return gulp.src('imagelightbox.css')
+        .pipe(csslint('.csslintrc'))
         .pipe(csslint.reporter())
 });
 
