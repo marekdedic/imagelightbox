@@ -7,7 +7,8 @@
     "gulp": "^3.6.2",
     "gulp-uglify": "^0.2.1",
     "gulp-rename": "^1.2.0",
-    "gulp-jshint": "^1.5.5",
-    "jshint-stylish": "^0.1.5"
+    "gulp-jshint": "^1.6.1",
+    "jshint-stylish": "^0.1.5",
+    "gulp-csslint": "^0.1.4"
   }
 }
