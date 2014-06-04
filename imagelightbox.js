@@ -49,21 +49,21 @@
     $.fn.imageLightbox = function( opts )
     {
         var options = $.extend(
-                {
-                    selector:		'id="imagelightbox"',
-                    allowedTypes:	'png|jpg|jpeg|gif',
-                    animationSpeed:	250,
-                    preloadNext:	true,
-                    enableKeyboard:	true,
-                    quitOnEnd:		false,
-                    quitOnImgClick: false,
-                    quitOnDocClick: true,
-                    onStart:		false,
-                    onEnd:			false,
-                    onLoadStart:	false,
-                    onLoadEnd:		false
-                },
-                opts ),
+            {
+                selector:		'id="imagelightbox"',
+                allowedTypes:	'png|jpg|jpeg|gif',
+                animationSpeed:	250,
+                preloadNext:	true,
+                enableKeyboard:	true,
+                quitOnEnd:		false,
+                quitOnImgClick: false,
+                quitOnDocClick: true,
+                onStart:		false,
+                onEnd:			false,
+                onLoadStart:	false,
+                onLoadEnd:		false
+            },
+            opts ),
 
             targets		= $([]),
             target		= $(),
@@ -269,7 +269,7 @@
             });
         }
 	
-	$( document ).off( 'click', this.selector);
+	    $( document ).off( 'click', this.selector);
         $( document ).on( 'click', this.selector, function( e )
         {
             if( !isTargetValid( this ) ) { return true; }
