@@ -268,7 +268,8 @@
                 }
             });
         }
-
+	
+	$( document ).off( 'click', this.selector);
         $( document ).on( 'click', this.selector, function( e )
         {
             if( !isTargetValid( this ) ) { return true; }
