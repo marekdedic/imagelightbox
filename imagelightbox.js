@@ -75,7 +75,9 @@
 
             isTargetValid = function( element )
             {
-                return $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
+                var classic =  $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
+                var html5 = $( element ).prop( 'data-lightbox' ) !== undefined;
+                return classic || html5;
             },
 
             setImage = function()
@@ -134,8 +136,10 @@
 
                 setTimeout( function()
                 {
+                    var imgPath = target.attr( 'href' );
+                    if ( imgPath === undefined ) imgPath = target.attr( 'data-lightbox' );
                     image = $( '<img ' + options.selector + ' />' )
-                        .attr( 'src', target.attr( 'href' ) )
+                        .attr( 'src', imgPath )
                         .load( function()
                         {
                             image.appendTo( 'body' );
