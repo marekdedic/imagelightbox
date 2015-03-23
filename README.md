@@ -44,3 +44,20 @@ $( selector ).imagelightbox(
     onLoadEnd:      false                   // function/bool;   calls function when the image finishes loading
 });
 ````
+
+## Starting lightbox with JavaScript call
+imageLightBox can be started with *startImageLightbox()* JavaScript function call.
+
+###### Example:
+Starting imageLightBox onLoad.
+````javascript
+<script src="jquery.js"></script>
+<script src="imagelightbox.js"></script>
+<script>
+    $( function()
+    {
+        var gallery = $( selector ).imagelightbox();
+        gallery.startImageLightbox();
+    });
+</script>
+````
