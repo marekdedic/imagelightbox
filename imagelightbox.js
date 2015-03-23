@@ -76,7 +76,7 @@
             isTargetValid = function( element )
             {
                 var classic =  $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
-                var html5 = $( element ).prop( 'data-lightbox' ) !== undefined;
+                var html5 = $( element ).attr( 'data-lightbox' ) !== undefined;
                 return classic || html5;
             },
 
