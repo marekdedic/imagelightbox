@@ -76,7 +76,7 @@
             isTargetValid = function( element )
             {
                 var classic =  $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
-                var html5 = $( element ).prop( 'data-lightbox' ) !== undefined;
+                var html5 = $( element ).attr( 'data-lightbox' ) !== undefined;
                 return classic || html5;
             },
 
@@ -272,18 +272,20 @@
                 }
             });
         }
-	
-	    $( document ).off( 'click', this.selector);
-        $( document ).on( 'click', this.selector, function( e )
+
+        this.startImageLightbox = function( e )
         {
             if( !isTargetValid( this ) ) { return true; }
-            e.preventDefault();
+            if (e !== undefined) { e.preventDefault(); }
             if( inProgress ) { return false; }
             inProgress = false;
             if( options.onStart !== false ) { options.onStart(); }
             target = $( this );
             loadImage();
-        });
+        };
+
+        $( document ).off( 'click', this.selector);
+        $( document ).on( 'click', this.selector, this.startImageLightbox);
 
         this.each( function()
         {
