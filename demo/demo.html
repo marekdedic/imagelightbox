@@ -74,6 +74,16 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/18.jpg"
                data-imagelightbox="f"><img src="images/18.jpg" alt="Gardening in lithuanian countryside"></a></li>
     </ul>
+    <h2>With manual trigger</h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/16.jpg"
+               data-imagelightbox="g"><img src="images/1.jpg" alt="Snail"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/17.jpg"
+               data-imagelightbox="g"><img src="images/10.jpg" alt="Cloud pump"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/18.jpg"
+               data-imagelightbox="g"><img src="images/18.jpg" alt="Gardening in lithuanian countryside"></a></li>
+    </ul>
+    <button class="trigger-button">Klick Me!</button>
     <footer>
         <p>Photos taken by me using iPhone 4S and lovely Instagram. Just in case.</p>
     </footer>
@@ -278,6 +288,13 @@
                     }
                 });
 
+
+        //  WITH MANUAL TRIGGER
+
+        var gallery = $('a[data-imagelightbox="g"]').imageLightbox();
+        $('.trigger-button').on('click', function () {
+            gallery.startImageLightbox();
+        });
     });
 </script>
 </body>

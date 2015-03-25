@@ -7,7 +7,7 @@ This is a fork of the lightbox plugin created by Osvaldas Valutis at http://osva
 
 ## Requirements and Browser support
 
-* jQuery 1.11 (earlier version not tested), feel free to use jQuery v2 if you dont need to support older browsers
+* jQuery 1.11 (earlier version not tested), feel free to use jQuery v2 if you don't need to support older browsers
 * All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone
 
 ## How to use
@@ -18,7 +18,7 @@ This is a fork of the lightbox plugin created by Osvaldas Valutis at http://osva
 <script>
     $( function()
     {
-        $( selector ).imagelightbox();
+        $( selector ).imageLightbox();
     });
 </script>
 ````
@@ -28,7 +28,7 @@ This is a fork of the lightbox plugin created by Osvaldas Valutis at http://osva
 The list of options and their default values is:
 
 ````javascript
-$( selector ).imagelightbox(
+$( selector ).imageLightbox(
 {
     selector:       'id="imagelightbox"',   // string;
     allowedTypes:   'png|jpg|jpeg|gif',     // string;
@@ -49,14 +49,14 @@ $( selector ).imagelightbox(
 imageLightBox can be started with *startImageLightbox()* JavaScript function call.
 
 ###### Example:
-Starting imageLightBox onLoad.
+
 ````javascript
 <script src="jquery.js"></script>
 <script src="imagelightbox.js"></script>
 <script>
     $( function()
     {
-        var gallery = $( selector ).imagelightbox();
+        var gallery = $( selector ).imageLightbox();
         gallery.startImageLightbox();
     });
 </script>
