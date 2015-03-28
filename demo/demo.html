@@ -40,21 +40,21 @@
     </ul>
     <h2>With "close" button <span>&amp; activity indication</span></h2>
     <ul>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/10.jpg"
-               data-imagelightbox="c"><img src="images/10.jpg" alt="Countryside somewhere in Lithuania"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/11.jpg"
-               data-imagelightbox="c"><img src="images/11.jpg" alt="Storm in Klaipeda"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/12.jpg"
-               data-imagelightbox="c"><img src="images/12.jpg" alt="Sunset over Plateliai lake"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/7.jpg"
+               data-imagelightbox="c"><img src="images/7.jpg" alt="The end of the railway"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/8.jpg"
+               data-imagelightbox="c"><img src="images/8.jpg" alt="Railway in Klaipeda"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/9.jpg"
+               data-imagelightbox="c"><img src="images/9.jpg" alt="Herkaus Manto street in Klaipeda"></a></li>
     </ul>
     <h2>With caption <span>&amp; activity indication</span></h2>
     <ul>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/7.jpg"
-               data-imagelightbox="d"><img src="images/7.jpg" alt="The end of the railway"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/8.jpg"
-               data-imagelightbox="d"><img src="images/8.jpg" alt="Railway in Klaipeda"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/9.jpg"
-               data-imagelightbox="d"><img src="images/9.jpg" alt="Herkaus Manto street in Klaipeda"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/10.jpg"
+               data-imagelightbox="d"><img src="images/10.jpg" alt="Countryside somewhere in Lithuania"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/11.jpg"
+               data-imagelightbox="d"><img src="images/11.jpg" alt="Storm in Klaipeda"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/12.jpg"
+               data-imagelightbox="d"><img src="images/12.jpg" alt="Sunset over Plateliai lake"></a></li>
     </ul>
     <h2>With navigation <span>&amp; activity indication</span></h2>
     <ul>
@@ -76,12 +76,12 @@
     </ul>
     <h2>With manual trigger</h2>
     <ul>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/16.jpg"
-               data-imagelightbox="g"><img src="images/1.jpg" alt="Snail"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/17.jpg"
-               data-imagelightbox="g"><img src="images/10.jpg" alt="Cloud pump"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/18.jpg"
-               data-imagelightbox="g"><img src="images/18.jpg" alt="Gardening in lithuanian countryside"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/1.jpg"
+               data-imagelightbox="g"><img src="images/1.jpg" alt="Klaipeda in the night"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/2.jpg"
+               data-imagelightbox="g"><img src="images/2.jpg" alt="Frozen river Dane"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/3.jpg"
+               data-imagelightbox="g"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
     </ul>
     <button class="trigger-button">Klick Me!</button>
     <h2>With arrows <span>&amp; activity indication</span></h2>
@@ -94,7 +94,7 @@
                data-imagelightbox="h"><img src="images/6.jpg" alt="Railway light"></a></li>
     </ul>
     <footer>
-        <p>Photos taken by me using iPhone 4S and lovely Instagram. Just in case.</p>
+        <p>Photos taken by Osvaldas Valutis using iPhone 4S and lovely Instagram. Just in case.</p>
     </footer>
 </div>
 
@@ -104,225 +104,225 @@
 
     $(function () {
         var activityIndicatorOn = function () {
-                    $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
-                },
-                activityIndicatorOff = function () {
-                    $('#imagelightbox-loading').remove();
-                },
+                $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
+            },
+            activityIndicatorOff = function () {
+                $('#imagelightbox-loading').remove();
+            },
 
-                overlayOn = function () {
-                    $('<div id="imagelightbox-overlay"></div>').appendTo('body');
-                },
-                overlayOff = function () {
-                    $('#imagelightbox-overlay').remove();
-                },
+            overlayOn = function () {
+                $('<div id="imagelightbox-overlay"></div>').appendTo('body');
+            },
+            overlayOff = function () {
+                $('#imagelightbox-overlay').remove();
+            },
 
-                closeButtonOn = function (instance) {
-                    $('<a href="#" id="imagelightbox-close"></a>').appendTo('body').on('click', function () {
-                        $(this).remove();
-                        instance.quitImageLightbox();
+            closeButtonOn = function (instance) {
+                $('<a href="#" id="imagelightbox-close"></a>').appendTo('body').on('click', function () {
+                    $(this).remove();
+                    instance.quitImageLightbox();
+                    return false;
+                });
+            },
+            closeButtonOff = function () {
+                $('#imagelightbox-close').remove();
+            },
+
+            captionOn = function () {
+                var description = $('a[href="' + $('#imagelightbox').attr('src') + '"] img').attr('alt');
+                if (description.length > 0)
+                    $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
+            },
+            captionOff = function () {
+                $('#imagelightbox-caption').remove();
+            },
+
+            navigationOn = function (instance, selector) {
+                var images = $(selector);
+                if (images.length) {
+                    var nav = $('<div id="imagelightbox-nav"></div>');
+                    for (var i = 0; i < images.length; i++)
+                        nav.append('<a href="#"></a>');
+
+                    nav.appendTo('body');
+                    nav.on('click touchend', function () {
                         return false;
                     });
-                },
-                closeButtonOff = function () {
-                    $('#imagelightbox-close').remove();
-                },
 
-                captionOn = function () {
-                    var description = $('a[href="' + $('#imagelightbox').attr('src') + '"] img').attr('alt');
-                    if (description.length > 0)
-                        $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
-                },
-                captionOff = function () {
-                    $('#imagelightbox-caption').remove();
-                },
+                    var navItems = nav.find('a');
+                    navItems.on('click touchend', function () {
+                        var $this = $(this);
+                        if (images.eq($this.index()).attr('href') != $('#imagelightbox').attr('src'))
+                            instance.switchImageLightbox($this.index());
 
-                navigationOn = function (instance, selector) {
-                    var images = $(selector);
-                    if (images.length) {
-                        var nav = $('<div id="imagelightbox-nav"></div>');
-                        for (var i = 0; i < images.length; i++)
-                            nav.append('<a href="#"></a>');
+                        navItems.removeClass('active');
+                        navItems.eq($this.index()).addClass('active');
 
-                        nav.appendTo('body');
-                        nav.on('click touchend', function () {
-                            return false;
-                        });
+                        return false;
+                    })
+                            .on('touchend', function () {
+                                return false;
+                            });
+                }
+            },
+            navigationUpdate = function (selector) {
+                var items = $('#imagelightbox-nav').find('a');
+                items.removeClass('active');
+                items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+            },
+            navigationOff = function () {
+                $('#imagelightbox-nav').remove();
+            },
+            arrowsOn = function( instance, selector ) {
+                var $arrows = $( '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
+                                 '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>' );
+                $arrows.appendTo( 'body' );
+                $arrows.on( 'click touchend', function( e ) {
+                    e.preventDefault();
 
-                        var navItems = nav.find('a');
-                        navItems.on('click touchend', function () {
-                            var $this = $(this);
-                            if (images.eq($this.index()).attr('href') != $('#imagelightbox').attr('src'))
-                                instance.switchImageLightbox($this.index());
+                    var $this = $( this ),
+                        $target	= $( selector + '[href="' + $( '#imagelightbox' ).attr( 'src' ) + '"]' ),
+                        index	= $target.index( selector );
 
-                            navItems.removeClass('active');
-                            navItems.eq($this.index()).addClass('active');
-
-                            return false;
-                        })
-                                .on('touchend', function () {
-                                    return false;
-                                });
+                    if( $this.hasClass('imagelightbox-arrow-left')) {
+                        index = index - 1;
+                        if( !$( selector ).eq( index ).length )
+                            index = $( selector ).length;
+                    } else {
+                        index = index + 1;
+                        if( !$( selector ).eq( index ).length )
+                            index = 0;
                     }
-                },
-                navigationUpdate = function (selector) {
-                    var items = $('#imagelightbox-nav a');
-                    items.removeClass('active');
-                    items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
-                },
-                navigationOff = function () {
-                    $('#imagelightbox-nav').remove();
-                },
-                arrowsOn = function( instance, selector ) {
-                    var $arrows = $( '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
-                                     '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>' );
-                    $arrows.appendTo( 'body' );
-                    $arrows.on( 'click touchend', function( e ) {
-                        e.preventDefault();
 
-                        var $this = $( this ),
-                            $target	= $( selector + '[href="' + $( '#imagelightbox' ).attr( 'src' ) + '"]' ),
-                            index	= $target.index( selector );
-
-                        if( $this.hasClass('imagelightbox-arrow-left')) {
-                            index = index - 1;
-                            if( !$( selector ).eq( index ).length )
-                                index = $( selector ).length;
-                        } else {
-                            index = index + 1;
-                            if( !$( selector ).eq( index ).length )
-                                index = 0;
-                        }
-
-                        instance.switchImageLightbox( index );
-                        return false;
-                    });
-                },
-                arrowsOff = function() {
-                    $('.imagelightbox-arrow').remove();
-                };
+                    instance.switchImageLightbox( index );
+                    return false;
+                });
+            },
+            arrowsOff = function() {
+                $('.imagelightbox-arrow').remove();
+            };
 
         //	WITH ACTIVITY INDICATION
 
         $('a[data-imagelightbox="a"]').imageLightbox(
-                {
-                    onLoadStart: function () {
-                        activityIndicatorOn();
-                    },
-                    onLoadEnd: function () {
-                        activityIndicatorOff();
-                    },
-                    onEnd: function () {
-                        activityIndicatorOff();
-                    }
-                });
+            {
+                onLoadStart: function () {
+                    activityIndicatorOn();
+                },
+                onLoadEnd: function () {
+                    activityIndicatorOff();
+                },
+                onEnd: function () {
+                    activityIndicatorOff();
+                }
+            });
 
 
         //	WITH OVERLAY & ACTIVITY INDICATION
 
         $('a[data-imagelightbox="b"]').imageLightbox(
-                {
-                    onStart: function () {
-                        overlayOn();
-                    },
-                    onEnd: function () {
-                        overlayOff();
-                        activityIndicatorOff();
-                    },
-                    onLoadStart: function () {
-                        activityIndicatorOn();
-                    },
-                    onLoadEnd: function () {
-                        activityIndicatorOff();
-                    }
-                });
+            {
+                onStart: function () {
+                    overlayOn();
+                },
+                onEnd: function () {
+                    overlayOff();
+                    activityIndicatorOff();
+                },
+                onLoadStart: function () {
+                    activityIndicatorOn();
+                },
+                onLoadEnd: function () {
+                    activityIndicatorOff();
+                }
+            });
 
 
         //	WITH "CLOSE" BUTTON & ACTIVITY INDICATION
 
         var instanceC = $('a[data-imagelightbox="c"]').imageLightbox(
-                {
-                    quitOnDocClick: false,
-                    onStart: function () {
-                        closeButtonOn(instanceC);
-                    },
-                    onEnd: function () {
-                        closeButtonOff();
-                        activityIndicatorOff();
-                    },
-                    onLoadStart: function () {
-                        activityIndicatorOn();
-                    },
-                    onLoadEnd: function () {
-                        activityIndicatorOff();
-                    }
-                });
+            {
+                quitOnDocClick: false,
+                onStart: function () {
+                    closeButtonOn(instanceC);
+                },
+                onEnd: function () {
+                    closeButtonOff();
+                    activityIndicatorOff();
+                },
+                onLoadStart: function () {
+                    activityIndicatorOn();
+                },
+                onLoadEnd: function () {
+                    activityIndicatorOff();
+                }
+            });
 
 
         //	WITH CAPTION & ACTIVITY INDICATION
 
         $('a[data-imagelightbox="d"]').imageLightbox(
-                {
-                    onLoadStart: function () {
-                        captionOff();
-                        activityIndicatorOn();
-                    },
-                    onLoadEnd: function () {
-                        captionOn();
-                        activityIndicatorOff();
-                    },
-                    onEnd: function () {
-                        captionOff();
-                        activityIndicatorOff();
-                    }
-                });
+            {
+                onLoadStart: function () {
+                    captionOff();
+                    activityIndicatorOn();
+                },
+                onLoadEnd: function () {
+                    captionOn();
+                    activityIndicatorOff();
+                },
+                onEnd: function () {
+                    captionOff();
+                    activityIndicatorOff();
+                }
+            });
 
 
         //	WITH DIRECTION REFERENCE
 
         var selectorE = 'a[data-imagelightbox="e"]';
         var instanceE = $(selectorE).imageLightbox(
-                {
-                    onStart: function () {
-                        navigationOn(instanceE, selectorE);
-                    },
-                    onEnd: function () {
-                        navigationOff();
-                        activityIndicatorOff();
-                    },
-                    onLoadStart: function () {
-                        activityIndicatorOn();
-                    },
-                    onLoadEnd: function () {
-                        navigationUpdate(selectorE);
-                        activityIndicatorOff();
-                    }
-                });
+            {
+                onStart: function () {
+                    navigationOn(instanceE, selectorE);
+                },
+                onEnd: function () {
+                    navigationOff();
+                    activityIndicatorOff();
+                },
+                onLoadStart: function () {
+                    activityIndicatorOn();
+                },
+                onLoadEnd: function () {
+                    navigationUpdate(selectorE);
+                    activityIndicatorOff();
+                }
+            });
 
 
         //	ALL COMBINED
 
         var instanceF = $('a[data-imagelightbox="f"]').imageLightbox(
-                {
-                    onStart: function () {
-                        overlayOn();
-                        closeButtonOn(instanceF);
-                    },
-                    onEnd: function () {
-                        overlayOff();
-                        captionOff();
-                        closeButtonOff();
-                        activityIndicatorOff();
-                    },
-                    onLoadStart: function () {
-                        captionOff();
-                        activityIndicatorOn();
-                    },
-                    onLoadEnd: function () {
-                        captionOn();
-                        activityIndicatorOff();
-                    }
-                });
+            {
+                onStart: function () {
+                    overlayOn();
+                    closeButtonOn(instanceF);
+                },
+                onEnd: function () {
+                    overlayOff();
+                    captionOff();
+                    closeButtonOff();
+                    activityIndicatorOff();
+                },
+                onLoadStart: function () {
+                    captionOff();
+                    activityIndicatorOn();
+                },
+                onLoadEnd: function () {
+                    captionOn();
+                    activityIndicatorOff();
+                }
+            });
 
 
         //  WITH MANUAL TRIGGER
@@ -336,12 +336,12 @@
 
         var selectorG = 'a[data-imagelightbox="h"]';
         var instanceG = $( selectorG ).imageLightbox(
-        {
-            onStart:		function(){ arrowsOn( instanceG, selectorG ); },
-            onEnd:			function(){ arrowsOff(); activityIndicatorOff(); },
-            onLoadStart: 	function(){ activityIndicatorOn(); },
-            onLoadEnd:	 	function(){ $( '.imagelightbox-arrow' ).css( 'display', 'block' ); activityIndicatorOff(); }
-        });
+            {
+                onStart:		function(){ arrowsOn( instanceG, selectorG ); },
+                onEnd:			function(){ arrowsOff(); activityIndicatorOff(); },
+                onLoadStart: 	function(){ activityIndicatorOn(); },
+                onLoadEnd:	 	function(){ $( '.imagelightbox-arrow' ).css( 'display', 'block' ); activityIndicatorOff(); }
+            });
     });
 </script>
 </body>
