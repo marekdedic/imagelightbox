@@ -4,8 +4,8 @@
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "repository": "https://github.com/rejas/imagelightbox.git",
   "main": [
-    "imagelightbox.js",
-    "imagelightbox.css"
+    "src/imagelightbox.js",
+    "src/imagelightbox.css"
   ],
   "dependencies": {
     "jquery": ">= 1.11"
@@ -14,7 +14,6 @@
     ".csslintrc",
     ".gitignore",
     "gulpfile.js",
-    "package.json",
-    "/demo"
+    "package.json"
   ]
 }
