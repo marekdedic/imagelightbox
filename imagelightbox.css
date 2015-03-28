@@ -141,34 +141,96 @@
     background-color: #fff;
 }
 
+/* WITH ARROWS */
+
+.imagelightbox-arrow {
+    width: 3.75em; /* 60 */
+    height: 7.5em; /* 120 */
+    background-color: #444;
+    background-color: rgba( 0, 0, 0, .5 );
+    vertical-align: middle;
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    top: 50%;
+    margin-top: -3.75em; /* 60 */
+}
+.imagelightbox-arrow:hover,
+.imagelightbox-arrow:focus {
+    background-color: #666;
+    background-color: rgba( 0, 0, 0, .75 );
+}
+.imagelightbox-arrow:active {
+    background-color: #111;
+}
+.imagelightbox-arrow-left {
+    left: 2.5em; /* 40 */
+}
+.imagelightbox-arrow-right {
+    right: 2.5em; /* 40 */
+}
+.imagelightbox-arrow:before {
+    width: 0;
+    height: 0;
+    border: 1em solid transparent;
+    content: '';
+    display: inline-block;
+    margin-bottom: -0.125em; /* 2 */
+}
+.imagelightbox-arrow-left:before {
+    border-left: none;
+    border-right-color: #fff;
+    margin-left: -0.313em; /* 5 */
+}
+.imagelightbox-arrow-right:before {
+    border-right: none;
+    border-left-color: #fff;
+    margin-right: -0.313em; /* 5 */
+}
+
 #imagelightbox-loading,
 #imagelightbox-overlay,
 #imagelightbox-close,
 #imagelightbox-caption,
-#imagelightbox-nav {
+#imagelightbox-nav,
+.imagelightbox-arrow {
     animation: fade-in .25s linear;
 }
 
 @keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from	{ opacity: 0; }
+    to		{ opacity: 1; }
 }
 
 @media only screen and (max-width: 41.250em) /* 660 */ {
     #container {
         width: 100%;
     }
-
     #imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
     }
-
     #imagelightbox-nav {
         bottom: 1.25em; /* 20 */
+    }
+    .imagelightbox-arrow {
+        width: 2.5em; /* 40 */
+        height: 3.75em; /* 60 */
+        margin-top: -2.75em; /* 30 */
+    }
+    .imagelightbox-arrow-left {
+        left: 1.25em; /* 20 */
+    }
+    .imagelightbox-arrow-right {
+        right: 1.25em; /* 20 */
+    }
+}
+
+@media only screen and (max-width: 20em) /* 320 */ {
+    .imagelightbox-arrow-left {
+        left: 0;
+    }
+    .imagelightbox-arrow-right {
+        right: 0;
     }
 }
