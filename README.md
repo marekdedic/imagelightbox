@@ -31,13 +31,14 @@ The list of options and their default values is:
 $( selector ).imageLightbox(
 {
     selector:       'id="imagelightbox"',   // string;
-    allowedTypes:   'png|jpg|jpeg|gif',     // string;
+    allowedTypes:   'png|jpg|jpeg||gif',    // string;
     animationSpeed: 250,                    // integer;
     preloadNext:    true,                   // bool;            silently preload the next image
     enableKeyboard: true,                   // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
     quitOnEnd:      false,                  // bool;            quit after viewing the last image
     quitOnImgClick: false,                  // bool;            quit when the viewed image is clicked
     quitOnDocClick: true,                   // bool;            quit when anything but the viewed image is clicked
+    quitOnEscKey:   true,                   // bool;            quit when Esc key is pressed
     onStart:        false,                  // function/bool;   calls function when the lightbox starts
     onEnd:          false,                  // function/bool;   calls function when the lightbox quits
     onLoadStart:    false,                  // function/bool;   calls function when the image load begins
