@@ -58,6 +58,7 @@
                 quitOnEnd:		false,
                 quitOnImgClick: false,
                 quitOnDocClick: true,
+                quitOnEscKey:   true,               // quit when Esc key is pressed
                 onStart:		false,
                 onEnd:			false,
                 onLoadStart:	false,
@@ -263,7 +264,7 @@
             {
                 if( !image.length ) { return true; }
                 e.preventDefault();
-                if( e.keyCode === 27 ) { quitLightbox(); }
+                if( e.keyCode === 27 && options.quitOnEscKey === true ) { quitLightbox(); }
                 if( e.keyCode === 37 || e.keyCode === 39 )
                 {
                     target = targets.eq( targets.index( target ) - ( e.keyCode === 37 ? 1 : -1 ) );
