@@ -31,7 +31,7 @@ The list of options and their default values is:
 $( selector ).imageLightbox(
 {
     selector:       'id="imagelightbox"',   // string;
-    allowedTypes:   'png|jpg|jpeg|gif',     // string;
+    allowedTypes:   'png|jpg|jpeg||gif',    // string;
     animationSpeed: 250,                    // integer;
     preloadNext:    true,                   // bool;            silently preload the next image
     enableKeyboard: true,                   // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
