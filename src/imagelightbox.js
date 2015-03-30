@@ -83,7 +83,7 @@
 
             setImage = function()
             {
-                if( !image.length ) { return false; }
+                if( !image.length ) { return true; }
 
                 var screenWidth	 = $( window ).width() * 0.8,
                     screenHeight = $( window ).height() * 0.9,
