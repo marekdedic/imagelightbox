@@ -138,7 +138,9 @@
                 setTimeout( function()
                 {
                     var imgPath = target.attr( 'href' );
-                    if ( imgPath === undefined ) imgPath = target.attr( 'data-lightbox' );
+                    if ( imgPath === undefined ) {
+                        imgPath = target.attr( 'data-lightbox' );
+                    }
                     image = $( '<img ' + options.selector + ' />' )
                         .attr( 'src', imgPath )
                         .load( function()
