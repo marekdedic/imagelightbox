@@ -93,7 +93,7 @@
 
             setImage = function()
             {
-                if( !image.length ) { return false; }
+                if( !image.length ) { return true; }
 
                 var screenWidth	 = $( window ).width() * 0.8,
                     screenHeight = $( window ).height() * 0.9,
@@ -148,7 +148,9 @@
                 setTimeout( function()
                 {
                     var imgPath = target.attr( 'href' );
-                    if ( imgPath === undefined ) imgPath = target.attr( 'data-lightbox' );
+                    if ( imgPath === undefined ) {
+                        imgPath = target.attr( 'data-lightbox' );
+                    }
                     image = $( '<img ' + options.selector + ' />' )
                         .attr( 'src', imgPath )
                         .load( function()
