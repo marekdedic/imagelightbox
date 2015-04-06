@@ -96,7 +96,7 @@
                         }
                     }
                     target = targets.eq(targetIndex);
-                    loadImage('left');
+                    loadImage('right');
                 }
             },
             opts ),
