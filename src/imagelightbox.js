@@ -62,7 +62,17 @@
                 onStart:		false,
                 onEnd:			false,
                 onLoadStart:	false,
-                onLoadEnd:		false
+                onLoadEnd:		false,
+
+                previousTarget : function () {
+                    target = targets.eq( targets.index( target ) - 1);
+                    if( !target.length ) { target = targets.length; }
+                },
+
+                nextTarget : function () {
+                    target = targets.eq( targets.index( target ) + 1 );
+                    if( !target.length ) { target = targets.eq( 0 ); }
+                },
             },
             opts ),
 
@@ -194,9 +204,14 @@
                         }
                         if( wasTouched( e.originalEvent ) ) { return true; }
                         var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                        target = targets.eq( targets.index( target ) - ( imageWidth / 2 > posX ? 1 : -1 ) );
-                        if( !target.length ) { target = targets.eq( imageWidth / 2 > posX ? targets.length : 0 ); }
-                        loadImage( imageWidth / 2 > posX ? 'left' : 'right' );
+                        if (imageWidth / 2 > posX)
+                        {
+                            loadPreviousImage();
+                        }
+                        else
+                        {
+                            loadNextImage();
+                        }
                     })
                         .on( 'touchstart pointerdown MSPointerDown', function( e )
                         {
@@ -218,9 +233,14 @@
                             if( !wasTouched( e.originalEvent ) || options.quitOnImgClick ) { return true; }
                             if( Math.abs( swipeDiff ) > 50 )
                             {
-                                target = targets.eq( targets.index( target ) - ( swipeDiff < 0 ? 1 : -1 ) );
-                                if( !target.length ) { target = targets.eq( swipeDiff < 0 ? targets.length : 0 ); }
-                                loadImage( swipeDiff > 0 ? 'right' : 'left' );
+                                if (swipeDiff < 0)
+                                {
+                                    loadPreviousImage();
+                                }
+                                else
+                                {
+                                    loadNextImage();
+                                }
                             }
                             else
                             {
@@ -230,6 +250,16 @@
                         });
 
                 }, options.animationSpeed + 100 );
+            },
+
+            loadPreviousImage = function () {
+                options.previousTarget();
+                loadImage('left');
+            },
+
+            loadNextImage = function () {
+                options.nextTarget();
+                loadImage('right');
             },
 
             removeImage = function()
@@ -267,11 +297,11 @@
                 if( !image.length ) { return true; }
                 e.preventDefault();
                 if( e.keyCode === 27 && options.quitOnEscKey === true ) { quitLightbox(); }
-                if( e.keyCode === 37 || e.keyCode === 39 )
+                if( e.keyCode === 37)
                 {
-                    target = targets.eq( targets.index( target ) - ( e.keyCode === 37 ? 1 : -1 ) );
-                    if( !target.length ) { target = targets.eq( e.keyCode === 37 ? targets.length : 0 ); }
-                    loadImage( e.keyCode === 37 ? 'left' : 'right' );
+                    loadPreviousImage();
+                } else if (e.keyCode === 39) {
+                    loadNextImage();
                 }
             });
         }
