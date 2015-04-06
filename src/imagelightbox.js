@@ -64,15 +64,40 @@
                 onLoadStart:	false,
                 onLoadEnd:		false,
 
-                previousTarget : function () {
-                    target = targets.eq( targets.index( target ) - 1);
-                    if( !target.length ) { target = targets.length; }
+                loadPreviousImage : function () {
+                    var targetIndex = targets.index( target ) - 1;
+                    if( targetIndex < 0 ) {
+                        if(options.quitOnEnd === true)
+                        {
+                            quitLightbox();
+                            return false;
+                        }
+                        else
+                        {
+                            targetIndex = targets.length - 1;
+                        }
+                    }
+                    target = targets.eq( targetIndex );
+                    loadImage('left');
                 },
 
-                nextTarget : function () {
-                    target = targets.eq( targets.index( target ) + 1 );
-                    if( !target.length ) { target = targets.eq( 0 ); }
-                },
+                loadNextImage : function() {
+                    var targetIndex = targets.index(target) + 1;
+                    if (targetIndex >= targets.length)
+                    {
+                        if(options.quitOnEnd === true)
+                        {
+                            quitLightbox();
+                            return false;
+                        }
+                        else
+                        {
+                            targetIndex = 0;
+                        }
+                    }
+                    target = targets.eq(targetIndex);
+                    loadImage('left');
+                }
             },
             opts ),
 
@@ -130,11 +155,6 @@
 
                 if( image.length )
                 {
-                    if( direction !== false && ( targets.length < 2 || ( options.quitOnEnd === true && ( ( direction === -1 && targets.index( target ) === 0 ) || ( direction === 1 && targets.index( target ) === targets.length - 1 ) ) ) ) )
-                    {
-                        quitLightbox();
-                        return false;
-                    }
                     var params = { 'opacity': 0 };
                     if( isCssTransitionSupport ) { cssTransitionTranslateX( image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000 ); }
                     else { params.left = parseInt( image.css( 'left' ) ) + 100 * direction + 'px'; }
@@ -206,11 +226,11 @@
                         var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
                         if (imageWidth / 2 > posX)
                         {
-                            loadPreviousImage();
+                            options.loadPreviousImage();
                         }
                         else
                         {
-                            loadNextImage();
+                            options.loadNextImage();
                         }
                     })
                         .on( 'touchstart pointerdown MSPointerDown', function( e )
@@ -235,11 +255,11 @@
                             {
                                 if (swipeDiff < 0)
                                 {
-                                    loadPreviousImage();
+                                    options.loadPreviousImage();
                                 }
                                 else
                                 {
-                                    loadNextImage();
+                                    options.loadNextImage();
                                 }
                             }
                             else
@@ -250,16 +270,6 @@
                         });
 
                 }, options.animationSpeed + 100 );
-            },
-
-            loadPreviousImage = function () {
-                options.previousTarget();
-                loadImage('left');
-            },
-
-            loadNextImage = function () {
-                options.nextTarget();
-                loadImage('right');
             },
 
             removeImage = function()
@@ -299,9 +309,9 @@
                 if( e.keyCode === 27 && options.quitOnEscKey === true ) { quitLightbox(); }
                 if( e.keyCode === 37)
                 {
-                    loadPreviousImage();
+                    options.loadPreviousImage();
                 } else if (e.keyCode === 39) {
-                    loadNextImage();
+                    options.loadNextImage();
                 }
             });
         }
