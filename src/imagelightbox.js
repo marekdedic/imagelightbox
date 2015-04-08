@@ -64,7 +64,7 @@
                 onLoadStart:	false,
                 onLoadEnd:		false,
 
-                loadPreviousImage : function () {
+                previousTarget : function () {
                     var targetIndex = targets.index( target ) - 1;
                     if( targetIndex < 0 ) {
                         if(options.quitOnEnd === true)
@@ -78,10 +78,9 @@
                         }
                     }
                     target = targets.eq( targetIndex );
-                    loadImage('left');
                 },
 
-                loadNextImage : function() {
+                nextTarget : function () {
                     var targetIndex = targets.index(target) + 1;
                     if (targetIndex >= targets.length)
                     {
@@ -96,7 +95,6 @@
                         }
                     }
                     target = targets.eq(targetIndex);
-                    loadImage('right');
                 }
             },
             opts ),
@@ -226,11 +224,11 @@
                         var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
                         if (imageWidth / 2 > posX)
                         {
-                            options.loadPreviousImage();
+                            loadPreviousImage();
                         }
                         else
                         {
-                            options.loadNextImage();
+                            loadNextImage();
                         }
                     })
                         .on( 'touchstart pointerdown MSPointerDown', function( e )
@@ -255,11 +253,11 @@
                             {
                                 if (swipeDiff < 0)
                                 {
-                                    options.loadPreviousImage();
+                                    loadPreviousImage();
                                 }
                                 else
                                 {
-                                    options.loadNextImage();
+                                    loadNextImage();
                                 }
                             }
                             else
@@ -270,6 +268,18 @@
                         });
 
                 }, options.animationSpeed + 100 );
+            },
+
+            loadPreviousImage = function () {
+                if (options.previousTarget() !== false) {
+                    loadImage('left');
+                }
+            },
+
+            loadNextImage = function () {
+                if (options.nextTarget() !== false) {
+                    loadImage('right');
+                }
             },
 
             removeImage = function()
@@ -309,9 +319,9 @@
                 if( e.keyCode === 27 && options.quitOnEscKey === true ) { quitLightbox(); }
                 if( e.keyCode === 37)
                 {
-                    options.loadPreviousImage();
+                    loadPreviousImage();
                 } else if (e.keyCode === 39) {
-                    options.loadNextImage();
+                    loadNextImage();
                 }
             });
         }
