@@ -65,6 +65,10 @@
                 onLoadEnd:		false,
 
                 previousTarget : function () {
+                    return this.previousTargetDefault();
+                },
+
+                previousTargetDefault : function () {
                     var targetIndex = targets.index( target ) - 1;
                     if( targetIndex < 0 ) {
                         if(options.quitOnEnd === true)
@@ -81,6 +85,10 @@
                 },
 
                 nextTarget : function () {
+                    return this.nextTargetDefault();
+                },
+                
+                nextTargetDefault : function () {
                     var targetIndex = targets.index(target) + 1;
                     if (targetIndex >= targets.length)
                     {
