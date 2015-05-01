@@ -312,9 +312,9 @@
 
         if( options.quitOnDocClick )
         {
-            // fix the bug , using the opera (moblie)
-            // $( "#" + options.overlayId ).on( hasTouch ? 'touchend' : 'click', function( e )
-            $( document ).on( hasTouch ? 'touchend' : 'click', function( e )
+            // fix the bug , using the opera (moblie) and wechat. 
+            $( document ).on('click', function( e )
+            // $( document ).on( hasTouch ? 'touchend' : 'click', function( e )
             {
                 e.preventDefault();
                 if( image.length && !$( e.target ).is( image ) ) { quitLightbox(); }
@@ -383,6 +383,7 @@
                 targets = targets.add( $( this ) );
             });
             elements.click(this.startImageLightbox);
+            return this;
         };
         return this;
     };
