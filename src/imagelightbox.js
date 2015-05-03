@@ -374,7 +374,6 @@
             quitLightbox();
             return this;
         };
-        // 对于ajax操作后增加到targets队列中
         // You can add the other targets to the image queue.
         this.addImageLightbox = function(elements)
         {
