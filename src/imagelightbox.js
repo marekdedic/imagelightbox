@@ -366,6 +366,14 @@
             return this;
         };
 
+        this.loadPreviousImage = function () {
+            loadPreviousImage();
+        };
+
+        this.loadNextImage = function () {
+            loadNextImage();
+        };
+
         this.quitImageLightbox = function()
         {
             quitLightbox();

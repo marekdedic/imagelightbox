@@ -180,21 +180,14 @@
                 $arrows.on( 'click touchend', function( e ) {
                     e.preventDefault();
 
-                    var $this = $( this ),
-                        $target	= $( selector + '[href="' + $( '#imagelightbox' ).attr( 'src' ) + '"]' ),
-                        index	= $target.index( selector );
+                    var $this = $( this );
 
                     if( $this.hasClass('imagelightbox-arrow-left')) {
-                        index = index - 1;
-                        if( !$( selector ).eq( index ).length )
-                            index = $( selector ).length;
+                        instance.loadPreviousImage();
                     } else {
-                        index = index + 1;
-                        if( !$( selector ).eq( index ).length )
-                            index = 0;
+                        instance.loadNextImage();
                     }
 
-                    instance.switchImageLightbox( index );
                     return false;
                 });
             },
