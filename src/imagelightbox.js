@@ -312,8 +312,11 @@
 
         if( options.quitOnDocClick )
         {
-            $( document ).on( hasTouch ? 'touchend' : 'click', function( e )
+            // fix the bug , using the opera (moblie) and wechat. 
+            $( document ).on('click', function( e )
+            // $( document ).on( hasTouch ? 'touchend' : 'click', function( e )
             {
+                e.preventDefault();
                 if( image.length && !$( e.target ).is( image ) ) { quitLightbox(); }
             });
         }
@@ -379,7 +382,16 @@
             quitLightbox();
             return this;
         };
-
+        // You can add the other targets to the image queue.
+        this.addImageLightbox = function(elements)
+        {
+            elements.each(function(){
+                if( !isTargetValid( this )) { return true; }
+                targets = targets.add( $( this ) );
+            });
+            elements.click(this.startImageLightbox);
+            return this;
+        };
         return this;
     };
 })( jQuery, window, document );
