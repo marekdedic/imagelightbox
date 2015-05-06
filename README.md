@@ -62,3 +62,22 @@ imageLightBox can be started with *startImageLightbox()* JavaScript function cal
     });
 </script>
 ````
+             
+## Adding images dynamically to lightbox 
+imageLightBox allows adding more images dynamically at runtime
+                                                                                               
+###### Example:
+
+````javascript
+<script src="jquery.js"></script>
+<script src="imagelightbox.js"></script>
+<script>
+    $( function()
+    {
+        var gallery = $( selector ).imageLightbox();
+        var image = $( '<img />' );
+        gallery.addImageLightbox( image );
+    });
+</script>  
+````
+             

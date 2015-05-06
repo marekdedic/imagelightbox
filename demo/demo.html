@@ -102,7 +102,7 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/3.jpg"
                data-imagelightbox="i"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
     </ul>
-    <button id="addimage">Request add the images</button>
+    <button id="addimage">Add another image</button>
     <footer>
         <p>Photos taken by Osvaldas Valutis using iPhone 4S and lovely Instagram. Just in case.</p>
     </footer>
@@ -364,6 +364,7 @@
                     activityIndicatorOff();
                 }
         });
+
         $("#addimage").on('click', function(){
             var adding_ul = $("#dynamically_adding");
             var li = $('<li></li>').appendTo( adding_ul );
