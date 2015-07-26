@@ -202,7 +202,7 @@
     to		{ opacity: 1; }
 }
 
-@media only screen and (max-width: 41.250em) /* 660 */ {
+@media only screen and (max-width: 41.250em) { /* 660 */
     #container {
         width: 100%;
     }
@@ -226,7 +226,7 @@
     }
 }
 
-@media only screen and (max-width: 20em) /* 320 */ {
+@media only screen and (max-width: 20em) { /* 320 */
     .imagelightbox-arrow-left {
         left: 0;
     }
