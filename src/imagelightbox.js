@@ -131,7 +131,7 @@
                     tmpImage 	 = new Image();
 
                 tmpImage.src	= image.attr( 'src' );
-                tmpImage.onload = function()
+                tmpImage.placeimage = function()
                 {
                     imageWidth	 = tmpImage.width;
                     imageHeight	 = tmpImage.height;
@@ -151,6 +151,22 @@
                             'left':   ( $( window ).width() - imageWidth ) / 2 + 'px'
                         });
                 };
+
+                // the onload event isn't fired in browsers older than IE9
+                var div = document.createElement("div");
+                div.innerHTML = "<!--[if lt IE 9]><isOldIE></isOldIE><![endif]-->";
+                var isIeLessThan9 = (div.getElementsByTagName("isOldIE").length == 1);
+                if (!isIeLessThan9) {
+                    tmpImage.onload = tmpImage.placeimage;
+                }
+                else {
+                    tmpImage.onreadystatechange = function () {
+                        var r = tmpImage.readyState
+                        if (r === 'loaded' || r === 'complete') {
+                            tmpImage.placeimage();
+                        }
+                    };
+                }
             },
 
             loadImage = function( direction )
@@ -177,8 +193,10 @@
                     if ( imgPath === undefined ) {
                         imgPath = target.attr( 'data-lightbox' );
                     }
+
+                    // In IE8, .load won't fire reliably unless it is called BEFORE .attr.
+                    // For more details, see: http://stackoverflow.com/questions/7438990/jquery-callback-on-image-load-when-changing-the-src
                     image = $( '<img ' + options.selector + ' />' )
-                        .attr( 'src', imgPath )
                         .load( function()
                         {
                             image.appendTo( 'body' );
@@ -211,6 +229,7 @@
                                 $( '<img />' ).attr( 'src', nextTarget.attr( 'href' ) ).load();
                             }
                         })
+                        .attr('src', imgPath)
                         .error( function()
                         {
                             if( options.onLoadEnd !== false ) { options.onLoadEnd(); }
