@@ -3,6 +3,7 @@
   "version": "0.3.4",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "repository": "https://github.com/rejas/imagelightbox.git",
+  "license": "MIT",
   "main": [
     "src/imagelightbox.js",
     "src/imagelightbox.css"
