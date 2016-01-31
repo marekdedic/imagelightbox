@@ -6,9 +6,6 @@
     <title>Image Lightbox: Responsive and Touch-Friendly demo by Osvaldas Valutis</title>
     <meta name="description" content="Demo of Image Lightbox: Responsive and Touch-Friendly">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
-
     <link rel="stylesheet" href="demo.css">
     <link rel="stylesheet" href="../dist/imagelightbox.min.css">
 </head>
@@ -111,7 +108,6 @@
 <script src="jquery-1.11.3.min.js"></script>
 <script src="../src/imagelightbox.js"></script>
 <script>
-
     $(function () {
         var activityIndicatorOn = function () {
                 $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
@@ -140,7 +136,7 @@
 
             captionOn = function () {
                 var description = $('a[href="' + $('#imagelightbox').attr('src') + '"] img').attr('alt');
-                if (description.length > 0)
+                if (description && description.length > 0)
                     $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
             },
             captionOff = function () {
@@ -397,7 +393,6 @@
             // dynamically adding
             instanceI.addImageLightbox( $("a[data-imagelightbox='add']") );
         });
-
     });
 </script>
 </body>
