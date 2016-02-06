@@ -304,22 +304,23 @@
                 {
                     removeImage();
                     inProgress = false;
+                    if( options.quitOnDocClick ) { $( document ).off( hasTouch ? 'touchend' : 'click', quitOnDocClickImpl ); }
                     if( options.onEnd !== false ) { options.onEnd(); }
                 });
             };
 
         $( window ).on( 'resize', setImage );
 
+        function quitOnDocClickImpl(e) {
+            if (image.length && !$(e.target).is(image)) {
+                e.preventDefault();
+                quitLightbox();
+            }
+        }
+
         if( options.quitOnDocClick )
         {
-            $( document ).on( hasTouch ? 'touchend' : 'click', function( e )
-            {
-                if( image.length && !$( e.target ).is( image ) )
-                {
-                    e.preventDefault();
-                    quitLightbox();
-                }
-            });
+            $( document ).on( hasTouch ? 'touchend' : 'click', quitOnDocClickImpl );
         }
 
         if( options.enableKeyboard )
