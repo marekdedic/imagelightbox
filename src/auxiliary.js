@@ -109,38 +109,38 @@ var light = (function ($) {
 
     
     var Foo = {
-        init: function(selector,bActivity,bArrows,bNavigation,bOverlay,bCaption,bButton) {
+        init: function(selector,options) {
             
             var instance = $(selector).imageLightbox(
                 {
-                    quitOnDocClick: !bButton,
+                    quitOnDocClick: !options.button,
                     onStart: function () {
                         //
-                        if(bArrows) {arrowsOn(instance,selector);}
-                        if(bNavigation) {navigationOn(instance, selector);}
-                        if(bOverlay) {overlayOn();}
-                        if(bButton) {closeButtonOn(instance);}
+                        if(options.arrows) {arrowsOn(instance,selector);}
+                        if(options.navigation) {navigationOn(instance, selector);}
+                        if(options.overlay) {overlayOn();}
+                        if(options.button) {closeButtonOn(instance);}
                     },
                     onLoadStart: function () {
-                        if(bActivity) { activityIndicatorOn();}
+                        if(options.activity) { activityIndicatorOn();}
                         //
                         //
-                        if(bCaption) { captionOff(); }
+                        if(options.caption) { captionOff(); }
                     },
                     onLoadEnd: function () {
-                        if(bActivity) {activityIndicatorOff();}
-                        if(bArrows) { $('.imagelightbox-arrow' ).css( 'display', 'block' );}
-                        if(bNavigation) {navigationUpdate(selector);}
+                        if(options.activity) {activityIndicatorOff();}
+                        if(options.arrows) { $('.imagelightbox-arrow' ).css( 'display', 'block' );}
+                        if(options.navigation) {navigationUpdate(selector);}
                         //
-                        if(bCaption) { captionOn(); }
+                        if(options.caption) { captionOn(); }
                     },
                     onEnd: function () {
-                        if(bActivity) {activityIndicatorOff();}
-                        if(bArrows) {arrowsOff();}
-                        if(bNavigation) {navigationOff();}
-                        if(bOverlay) {overlayOff();}
-                        if(bCaption) {captionOff();}
-                        if(bButton) {closeButtonOff();}
+                        if(options.activity) {activityIndicatorOff();}
+                        if(options.arrows) {arrowsOff();}
+                        if(options.navigation) {navigationOff();}
+                        if(options.overlay) {overlayOff();}
+                        if(options.caption) {captionOff();}
+                        if(options.button) {closeButtonOff();}
                     }
                 });
         }
@@ -150,14 +150,25 @@ var light = (function ($) {
 
     return {
         box:function box (input) {
+            var defaultOptions = {
+                activity:false,
+                arrows:false,
+                button:false,
+                navigation:false,
+                overlay:false,
+                caption:false
+            };
+
+            if (typeof input[1] == 'object') {
+                input[1] = $.extend(defaultOptions,input[1]);
+            } else {
+                input[1] = defaultOptions;
+            }
+            
             Bar.init(input[0],
-                     input[1].activity,
-                     input[1].arrows,
-                     input[1].navigation,
-                     input[1].overlay,
-                     input[1].caption,
-                     input[1].button
-                    );}
+                     input[1]
+                    );
+        }
     };
     
 })(jQuery);
