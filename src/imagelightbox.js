@@ -199,8 +199,7 @@
 
             captionOn = function () {
                 console.log("ILB: captionOn()");
-                var description = $('a[href="' + $('#imagelightbox').attr('src') + '"] img').attr('alt');
-                console.log(description);
+                var description = $(target).find('img').attr('alt');
                 if (description && description.length > 0) {
                     $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
                 }
