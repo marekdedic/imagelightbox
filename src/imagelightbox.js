@@ -208,7 +208,12 @@
                     navItems.on('click touchend', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
-                            instance.switchImageLightbox($this.index());
+                            var tmpTarget = targets.eq($this.index());
+                            if (tmpTarget.length) {
+                                var currentIndex = targets.index(target);
+                                target = tmpTarget;
+                                loadImage($this.index() < currentIndex ? 'left' : 'right');
+                            }
                         }
                         navItems.removeClass('active');
                         navItems.eq($this.index()).addClass('active');
@@ -221,13 +226,11 @@
             navigationUpdate = function (selector) {
                 var items = $('#imagelightbox-nav').find('a');
                 items.removeClass('active');
-                items.addClass('active');
                 items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
             },
             navigationOff = function () {
                 $('#imagelightbox-nav').remove();
             },
-
             arrowsOn = function (instance) {
                 var $arrows = $('<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
                     '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
@@ -511,16 +514,6 @@
             }
             targets = targets.add($(this));
         });
-
-        this.switchImageLightbox = function (index) {
-            var tmpTarget = targets.eq(index);
-            if (tmpTarget.length) {
-                var currentIndex = targets.index(target);
-                target = tmpTarget;
-                loadImage(index < currentIndex ? 'left' : 'right');
-            }
-            return this;
-        };
 
         this.loadPreviousImage = function () {
             loadPreviousImage();
