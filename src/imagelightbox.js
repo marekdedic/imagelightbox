@@ -56,136 +56,124 @@
         };
 
     $.fn.imageLightbox = function (opts) {
-        var options = $.extend(
-            {
-                selector: 'a[data-imagelightbox]',
-                id: 'imagelightbox',
-                allowedTypes: 'png|jpg|jpeg||gif', // add support for generated images without an extension
-                animationSpeed: 250,
-                preloadNext: true,
-                enableKeyboard: true,
-                activity: false,
-                arrows: false,
-                button: false,
-                navigation: false,
-                overlay: false,
-                caption: false,
-                quitOnEnd: false,
-                quitOnImgClick: false,
-                quitOnDocClick: true,
-                quitOnEscKey: true,               // quit when Esc key is pressed
-                onStart: function () {
-                    //
-                    if (options.arrows) {
-                        arrowsOn(this, options.selector);
-                    }
-                    if (options.navigation) {
-                        navigationOn(this, options.selector);
-                    }
-                    if (options.overlay) {
-                        overlayOn();
-                    }
-                    if (options.button) {
-                        closeButtonOn();
-                    }
-                },
-                onEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        arrowsOff();
-                    }
-                    if (options.navigation) {
-                        navigationOff();
-                    }
-                    if (options.overlay) {
-                        overlayOff();
-                    }
-                    if (options.caption) {
-                        captionOff();
-                    }
-                    if (options.button) {
-                        closeButtonOff();
-                    }
-                },
-                onLoadStart: function () {
-                    if (options.activity) {
-                        activityIndicatorOn();
-                    }
-                    //
-                    //
-                    if (options.caption) {
-                        captionOff();
-                    }
-                },
-                onLoadEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        $('.imagelightbox-arrow').css('display', 'block');
-                    }
-                    if (options.navigation) {
-                        navigationUpdate(options.selector);
-                    }
-                    //
-                    if (options.caption) {
-                        captionOn();
-                    }
-                },
-                previousTarget: function () {
-                    return this.previousTargetDefault();
-                },
-
-                previousTargetDefault: function () {
-                    var targetIndex = targets.index(target) - 1;
-                    if (targetIndex < 0) {
-                        if (options.quitOnEnd === true) {
-                            quitLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = targets.length - 1;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
-                },
-
-                nextTarget: function () {
-                    return this.nextTargetDefault();
-                },
-
-                nextTargetDefault: function () {
-                    var targetIndex = targets.index(target) + 1;
-                    if (targetIndex >= targets.length) {
-                        if (options.quitOnEnd === true) {
-                            quitLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = 0;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
+        var options = $.extend({
+            selector: 'a[data-imagelightbox]',
+            id: 'imagelightbox',
+            allowedTypes: 'png|jpg|jpeg||gif',  // add support for generated images without an extension
+            animationSpeed: 250,
+            preloadNext: true,
+            enableKeyboard: true,
+            activity: false,
+            arrows: false,
+            button: false,
+            navigation: false,
+            overlay: false,
+            caption: false,
+            quitOnEnd: false,
+            quitOnImgClick: false,
+            quitOnDocClick: true,
+            quitOnEscKey: true,                 // quit when Esc key is pressed
+            onStart: function () {
+                if (options.arrows) {
+                    arrowsOn(this);
+                }
+                if (options.navigation) {
+                    navigationOn(this, options.selector);
+                }
+                if (options.overlay) {
+                    overlayOn();
+                }
+                if (options.button) {
+                    closeButtonOn();
                 }
             },
-            opts),
-
+            onEnd: function () {
+                if (options.activity) {
+                    activityIndicatorOff();
+                }
+                if (options.arrows) {
+                    arrowsOff();
+                }
+                if (options.navigation) {
+                    navigationOff();
+                }
+                if (options.overlay) {
+                    overlayOff();
+                }
+                if (options.caption) {
+                    captionOff();
+                }
+                if (options.button) {
+                    closeButtonOff();
+                }
+            },
+            onLoadStart: function () {
+                if (options.activity) {
+                    activityIndicatorOn();
+                }
+                if (options.caption) {
+                    captionOff();
+                }
+            },
+            onLoadEnd: function () {
+                if (options.activity) {
+                    activityIndicatorOff();
+                }
+                if (options.arrows) {
+                    $('.imagelightbox-arrow').css('display', 'block');
+                }
+                if (options.navigation) {
+                    navigationUpdate(options.selector);
+                }
+                if (options.caption) {
+                    captionOn();
+                }
+            },
+            previousTarget: function () {
+                return this.previousTargetDefault();
+            },
+            previousTargetDefault: function () {
+                var targetIndex = targets.index(target) - 1;
+                if (targetIndex < 0) {
+                    if (options.quitOnEnd === true) {
+                        quitLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = targets.length - 1;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            },
+            nextTarget: function () {
+                return this.nextTargetDefault();
+            },
+            nextTargetDefault: function () {
+                var targetIndex = targets.index(target) + 1;
+                if (targetIndex >= targets.length) {
+                    if (options.quitOnEnd === true) {
+                        quitLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = 0;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            }
+        }, opts),
             activityIndicatorOn = function () {
                 $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
             },
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
             },
-
             overlayOn = function () {
                 $('<div id="imagelightbox-overlay"></div>').appendTo('body');
             },
             overlayOff = function () {
                 $('#imagelightbox-overlay').remove();
             },
-
             closeButtonOn = function () {
                 $('<a href="#" id="imagelightbox-close"></a>').appendTo('body').on('click', function () {
                     $(this).remove();
@@ -196,24 +184,18 @@
             closeButtonOff = function () {
                 $('#imagelightbox-close').remove();
             },
-
             captionOn = function () {
-                console.log("ILB: captionOn()");
                 var description = $(target).find('img').attr('alt');
                 if (description && description.length > 0) {
                     $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
                 }
             },
             captionOff = function () {
-                console.log("ILB: captionOff()");
                 $('#imagelightbox-caption').remove();
             },
             navigationOn = function (instance, selector) {
-
                 var images = $(selector);
-
                 if (images.length) {
-                    console.log("ifffff");
                     var nav = $('<div id="imagelightbox-nav"></div>');
                     for (var i = 0; i < images.length; i++) {
                         nav.append('<a href="#"></a>');
@@ -224,56 +206,46 @@
                     });
                     var navItems = nav.find('a');
                     navItems.on('click touchend', function () {
-                            var $this = $(this);
-                            if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
-                                instance.switchImageLightbox($this.index());
-                            }
-                            navItems.removeClass('active');
-                            navItems.eq($this.index()).addClass('active');
-                            return false;
-                        })
-                        .on('touchend', function () {
-                            return false;
-                        });
+                        var $this = $(this);
+                        if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                            instance.switchImageLightbox($this.index());
+                        }
+                        navItems.removeClass('active');
+                        navItems.eq($this.index()).addClass('active');
+                        return false;
+                    }).on('touchend', function () {
+                        return false;
+                    });
                 }
             },
-
             navigationUpdate = function (selector) {
-                console.log("ILB:navigationUpdate()");
                 var items = $('#imagelightbox-nav').find('a');
                 items.removeClass('active');
-
                 items.addClass('active');
                 items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
             },
             navigationOff = function () {
-                console.log("ILB: navigationOff()");
                 $('#imagelightbox-nav').remove();
             },
-            arrowsOn = function (instance, selector) {
-                console.log("ILB:arrowsOn()");
 
+            arrowsOn = function (instance) {
                 var $arrows = $('<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
                     '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
                 $arrows.appendTo('body');
                 $arrows.on('click touchend', function (e) {
                     e.preventDefault();
-
-                    var $this = $(this);
-
-                    if ($this.hasClass('imagelightbox-arrow-left')) {
+                    if ($(this).hasClass('imagelightbox-arrow-left')) {
                         loadPreviousImage(instance);
                     } else {
                         loadNextImage(instance);
                     }
-
                     return false;
                 });
             },
             arrowsOff = function () {
-                console.log("ILB: arrowsOff()");
                 $('.imagelightbox-arrow').remove();
             },
+
             targets = $([]),
             target = $(),
             image = $(),
@@ -289,7 +261,6 @@
             },
 
             setImage = function () {
-                console.log("ILB:setImage()");
                 if (!image.length) {
                     return true;
                 }
@@ -309,18 +280,16 @@
                         imageHeight /= ratio;
                     }
 
-                    image.css(
-                        {
-                            'width': imageWidth + 'px',
-                            'height': imageHeight + 'px',
-                            'top': ( $(window).height() - imageHeight ) / 2 + 'px',
-                            'left': ( $(window).width() - imageWidth ) / 2 + 'px'
-                        });
+                    image.css({
+                        'width': imageWidth + 'px',
+                        'height': imageHeight + 'px',
+                        'top': ( $(window).height() - imageHeight ) / 2 + 'px',
+                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                    });
                 };
             },
 
             loadImage = function (direction) {
-                console.log("ILB:loadImage()");
                 if (inProgress) {
                     return false;
                 }
@@ -351,23 +320,20 @@
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
-                    console.log('<img id="' + options.id + '" />');
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .load(function () {
-                            image.appendTo('body');
-                            setImage();
-
                             var params = {'opacity': 1};
 
+                            image.appendTo('body');
+                            setImage();
                             image.css('opacity', 0);
                             if (isCssTransitionSupport) {
                                 cssTransitionTranslateX(image, -100 * direction + 'px', 0);
                                 setTimeout(function () {
                                     cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                                 }, 50);
-                            }
-                            else {
+                            } else {
                                 var imagePosLeft = parseInt(image.css('left'));
                                 params.left = imagePosLeft + 'px';
                                 image.css('left', imagePosLeft - 100 * direction + 'px');
@@ -409,8 +375,7 @@
                             var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
                             if (imageWidth / 2 > posX) {
                                 loadPreviousImage();
-                            }
-                            else {
+                            } else {
                                 loadNextImage();
                             }
                         })
@@ -432,8 +397,7 @@
                             swipeDiff = swipeStart - swipeEnd;
                             if (isCssTransitionSupport) {
                                 cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
-                            }
-                            else {
+                            } else {
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
                             }
                         })
@@ -444,16 +408,13 @@
                             if (Math.abs(swipeDiff) > 50) {
                                 if (swipeDiff < 0) {
                                     loadPreviousImage();
-                                }
-                                else {
+                                } else {
                                     loadNextImage();
                                 }
-                            }
-                            else {
+                            } else {
                                 if (isCssTransitionSupport) {
                                     cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                                }
-                                else {
+                                } else {
                                     image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
                                 }
                             }
@@ -573,6 +534,7 @@
             quitLightbox();
             return this;
         };
+
         // You can add the other targets to the image queue.
         this.addImageLightbox = function (elements) {
             elements.each(function () {
