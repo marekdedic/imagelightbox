@@ -3,7 +3,9 @@ imagelightbox
 
 Image Lightbox, Responsive and Touch‑friendly.
 
-This is a fork of the lightbox plugin created by Osvaldas Valutis at http://osvaldas.info/image-lightbox-responsive-touch-friendly.
+This is a fork of the lightbox plugin created by [Osvaldas Valutis](http://osvaldas.info/image-lightbox-responsive-touch-friendly/).
+
+See most of the available options at the [Demo Page](http://rejas.github.io/imagelightbox/)
 
 ## Requirements and Browser support
 
@@ -51,6 +53,7 @@ $( selector ).imageLightbox({
 ````
 
 ## Starting lightbox with JavaScript call
+
 imageLightBox can be started with *startImageLightbox()* JavaScript function call.
 
 ###### Example:
@@ -68,6 +71,7 @@ imageLightBox can be started with *startImageLightbox()* JavaScript function cal
 ````
              
 ## Adding images dynamically to lightbox 
+
 imageLightBox allows adding more images dynamically at runtime
                                                                                                
 ###### Example:
