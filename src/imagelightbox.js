@@ -59,7 +59,7 @@
         var options = $.extend({
             selector: 'a[data-imagelightbox]',
             id: 'imagelightbox',
-            allowedTypes: 'png|jpg|jpeg||gif',  // add support for generated images without an extension
+            allowedTypes: 'png|jpg|jpeg||gif',
             animationSpeed: 250,
             preloadNext: true,
             enableKeyboard: true,
@@ -72,7 +72,7 @@
             quitOnEnd: false,
             quitOnImgClick: false,
             quitOnDocClick: true,
-            quitOnEscKey: true,                 // quit when Esc key is pressed
+            quitOnEscKey: true,
             onStart: function () {
                 if (options.arrows) {
                     arrowsOn(this);
