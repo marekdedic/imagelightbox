@@ -7,7 +7,7 @@ This is a fork of the lightbox plugin created by Osvaldas Valutis at http://osva
 
 ## Requirements and Browser support
 
-* jQuery 1.11 (earlier version not tested), feel free to use jQuery v2 if you don't need to support older browsers
+* jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 if you don't need to support older browsers
 * All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone
 
 ## How to use
@@ -28,21 +28,25 @@ This is a fork of the lightbox plugin created by Osvaldas Valutis at http://osva
 The list of options and their default values is:
 
 ````javascript
-$( selector ).imageLightbox(
-{
-    selector:       'id="imagelightbox"',   // string;
-    allowedTypes:   'png|jpg|jpeg||gif',    // string;
-    animationSpeed: 250,                    // integer;
-    preloadNext:    true,                   // bool;            silently preload the next image
-    enableKeyboard: true,                   // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
-    quitOnEnd:      false,                  // bool;            quit after viewing the last image
-    quitOnImgClick: false,                  // bool;            quit when the viewed image is clicked
-    quitOnDocClick: true,                   // bool;            quit when anything but the viewed image is clicked
-    quitOnEscKey:   true,                   // bool;            quit when Esc key is pressed
-    onStart:        false,                  // function/bool;   calls function when the lightbox starts
-    onEnd:          false,                  // function/bool;   calls function when the lightbox quits
-    onLoadStart:    false,                  // function/bool;   calls function when the image load begins
-    onLoadEnd:      false                   // function/bool;   calls function when the image finishes loading
+$( selector ).imageLightbox({                                     
+    activity:       true,                    // bool;            show activity indicator
+    button:         true,                    // bool;            show close button
+    caption:        true,                    // bool;            show captions
+    navigation:     true,                    // bool;            show navigation
+    overlay:        true,                    // bool;            display the lightbox as an overlay
+    selector:       'a[data-imagelightbox]', // string;
+    allowedTypes:   'png|jpg|jpeg||gif',     // string;
+    animationSpeed: 250,                     // integer;
+    preloadNext:    true,                    // bool;            silently preload the next image
+    enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
+    quitOnEnd:      false,                   // bool;            quit after viewing the last image
+    quitOnImgClick: false,                   // bool;            quit when the viewed image is clicked
+    quitOnDocClick: true,                    // bool;            quit when anything but the viewed image is clicked
+    quitOnEscKey:   true,                    // bool;            quit when Esc key is pressed
+    onStart:        false,                   // function/bool;   calls function when the lightbox starts
+    onEnd:          false,                   // function/bool;   calls function when the lightbox quits
+    onLoadStart:    false,                   // function/bool;   calls function when the image load begins
+    onLoadEnd:      false                    // function/bool;   calls function when the image finishes loading
 });
 ````
 
