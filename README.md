@@ -1,6 +1,9 @@
 imagelightbox
 =============
 
+[![Build Status](https://secure.travis-ci.org/rejas/imagelightbox.png?branch=master)](http://travis-ci.org/rejas/imagelightbox)
+[![devDependency Status](https://david-dm.org/rejas/imagelightboxdev-status.svg)](https://david-dm.org/rejas/imagelightbox#info=devDependencies)
+
 Image Lightbox, Responsive and Touch‑friendly.
 
 This is a fork of the lightbox plugin created by [Osvaldas Valutis](http://osvaldas.info/image-lightbox-responsive-touch-friendly/).
