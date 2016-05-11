@@ -34,16 +34,18 @@ The list of options and their default values is:
 
 ````javascript
 $( selector ).imageLightbox({                                     
-    activity:       true,                    // bool;            show activity indicator
-    button:         true,                    // bool;            show close button
-    caption:        true,                    // bool;            show captions
-    navigation:     true,                    // bool;            show navigation
-    overlay:        true,                    // bool;            display the lightbox as an overlay
     selector:       'a[data-imagelightbox]', // string;
+    id:             'imagelightbox',         // string;
     allowedTypes:   'png|jpg|jpeg||gif',     // string;
     animationSpeed: 250,                     // integer;
-    preloadNext:    true,                    // bool;            silently preload the next image
+    activity:       false,                   // bool;            show activity indicator
+    arrows:         false,                   // bool;            show left/right arrows
+    button:         false,                   // bool;            show close button
+    caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
+    navigation:     false,                   // bool;            show navigation
+    overlay:        false,                   // bool;            display the lightbox as an overlay
+    preloadNext:    true,                    // bool;            silently preload the next image
     quitOnEnd:      false,                   // bool;            quit after viewing the last image
     quitOnImgClick: false,                   // bool;            quit when the viewed image is clicked
     quitOnDocClick: true,                    // bool;            quit when anything but the viewed image is clicked

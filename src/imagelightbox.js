@@ -57,22 +57,22 @@
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
-            selector: 'a[data-imagelightbox]',
-            id: 'imagelightbox',
-            allowedTypes: 'png|jpg|jpeg||gif',
+            selector:       'a[data-imagelightbox]',
+            id:             'imagelightbox',
+            allowedTypes:   'png|jpg|jpeg||gif',
             animationSpeed: 250,
-            preloadNext: true,
+            activity:       false,
+            arrows:         false,
+            button:         false,
+            caption:        false,
             enableKeyboard: true,
-            activity: false,
-            arrows: false,
-            button: false,
-            navigation: false,
-            overlay: false,
-            caption: false,
-            quitOnEnd: false,
+            navigation:     false,
+            overlay:        false,
+            preloadNext:    true,
+            quitOnEnd:      false,
             quitOnImgClick: false,
             quitOnDocClick: true,
-            quitOnEscKey: true,
+            quitOnEscKey:   true,
             onStart: function () {
                 if (options.arrows) {
                     arrowsOn(this);
