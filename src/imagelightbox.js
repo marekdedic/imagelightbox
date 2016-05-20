@@ -281,9 +281,7 @@
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
-                        imageWidth = Math.floor(imageWidth);
                         imageHeight /= ratio;
-                        imageHeight = Math.floor(imageHeight);
                     }
 
                     image.css({
