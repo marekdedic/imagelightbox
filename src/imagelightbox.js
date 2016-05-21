@@ -269,7 +269,8 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                    screenHeight = $(window).height() * 0.9,
+                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),                    
+                    screenHeight = wHeight * 0.9,
                     tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
@@ -286,7 +287,7 @@
                     image.css({
                         'width': imageWidth + 'px',
                         'height': imageHeight + 'px',
-                        'top': ( $(window).height() - imageHeight ) / 2 + 'px',
+                        'top': ( wHeight - imageHeight ) / 2 + 'px',
                         'left': ( $(window).width() - imageWidth ) / 2 + 'px'
                     });
                 };
