@@ -15,6 +15,7 @@
     ".csslintrc",
     ".gitignore",
     ".jshintrc",
+    ".travis.yml",
     "gulpfile.js",
     "package.json"
   ]
