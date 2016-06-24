@@ -8,11 +8,11 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-clean-css": "^2.0.9",
+    "gulp-clean-css": "^2.0.10",
     "gulp-csslint": "^0.3.1",
     "gulp-jshint": "^2.0.1",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.5.3",
+    "gulp-uglify": "^1.5.4",
     "jshint": "^2.9.2",
     "jshint-stylish": "^2.2.0"
   }
