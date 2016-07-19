@@ -1,6 +1,6 @@
 {
   "name": "imagelightbox",
-  "version": "0.3.4",
+  "version": "0.4.3",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "repository": "https://github.com/rejas/imagelightbox.git",
   "license": "MIT",
@@ -9,11 +9,13 @@
     "src/imagelightbox.css"
   ],
   "dependencies": {
-    "jquery": ">= 1.11"
+    "jquery": ">= 1.12"
   },
   "ignore": [
     ".csslintrc",
     ".gitignore",
+    ".jshintrc",
+    ".travis.yml",
     "gulpfile.js",
     "package.json"
   ]

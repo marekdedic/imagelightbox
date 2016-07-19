@@ -4,7 +4,7 @@ var gulp            = require('gulp'),
     rename          = require('gulp-rename'),
     uglify          = require('gulp-uglify'),
     autoprefixer    = require('gulp-autoprefixer'),
-    minifyCSS       = require('gulp-minify-css'),
+    cleanCSS        = require('gulp-clean-css'),
     stylish         = require('jshint-stylish');
 
 gulp.task('csslint', function () {
@@ -19,7 +19,7 @@ gulp.task('minify:css', function () {
             browsers: ['last 2 versions', 'ie >= 7', 'Firefox ESR', 'Android >= 2.3'],
             cascade: false
         }))
-        .pipe(minifyCSS())
+        .pipe(cleanCSS())
         .pipe(rename('imagelightbox.min.css'))
         .pipe(gulp.dest('dist/'));
 });
