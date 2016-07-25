@@ -25,7 +25,7 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/3.jpg"
                data-imagelightbox="a"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
     </ul>
-    <h2>With overlay <span>&amp; activity indication</span></h2>
+    <h2>With overlay</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/4.jpg"
                data-imagelightbox="b"><img src="images/4.jpg" alt="Sun, grass and hydrant"></a></li>
@@ -34,7 +34,7 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/6.jpg"
                data-imagelightbox="b"><img src="images/6.jpg" alt="Railway light"></a></li>
     </ul>
-    <h2>With "close" button <span>&amp; activity indication</span></h2>
+    <h2>With "close" button</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/7.jpg"
                data-imagelightbox="c"><img src="images/7.jpg" alt="The end of the railway"></a></li>
@@ -43,7 +43,7 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/9.jpg"
                data-imagelightbox="c"><img src="images/9.jpg" alt="Herkaus Manto street in Klaipeda"></a></li>
     </ul>
-    <h2>With caption <span>&amp; activity indication</span></h2>
+    <h2>With caption</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/10.jpg"
                data-imagelightbox="d"><img src="images/10.jpg" alt="Countryside somewhere in Lithuania"></a></li>
@@ -52,7 +52,7 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/12.jpg"
                data-imagelightbox="d"><img src="images/12.jpg" alt="Sunset over Plateliai lake"></a></li>
     </ul>
-    <h2>With navigation <span>&amp; activity indication</span></h2>
+    <h2>With navigation</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/13.jpg"
                data-imagelightbox="e"><img src="images/13.jpg" alt="Afternoon in Klaipeda"></a></li>
@@ -80,7 +80,7 @@
                data-imagelightbox="g"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
     </ul>
     <button class="trigger-button">Klick Me!</button>
-    <h2>With arrows <span>&amp; activity indication</span></h2>
+    <h2>With arrows</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/4.jpg"
                data-imagelightbox="h"><img src="images/4.jpg" alt="Sun, grass and hydrant"></a></li>
@@ -104,7 +104,7 @@
     </footer>
 </div>
 
-<script src="./jquery-1.12.3.min.js"></script>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
 <script src="../src/imagelightbox.js"></script>
 <script>
     $('a[data-imagelightbox="a"]').imageLightbox({
@@ -112,22 +112,18 @@
     });
 
     $('a[data-imagelightbox="b"]').imageLightbox({
-        activity: true,
         overlay: true
     });
 
     $('a[data-imagelightbox="c"]').imageLightbox({
-        activity: true,
         button: true
     });
 
     $('a[data-imagelightbox="d"]').imageLightbox({
-        activity: true,
         caption: true
     });
 
     $('a[data-imagelightbox="e"]').imageLightbox({
-        activity: true,
         navigation: true,
         selector: 'a[data-imagelightbox="e"]'
     });
@@ -147,7 +143,6 @@
     });
 
     $('a[data-imagelightbox="h"]').imageLightbox({
-        activity: true,
         arrows: true
     });
 
