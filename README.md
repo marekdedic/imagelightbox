@@ -90,7 +90,7 @@ imageLightBox allows adding more images dynamically at runtime
     {
         var gallery = $( selector ).imageLightbox();
         var image = $( '<img />' );
-        gallery.addImageLightbox( image );
+        gallery.addToImageLightbox( image );
     });
 </script>  
 ````
