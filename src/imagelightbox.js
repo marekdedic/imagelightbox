@@ -257,7 +257,7 @@
             swipeDiff = 0,
             inProgress = false,
 
-            /* NOT used ATM
+            /* TODO make it work again
             isTargetValid = function (element) {
                 var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
                 var html5 = $(element).attr('data-lightbox') !== undefined;
@@ -461,55 +461,58 @@
                     }
                 });
             },
+
             addTargets = function( newTargets ) {
                 newTargets.each(function () {
                     targets = targets.add($(this));
                 });
 
-                newTargets.on('click.imageLightbox', function (e) {
-                        e.preventDefault();
-                        if (inProgress) {
-                            return false;
-                        }
-                        inProgress = false;
-                        if (options.onStart !== false) {
-                            options.onStart();
-                        }
-                        target = $(this);
-                        loadImage();
+                newTargets.on('click', function (e) {
+                    e.preventDefault();
+                    if (inProgress) {
+                        return false;
                     }
-                );
+                    inProgress = false;
+                    if (options.onStart !== false) {
+                        options.onStart();
+                    }
+                    target = $(this);
+                    loadImage();
+                });
             };
 
         $(window).on('resize', setImage);
 
-        if (options.quitOnDocClick) {
-            $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
-                if (image.length && !$(e.target).is(image)) {
-                    e.preventDefault();
-                    quitLightbox();
-                }
-            });
-        }
+        $(document).ready(function() {
+            if (options.quitOnDocClick) {
+                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
+                    if (image.length && !$(e.target).is(image)) {
+                        e.preventDefault();
+                        quitLightbox();
+                    }
+                });
+            }
 
-        if (options.enableKeyboard) {
-            $(document).on('keyup', function (e) {
-                if (!image.length) {
-                    return true;
-                }
-                e.preventDefault();
-                if (e.keyCode === 27 && options.quitOnEscKey === true) {
-                    quitLightbox();
-                }
-                if (e.keyCode === 37) {
-                    loadPreviousImage();
-                } else if (e.keyCode === 39) {
-                    loadNextImage();
-                }
-            });
-        }
+            if (options.enableKeyboard) {
+                $(document).on('keyup', function (e) {
+                    if (!image.length) {
+                        return true;
+                    }
+                    e.preventDefault();
+                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                        quitLightbox();
+                    }
+                    if (e.keyCode === 37) {
+                        loadPreviousImage();
+                    } else if (e.keyCode === 39) {
+                        loadNextImage();
+                    }
+                });
+            }
+        });
 
         $(document).off('click', this.selector);
+
         addTargets($(this));
 
         this.loadPreviousImage = function () {
