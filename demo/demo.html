@@ -61,34 +61,34 @@
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/15.jpg"
                data-imagelightbox="e"><img src="images/15.jpg" alt="Some kind of bird, hopefully"></a></li>
     </ul>
-    <h2>Combination</h2>
+    <h2>With arrows</h2>
+    <ul>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/4.jpg"
+               data-imagelightbox="f"><img src="images/4.jpg" alt="Sun, grass and hydrant"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/5.jpg"
+               data-imagelightbox="f"><img src="images/5.jpg" alt="Bridge over the railway"></a></li>
+        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/6.jpg"
+               data-imagelightbox="f"><img src="images/6.jpg" alt="Railway light"></a></li>
+    </ul>
+    <h2>All of the above</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/16.jpg"
-               data-imagelightbox="f"><img src="images/16.jpg" alt="Snail"></a></li>
+               data-imagelightbox="g"><img src="images/16.jpg" alt="Snail"></a></li>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/17.jpg"
-               data-imagelightbox="f"><img src="images/17.jpg" alt="Cloud pump"></a></li>
+               data-imagelightbox="g"><img src="images/17.jpg" alt="Cloud pump"></a></li>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/18.jpg"
-               data-imagelightbox="f"><img src="images/18.jpg" alt="Gardening in lithuanian countryside"></a></li>
+               data-imagelightbox="g"><img src="images/18.jpg" alt="Gardening in lithuanian countryside"></a></li>
     </ul>
     <h2>With manual trigger</h2>
     <ul>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/1.jpg"
-               data-imagelightbox="g"><img src="images/1.jpg" alt="Klaipeda in the night"></a></li>
+               data-imagelightbox="h"><img src="images/1.jpg" alt="Klaipeda in the night"></a></li>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/2.jpg"
-               data-imagelightbox="g"><img src="images/2.jpg" alt="Frozen river Dane"></a></li>
+               data-imagelightbox="h"><img src="images/2.jpg" alt="Frozen river Dane"></a></li>
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/3.jpg"
-               data-imagelightbox="g"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
+               data-imagelightbox="h"><img src="images/3.jpg" alt="Snowy road Klaipeda-Vilnius"></a></li>
     </ul>
     <button class="trigger-button">Klick Me!</button>
-    <h2>With arrows</h2>
-    <ul>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/4.jpg"
-               data-imagelightbox="h"><img src="images/4.jpg" alt="Sun, grass and hydrant"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/5.jpg"
-               data-imagelightbox="h"><img src="images/5.jpg" alt="Bridge over the railway"></a></li>
-        <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/6.jpg"
-               data-imagelightbox="h"><img src="images/6.jpg" alt="Railway light"></a></li>
-    </ul>
     <h2>dynamically adding</h2>
     <ul id="dynamically_adding">
         <li><a href="http://osvaldas.info/examples/image-lightbox-responsive-touch-friendly/full/1.jpg"
@@ -129,6 +129,10 @@
     });
 
     $('a[data-imagelightbox="f"]').imageLightbox({
+        arrows: true
+    });
+
+    $('a[data-imagelightbox="g"]').imageLightbox({
         activity: true,
         button: true,
         caption: true,
@@ -137,13 +141,9 @@
         selector: 'a[data-imagelightbox="f"]'
     });
 
-    var gallery = $('a[data-imagelightbox="g"]').imageLightbox();
+    var gallery = $('a[data-imagelightbox="h"]').imageLightbox();
     $('.trigger-button').on('click', function () {
         gallery.startImageLightbox();
-    });
-
-    $('a[data-imagelightbox="h"]').imageLightbox({
-        arrows: true
     });
 
     var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox();
