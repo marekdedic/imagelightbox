@@ -59,7 +59,7 @@
         var options = $.extend({
             selector:       'a[data-imagelightbox]',
             id:             'imagelightbox',
-            allowedTypes:   'png|jpg|jpeg||gif',
+            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
             animationSpeed: 250,
             activity:       false,
             arrows:         false,
@@ -257,11 +257,13 @@
             swipeDiff = 0,
             inProgress = false,
 
+            /* NOT used ATM
             isTargetValid = function (element) {
                 var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
                 var html5 = $(element).attr('data-lightbox') !== undefined;
                 return classic || html5;
             },
+            */
 
             setImage = function () {
                 if (!image.length) {
@@ -326,7 +328,7 @@
                     // }
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
-                        .load(function () {
+                        .on('load', function () {
                             var params = {'opacity': 1};
 
                             image.appendTo('body');
@@ -354,10 +356,10 @@
                                 if (!nextTarget.length) {
                                     nextTarget = targets.eq(0);
                                 }
-                                $('<img />').attr('src', nextTarget.attr('href')).load();
+                                $('<img />').attr('src', nextTarget.attr('href'));
                             }
                         })
-                        .error(function () {
+                        .on('error', function () {
                             if (options.onLoadEnd !== false) {
                                 options.onLoadEnd();
                             }
@@ -458,6 +460,21 @@
                         options.onEnd();
                     }
                 });
+            },
+            addTargets = function( newTargets ) {
+                newTargets.each(function () {
+                    targets = targets.add($(this));
+                });
+
+                newTargets.on('click.imageLightbox', function (e) {
+                        e.preventDefault();
+                        if (inProgress) return false;
+                        inProgress = false;
+                        if (options.onStart !== false) options.onStart();
+                        target = $(this);
+                        loadImage();
+                    }
+                );
             };
 
         $(window).on('resize', setImage);
@@ -488,33 +505,8 @@
             });
         }
 
-        this.startImageLightbox = function (e) {
-            if (!isTargetValid(this)) {
-                return true;
-            }
-            if (e !== undefined) {
-                e.preventDefault();
-            }
-            if (inProgress) {
-                return false;
-            }
-            inProgress = false;
-            if (options.onStart !== false) {
-                options.onStart();
-            }
-            target = $(this);
-            loadImage();
-        };
-
         $(document).off('click', this.selector);
-        $(document).on('click', this.selector, this.startImageLightbox);
-
-        this.each(function () {
-            if (!isTargetValid(this)) {
-                return true;
-            }
-            targets = targets.add($(this));
-        });
+        addTargets($(this));
 
         this.loadPreviousImage = function () {
             loadPreviousImage();
@@ -529,17 +521,10 @@
             return this;
         };
 
-        // You can add the other targets to the image queue.
-        this.addImageLightbox = function (elements) {
-            elements.each(function () {
-                if (!isTargetValid(this)) {
-                    return true;
-                }
-                targets = targets.add($(this));
-            });
-            elements.click(this.startImageLightbox);
-            return this;
+        this.addToImageLightbox = function(elements)  {
+            addTargets(elements);
         };
+
         return this;
     };
 })(jQuery, window, document);
