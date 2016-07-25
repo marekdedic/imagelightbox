@@ -468,9 +468,13 @@
 
                 newTargets.on('click.imageLightbox', function (e) {
                         e.preventDefault();
-                        if (inProgress) return false;
+                        if (inProgress) {
+                            return false;
+                        }
                         inProgress = false;
-                        if (options.onStart !== false) options.onStart();
+                        if (options.onStart !== false) {
+                            options.onStart();
+                        }
                         target = $(this);
                         loadImage();
                     }
