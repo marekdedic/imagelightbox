@@ -1,4 +1,5 @@
 var gulp            = require('gulp'),
+    connect         = require('gulp-connect'),
     csslint         = require('gulp-csslint'),
     jshint          = require('gulp-jshint'),
     rename          = require('gulp-rename'),
@@ -35,6 +36,12 @@ gulp.task('minify:js', function () {
         .pipe(uglify())
         .pipe(rename('imagelightbox.min.js'))
         .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('serve', function() {
+    connect.server({
+        livereload: true
+    });
 });
 
 gulp.task('default', ['csslint', 'minify:css', 'jshint', 'minify:js']);

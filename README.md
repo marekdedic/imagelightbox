@@ -37,7 +37,7 @@ The list of options and their default values is:
 $( selector ).imageLightbox({                                     
     selector:       'a[data-imagelightbox]', // string;
     id:             'imagelightbox',         // string;
-    allowedTypes:   'png|jpg|jpeg||gif',     // string;
+    allowedTypes:   'png|jpg|jpeg||gif',     // string; * NOT WORKING ATM *
     animationSpeed: 250,                     // integer;
     activity:       false,                   // bool;            show activity indicator
     arrows:         false,                   // bool;            show left/right arrows
@@ -90,7 +90,7 @@ imageLightBox allows adding more images dynamically at runtime
     {
         var gallery = $( selector ).imageLightbox();
         var image = $( '<img />' );
-        gallery.addImageLightbox( image );
+        gallery.addToImageLightbox( image );
     });
 </script>  
 ````

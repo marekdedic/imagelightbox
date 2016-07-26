@@ -87,9 +87,13 @@
         var options = $.extend({
             selector:       'a[data-imagelightbox]',
             id:             'imagelightbox',
+<<<<<<< HEAD
             wrapper: "imagelightbox-wrapper",
             deepLinks: true,
             allowedTypes:   'png|jpg|jpeg||gif',
+=======
+            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+>>>>>>> rejas/master
             animationSpeed: 250,
             activity:       false,
             arrows:         false,
@@ -434,12 +438,21 @@
 
             isCssTransitionSupport = cssTransitionSupport() !== false,
 
+<<<<<<< HEAD
             cssTransitionTranslateX = function (element, positionX, speed) {
                 var options = {}, prefix = cssTransitionSupport();
                 options[prefix + 'transform'] = 'translateX(' + positionX + ')';
                 options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
                 element.css(options);
+=======
+            /* TODO make it work again
+            isTargetValid = function (element) {
+                var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+                var html5 = $(element).attr('data-lightbox') !== undefined;
+                return classic || html5;
+>>>>>>> rejas/master
             },
+            */
 
             hasTouch = ( 'ontouchstart' in window ),
             hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
@@ -499,7 +512,157 @@
                 };
                 return undefined;
             },
+<<<<<<< HEAD
             //        
+=======
+
+            loadImage = function (direction) {
+                if (inProgress) {
+                    return false;
+                }
+
+                direction = typeof direction === 'undefined' ? false : direction === 'left' ? 1 : -1;
+
+                if (image.length) {
+                    var params = {'opacity': 0};
+                    if (isCssTransitionSupport) {
+                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+                    }
+                    else {
+                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+                    }
+                    image.animate(params, options.animationSpeed, function () {
+                        removeImage();
+                    });
+                    swipeDiff = 0;
+                }
+
+                inProgress = true;
+                if (options.onLoadStart !== false) {
+                    options.onLoadStart();
+                }
+
+                setTimeout(function () {
+                    var imgPath = target.attr('href');
+                    // if ( imgPath === undefined ) {
+                    //     imgPath = target.attr( 'data-lightbox' );
+                    // }
+                    image = $('<img id="' + options.id + '" />')
+                        .attr('src', imgPath)
+                        .on('load', function () {
+                            var params = {'opacity': 1};
+
+                            image.appendTo('body');
+                            setImage();
+                            image.css('opacity', 0);
+                            if (isCssTransitionSupport) {
+                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                                setTimeout(function () {
+                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                }, 50);
+                            } else {
+                                var imagePosLeft = parseInt(image.css('left'));
+                                params.left = imagePosLeft + 'px';
+                                image.css('left', imagePosLeft - 100 * direction + 'px');
+                            }
+
+                            image.animate(params, options.animationSpeed, function () {
+                                inProgress = false;
+                                if (options.onLoadEnd !== false) {
+                                    options.onLoadEnd();
+                                }
+                            });
+                            if (options.preloadNext) {
+                                var nextTarget = targets.eq(targets.index(target) + 1);
+                                if (!nextTarget.length) {
+                                    nextTarget = targets.eq(0);
+                                }
+                                $('<img />').attr('src', nextTarget.attr('href'));
+                            }
+                        })
+                        .on('error', function () {
+                            if (options.onLoadEnd !== false) {
+                                options.onLoadEnd();
+                            }
+                        });
+
+                    var swipeStart = 0,
+                        swipeEnd = 0,
+                        imagePosLeft = 0;
+
+                    image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
+                            e.preventDefault();
+                            if (options.quitOnImgClick) {
+                                quitLightbox();
+                                return false;
+                            }
+                            if (wasTouched(e.originalEvent)) {
+                                return true;
+                            }
+                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                            if (imageWidth / 2 > posX) {
+                                loadPreviousImage();
+                            } else {
+                                loadNextImage();
+                            }
+                        })
+                        .on('touchstart pointerdown MSPointerDown', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            if (isCssTransitionSupport) {
+                                imagePosLeft = parseInt(image.css('left'));
+                            }
+                            swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                        })
+                        .on('touchmove pointermove MSPointerMove', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            e.preventDefault();
+                            swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            swipeDiff = swipeStart - swipeEnd;
+                            if (isCssTransitionSupport) {
+                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+                            } else {
+                                image.css('left', imagePosLeft - swipeDiff + 'px');
+                            }
+                        })
+                        .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            if (Math.abs(swipeDiff) > 50) {
+                                if (swipeDiff < 0) {
+                                    loadPreviousImage();
+                                } else {
+                                    loadNextImage();
+                                }
+                            } else {
+                                if (isCssTransitionSupport) {
+                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                } else {
+                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                }
+                            }
+                        });
+
+                }, options.animationSpeed + 100);
+            },
+
+            loadPreviousImage = function () {
+                if (options.previousTarget() !== false) {
+                    loadImage('left');
+                }
+            },
+
+            loadNextImage = function () {
+                if (options.nextTarget() !== false) {
+                    loadImage('right');
+                }
+            },
+
+>>>>>>> rejas/master
             removeImage = function () {
                 console.log(App+ ": removeImage called.");
                 if (!image.length) {
@@ -526,6 +689,7 @@
                     lightboxState(FLAG_onEnd);
 
                 });
+<<<<<<< HEAD
                 $wrapper.remove();
                 
                 
@@ -678,6 +842,62 @@
             targets = targets.add($(this));
             return undefined;
         });
+=======
+            },
+
+            addTargets = function( newTargets ) {
+                newTargets.each(function () {
+                    targets = targets.add($(this));
+                });
+
+                newTargets.on('click', function (e) {
+                    e.preventDefault();
+                    if (inProgress) {
+                        return false;
+                    }
+                    inProgress = false;
+                    if (options.onStart !== false) {
+                        options.onStart();
+                    }
+                    target = $(this);
+                    loadImage();
+                });
+            };
+
+        $(window).on('resize', setImage);
+
+        $(document).ready(function() {
+            if (options.quitOnDocClick) {
+                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
+                    if (image.length && !$(e.target).is(image)) {
+                        e.preventDefault();
+                        quitLightbox();
+                    }
+                });
+            }
+
+            if (options.enableKeyboard) {
+                $(document).on('keyup', function (e) {
+                    if (!image.length) {
+                        return true;
+                    }
+                    e.preventDefault();
+                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                        quitLightbox();
+                    }
+                    if (e.keyCode === 37) {
+                        loadPreviousImage();
+                    } else if (e.keyCode === 39) {
+                        loadNextImage();
+                    }
+                });
+            }
+        });
+
+        $(document).off('click', this.selector);
+
+        addTargets($(this));
+>>>>>>> rejas/master
 
 
         this.loadPreviousImage = function () {
@@ -697,6 +917,7 @@
             return this;
         };
 
+<<<<<<< HEAD
         // You can add the other targets to the image queue.
         this.addToImageLightbox = function (elements) {
             elements.each(function () {
@@ -708,7 +929,12 @@
             });
             elements.click(this.startImageLightbox);
             return this;
+=======
+        this.addToImageLightbox = function(elements)  {
+            addTargets(elements);
+>>>>>>> rejas/master
         };
+
         return this;
     });
     var pro = false;
