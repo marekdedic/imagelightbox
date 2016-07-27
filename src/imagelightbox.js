@@ -47,7 +47,10 @@
         FLAG_button = 1<<7,
         FLAG_caption = 1<<8,
         FLAG_overlay = 1<<9,
-        FLAG_navigation = 1<<10;
+        FLAG_navigation = 1<<10,
+        //
+        FLAG_QUIT = 1<<11,
+        FLAG_POP = 1<<12;
     //
     var flow = FLAG_onStart
             | FLAG_onLoadStart
@@ -68,15 +71,19 @@
             window.history.pushState !== undefined ? true:false;
     //isHistory = false;
     //
-    var dataHistory = {
+    // var oldy = $();
+    // var newy = $();
+    
+    var stateHistory = {
         'home': {
-            'href':window.location.href,
+            'href':window.location.pathname,
             'title': document.title
         },
         'pushSpace':{
-            'pathname':"#!imagelightbox/",
-            'title': document.title+' | ImageLightBox'
-        }
+            'name':"#!imagelightbox/",
+            'title':'ImageLightBox'
+        },
+        'spacer':' | '
     };
     //
     //
@@ -87,13 +94,9 @@
         var options = $.extend({
             selector:       'a[data-imagelightbox]',
             id:             'imagelightbox',
-<<<<<<< HEAD
             wrapper: "imagelightbox-wrapper",
             deepLinks: true,
             allowedTypes:   'png|jpg|jpeg||gif',
-=======
-            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
->>>>>>> rejas/master
             animationSpeed: 250,
             activity:       false,
             arrows:         false,
@@ -122,7 +125,9 @@
         },
             previousTargetDefault = function () {
                 console.log(App+ ": previousTargetDefault called.");
+
                 targetIndex = targets.index(target) - 1;
+                console.log("The targetIndex is "+targetIndex);
                 //
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -140,9 +145,10 @@
             },
             nextTargetDefault = function () {
                 console.log(App+": nextTargetDefault called");
-                targetIndex = targets.index(target) + 1;
                 
+                targetIndex = targets.index(target) + 1;
                 //
+                console.log(targetIndex+","+targets.length);
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
                         quitLightbox();
@@ -182,6 +188,11 @@
                 overlayToggle(state);
             if (machine & FLAG_navigation)
                 navigationToggle(state);
+            if (FLAG_QUIT & state)
+                quitLightbox();
+            if (FLAG_POP & state)
+                loadPreviousImage();
+            
         };
         // State methods
         var activityIndicatorToggle = function (state) {
@@ -209,7 +220,7 @@
         };
         var loadNavImage = function (navIndex) {
             //
-            console.log("ladNavImage " +navIndex);
+            console.log("loadNavImage " +navIndex);
             navTargetDefault(navIndex);
             loadImage('right');
         };
@@ -301,15 +312,22 @@
             lightboxState(FLAG_onLoadStart);
             
             window.setTimeout(function () {
-                if (isHistory) {
-                    var imageName = target.attr('href').split('/').pop();
-                    // window.history.pushState(null,'','');
-                    window.history.replaceState('','',"#!imagelightbox/"+imageName);
-                    
-                    document.title = dataHistory.pushSpace.title + " | "+imageName;
-                }
+
                 var imgPath = target.attr('href');
-                
+                var imgName = imgPath.split('/').pop();
+                if (isHistory) {
+                    window.history.pushState({action:FLAG_POP},'',
+                                             stateHistory.home.href+
+                                             stateHistory.pushSpace.name+
+                                             imgName);
+                    
+                    document.title = stateHistory.home.title+
+                        stateHistory.spacer+
+                        stateHistory.pushSpace.title+
+                        stateHistory.spacer+
+                        imgName;
+                    
+                }
                 //
                 image = $image
                     .attr('id',options.id) // hook point
@@ -438,21 +456,12 @@
 
             isCssTransitionSupport = cssTransitionSupport() !== false,
 
-<<<<<<< HEAD
             cssTransitionTranslateX = function (element, positionX, speed) {
                 var options = {}, prefix = cssTransitionSupport();
                 options[prefix + 'transform'] = 'translateX(' + positionX + ')';
                 options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
                 element.css(options);
-=======
-            /* TODO make it work again
-            isTargetValid = function (element) {
-                var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-                var html5 = $(element).attr('data-lightbox') !== undefined;
-                return classic || html5;
->>>>>>> rejas/master
             },
-            */
 
             hasTouch = ( 'ontouchstart' in window ),
             hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
@@ -512,157 +521,7 @@
                 };
                 return undefined;
             },
-<<<<<<< HEAD
             //        
-=======
-
-            loadImage = function (direction) {
-                if (inProgress) {
-                    return false;
-                }
-
-                direction = typeof direction === 'undefined' ? false : direction === 'left' ? 1 : -1;
-
-                if (image.length) {
-                    var params = {'opacity': 0};
-                    if (isCssTransitionSupport) {
-                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
-                    }
-                    else {
-                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
-                    }
-                    image.animate(params, options.animationSpeed, function () {
-                        removeImage();
-                    });
-                    swipeDiff = 0;
-                }
-
-                inProgress = true;
-                if (options.onLoadStart !== false) {
-                    options.onLoadStart();
-                }
-
-                setTimeout(function () {
-                    var imgPath = target.attr('href');
-                    // if ( imgPath === undefined ) {
-                    //     imgPath = target.attr( 'data-lightbox' );
-                    // }
-                    image = $('<img id="' + options.id + '" />')
-                        .attr('src', imgPath)
-                        .on('load', function () {
-                            var params = {'opacity': 1};
-
-                            image.appendTo('body');
-                            setImage();
-                            image.css('opacity', 0);
-                            if (isCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                                setTimeout(function () {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                                }, 50);
-                            } else {
-                                var imagePosLeft = parseInt(image.css('left'));
-                                params.left = imagePosLeft + 'px';
-                                image.css('left', imagePosLeft - 100 * direction + 'px');
-                            }
-
-                            image.animate(params, options.animationSpeed, function () {
-                                inProgress = false;
-                                if (options.onLoadEnd !== false) {
-                                    options.onLoadEnd();
-                                }
-                            });
-                            if (options.preloadNext) {
-                                var nextTarget = targets.eq(targets.index(target) + 1);
-                                if (!nextTarget.length) {
-                                    nextTarget = targets.eq(0);
-                                }
-                                $('<img />').attr('src', nextTarget.attr('href'));
-                            }
-                        })
-                        .on('error', function () {
-                            if (options.onLoadEnd !== false) {
-                                options.onLoadEnd();
-                            }
-                        });
-
-                    var swipeStart = 0,
-                        swipeEnd = 0,
-                        imagePosLeft = 0;
-
-                    image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
-                            e.preventDefault();
-                            if (options.quitOnImgClick) {
-                                quitLightbox();
-                                return false;
-                            }
-                            if (wasTouched(e.originalEvent)) {
-                                return true;
-                            }
-                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                            if (imageWidth / 2 > posX) {
-                                loadPreviousImage();
-                            } else {
-                                loadNextImage();
-                            }
-                        })
-                        .on('touchstart pointerdown MSPointerDown', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                                return true;
-                            }
-                            if (isCssTransitionSupport) {
-                                imagePosLeft = parseInt(image.css('left'));
-                            }
-                            swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                        })
-                        .on('touchmove pointermove MSPointerMove', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                                return true;
-                            }
-                            e.preventDefault();
-                            swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                            swipeDiff = swipeStart - swipeEnd;
-                            if (isCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
-                            } else {
-                                image.css('left', imagePosLeft - swipeDiff + 'px');
-                            }
-                        })
-                        .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                                return true;
-                            }
-                            if (Math.abs(swipeDiff) > 50) {
-                                if (swipeDiff < 0) {
-                                    loadPreviousImage();
-                                } else {
-                                    loadNextImage();
-                                }
-                            } else {
-                                if (isCssTransitionSupport) {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                                } else {
-                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
-                                }
-                            }
-                        });
-
-                }, options.animationSpeed + 100);
-            },
-
-            loadPreviousImage = function () {
-                if (options.previousTarget() !== false) {
-                    loadImage('left');
-                }
-            },
-
-            loadNextImage = function () {
-                if (options.nextTarget() !== false) {
-                    loadImage('right');
-                }
-            },
-
->>>>>>> rejas/master
             removeImage = function () {
                 console.log(App+ ": removeImage called.");
                 if (!image.length) {
@@ -674,9 +533,11 @@
             },
             quitLightbox = function () {
                 if (isHistory) {
-                    //   window.history.back();
-                    window.history.replaceState('','','/');
-                    document.title = dataHistory.home.title;
+                    window.history.back();
+                    window.history.replaceState({action:FLAG_QUIT},'',
+                                                stateHistory.home.href);
+                    
+                    document.title = stateHistory.home.title;
                 }
                 console.log(App+": quitLightbox called");
                 if (!image.length) {
@@ -689,7 +550,6 @@
                     lightboxState(FLAG_onEnd);
 
                 });
-<<<<<<< HEAD
                 $wrapper.remove();
                 
                 
@@ -734,21 +594,21 @@
         };
         //
         this.startImageLightbox = function (e) {
-            // history modification
-            // var historyHome 
             if (isHistory) {
+                window.history.pushState({action:FLAG_QUIT},'',stateHistory.pushSpace.pathname);
 
-                window.history.pushState(dataHistory,null,
-                                         dataHistory.pushSpace.pathname);
                 
-                document.title = dataHistory.pushSpace.title;
+                //      var group = $(options.selector).attr('data-imagelightbox');
+
+                // window.history.pushState({home:window.location.href},'',
+                //                         dataHistory.pushSpace.pathname+group+'/');
+                
+                // document.title = dataHistory.pushSpace.title;
             }
             
             // Listeners for $(document) delegated to imageLightbox components (must come first)
             $(window)
-                .on('popstate.imagelightbox', function (e) {
-                    console.log("popping");
-                })
+            
                 .on('resize.imagelightbox', setImage)
                 .on('keydown.imagelightbox',function(e) {
                     if([32,33,34,35,36,37,38,39,40].indexOf(e.which) > -1) {
@@ -759,7 +619,7 @@
             //
             $(document)
                 .on('keyup.imagelightbox', tryEnableKeyboard)
-                .on(hasTouch ? 'touchend.imagelightbox' : 'click.imagelightbox', tryQuitonDocClick);
+                .on('touchend.imagelightbox click.imagelightbox', tryQuitonDocClick);
             
             //
             //
@@ -768,7 +628,7 @@
             $arrowLeftObject
                 .on('click touchend',function (e) {
                     e.preventDefault();
-                    options.previousTargetDefault();
+                    previousTargetDefault();
                 });
             $arrowRightObject
                 .on('click touchend',function (e) {
@@ -819,13 +679,29 @@
             return undefined;
         };
 
+
+        $(window)
+            .on('popstate', function (e) {
+                console.log("POPSTATE: "+document.title);
+                var action = e.originalEvent.state.action;
+                if (action !== null)
+                    lightboxState(action);
+                
+                // going back has to make app reload picture
+                //add index to state object
+            });
         
         $(document)
             .off('click', this.selector)
-            .ready(function () {
-                if(window.location.hash) {
-                    $(options.selector).first().trigger('click.imagelightbox.initiate');
-                }
+        // .ready(function () {
+        //     if(window.location.hash) {
+        //         $(options.selector).first().trigger('click.imagelightbox.initiate');
+        //     }
+        // })
+            .ready (function () {
+                // Initial State Object
+                window.history.replaceState(
+                    stateHistory, null, stateHistory.home.href);
             })
             .on('click.imagelightbox.initiate', this.selector, this.startImageLightbox);
         
@@ -842,62 +718,6 @@
             targets = targets.add($(this));
             return undefined;
         });
-=======
-            },
-
-            addTargets = function( newTargets ) {
-                newTargets.each(function () {
-                    targets = targets.add($(this));
-                });
-
-                newTargets.on('click', function (e) {
-                    e.preventDefault();
-                    if (inProgress) {
-                        return false;
-                    }
-                    inProgress = false;
-                    if (options.onStart !== false) {
-                        options.onStart();
-                    }
-                    target = $(this);
-                    loadImage();
-                });
-            };
-
-        $(window).on('resize', setImage);
-
-        $(document).ready(function() {
-            if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
-                    if (image.length && !$(e.target).is(image)) {
-                        e.preventDefault();
-                        quitLightbox();
-                    }
-                });
-            }
-
-            if (options.enableKeyboard) {
-                $(document).on('keyup', function (e) {
-                    if (!image.length) {
-                        return true;
-                    }
-                    e.preventDefault();
-                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
-                        quitLightbox();
-                    }
-                    if (e.keyCode === 37) {
-                        loadPreviousImage();
-                    } else if (e.keyCode === 39) {
-                        loadNextImage();
-                    }
-                });
-            }
-        });
-
-        $(document).off('click', this.selector);
-
-        addTargets($(this));
->>>>>>> rejas/master
 
 
         this.loadPreviousImage = function () {
@@ -917,7 +737,6 @@
             return this;
         };
 
-<<<<<<< HEAD
         // You can add the other targets to the image queue.
         this.addToImageLightbox = function (elements) {
             elements.each(function () {
@@ -929,26 +748,9 @@
             });
             elements.click(this.startImageLightbox);
             return this;
-=======
-        this.addToImageLightbox = function(elements)  {
-            addTargets(elements);
->>>>>>> rejas/master
         };
-
         return this;
     });
     var pro = false;
     if (pro) console.log = function(){};
 })(jQuery, window, document, undefined);
-// create a style for 'forward' direction
-// use state object
-//remove options that shoiuldn't be options
-// there is still a lot of abstraction that can be cut out
-// append doesn't seem to work with jquery objects
-// try to reduce number of methods
-// finish namespacing events, so they can be removed on quit
-// for multiple instance support, these events should depend on group name as well.
-// i n order to allow for multiple instances, the user would ned to specifiy different values for the 'data-imagelightbox' attribute
-//
-// use hashtags if browser doesn't support pushstate
-// not working without preloading.. hmm
