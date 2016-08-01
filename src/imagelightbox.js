@@ -488,10 +488,11 @@
                       image.remove();
                       image = $();
                 },
-                startImageLightbox = function (e) {
-                      console.log("ILB: new instance");
+                startImageLightbox = function () {
+                      console.log(target);
+                      var targetIndex = targets.index(target);
                       if (history) {
-                            window.history.pushState('','',stateHistory.pushSpace.pathname,quitImageLightbox);
+                            window.history.pushState({index:targetIndex},'',stateHistory.pushSpace.name+(targetIndex+1));
                       }
                 },
                 quitImageLightbox = function () {
