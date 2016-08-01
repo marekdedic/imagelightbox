@@ -236,6 +236,11 @@
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
+                            var tmpIndex = $this.index() + 1;
+                            if (history) {
+                                console.log("navigation index is "+tmpIndex);
+                                window.history.pushState({index:$this.index()},'',stateHistory.pushSpace.name+tmpIndex);
+                            }
                             if (tmpTarget.length) {
                                 var currentIndex = targets.index(target);
                                 target = tmpTarget;
