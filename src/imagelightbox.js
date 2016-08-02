@@ -449,6 +449,18 @@
                 image = $();
             },
 
+            openLightbox = function ($target) {
+                if (inProgress) {
+                    return false;
+                }
+                inProgress = false;
+                if (options.onStart !== false) {
+                    options.onStart();
+                }
+                target = $target;
+                loadImage();
+            },
+
             quitLightbox = function () {
                 if (!image.length) {
                     return false;
@@ -469,17 +481,15 @@
 
                 newTargets.on('click', function (e) {
                     e.preventDefault();
-                    if (inProgress) {
-                        return false;
-                    }
-                    inProgress = false;
-                    if (options.onStart !== false) {
-                        options.onStart();
-                    }
-                    target = $(this);
-                    loadImage();
+                    openLightbox($(this));
                 });
             };
+
+        this.startImageLightbox = function () {
+            if (this.length > 0) {
+                openLightbox($(this[0]));
+            }
+        };
 
         $(window).on('resize', setImage);
 
