@@ -261,6 +261,7 @@
             },
             navigationUpdate = function (selector) {
                 var items = $('#imagelightbox-nav').find('a');
+                selector = "a[data-imagelightbox='"+group+"']";
                 items.removeClass('active');
                 items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
             },
