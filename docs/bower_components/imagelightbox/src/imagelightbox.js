@@ -59,7 +59,7 @@
         var options = $.extend({
             selector:       'a[data-imagelightbox]',
             id:             'imagelightbox',
-            allowedTypes:   'png|jpg|jpeg||gif',
+            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
             animationSpeed: 250,
             activity:       false,
             arrows:         false,
@@ -257,11 +257,13 @@
             swipeDiff = 0,
             inProgress = false,
 
+            /* TODO make it work again
             isTargetValid = function (element) {
                 var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
                 var html5 = $(element).attr('data-lightbox') !== undefined;
                 return classic || html5;
             },
+            */
 
             setImage = function () {
                 if (!image.length) {
@@ -326,7 +328,7 @@
                     // }
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
-                        .load(function () {
+                        .on('load', function () {
                             var params = {'opacity': 1};
 
                             image.appendTo('body');
@@ -354,10 +356,10 @@
                                 if (!nextTarget.length) {
                                     nextTarget = targets.eq(0);
                                 }
-                                $('<img />').attr('src', nextTarget.attr('href')).load();
+                                $('<img />').attr('src', nextTarget.attr('href'));
                             }
                         })
-                        .error(function () {
+                        .on('error', function () {
                             if (options.onLoadEnd !== false) {
                                 options.onLoadEnd();
                             }
@@ -447,6 +449,18 @@
                 image = $();
             },
 
+            openLightbox = function ($target) {
+                if (inProgress) {
+                    return false;
+                }
+                inProgress = false;
+                if (options.onStart !== false) {
+                    options.onStart();
+                }
+                target = $target;
+                loadImage();
+            },
+
             quitLightbox = function () {
                 if (!image.length) {
                     return false;
@@ -458,63 +472,58 @@
                         options.onEnd();
                     }
                 });
+            },
+
+            addTargets = function( newTargets ) {
+                newTargets.each(function () {
+                    targets = targets.add($(this));
+                });
+
+                newTargets.on('click', function (e) {
+                    e.preventDefault();
+                    openLightbox($(this));
+                });
             };
+
+        this.startImageLightbox = function () {
+            if (this.length > 0) {
+                openLightbox($(this[0]));
+            }
+        };
 
         $(window).on('resize', setImage);
 
-        if (options.quitOnDocClick) {
-            $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
-                if (image.length && !$(e.target).is(image)) {
+        $(document).ready(function() {
+            if (options.quitOnDocClick) {
+                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
+                    if (image.length && !$(e.target).is(image)) {
+                        e.preventDefault();
+                        quitLightbox();
+                    }
+                });
+            }
+
+            if (options.enableKeyboard) {
+                $(document).on('keyup', function (e) {
+                    if (!image.length) {
+                        return true;
+                    }
                     e.preventDefault();
-                    quitLightbox();
-                }
-            });
-        }
-
-        if (options.enableKeyboard) {
-            $(document).on('keyup', function (e) {
-                if (!image.length) {
-                    return true;
-                }
-                e.preventDefault();
-                if (e.keyCode === 27 && options.quitOnEscKey === true) {
-                    quitLightbox();
-                }
-                if (e.keyCode === 37) {
-                    loadPreviousImage();
-                } else if (e.keyCode === 39) {
-                    loadNextImage();
-                }
-            });
-        }
-
-        this.startImageLightbox = function (e) {
-            if (!isTargetValid(this)) {
-                return true;
+                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                        quitLightbox();
+                    }
+                    if (e.keyCode === 37) {
+                        loadPreviousImage();
+                    } else if (e.keyCode === 39) {
+                        loadNextImage();
+                    }
+                });
             }
-            if (e !== undefined) {
-                e.preventDefault();
-            }
-            if (inProgress) {
-                return false;
-            }
-            inProgress = false;
-            if (options.onStart !== false) {
-                options.onStart();
-            }
-            target = $(this);
-            loadImage();
-        };
+        });
 
         $(document).off('click', this.selector);
-        $(document).on('click', this.selector, this.startImageLightbox);
 
-        this.each(function () {
-            if (!isTargetValid(this)) {
-                return true;
-            }
-            targets = targets.add($(this));
-        });
+        addTargets($(this));
 
         this.loadPreviousImage = function () {
             loadPreviousImage();
@@ -529,17 +538,10 @@
             return this;
         };
 
-        // You can add the other targets to the image queue.
-        this.addImageLightbox = function (elements) {
-            elements.each(function () {
-                if (!isTargetValid(this)) {
-                    return true;
-                }
-                targets = targets.add($(this));
-            });
-            elements.click(this.startImageLightbox);
-            return this;
+        this.addToImageLightbox = function(elements)  {
+            addTargets(elements);
         };
+
         return this;
     };
 })(jQuery, window, document);

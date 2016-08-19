@@ -12,8 +12,9 @@ See most of the available options at the [Demo Page](http://rejas.github.io/imag
 
 ## Requirements and Browser support
 
-* jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 if you don't need to support older browsers
-* All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone
+* jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
+* All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone. 
+* IE8 is NOT supported
 
 ## How to use
 
@@ -36,7 +37,7 @@ The list of options and their default values is:
 $( selector ).imageLightbox({                                     
     selector:       'a[data-imagelightbox]', // string;
     id:             'imagelightbox',         // string;
-    allowedTypes:   'png|jpg|jpeg||gif',     // string;
+    allowedTypes:   'png|jpg|jpeg||gif',     // string; * NOT WORKING ATM *
     animationSpeed: 250,                     // integer;
     activity:       false,                   // bool;            show activity indicator
     arrows:         false,                   // bool;            show left/right arrows
@@ -89,8 +90,12 @@ imageLightBox allows adding more images dynamically at runtime
     {
         var gallery = $( selector ).imageLightbox();
         var image = $( '<img />' );
-        gallery.addImageLightbox( image );
+        gallery.addToImageLightbox( image );
     });
 </script>  
 ````
-             
+                        
+## Changelog
+
+* 0.5.1 Fix startImageLightbox
+* 0.5.0 Support jQuery3
