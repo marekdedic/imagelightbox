@@ -10,7 +10,7 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-clean-css": "^2.0.12",
     "gulp-connect": "^5.0.0",
-    "gulp-csslint": "^0.3.1",
+    "gulp-csslint": "^1.0.0",
     "gulp-jshint": "^2.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^2.0.0",
