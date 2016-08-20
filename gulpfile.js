@@ -11,7 +11,7 @@ var gulp            = require('gulp'),
 gulp.task('csslint', function () {
     return gulp.src('src/imagelightbox.css')
         .pipe(csslint('.csslintrc'))
-        .pipe(csslint.reporter())
+        .pipe(csslint.formatter())
 });
 
 gulp.task('minify:css', function () {
