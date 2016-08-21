@@ -1,5 +1,5 @@
 {
-    "box-model":        false,
-    "ids":              false,
-    "vendor-prefix":    false
+    "box-model":            false,
+    "ids":                  false,
+    "order-alphabetical":   false
 }
