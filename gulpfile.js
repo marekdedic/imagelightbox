@@ -48,10 +48,12 @@ gulp.task('minify:js', ['copy:js'], function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('serve', function() {
+gulp.task('serve', ['build'], function() {
     connect.server({
         livereload: true
     });
 });
 
-gulp.task('default', ['minify:css', 'minify:js']);
+gulp.task('build', ['minify:css', 'minify:js']);
+
+gulp.task('default', ['build']);
