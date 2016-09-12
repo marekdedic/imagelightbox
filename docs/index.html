@@ -38,24 +38,36 @@
                 <li><a href="images/demo2.jpg" data-imagelightbox="a"><img src="images/thumb2.jpg"></a></li>
                 <li><a href="images/demo3.jpg" data-imagelightbox="a"><img src="images/thumb3.jpg"></a></li>
             </ul>
+            <pre><code>$('a[data-imagelightbox="a"]')
+                    .imageLightbox(activity: true});
+            </code></pre>
             <h2>With overlay</h2>
             <ul>
                 <li><a href="images/demo1.jpg" data-imagelightbox="b"><img src="images/thumb1.jpg"></a></li>
                 <li><a href="images/demo2.jpg" data-imagelightbox="b"><img src="images/thumb2.jpg"></a></li>
                 <li><a href="images/demo3.jpg" data-imagelightbox="b"><img src="images/thumb3.jpg"></a></li>
             </ul>
+            <pre><code>$('a[data-imagelightbox="b"]')
+                .imageLightbox({overlay: true});
+            </code></pre>
             <h2>With "close" button</h2>
             <ul>
                 <li><a href="images/demo1.jpg" data-imagelightbox="c"><img src="images/thumb1.jpg"></a></li>
                 <li><a href="images/demo2.jpg" data-imagelightbox="c"><img src="images/thumb2.jpg"></a></li>
                 <li><a href="images/demo3.jpg" data-imagelightbox="c"><img src="images/thumb3.jpg"></a></li>
             </ul>
+            <pre><code>$('a[data-imagelightbox="c"]')
+                .imageLightbox({button: true});
+            </code></pre>
             <h2>With caption</h2>
             <ul>
                 <li><a href="images/demo1.jpg" data-imagelightbox="d"><img src="images/thumb1.jpg" alt="Sunset in Tanzania"></a></li>
                 <li><a href="images/demo2.jpg" data-imagelightbox="d"><img src="images/thumb2.jpg" alt="Trafic jam in Tanzania"></a></li>
                 <li><a href="images/demo3.jpg" data-imagelightbox="d"><img src="images/thumb3.jpg" alt="Just another sunset in Tanzania"></a></li>
             </ul>
+            <pre><code>$('a[data-imagelightbox="d"]')
+                .imageLightbox({caption: true});
+            </code></pre>
             <h2>With navigation</h2>
             <ul>
                 <li><a href="images/demo1.jpg" data-imagelightbox="e"><img src="images/thumb1.jpg"></a></li>
@@ -68,6 +80,9 @@
                 <li><a href="images/demo2.jpg" data-imagelightbox="f"><img src="images/thumb2.jpg"></a></li>
                 <li><a href="images/demo3.jpg" data-imagelightbox="f"><img src="images/thumb3.jpg"></a></li>
             </ul>
+            <pre><code>$('a[data-imagelightbox="f"]')
+                .imageLightbox({arrows: true});
+            </code></pre>
             <h2>All of the above</h2>
             <ul>
                 <li><a href="images/demo1.jpg" data-imagelightbox="g"><img src="images/thumb1.jpg"></a></li>
@@ -90,7 +105,7 @@
             <button id="addimage">Add another image</button>
 
             <script src="./bower_components/jquery/dist/jquery.min.js"></script>
-            <script src="./bower_components/imagelightbox/dist/imagelightbox.min.js"></script>
+            <script src="../src/imagelightbox.js"></script>
             <script src="./javascripts/main.js"></script>
         </section>
 
