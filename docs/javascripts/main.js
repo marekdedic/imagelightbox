@@ -8,7 +8,8 @@ $(document).ready(function() {
     });
 
     $('a[data-imagelightbox="c"]').imageLightbox({
-        button: true
+        button: true,
+        quitOnDocClick: false
     });
 
     $('a[data-imagelightbox="d"]').imageLightbox({
