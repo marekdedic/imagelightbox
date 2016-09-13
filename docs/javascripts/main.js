@@ -31,6 +31,7 @@ $(document).ready(function() {
         caption: true,
         navigation: true,
         overlay: true,
+        quitOnDocClick: false,
         selector: 'a[data-imagelightbox="f"]'
     });
 
