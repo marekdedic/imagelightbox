@@ -48,7 +48,14 @@ gulp.task('minify:js', ['copy:js'], function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('serve', ['build'], function() {
+gulp.task('watch', function() {
+    gulp.watch([
+        'docs/*.html',
+        'src/**/*'
+    ], ['build']);
+});
+
+gulp.task('serve', ['build', 'watch'], function() {
     connect.server({
         livereload: true
     });
