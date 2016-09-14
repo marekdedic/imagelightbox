@@ -97,5 +97,6 @@ imageLightBox allows adding more images dynamically at runtime
                         
 ## Changelog
 
+* 0.5.2 Updates to demo page, cleanups
 * 0.5.1 Fix startImageLightbox
 * 0.5.0 Support jQuery3
