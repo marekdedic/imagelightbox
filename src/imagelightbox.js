@@ -88,7 +88,7 @@
                     closeButtonOn();
                 }
                 if (options.lockBody) {
-                    lockBody();
+                    lockBody(true);
                 }
             },
             onEnd: function () {
@@ -109,6 +109,9 @@
                 }
                 if (options.button) {
                     closeButtonOff();
+                }
+                 if (options.lockBody) {
+                    lockBody(false);
                 }
             },
             onLoadStart: function () {
@@ -172,8 +175,12 @@
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
             },
-            lockBody= function () {
-                $("body").css("overflow","hidden");
+            lockBody = function (toggle) {
+                if (toggle) {
+                    $("body").css("overflow","hidden");
+                } else {
+                    $("body").css("overflow","scroll");
+                }
             },
             overlayOn = function () {
                 $('<div id="imagelightbox-overlay"></div>').appendTo('body');
