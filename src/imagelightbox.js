@@ -179,7 +179,7 @@
                 $activityObject.appendTo($wrapper);
             },
             activityIndicatorOff = function () {
-                $('#imagelightbox-loading').remove();
+                $activityObject.remove();
             },
             overlayOn = function () {
                 $overlayObject.appendTo($wrapper);
