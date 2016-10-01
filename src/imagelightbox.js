@@ -1,27 +1,27 @@
 /*
-	By Osvaldas Valutis, www.osvaldas.info
-	Available for use under the MIT License
+  By Osvaldas Valutis, www.osvaldas.info
+  Available for use under the MIT License
 */
 ;(function ($, window, document, undefined) {
     'use strict';
 
     var cssTransitionSupport = function () {
-            var s = document.body || document.documentElement;
-            s = s.style;
-            if (s.WebkitTransition === '') {
-                return '-webkit-';
-            }
-            if (s.MozTransition === '') {
-                return '-moz-';
-            }
-            if (s.OTransition === '') {
-                return '-o-';
-            }
-            if (s.transition === '') {
-                return '';
-            }
-            return false;
-        },
+        var s = document.body || document.documentElement;
+        s = s.style;
+        if (s.WebkitTransition === '') {
+            return '-webkit-';
+        }
+        if (s.MozTransition === '') {
+            return '-moz-';
+        }
+        if (s.OTransition === '') {
+            return '-o-';
+        }
+        if (s.transition === '') {
+            return '';
+        }
+        return false;
+    },
 
         isCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -66,6 +66,7 @@
             button:         false,
             caption:        false,
             enableKeyboard: true,
+            lockBody:       true,
             navigation:     false,
             overlay:        false,
             preloadNext:    true,
@@ -85,6 +86,9 @@
                 }
                 if (options.button) {
                     closeButtonOn();
+                }
+                if (options.lockBody) {
+                    lockBody();
                 }
             },
             onEnd: function () {
@@ -168,6 +172,9 @@
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
             },
+            lockBody= function () {
+                $("body").css("overflow","hidden");
+            },
             overlayOn = function () {
                 $('<div id="imagelightbox-overlay"></div>').appendTo('body');
             },
@@ -233,7 +240,7 @@
             },
             arrowsOn = function (instance) {
                 var $arrows = $('<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
-                    '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
+                                '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
                 $arrows.appendTo('body');
                 $arrows.on('click touchend', function (e) {
                     e.preventDefault();
@@ -258,11 +265,11 @@
             inProgress = false,
 
             /* TODO make it work again
-            isTargetValid = function (element) {
-                var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-                var html5 = $(element).attr('data-lightbox') !== undefined;
-                return classic || html5;
-            },
+               isTargetValid = function (element) {
+               var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+               var html5 = $(element).attr('data-lightbox') !== undefined;
+               return classic || html5;
+               },
             */
 
             setImage = function () {
@@ -271,7 +278,7 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),                    
+                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
                     screenHeight = wHeight * 0.9,
                     tmpImage = new Image();
 
@@ -370,21 +377,21 @@
                         imagePosLeft = 0;
 
                     image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
-                            e.preventDefault();
-                            if (options.quitOnImgClick) {
-                                quitLightbox();
-                                return false;
-                            }
-                            if (wasTouched(e.originalEvent)) {
-                                return true;
-                            }
-                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                            if (imageWidth / 2 > posX) {
-                                loadPreviousImage();
-                            } else {
-                                loadNextImage();
-                            }
-                        })
+                        e.preventDefault();
+                        if (options.quitOnImgClick) {
+                            quitLightbox();
+                            return false;
+                        }
+                        if (wasTouched(e.originalEvent)) {
+                            return true;
+                        }
+                        var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                        if (imageWidth / 2 > posX) {
+                            loadPreviousImage();
+                        } else {
+                            loadNextImage();
+                        }
+                    })
                         .on('touchstart pointerdown MSPointerDown', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
