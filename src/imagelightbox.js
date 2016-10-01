@@ -1,27 +1,42 @@
 /*
-	By Osvaldas Valutis, www.osvaldas.info
-	Available for use under the MIT License
-*/
+ By Osvaldas Valutis, www.osvaldas.info
+ Available for use under the MIT License
+ */
 ;(function ($, window, document, undefined) {
     'use strict';
 
-    var cssTransitionSupport = function () {
-            var s = document.body || document.documentElement;
-            s = s.style;
-            if (s.WebkitTransition === '') {
-                return '-webkit-';
-            }
-            if (s.MozTransition === '') {
-                return '-moz-';
-            }
-            if (s.OTransition === '') {
-                return '-o-';
-            }
-            if (s.transition === '') {
-                return '';
-            }
-            return false;
+    /* History */
+    var stateHistory = {
+        'home': {
+            'href':window.location.pathname,
+            'title': document.title
         },
+        'pushSpace':{
+            'name':"#!imagelightbox/",
+            'title':'ImageLightBox'
+        },
+        'spacer':' | '
+    };
+    var group;
+
+
+    var cssTransitionSupport = function () {
+        var s = document.body || document.documentElement;
+        s = s.style;
+        if (s.WebkitTransition === '') {
+            return '-webkit-';
+        }
+        if (s.MozTransition === '') {
+            return '-moz-';
+        }
+        if (s.OTransition === '') {
+            return '-o-';
+        }
+        if (s.transition === '') {
+            return '';
+        }
+        return false;
+    },
 
         isCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -55,6 +70,8 @@
             return false;
         };
 
+
+
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
             selector:       'a[data-imagelightbox]',
@@ -66,6 +83,7 @@
             button:         false,
             caption:        false,
             enableKeyboard: true,
+            history:        false,
             navigation:     false,
             overlay:        false,
             preloadNext:    true,
@@ -133,33 +151,43 @@
                 return this.previousTargetDefault();
             },
             previousTargetDefault: function () {
-                var targetIndex = targets.index(target) - 1;
+                var targetIndex = filteredTargets.index(target) - 1;
+                if (history) {
+                    console.log("current index is "+targetIndex);
+                    window.history.pushState({index:targetIndex},'',stateHistory.pushSpace.name+group+"/"+(targetIndex+1));
+                }
+
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
-                        quitLightbox();
+                        quitImageLightbox();
                         return false;
                     }
                     else {
-                        targetIndex = targets.length - 1;
+                        targetIndex = filteredTargets.length - 1;
                     }
                 }
-                target = targets.eq(targetIndex);
+                target = filteredTargets.eq(targetIndex);
+
             },
             nextTarget: function () {
                 return this.nextTargetDefault();
             },
             nextTargetDefault: function () {
-                var targetIndex = targets.index(target) + 1;
-                if (targetIndex >= targets.length) {
+                var targetIndex = filteredTargets.index(target) + 1;
+                if (history) {
+                    console.log("current index is "+targetIndex);
+                    window.history.pushState({index:targetIndex},'',stateHistory.pushSpace.name+group+"/"+(targetIndex+1));
+                }
+                if (targetIndex >= filteredTargets.length) {
                     if (options.quitOnEnd === true) {
-                        quitLightbox();
+                        quitImageLightbox();
                         return false;
                     }
                     else {
                         targetIndex = 0;
                     }
                 }
-                target = targets.eq(targetIndex);
+                target = filteredTargets.eq(targetIndex);
             }
         }, opts),
             activityIndicatorOn = function () {
@@ -175,9 +203,9 @@
                 $('#imagelightbox-overlay').remove();
             },
             closeButtonOn = function () {
-                $('<a href="#" id="imagelightbox-close"></a>').appendTo('body').on('click', function () {
+                $('<a href="#" id="imagelightbox-close"></a>').appendTo('body').on('click.imagelightbox', function () {
                     $(this).remove();
-                    quitLightbox();
+                    quitImageLightbox();
                     return false;
                 });
             },
@@ -194,37 +222,46 @@
                 $('#imagelightbox-caption').remove();
             },
             navigationOn = function (instance, selector) {
-                var images = $(selector);
+                //var images = $(selector);
+                var images = $("a[data-imagelightbox='"+group+"']");
+
                 if (images.length) {
                     var nav = $('<div id="imagelightbox-nav"></div>');
                     for (var i = 0; i < images.length; i++) {
                         nav.append('<a href="#"></a>');
                     }
                     nav.appendTo('body');
-                    nav.on('click touchend', function () {
+                    nav.on('click.imagelightbox touchend.imagelightbox', function () {
                         return false;
                     });
                     var navItems = nav.find('a');
-                    navItems.on('click touchend', function () {
+                    navItems.on('click.imagelightbox touchend.imagelightbox', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
-                            var tmpTarget = targets.eq($this.index());
+                            var tmpTarget = filteredTargets.eq($this.index());
+                            var tmpIndex = $this.index() + 1;
+                            if (history) {
+                                console.log("navigation index is "+tmpIndex);
+                                window.history.pushState({index:$this.index()},'',stateHistory.pushSpace.name+group+"/"+tmpIndex);
+                            }
                             if (tmpTarget.length) {
-                                var currentIndex = targets.index(target);
+                                var currentIndex = filteredTargets.index(target);
                                 target = tmpTarget;
+
                                 loadImage($this.index() < currentIndex ? 'left' : 'right');
                             }
                         }
                         navItems.removeClass('active');
                         navItems.eq($this.index()).addClass('active');
                         return false;
-                    }).on('touchend', function () {
+                    }).on('touchend.imagelightbox', function () {
                         return false;
                     });
                 }
             },
             navigationUpdate = function (selector) {
                 var items = $('#imagelightbox-nav').find('a');
+                selector = "a[data-imagelightbox='"+group+"']";
                 items.removeClass('active');
                 items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
             },
@@ -233,9 +270,9 @@
             },
             arrowsOn = function (instance) {
                 var $arrows = $('<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
-                    '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
+                                '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
                 $arrows.appendTo('body');
-                $arrows.on('click touchend', function (e) {
+                $arrows.on('click.imagelightbox touchend.imagelightbox', function (e) {
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
                         loadPreviousImage(instance);
@@ -251,19 +288,22 @@
 
             targets = $([]),
             target = $(),
+            filteredTargets = $([]),
             image = $(),
             imageWidth = 0,
             imageHeight = 0,
             swipeDiff = 0,
             inProgress = false,
+            history = window.history.pushState !== undefined &&
+                options.history ? true:false,
 
             /* TODO make it work again
-            isTargetValid = function (element) {
-                var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-                var html5 = $(element).attr('data-lightbox') !== undefined;
-                return classic || html5;
-            },
-            */
+             isTargetValid = function (element) {
+             var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+             var html5 = $(element).attr('data-lightbox') !== undefined;
+             return classic || html5;
+             },
+             */
 
             setImage = function () {
                 if (!image.length) {
@@ -271,7 +311,7 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),                    
+                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
                     screenHeight = wHeight * 0.9,
                     tmpImage = new Image();
 
@@ -321,14 +361,25 @@
                     options.onLoadStart();
                 }
 
-                setTimeout(function () {
+                window.setTimeout(function () {
                     var imgPath = target.attr('href');
+                    var imgName = imgPath.split('/').pop();
+
+                    if (history) {
+
+                        document.title = stateHistory.home.title+
+                            stateHistory.spacer+
+                            stateHistory.pushSpace.title+
+                            stateHistory.spacer+
+                            imgName;
+
+                    }
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
-                        .on('load', function () {
+                        .on('load.imagelightbox', function () {
                             var params = {'opacity': 1};
 
                             image.appendTo('body');
@@ -352,9 +403,9 @@
                                 }
                             });
                             if (options.preloadNext) {
-                                var nextTarget = targets.eq(targets.index(target) + 1);
+                                var nextTarget = filteredTargets.eq(filteredTargets.index(target) + 1);
                                 if (!nextTarget.length) {
-                                    nextTarget = targets.eq(0);
+                                    nextTarget = fiteredTargets.eq(0);
                                 }
                                 $('<img />').attr('src', nextTarget.attr('href'));
                             }
@@ -369,23 +420,23 @@
                         swipeEnd = 0,
                         imagePosLeft = 0;
 
-                    image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
-                            e.preventDefault();
-                            if (options.quitOnImgClick) {
-                                quitLightbox();
-                                return false;
-                            }
-                            if (wasTouched(e.originalEvent)) {
-                                return true;
-                            }
-                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                            if (imageWidth / 2 > posX) {
-                                loadPreviousImage();
-                            } else {
-                                loadNextImage();
-                            }
-                        })
-                        .on('touchstart pointerdown MSPointerDown', function (e) {
+                    image.on(hasPointers ? 'pointerup.imagelightbox MSPointerUp.imagelightbox' : 'click.imagelightbox', function (e) {
+                        e.preventDefault();
+                        if (options.quitOnImgClick) {
+                            quitImageLightbox();
+                            return false;
+                        }
+                        if (wasTouched(e.originalEvent)) {
+                            return true;
+                        }
+                        var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                        if (imageWidth / 2 > posX) {
+                            loadPreviousImage();
+                        } else {
+                            loadNextImage();
+                        }
+                    })
+                        .on('touchstart.imagelightbox pointerdown.imagelightbox MSPointerDown.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -394,7 +445,7 @@
                             }
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                         })
-                        .on('touchmove pointermove MSPointerMove', function (e) {
+                        .on('touchmove.imagelightbox pointermove.imagelightbox MSPointerMove.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -407,7 +458,7 @@
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
                             }
                         })
-                        .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
+                        .on('touchend.imagelightbox touchcancel.imagelightbox pointerup.imagelightbox pointercancel.imagelightbox MSPointerUp.imagelightbox MSPointerCancel.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -448,20 +499,20 @@
                 image.remove();
                 image = $();
             },
-
-            openLightbox = function ($target) {
-                if (inProgress) {
-                    return false;
+            startImageLightbox = function () {
+                filteredTargets = $(targets).filter($("[data-imagelightbox='"+group+"']"));
+                var targetIndex = filteredTargets.index(target);
+                if (history) {
+                    window.history.pushState({index:targetIndex},'',stateHistory.pushSpace.name+group+"/"+(targetIndex+1));
                 }
-                inProgress = false;
-                if (options.onStart !== false) {
-                    options.onStart();
-                }
-                target = $target;
-                loadImage();
             },
+            quitImageLightbox = function () {
+                if (history) {
+                    window.history.pushState('','',
+                                             stateHistory.home.href);
 
-            quitLightbox = function () {
+                    document.title = stateHistory.home.title;
+                }
                 if (!image.length) {
                     return false;
                 }
@@ -472,45 +523,63 @@
                         options.onEnd();
                     }
                 });
+                $(window,document).off('.imagelightbox');
             },
-
             addTargets = function( newTargets ) {
                 newTargets.each(function () {
-                    targets = targets.add($(this));
+                    targets = targets
+                        .add($(this));
                 });
 
-                newTargets.on('click', function (e) {
+                newTargets.on('click.imagelightbox', function (e) {
                     e.preventDefault();
-                    openLightbox($(this));
+                    group = $(e.currentTarget).attr('data-imagelightbox');
+                    if (inProgress) {
+                        return false;
+                    }
+                    inProgress = false;
+                    if (options.onStart !== false) {
+                        options.onStart();
+                    }
+                    target = $(this);
+
+                    loadImage();
                 });
             };
 
-        this.startImageLightbox = function () {
-            if (this.length > 0) {
-                openLightbox($(this[0]));
-            }
-        };
+        $(window)
+            .on('resize.imagelightBox', setImage)
+            .on('popstate', function (e) {
+                var index = e.originalEvent.state.index;
+                console.log("popIndex is "+index);
+                if (index === undefined) {
+                    quitImageLightbox();
+                } else {
+                    target = filteredTargets.eq(index);
 
-        $(window).on('resize', setImage);
+                    loadImage();
+                }
+
+            });
 
         $(document).ready(function() {
             if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
+                $(document).on(hasTouch ? 'touchend.imagelightbox' : 'click.imagelightbox', function (e) {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
-                        quitLightbox();
+                        quitImageLightbox();
                     }
                 });
             }
 
             if (options.enableKeyboard) {
-                $(document).on('keyup', function (e) {
+                $(document).on('keyup.imagelightbox', function (e) {
                     if (!image.length) {
                         return true;
                     }
                     e.preventDefault();
                     if (e.keyCode === 27 && options.quitOnEscKey === true) {
-                        quitLightbox();
+                        quitImageLightbox();
                     }
                     if (e.keyCode === 37) {
                         loadPreviousImage();
@@ -521,9 +590,20 @@
             }
         });
 
-        $(document).off('click', this.selector);
 
         addTargets($(this));
+
+        $(document).off('click.imagelightbox', this.selector)
+            .on('click.imagelightbox', this.selector, function (e) {
+                e.preventDefault();
+                startImageLightbox();
+            })
+            .ready (function () {
+                // Initial State Object
+                window.history.replaceState(
+                    null, null, stateHistory.home.href);
+            });
+
 
         this.loadPreviousImage = function () {
             loadPreviousImage();
@@ -534,8 +614,11 @@
         };
 
         this.quitImageLightbox = function () {
-            quitLightbox();
+            quitImageLightbox();
             return this;
+        };
+        this.startImageLightbox = function () {
+            startImageLightbox();
         };
 
         this.addToImageLightbox = function(elements)  {
