@@ -184,18 +184,12 @@
             overlayOn = function () {
                 $overlayObject.appendTo($wrapper);
             },
-            overlayOff = function () {
-                $overlayObject.remove();
-            },
             closeButtonOn = function () {
                 $buttonObject.appendTo($wrapper).on('click', function () {
                     $(this).remove();
                     quitImageLightbox();
                     return false;
                 });
-            },
-            closeButtonOff = function () {
-                $buttonObject.remove();
             },
             captionOn = function () {
                 var description = $(target).find('img').attr('alt');
