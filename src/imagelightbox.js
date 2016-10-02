@@ -203,15 +203,14 @@
             navigationOn = function (instance, selector) {
                 var images = $(selector);
                 if (images.length) {
-                    var nav = $navObject;
                     for (var i = 0; i < images.length; i++) {
-                        nav.append('<a href="#"></a>');
+                        $navObject.append('<a href="#"></a>');
                     }
-                    nav.appendTo($wrapper);
-                    nav.on('click touchend', function () {
+                    $navObject.appendTo($wrapper);
+                    $navObject.on('click touchend', function () {
                         return false;
                     });
-                    var navItems = nav.find('a');
+                    var navItems = $navObject.find('a');
                     navItems.on('click touchend', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
