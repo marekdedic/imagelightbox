@@ -214,8 +214,9 @@
                 $captionObject.remove();
             },
             navigationOn = function (instance, selector) {
-                if (targets.length) {
-                    for (var i = 0; i < targets.length; i++) {
+                var images = targets;
+                if (images.length) {
+                    for (var i = 0; i < images.length; i++) {
                         $navObject.append($('<a/>',{href:'#'}));
                     }
                     $wrapper.append($navObject);
@@ -225,7 +226,7 @@
                     var navItems = $navObject.find('a');
                     navItems.on('click.imagelightbox touchend.imagelightbox', function () {
                         var $this = $(this);
-                        if (targets.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                        if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
                             if (tmpTarget.length) {
                                 var currentIndex = targets.index(target);
@@ -241,10 +242,11 @@
                     });
                 }
             },
-            navigationUpdate = function (selector) {
+            navigationUpdate = function () {
                 var items = $navObject.find('a');
                 items.removeClass('active');
-                items.eq(target.filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(target)).addClass('active');
+                console.log(targets.index(target));
+                items.eq(targets.index(target)).addClass('active');
             },
             arrowsOn = function (instance) {
                 $wrapper.append($arrows);
@@ -259,6 +261,7 @@
                 });
             },
 
+            targetSet = "",
             targets = $([]),
             target = $(),
             image = $(),
@@ -281,9 +284,9 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
-                screenHeight = wHeight * 0.9,
-                tmpImage = new Image();
+                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
+                    screenHeight = wHeight * 0.9,
+                    tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
                 tmpImage.onload = function () {
@@ -311,7 +314,6 @@
                 }
 
                 if (image.length) {
-                    console.log("dir:"+direction);
                     var params = {'opacity': 0};
                     if (isCssTransitionSupport) {
                         cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
@@ -459,6 +461,7 @@
             },
 
             openLightbox = function ($target) {
+                console.log("target set is " + targetSet);
                 if (inProgress) {
                     return false;
                 }
@@ -485,16 +488,6 @@
                 });
             },
             addTargets = function( newTargets ) {
-                var targetSetName;
-                // newTargets.on('click', function (e) {
-                //     e.preventDefault();
-                //     targetSetName = $(e.currentTarget).data("imagelightbox");
-
-                //     openLightbox($(this));
-                // });
-                // console.log(targetSetName);
-
-                var targetSet;
                 newTargets.on('click', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
@@ -567,6 +560,7 @@
             e.preventDefault();
             applyListeners();
         });
+
 
         addTargets($(this));
 
