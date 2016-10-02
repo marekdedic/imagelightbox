@@ -6,8 +6,7 @@
     'use strict';
 
     // OBJECTS //
-    var $image = $('<img/>'),
-        $activityObject = $('<div/>')
+    var $activityObject = $('<div/>')
         .attr('id','imagelightbox-loading')
         .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
@@ -103,7 +102,14 @@
             quitOnImgClick: false,
             quitOnDocClick: true,
             quitOnEscKey:   true,
-            onStart: function () {
+            onStart:        function () {},
+            onEnd:          function () {},
+            onLoadStart:    function () {},
+            onLoadEnd:      function () {},
+            previousTarget: function () {},
+            nextTarget:     function () {}
+        }, opts),
+            _onStart =  function () {
                 if (options.arrows) {
                     arrowsOn(this);
                 }
@@ -117,13 +123,14 @@
                     closeButtonOn();
                 }
             },
-            onEnd: function () {
+            _onEnd = function () {
                 $wrapper.remove();
                 targets = $([]);
                 target = $();
+                $navObject.find('a').remove();
                 $(window,document).off('.imagelightbox');
             },
-            onLoadStart: function () {
+            _onLoadStart = function () {
                 if (options.activity) {
                     activityIndicatorOn();
                 }
@@ -131,7 +138,7 @@
                     captionOff();
                 }
             },
-            onLoadEnd: function () {
+            _onLoadEnd = function () {
                 if (options.activity) {
                     activityIndicatorOff();
                 }
@@ -145,10 +152,26 @@
                     captionOn();
                 }
             },
-            previousTarget: function () {
-                return this.previousTargetDefault();
+            _nextTarget = function () {
+                return nextTargetDefault();
             },
-            previousTargetDefault: function () {
+            nextTargetDefault = function () {
+                var targetIndex = targets.index(target) + 1;
+                if (targetIndex >= targets.size()) {
+                    if (options.quitOnEnd === true) {
+                        quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = 0;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            },
+            _previousTarget = function () {
+                return previousTargetDefault();
+            },
+            previousTargetDefault = function () {
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -161,23 +184,6 @@
                 }
                 target = targets.eq(targetIndex);
             },
-            nextTarget: function () {
-                return this.nextTargetDefault();
-            },
-            nextTargetDefault: function () {
-                var targetIndex = targets.index(target) + 1;
-                if (targetIndex >= targets.length) {
-                    if (options.quitOnEnd === true) {
-                        quitImageLightbox();
-                        return false;
-                    }
-                    else {
-                        targetIndex = 0;
-                    }
-                }
-                target = targets.eq(targetIndex);
-            }
-        }, opts),
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
@@ -189,13 +195,18 @@
             },
             closeButtonOn = function () {
                 $buttonObject.appendTo($wrapper).on('click', function () {
-                    $(this).remove();
                     quitImageLightbox();
                     return false;
                 });
             },
             captionOn = function () {
-                var description = $(target).find('img').attr('alt');
+                var description;//
+                console.log($(target).attr("id"));
+                if ($(target).find('img')) {
+                    description = $(target).find('img').attr('alt');
+                } else {
+                    description = $(target).data("imagelightboxcaption");
+                }
                 if (description && description.length > 0) {
                     $wrapper.append($captionObject.text(description));
                 }
@@ -204,12 +215,9 @@
                 $captionObject.remove();
             },
             navigationOn = function (instance, selector) {
-                //var images = $(selector);
-                //                console.log(selector);
-                //                console.log("new links:"+$navObject.find('a').size());
                 if (targets.length) {
                     for (var i = 0; i < targets.length; i++) {
-                        $navObject.append('<a href="#"></a>');
+                        $navObject.append($('<a/>',{href:'#'}));
                     }
                     $wrapper.append($navObject);
                     $navObject.on('click.imagelightbox touchend.imagelightbox', function () {
@@ -223,7 +231,7 @@
                             if (tmpTarget.length) {
                                 var currentIndex = targets.index(target);
                                 target = tmpTarget;
-                                loadImage($this.index() < currentIndex ? 'left' : 'right');
+                                loadImage($this.index() < currentIndex ? 1 : -1);
                             }
                         }
                         navItems.removeClass('active');
@@ -236,9 +244,8 @@
             },
             navigationUpdate = function (selector) {
                 var items = $navObject.find('a');
-                //                console.log("links:"+items.size());
                 items.removeClass('active');
-                items.eq($(target).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(target)).addClass('active');
+                items.eq(target.filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(target)).addClass('active');
             },
             arrowsOn = function (instance) {
                 $wrapper.append($arrows);
@@ -246,7 +253,7 @@
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
                         loadPreviousImage(instance);
-                    } else {
+                    } else if ($(this).hasClass('imagelightbox-arrow-right')) {
                         loadNextImage(instance);
                     }
                     return false;
@@ -292,9 +299,9 @@
 
                     image.css({
                         'width': imageWidth + 'px',
-            'height': imageHeight + 'px',
-            'top': ( wHeight - imageHeight ) / 2 + 'px',
-            'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                        'height': imageHeight + 'px',
+                        'top': ( wHeight - imageHeight ) / 2 + 'px',
+                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
                     });
                 };
             },
@@ -304,9 +311,8 @@
                     return false;
                 }
 
-                direction = typeof direction === 'undefined' ? false : direction === 'left' ? 1 : -1;
-
                 if (image.length) {
+                    console.log("dir:"+direction);
                     var params = {'opacity': 0};
                     if (isCssTransitionSupport) {
                         cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
@@ -321,9 +327,9 @@
                 }
 
                 inProgress = true;
-                if (options.onLoadStart !== false) {
-                    options.onLoadStart();
-                }
+                options.onLoadStart();
+                _onLoadStart();
+
 
                 setTimeout(function () {
                     var imgPath = target.attr('href');
@@ -351,9 +357,10 @@
 
                             image.animate(params, options.animationSpeed, function () {
                                 inProgress = false;
-                                if (options.onLoadEnd !== false) {
-                                    options.onLoadEnd();
-                                }
+
+                                options.onLoadEnd();
+                                _onLoadEnd();
+
                             });
                             if (options.preloadNext) {
                                 var nextTarget = targets.eq(targets.index(target) + 1);
@@ -364,14 +371,13 @@
                             }
                         })
                         .on('error', function () {
-                            if (options.onLoadEnd !== false) {
-                                options.onLoadEnd();
-                            }
+                            options.onLoadEnd();
+                            _onLoadEnd();
                         });
 
                     var swipeStart = 0,
-                    swipeEnd = 0,
-                    imagePosLeft = 0;
+                        swipeEnd = 0,
+                        imagePosLeft = 0;
 
                     image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
                         e.preventDefault();
@@ -429,22 +435,22 @@
                                 }
                             }
                         });
-
                 }, options.animationSpeed + 100);
             },
-
             loadPreviousImage = function () {
-                if (options.previousTarget() !== false) {
-                    loadImage('left');
+                options.previousTarget();
+                if (targets.length > 1) {
+                    _previousTarget();
+                    loadImage(1);
                 }
             },
-
             loadNextImage = function () {
-                if (options.nextTarget() !== false) {
-                    loadImage('right');
+                options.nextTarget();
+                if (targets.length > 1) {
+                    _nextTarget();
+                    loadImage(-1);
                 }
             },
-
             removeImage = function () {
                 if (!image.length) {
                     return false;
@@ -458,14 +464,14 @@
                     return false;
                 }
                 inProgress = false;
-                if (options.onStart !== false) {
-                    options.onStart();
-                }
+
+                options.onStart();
+                _onStart();
                 //
                 $('body').append($wrapper);
                 //
                 target = $target;
-                loadImage();
+                loadImage(0);
             },
 
             quitImageLightbox = function () {
@@ -475,13 +481,20 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     removeImage();
                     inProgress = false;
-                    if (options.onEnd !== false) {
-                        options.onEnd();
-                    }
+                    options.onEnd();
+                    _onEnd();
                 });
             },
-
             addTargets = function( newTargets ) {
+                var targetSetName;
+                // newTargets.on('click', function (e) {
+                //     e.preventDefault();
+                //     targetSetName = $(e.currentTarget).data("imagelightbox");
+
+                //     openLightbox($(this));
+                // });
+                // console.log(targetSetName);
+
                 var targetSet;
                 newTargets.on('click', {set: targetSet}, function (e) {
                     e.preventDefault();
@@ -498,9 +511,7 @@
                         .each(function () {
                             targets = targets.add($(this));
                         });
-                    console.log(targets.size());
                 }
-                console.log("newTargets:"+targets.size());
             };
 
         this.startImageLightbox = function () {
@@ -537,7 +548,7 @@
                             return true;
                         }
                         e.preventDefault();
-                        if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                        if (e.keyCode === 27 && options.quitOnEscKey) {
                             quitImageLightbox();
                         }
                         if ([17,37].indexOf(e.which) > -1) {
@@ -550,28 +561,29 @@
             };
         });
 
-        $(document).off('click.imagelightbox', this.selector);
+        $(document).off('click.imagelightbox');
 
 
         $(this).on('click.imagelightbox',function(e) {
             e.preventDefault();
             applyListeners();
         });
-        //        console.log("Target count: "+ parseInt($(this).length+1));
+
         addTargets($(this));
 
-        // this.loadPreviousImage = function () {
-        //     loadPreviousImage();
-        // };
+        // PUBLIC METHODS
+        this.loadPreviousImage = function () {
+            loadPreviousImage();
+        };
 
-        // this.loadNextImage = function () {
-        //     loadNextImage();
-        // };
+        this.loadNextImage = function () {
+            loadNextImage();
+        };
 
-        // this.quitImageLightbox = function () {
-        //     quitImageLightbox();
-        //     return this;
-        // };
+        this.quitImageLightbox = function () {
+            quitImageLightbox();
+            return this;
+        };
 
         this.addToImageLightbox = function(elements)  {
             addTargets(elements);
