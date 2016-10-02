@@ -201,11 +201,10 @@
             },
             captionOn = function () {
                 var description;//
-                console.log($(target).attr("id"));
-                if ($(target).find('img')) {
+                if ($(target).find('img').length) {
                     description = $(target).find('img').attr('alt');
                 } else {
-                    description = $(target).data("imagelightboxcaption");
+                    description = $(target).data("imagelightbox-caption");
                 }
                 if (description && description.length > 0) {
                     $wrapper.append($captionObject.text(description));
@@ -282,9 +281,9 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
-                    screenHeight = wHeight * 0.9,
-                    tmpImage = new Image();
+                wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
+                screenHeight = wHeight * 0.9,
+                tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
                 tmpImage.onload = function () {
@@ -376,8 +375,8 @@
                         });
 
                     var swipeStart = 0,
-                        swipeEnd = 0,
-                        imagePosLeft = 0;
+                    swipeEnd = 0,
+                    imagePosLeft = 0;
 
                     image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
                         e.preventDefault();
