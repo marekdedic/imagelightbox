@@ -119,6 +119,9 @@
             },
             onEnd: function () {
                 $wrapper.remove();
+                targets = $([]);
+                target = $();
+                $(window,document).off('.imagelightbox');
             },
             onLoadStart: function () {
                 if (options.activity) {
@@ -176,16 +179,13 @@
             }
         }, opts),
             activityIndicatorOn = function () {
-                $activityObject.appendTo($wrapper);
+                $wrapper.append($activityObject);
             },
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
             },
             overlayOn = function () {
-                $overlayObject.appendTo($wrapper);
-            },
-            overlayOff = function () {
-                $overlayObject.remove();
+                $wrapper.append($overlayObject);
             },
             closeButtonOn = function () {
                 $buttonObject.appendTo($wrapper).on('click', function () {
@@ -194,33 +194,31 @@
                     return false;
                 });
             },
-            closeButtonOff = function () {
-                $buttonObject.remove();
-            },
             captionOn = function () {
                 var description = $(target).find('img').attr('alt');
                 if (description && description.length > 0) {
-                    $captionObject.text(description).appendTo($wrapper);
+                    $wrapper.append($captionObject.text(description));
                 }
             },
             captionOff = function () {
                 $captionObject.remove();
             },
             navigationOn = function (instance, selector) {
-                var images = $(selector);
-                if (images.length) {
-                    var nav = $navObject;
-                    for (var i = 0; i < images.length; i++) {
-                        nav.append('<a href="#"></a>');
+                //var images = $(selector);
+                //                console.log(selector);
+                //                console.log("new links:"+$navObject.find('a').size());
+                if (targets.length) {
+                    for (var i = 0; i < targets.length; i++) {
+                        $navObject.append('<a href="#"></a>');
                     }
-                    nav.appendTo($wrapper);
-                    nav.on('click touchend', function () {
+                    $wrapper.append($navObject);
+                    $navObject.on('click.imagelightbox touchend.imagelightbox', function () {
                         return false;
                     });
-                    var navItems = nav.find('a');
-                    navItems.on('click touchend', function () {
+                    var navItems = $navObject.find('a');
+                    navItems.on('click.imagelightbox touchend.imagelightbox', function () {
                         var $this = $(this);
-                        if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                        if (targets.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
                             if (tmpTarget.length) {
                                 var currentIndex = targets.index(target);
@@ -238,8 +236,9 @@
             },
             navigationUpdate = function (selector) {
                 var items = $navObject.find('a');
+                //                console.log("links:"+items.size());
                 items.removeClass('active');
-                items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+                items.eq($(target).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(target)).addClass('active');
             },
             arrowsOn = function (instance) {
                 $wrapper.append($arrows);
@@ -293,9 +292,9 @@
 
                     image.css({
                         'width': imageWidth + 'px',
-                        'height': imageHeight + 'px',
-                        'top': ( wHeight - imageHeight ) / 2 + 'px',
-                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+            'height': imageHeight + 'px',
+            'top': ( wHeight - imageHeight ) / 2 + 'px',
+            'left': ( $(window).width() - imageWidth ) / 2 + 'px'
                     });
                 };
             },
@@ -371,8 +370,8 @@
                         });
 
                     var swipeStart = 0,
-                        swipeEnd = 0,
-                        imagePosLeft = 0;
+                    swipeEnd = 0,
+                    imagePosLeft = 0;
 
                     image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
                         e.preventDefault();
@@ -463,9 +462,8 @@
                     options.onStart();
                 }
                 //
-                $wrapper.appendTo($('body'));
+                $('body').append($wrapper);
                 //
-
                 target = $target;
                 loadImage();
             },
@@ -484,14 +482,25 @@
             },
 
             addTargets = function( newTargets ) {
-                newTargets.each(function () {
-                    targets = targets.add($(this));
-                });
-
-                newTargets.on('click', function (e) {
+                var targetSet;
+                newTargets.on('click', {set: targetSet}, function (e) {
                     e.preventDefault();
+                    targetSet = $(e.currentTarget).data("imagelightbox");
+                    filterTargets();
                     openLightbox($(this));
                 });
+
+                function filterTargets () {
+                    newTargets
+                        .filter(function () {
+                            return $(this).data("imagelightbox") === targetSet;
+                        })
+                        .each(function () {
+                            targets = targets.add($(this));
+                        });
+                    console.log(targets.size());
+                }
+                console.log("newTargets:"+targets.size());
             };
 
         this.startImageLightbox = function () {
@@ -501,57 +510,72 @@
             }
         };
 
-        $(window).on('resize', setImage);
 
+        var applyListeners;
         $(document).ready(function() {
-            if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
-                    if (image.length && !$(e.target).is(image)) {
-                        e.preventDefault();
-                        quitImageLightbox();
-                    }
-                });
-            }
+            applyListeners = function () {
+                //
+                $(window).on('resize.imagelightbox', setImage)
+                    .on('keydown.imagelightbox',function(e) {
+                        if([33,34,35,36,37,38,39,40].indexOf(e.which) > -1) {
+                            e.preventDefault();
+                        }
+                        return false;
+                    });
+                if (options.quitOnDocClick) {
+                    $(document).on(hasTouch ? 'touchend.imagelightbox' : 'click.imagelightbox', function (e) {
+                        if (image.length && !$(e.target).is(image)) {
+                            e.preventDefault();
+                            quitImageLightbox();
+                        }
+                    });
+                }
 
-            if (options.enableKeyboard) {
-                $(document).on('keyup', function (e) {
-                    if (!image.length) {
-                        return true;
-                    }
-                    e.preventDefault();
-                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
-                        quitImageLightbox();
-                    }
-                    if (e.keyCode === 37) {
-                        loadPreviousImage();
-                    } else if (e.keyCode === 39) {
-                        loadNextImage();
-                    }
-                });
-            }
+                if (options.enableKeyboard) {
+                    $(document).on('keyup.imagelightbox keydown.imagelightbox', function (e) {
+                        if (!image.length) {
+                            return true;
+                        }
+                        e.preventDefault();
+                        if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                            quitImageLightbox();
+                        }
+                        if ([17,37].indexOf(e.which) > -1) {
+                            loadPreviousImage();
+                        } else if ([32,39].indexOf(e.which) > -1) {
+                            loadNextImage();
+                        }
+                    });
+                }
+            };
         });
 
-        $(document).off('click', this.selector);
+        $(document).off('click.imagelightbox', this.selector);
 
+
+        $(this).on('click.imagelightbox',function(e) {
+            e.preventDefault();
+            applyListeners();
+        });
+        //        console.log("Target count: "+ parseInt($(this).length+1));
         addTargets($(this));
 
-        this.loadPreviousImage = function () {
-            loadPreviousImage();
-        };
+        // this.loadPreviousImage = function () {
+        //     loadPreviousImage();
+        // };
 
-        this.loadNextImage = function () {
-            loadNextImage();
-        };
+        // this.loadNextImage = function () {
+        //     loadNextImage();
+        // };
 
-        this.quitImageLightbox = function () {
-            quitImageLightbox();
-            return this;
-        };
+        // this.quitImageLightbox = function () {
+        //     quitImageLightbox();
+        //     return this;
+        // };
 
         this.addToImageLightbox = function(elements)  {
             addTargets(elements);
         };
-
         return this;
     };
 })(jQuery, window, document);
