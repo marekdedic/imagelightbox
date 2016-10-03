@@ -66,6 +66,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                lockBody:       true,
                 navigation:     false,
                 overlay:        false,
                 preloadNext:    true,
@@ -86,6 +87,9 @@
                     if (options.button) {
                         closeButtonOn();
                     }
+                    if (options.lockBody) {
+                        lockBody(true);
+                    }
                 },
                 onEnd: function () {
                     if (options.activity) {
@@ -105,6 +109,9 @@
                     }
                     if (options.button) {
                         closeButtonOff();
+                    }
+                    if (options.lockBody) {
+                        lockBody(false);
                     }
                 },
                 onLoadStart: function () {
@@ -167,6 +174,13 @@
             },
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
+            },
+            lockBody = function (toggle) {
+                if (toggle) {
+                    $("body").css("overflow","hidden");
+                } else {
+                    $("body").css("overflow","scroll");
+                }
             },
             overlayOn = function () {
                 $('<div id="imagelightbox-overlay"></div>').appendTo('body');
