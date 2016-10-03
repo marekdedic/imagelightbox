@@ -44,6 +44,7 @@ $( selector ).imageLightbox({
     button:         false,                   // bool;            show close button
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
+    lockBody:       false,                   // bool;            disables body scrolling when lightbox is open
     navigation:     false,                   // bool;            show navigation
     overlay:        false,                   // bool;            display the lightbox as an overlay
     preloadNext:    true,                    // bool;            silently preload the next image

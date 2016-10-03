@@ -66,7 +66,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
-                lockBody:       true,
+                lockBody:       false,
                 navigation:     false,
                 overlay:        false,
                 preloadNext:    true,

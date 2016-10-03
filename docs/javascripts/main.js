@@ -54,4 +54,8 @@ $(document).ready(function() {
         // dynamically adding
         instanceI.addToImageLightbox( $("a[data-imagelightbox='add']") );
     });
+
+    $('a[data-imagelightbox="j"]').imageLightbox({
+        lockBody: true
+    });
 });
