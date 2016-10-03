@@ -1,7 +1,7 @@
 /*
-	By Osvaldas Valutis, www.osvaldas.info
-	Available for use under the MIT License
-*/
+ By Osvaldas Valutis, www.osvaldas.info
+ Available for use under the MIT License
+ */
 ;(function ($, window, document, undefined) {
     'use strict';
 
@@ -57,111 +57,111 @@
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
-            selector:       'a[data-imagelightbox]',
-            id:             'imagelightbox',
-            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
-            animationSpeed: 250,
-            activity:       false,
-            arrows:         false,
-            button:         false,
-            caption:        false,
-            enableKeyboard: true,
-            navigation:     false,
-            overlay:        false,
-            preloadNext:    true,
-            quitOnEnd:      false,
-            quitOnImgClick: false,
-            quitOnDocClick: true,
-            quitOnEscKey:   true,
-            onStart: function () {
-                if (options.arrows) {
-                    arrowsOn(this);
-                }
-                if (options.navigation) {
-                    navigationOn(this, options.selector);
-                }
-                if (options.overlay) {
-                    overlayOn();
-                }
-                if (options.button) {
-                    closeButtonOn();
-                }
-            },
-            onEnd: function () {
-                if (options.activity) {
-                    activityIndicatorOff();
-                }
-                if (options.arrows) {
-                    arrowsOff();
-                }
-                if (options.navigation) {
-                    navigationOff();
-                }
-                if (options.overlay) {
-                    overlayOff();
-                }
-                if (options.caption) {
-                    captionOff();
-                }
-                if (options.button) {
-                    closeButtonOff();
-                }
-            },
-            onLoadStart: function () {
-                if (options.activity) {
-                    activityIndicatorOn();
-                }
-                if (options.caption) {
-                    captionOff();
-                }
-            },
-            onLoadEnd: function () {
-                if (options.activity) {
-                    activityIndicatorOff();
-                }
-                if (options.arrows) {
-                    $('.imagelightbox-arrow').css('display', 'block');
-                }
-                if (options.navigation) {
-                    navigationUpdate(options.selector);
-                }
-                if (options.caption) {
-                    captionOn();
-                }
-            },
-            previousTarget: function () {
-                return this.previousTargetDefault();
-            },
-            previousTargetDefault: function () {
-                var targetIndex = targets.index(target) - 1;
-                if (targetIndex < 0) {
-                    if (options.quitOnEnd === true) {
-                        quitLightbox();
-                        return false;
+                selector:       'a[data-imagelightbox]',
+                id:             'imagelightbox',
+                allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+                animationSpeed: 250,
+                activity:       false,
+                arrows:         false,
+                button:         false,
+                caption:        false,
+                enableKeyboard: true,
+                navigation:     false,
+                overlay:        false,
+                preloadNext:    true,
+                quitOnEnd:      false,
+                quitOnImgClick: false,
+                quitOnDocClick: true,
+                quitOnEscKey:   true,
+                onStart: function () {
+                    if (options.arrows) {
+                        arrowsOn(this);
                     }
-                    else {
-                        targetIndex = targets.length - 1;
+                    if (options.navigation) {
+                        navigationOn(this, options.selector);
                     }
+                    if (options.overlay) {
+                        overlayOn();
+                    }
+                    if (options.button) {
+                        closeButtonOn();
+                    }
+                },
+                onEnd: function () {
+                    if (options.activity) {
+                        activityIndicatorOff();
+                    }
+                    if (options.arrows) {
+                        arrowsOff();
+                    }
+                    if (options.navigation) {
+                        navigationOff();
+                    }
+                    if (options.overlay) {
+                        overlayOff();
+                    }
+                    if (options.caption) {
+                        captionOff();
+                    }
+                    if (options.button) {
+                        closeButtonOff();
+                    }
+                },
+                onLoadStart: function () {
+                    if (options.activity) {
+                        activityIndicatorOn();
+                    }
+                    if (options.caption) {
+                        captionOff();
+                    }
+                },
+                onLoadEnd: function () {
+                    if (options.activity) {
+                        activityIndicatorOff();
+                    }
+                    if (options.arrows) {
+                        $('.imagelightbox-arrow').css('display', 'block');
+                    }
+                    if (options.navigation) {
+                        navigationUpdate(options.selector);
+                    }
+                    if (options.caption) {
+                        captionOn();
+                    }
+                },
+                previousTarget: function () {
+                    return this.previousTargetDefault();
+                },
+                previousTargetDefault: function () {
+                    var targetIndex = targets.index(target) - 1;
+                    if (targetIndex < 0) {
+                        if (options.quitOnEnd === true) {
+                            quitLightbox();
+                            return false;
+                        }
+                        else {
+                            targetIndex = targets.length - 1;
+                        }
+                    }
+                    target = targets.eq(targetIndex);
+                },
+                nextTarget: function () {
+                    return this.nextTargetDefault();
+                },
+                nextTargetDefault: function () {
+                    var targetIndex = targets.index(target) + 1;
+                    if (targetIndex >= targets.length) {
+                        if (options.quitOnEnd === true) {
+                            quitLightbox();
+                            return false;
+                        }
+                        else {
+                            targetIndex = 0;
+                        }
+                    }
+                    target = targets.eq(targetIndex);
                 }
-                target = targets.eq(targetIndex);
-            },
-            nextTarget: function () {
-                return this.nextTargetDefault();
-            },
-            nextTargetDefault: function () {
-                var targetIndex = targets.index(target) + 1;
-                if (targetIndex >= targets.length) {
-                    if (options.quitOnEnd === true) {
-                        quitLightbox();
-                        return false;
-                    }
-                    else {
-                        targetIndex = 0;
-                    }
-                }
-                target = targets.eq(targetIndex);
-            }
-        }, opts),
+            }, opts),
             activityIndicatorOn = function () {
                 $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
             },
@@ -258,12 +258,12 @@
             inProgress = false,
 
             /* TODO make it work again
-            isTargetValid = function (element) {
-                var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-                var html5 = $(element).attr('data-lightbox') !== undefined;
-                return classic || html5;
-            },
-            */
+             isTargetValid = function (element) {
+             var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+             var html5 = $(element).attr('data-lightbox') !== undefined;
+             return classic || html5;
+             },
+             */
 
             setImage = function () {
                 if (!image.length) {
@@ -271,7 +271,7 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),                    
+                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
                     screenHeight = wHeight * 0.9,
                     tmpImage = new Image();
 
@@ -370,21 +370,21 @@
                         imagePosLeft = 0;
 
                     image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
-                            e.preventDefault();
-                            if (options.quitOnImgClick) {
-                                quitLightbox();
-                                return false;
-                            }
-                            if (wasTouched(e.originalEvent)) {
-                                return true;
-                            }
-                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                            if (imageWidth / 2 > posX) {
-                                loadPreviousImage();
-                            } else {
-                                loadNextImage();
-                            }
-                        })
+                        e.preventDefault();
+                        if (options.quitOnImgClick) {
+                            quitLightbox();
+                            return false;
+                        }
+                        if (wasTouched(e.originalEvent)) {
+                            return true;
+                        }
+                        var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                        if (imageWidth / 2 > posX) {
+                            loadPreviousImage();
+                        } else {
+                            loadNextImage();
+                        }
+                    })
                         .on('touchstart pointerdown MSPointerDown', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
