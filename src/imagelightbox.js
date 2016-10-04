@@ -26,8 +26,9 @@
             id:'imagelightbox-overlay'
         }),
         $navObject = $('<div/>', {
-            id: 'imagelightbox-nav'
+            class: 'imagelightbox-nav'
         }),
+        $navItem = $('<a/>',{href:'#',class:"imagelightbox-navitem"}),
         //
         $wrapper = $('<div/>', {
             id: 'imagelightbox-wrapper'
@@ -110,47 +111,40 @@
             nextTarget:     function () {}
         }, opts),
             _onStart =  function () {
-                if (options.arrows) {
-                    arrowsOn(this);
-                }
-                if (options.navigation) {
-                    navigationOn(this, options.selector);
-                }
-                if (options.overlay) {
+                if (options.arrows)
+                    arrowsOn();
+
+                if (options.navigation)
+                    navigationOn();
+
+                if (options.overlay)
                     overlayOn();
-                }
-                if (options.button) {
+
+                if (options.button)
                     closeButtonOn();
-                }
             },
             _onEnd = function () {
-                $wrapper.remove();
-                targets = $([]);
-                target = $();
-                $navObject.find('a').remove();
-                $(window,document).off('.imagelightbox');
+                $wrapper.remove().find("*").remove();
             },
             _onLoadStart = function () {
-                if (options.activity) {
+                if (options.activity)
                     activityIndicatorOn();
-                }
-                if (options.caption) {
+
+                if (options.caption)
                     captionOff();
-                }
             },
             _onLoadEnd = function () {
-                if (options.activity) {
+                if (options.activity)
                     activityIndicatorOff();
-                }
-                if (options.arrows) {
+
+                if (options.arrows)
                     $arrows.css('display', 'block');
-                }
-                if (options.navigation) {
-                    navigationUpdate(options.selector);
-                }
-                if (options.caption) {
+
+                if (options.navigation)
+                    navigationUpdate();
+
+                if (options.caption)
                     captionOn();
-                }
             },
             _nextTarget = function () {
                 return nextTargetDefault();
@@ -188,13 +182,13 @@
                 $wrapper.append($activityObject);
             },
             activityIndicatorOff = function () {
-                $('#imagelightbox-loading').remove();
+                $activityObject.remove();
             },
             overlayOn = function () {
                 $wrapper.append($overlayObject);
             },
             closeButtonOn = function () {
-                $buttonObject.appendTo($wrapper).on('click', function () {
+                $buttonObject.appendTo($wrapper).on('click.imagelightbox', function () {
                     quitImageLightbox();
                     return false;
                 });
@@ -213,17 +207,15 @@
             captionOff = function () {
                 $captionObject.remove();
             },
-            navigationOn = function (instance, selector) {
+            navigationOn = function () {
                 var images = targets;
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
-                        $navObject.append($('<a/>',{href:'#'}));
+                        $navObject.append($navItem.clone());
                     }
                     $wrapper.append($navObject);
-                    $navObject.on('click.imagelightbox touchend.imagelightbox', function () {
-                        return false;
-                    });
-                    var navItems = $navObject.find('a');
+                    navItems = $navObject.find('a');
+                    //
                     navItems.on('click.imagelightbox touchend.imagelightbox', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
@@ -237,30 +229,28 @@
                         navItems.removeClass('active');
                         navItems.eq($this.index()).addClass('active');
                         return false;
-                    }).on('touchend', function () {
+                    }).on('touchend.imagelightbox', function () {
                         return false;
                     });
                 }
             },
             navigationUpdate = function () {
-                var items = $navObject.find('a');
+                var items = navItems;
                 items.removeClass('active');
-                console.log(targets.index(target));
                 items.eq(targets.index(target)).addClass('active');
             },
-            arrowsOn = function (instance) {
+            arrowsOn = function () {
                 $wrapper.append($arrows);
-                $arrows.on('click touchend', function (e) {
+                $arrows.on('click.imagelightbox touchend.imagelightbox', function (e) {
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
-                        loadPreviousImage(instance);
+                        loadPreviousImage();
                     } else if ($(this).hasClass('imagelightbox-arrow-right')) {
-                        loadNextImage(instance);
+                        loadNextImage();
                     }
                     return false;
                 });
             },
-
             targetSet = "",
             targets = $([]),
             target = $(),
@@ -268,6 +258,7 @@
             imageWidth = 0,
             imageHeight = 0,
             swipeDiff = 0,
+            navItems = 0,
             inProgress = false,
 
             /* TODO make it work again
@@ -326,7 +317,6 @@
                     });
                     swipeDiff = 0;
                 }
-
                 inProgress = true;
                 options.onLoadStart();
                 _onLoadStart();
@@ -339,7 +329,7 @@
                     // }
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
-                        .on('load', function () {
+                        .on('load.imagelightbox', function () {
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -371,7 +361,7 @@
                                 $('<img />').attr('src', nextTarget.attr('href'));
                             }
                         })
-                        .on('error', function () {
+                        .on('error.imagelightbox', function () {
                             options.onLoadEnd();
                             _onLoadEnd();
                         });
@@ -380,7 +370,7 @@
                     swipeEnd = 0,
                     imagePosLeft = 0;
 
-                    image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
+                    image.on(hasPointers ? 'pointerup.imagelightbox MSPointerUp.imagelightbox' : 'click.imagelightbox', function (e) {
                         e.preventDefault();
                         if (options.quitOnImgClick) {
                             quitImageLightbox();
@@ -396,7 +386,7 @@
                             loadNextImage();
                         }
                     })
-                        .on('touchstart pointerdown MSPointerDown', function (e) {
+                        .on('touchstart.imagelightbox pointerdown.imagelightbox MSPointerDown.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -405,7 +395,7 @@
                             }
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                         })
-                        .on('touchmove pointermove MSPointerMove', function (e) {
+                        .on('touchmove.imagelightbox pointermove.imagelightbox MSPointerMove.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -418,7 +408,7 @@
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
                             }
                         })
-                        .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
+                        .on('touchend.imagelightbox touchcancel.imagelightbox pointerup.imagelightbox pointercancel.imagelightbox MSPointerUp.imagelightbox MSPointerCancel.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -461,16 +451,15 @@
             },
 
             openLightbox = function ($target) {
-                console.log("target set is " + targetSet);
                 if (inProgress) {
                     return false;
                 }
                 inProgress = false;
 
                 options.onStart();
+                $('body').append($wrapper);
                 _onStart();
                 //
-                $('body').append($wrapper);
                 //
                 target = $target;
                 loadImage(0);
@@ -481,20 +470,18 @@
                     return false;
                 }
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
-                    removeImage();
                     inProgress = false;
                     options.onEnd();
                     _onEnd();
                 });
             },
             addTargets = function( newTargets ) {
-                newTargets.on('click', {set: targetSet}, function (e) {
+                newTargets.on('click.imagelightbox', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
                     filterTargets();
                     openLightbox($(this));
                 });
-
                 function filterTargets () {
                     newTargets
                         .filter(function () {
@@ -507,7 +494,6 @@
             };
 
         this.startImageLightbox = function () {
-            //
             if (this.length > 0) {
                 openLightbox($(this[0]));
             }
