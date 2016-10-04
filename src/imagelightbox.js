@@ -26,7 +26,7 @@
             id:'imagelightbox-overlay'
         }),
         $navObject = $('<div/>', {
-            class: 'imagelightbox-nav'
+            id: 'imagelightbox-nav'
         }),
         $navItem = $('<a/>',{href:'#',class:"imagelightbox-navitem"}),
         //
