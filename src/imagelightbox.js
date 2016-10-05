@@ -4,6 +4,33 @@
  */
 ;(function ($, window, document, undefined) {
     'use strict';
+    // COMPONENTS //
+        var $activityObject = $('<div/>')
+        .attr('id','imagelightbox-loading')
+        .append($('<div/>')),
+        $arrowLeftObject = $('<button/>',{
+            type: 'button',
+            class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
+        $arrowRightObject = $('<button/>',{
+            type: 'button',
+            class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
+        $arrows = $arrowLeftObject.add($arrowRightObject),
+        $captionObject = $('<div/>', {
+            id: 'imagelightbox-caption'
+        }),
+        $buttonObject =  $('<a/>', {
+            id: 'imagelightbox-close'
+        }),
+        $overlayObject = $('<div/>', {
+            id:'imagelightbox-overlay'
+        }),
+        $navObject = $('<div/>', {
+            id: 'imagelightbox-nav'
+        }),
+        //
+        $wrapper = $('<div/>', {
+            id: 'imagelightbox-wrapper'
+        });
 
     var cssTransitionSupport = function () {
             var s = document.body || document.documentElement;
@@ -92,24 +119,8 @@
                     }
                 },
                 onEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        arrowsOff();
-                    }
-                    if (options.navigation) {
-                        navigationOff();
-                    }
-                    if (options.overlay) {
-                        overlayOff();
-                    }
-                    if (options.caption) {
-                        captionOff();
-                    }
-                    if (options.button) {
-                        closeButtonOff();
-                    }
+                   
+                    $wrapper.remove().find("*").remove();
                     if (options.lockBody) {
                         lockBody(false);
                     }
@@ -127,7 +138,7 @@
                         activityIndicatorOff();
                     }
                     if (options.arrows) {
-                        $('.imagelightbox-arrow').css('display', 'block');
+                        $arrows.css('display', 'block');
                     }
                     if (options.navigation) {
                         navigationUpdate(options.selector);
@@ -143,7 +154,7 @@
                     var targetIndex = targets.index(target) - 1;
                     if (targetIndex < 0) {
                         if (options.quitOnEnd === true) {
-                            quitLightbox();
+                            quitImageLightbox();
                             return false;
                         }
                         else {
@@ -159,7 +170,7 @@
                     var targetIndex = targets.index(target) + 1;
                     if (targetIndex >= targets.length) {
                         if (options.quitOnEnd === true) {
-                            quitLightbox();
+                            quitImageLightbox();
                             return false;
                         }
                         else {
@@ -170,7 +181,7 @@
                 }
             }, opts),
             activityIndicatorOn = function () {
-                $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
+                $wrapper.append($activityObject);
             },
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
@@ -183,17 +194,16 @@
                 }
             },
             overlayOn = function () {
-                $('<div id="imagelightbox-overlay"></div>').appendTo('body');
+                $wrapper.append($overlayObject);
             },
             overlayOff = function () {
                 $('#imagelightbox-overlay').remove();
             },
             closeButtonOn = function () {
-                $('<a href="#" id="imagelightbox-close"></a>').appendTo('body').on('click', function () {
-                    $(this).remove();
-                    quitLightbox();
-                    return false;
-                });
+                $buttonObject.appendTo($wrapper).on('click', function () {
+                     quitImageLightbox();
+                     return false;
+            });
             },
             closeButtonOff = function () {
                 $('#imagelightbox-close').remove();
@@ -201,24 +211,24 @@
             captionOn = function () {
                 var description = $(target).find('img').attr('alt');
                 if (description && description.length > 0) {
-                    $('<div id="imagelightbox-caption">' + description + '</div>').appendTo('body');
+                    $wrapper.append($captionObject.text(description));
                 }
             },
             captionOff = function () {
-                $('#imagelightbox-caption').remove();
+               $captionObject.remove();
             },
             navigationOn = function (instance, selector) {
                 var images = $(selector);
                 if (images.length) {
-                    var nav = $('<div id="imagelightbox-nav"></div>');
+                    
                     for (var i = 0; i < images.length; i++) {
-                        nav.append('<a href="#"></a>');
+                        $navObject.append($('<a/>',{href:'#'}));
                     }
-                    nav.appendTo('body');
-                    nav.on('click touchend', function () {
+                    $wrapper.append($navObject);
+                    $navObject.on('click touchend', function () {
                         return false;
                     });
-                    var navItems = nav.find('a');
+                    var navItems = $navObject.find('a');
                     navItems.on('click touchend', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
@@ -238,7 +248,7 @@
                 }
             },
             navigationUpdate = function (selector) {
-                var items = $('#imagelightbox-nav').find('a');
+                var items = $navObject.find('a');
                 items.removeClass('active');
                 items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
             },
@@ -246,9 +256,7 @@
                 $('#imagelightbox-nav').remove();
             },
             arrowsOn = function (instance) {
-                var $arrows = $('<button type="button" class="imagelightbox-arrow imagelightbox-arrow-left"></button>' +
-                    '<button type="button" class="imagelightbox-arrow imagelightbox-arrow-right"></button>');
-                $arrows.appendTo('body');
+                $wrapper.append($arrows);
                 $arrows.on('click touchend', function (e) {
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
@@ -345,7 +353,7 @@
                         .on('load', function () {
                             var params = {'opacity': 1};
 
-                            image.appendTo('body');
+                            image.appendTo($wrapper);
                             setImage();
                             image.css('opacity', 0);
                             if (isCssTransitionSupport) {
@@ -386,7 +394,7 @@
                     image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
                         e.preventDefault();
                         if (options.quitOnImgClick) {
-                            quitLightbox();
+                            quitImageLightbox();
                             return false;
                         }
                         if (wasTouched(e.originalEvent)) {
@@ -471,11 +479,12 @@
                 if (options.onStart !== false) {
                     options.onStart();
                 }
+                $('body').append($wrapper);
                 target = $target;
                 loadImage();
             },
 
-            quitLightbox = function () {
+            quitImageLightbox = function () {
                 if (!image.length) {
                     return false;
                 }
@@ -512,7 +521,7 @@
                 $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
-                        quitLightbox();
+                        quitImageLightbox();
                     }
                 });
             }
@@ -524,7 +533,7 @@
                     }
                     e.preventDefault();
                     if (e.keyCode === 27 && options.quitOnEscKey === true) {
-                        quitLightbox();
+                        quitImageLightbox();
                     }
                     if (e.keyCode === 37) {
                         loadPreviousImage();
@@ -548,7 +557,7 @@
         };
 
         this.quitImageLightbox = function () {
-            quitLightbox();
+            quitImageLightbox();
             return this;
         };
 
