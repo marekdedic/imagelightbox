@@ -5,9 +5,9 @@
 ;(function ($, window, document, undefined) {
     'use strict';
     // COMPONENTS //
-        var $activityObject = $('<div/>')
-        .attr('id','imagelightbox-loading')
-        .append($('<div/>')),
+    var $activityObject = $('<div/>')
+            .attr('id','imagelightbox-loading')
+            .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
