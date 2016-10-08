@@ -1,13 +1,14 @@
 /*
-  By Osvaldas Valutis, www.osvaldas.info
-  Available for use under the MIT License
+ By Osvaldas Valutis, www.osvaldas.info
+ Available for use under the MIT License
 */
+
 ;(function ($, window, document, undefined) {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
-        .attr('id','imagelightbox-loading')
-        .append($('<div/>')),
+            .attr('id','imagelightbox-loading')
+            .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
@@ -21,9 +22,6 @@
         $buttonObject =  $('<a/>', {
             id: 'imagelightbox-close'
         }),
-        $buttonAuxObject = $('<a/>', {
-            id: 'imagelightbox-aux'
-        }),
         $overlayObject = $('<div/>', {
             id:'imagelightbox-overlay'
         }),
@@ -36,22 +34,22 @@
         });
 
     var cssTransitionSupport = function () {
-        var s = document.body || document.documentElement;
-        s = s.style;
-        if (s.WebkitTransition === '') {
-            return '-webkit-';
-        }
-        if (s.MozTransition === '') {
-            return '-moz-';
-        }
-        if (s.OTransition === '') {
-            return '-o-';
-        }
-        if (s.transition === '') {
-            return '';
-        }
-        return false;
-    },
+            var s = document.body || document.documentElement;
+            s = s.style;
+            if (s.WebkitTransition === '') {
+                return '-webkit-';
+            }
+            if (s.MozTransition === '') {
+                return '-moz-';
+            }
+            if (s.OTransition === '') {
+                return '-o-';
+            }
+            if (s.transition === '') {
+                return '';
+            }
+            return false;
+        },
 
         isCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -87,105 +85,101 @@
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
-            selector:       'a[data-imagelightbox]',
-            id:             'imagelightbox',
-            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
-            animationSpeed: 250,
-            activity:       false,
-            arrows:         false,
-            button:         false,
-            buttonAux:      false,
-            caption:        false,
-            enableKeyboard: true,
-            lockBody:       false,
-            navigation:     false,
-            overlay:        false,
-            preloadNext:    true,
-            quitOnEnd:      false,
-            quitOnImgClick: false,
-            quitOnDocClick: true,
-            quitOnEscKey:   true,
-            onStart: function () {
-                if (options.arrows) {
-                    arrowsOn(this);
-                }
-                if (options.navigation) {
-                    navigationOn(this, options.selector);
-                }
-                if (options.overlay) {
-                    overlayOn();
-                }
-                if (options.button) {
-                    closeButtonOn();
-                }
-                if (options.buttonAux) {
-                    auxButtonOn();
-                }
-                if (options.lockBody) {
-                    lockBody(true);
-                }
-            },
-            onEnd: function () {
-                $wrapper.remove().find("*").remove();
-                if (options.lockBody) {
-                    lockBody(false);
-                }
-            },
-            onLoadStart: function () {
-                if (options.activity) {
-                    activityIndicatorOn();
-                }
-                if (options.caption) {
-                    captionOff();
-                }
-            },
-            onLoadEnd: function () {
-                if (options.activity) {
-                    activityIndicatorOff();
-                }
-                if (options.arrows) {
-                    $arrows.css('display', 'block');
-                }
-                if (options.navigation) {
-                    navigationUpdate(options.selector);
-                }
-                if (options.caption) {
-                    captionOn();
-                }
-            },
-            previousTarget: function () {
-                return this.previousTargetDefault();
-            },
-            previousTargetDefault: function () {
-                var targetIndex = targets.index(target) - 1;
-                if (targetIndex < 0) {
-                    if (options.quitOnEnd === true) {
-                        _quitImageLightbox();
-                        return false;
+                selector:       'a[data-imagelightbox]',
+                id:             'imagelightbox',
+                allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+                animationSpeed: 250,
+                activity:       false,
+                arrows:         false,
+                button:         false,
+                caption:        false,
+                enableKeyboard: true,
+                lockBody:       false,
+                navigation:     false,
+                overlay:        false,
+                preloadNext:    true,
+                quitOnEnd:      false,
+                quitOnImgClick: false,
+                quitOnDocClick: true,
+                quitOnEscKey:   true,
+                onStart: function () {
+                    if (options.arrows) {
+                        arrowsOn(this);
                     }
-                    else {
-                        targetIndex = targets.length - 1;
+                    if (options.navigation) {
+                        navigationOn(this, options.selector);
                     }
+                    if (options.overlay) {
+                        overlayOn();
+                    }
+                    if (options.button) {
+                        closeButtonOn();
+                    }
+                    if (options.lockBody) {
+                        lockBody(true);
+                    }
+                },
+                onEnd: function () {
+                    $wrapper.remove().find("*").remove();
+                    if (options.lockBody) {
+                        lockBody(false);
+                    }
+                },
+                onLoadStart: function () {
+                    if (options.activity) {
+                        activityIndicatorOn();
+                    }
+                    if (options.caption) {
+                        captionOff();
+                    }
+                },
+                onLoadEnd: function () {
+                    if (options.activity) {
+                        activityIndicatorOff();
+                    }
+                    if (options.arrows) {
+                        $arrows.css('display', 'block');
+                    }
+                    if (options.navigation) {
+                        navigationUpdate(options.selector);
+                    }
+                    if (options.caption) {
+                        captionOn();
+                    }
+                },
+                previousTarget: function () {
+                    return this.previousTargetDefault();
+                },
+                previousTargetDefault: function () {
+                    var targetIndex = targets.index(target) - 1;
+                    if (targetIndex < 0) {
+                        if (options.quitOnEnd === true) {
+                            _quitImageLightbox();
+                            return false;
+                        }
+                        else {
+                            targetIndex = targets.length - 1;
+                        }
+                    }
+                    target = targets.eq(targetIndex);
+                },
+                nextTarget: function () {
+                    return this.nextTargetDefault();
+                },
+                nextTargetDefault: function () {
+                    var targetIndex = targets.index(target) + 1;
+                    if (targetIndex >= targets.length) {
+                        if (options.quitOnEnd === true) {
+                            _quitImageLightbox();
+                            return false;
+                        }
+                        else {
+                            targetIndex = 0;
+                        }
+                    }
+                    target = targets.eq(targetIndex);
                 }
-                target = targets.eq(targetIndex);
-            },
-            nextTarget: function () {
-                return this.nextTargetDefault();
-            },
-            nextTargetDefault: function () {
-                var targetIndex = targets.index(target) + 1;
-                if (targetIndex >= targets.length) {
-                    if (options.quitOnEnd === true) {
-                        _quitImageLightbox();
-                        return false;
-                    }
-                    else {
-                        targetIndex = 0;
-                    }
-                }
-                target = targets.eq(targetIndex);
-            }
-        }, opts),
+            }, opts),
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
@@ -203,14 +197,9 @@
                 $wrapper.append($overlayObject);
             },
             closeButtonOn = function () {
-                $buttonObject.appendTo($wrapper).on('click', function () {
+                $buttonObject.appendTo($wrapper).on('click.imagelightbox', function () {
                     _quitImageLightbox();
                     return false;
-                });
-            },
-            auxButtonOn =  function () {
-                $buttonAuxObject.appendTo($wrapper).on('click',function (e) {
-                    $(e.target).trigger("aux.imagelightbox");
                 });
             },
             captionOn = function () {
@@ -229,11 +218,11 @@
                         $navObject.append($('<a/>',{href:'#'}));
                     }
                     $wrapper.append($navObject);
-                    $navObject.on('click touchend', function () {
+                    $navObject.on('click.imagelightbox touchend.imagelightbox', function () {
                         return false;
                     });
                     var navItems = $navObject.find('a');
-                    navItems.on('click touchend', function () {
+                    navItems.on('click.imagelightbox touchend.imagelightbox', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
@@ -246,7 +235,7 @@
                         navItems.removeClass('active');
                         navItems.eq($this.index()).addClass('active');
                         return false;
-                    }).on('touchend', function () {
+                    }).on('touchend.imagelightbox', function () {
                         return false;
                     });
                 }
@@ -261,7 +250,7 @@
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
-                $arrows.on('click touchend', function (e) {
+                $arrows.on('click.imagelightbox touchend.imagelightbox', function (e) {
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
                         _loadPreviousImage();
@@ -284,12 +273,12 @@
             inProgress = false,
 
             /* TODO make it work again
-               isTargetValid = function (element) {
-               var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-               var html5 = $(element).attr('data-lightbox') !== undefined;
-               return classic || html5;
-               },
-            */
+             isTargetValid = function (element) {
+             var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+             var html5 = $(element).attr('data-lightbox') !== undefined;
+             return classic || html5;
+             },
+             */
 
             _setImage = function () {
                 if (!image.length) {
@@ -297,9 +286,9 @@
                 }
 
                 var screenWidth = $(window).width() * 0.8,
-                wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
-                screenHeight = wHeight * 0.9,
-                tmpImage = new Image();
+                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
+                    screenHeight = wHeight * 0.9,
+                    tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
                 tmpImage.onload = function () {
@@ -354,7 +343,7 @@
                     // }
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
-                        .on('load', function () {
+                        .on('load.imagelightbox', function () {
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -385,17 +374,17 @@
                                 $('<img />').attr('src', nextTarget.attr('href'));
                             }
                         })
-                        .on('error', function () {
+                        .on('error.imagelightbox', function () {
                             if (options.onLoadEnd !== false) {
                                 options.onLoadEnd();
                             }
                         });
 
                     var swipeStart = 0,
-                    swipeEnd = 0,
-                    imagePosLeft = 0;
+                        swipeEnd = 0,
+                        imagePosLeft = 0;
 
-                    image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
+                    image.on(hasPointers ? 'pointerup.imagelightbox MSPointerUp.imagelightbox' : 'click.imagelightbox', function (e) {
                         e.preventDefault();
                         if (options.quitOnImgClick) {
                             _quitImageLightbox();
@@ -411,7 +400,7 @@
                             _loadNextImage();
                         }
                     })
-                        .on('touchstart pointerdown MSPointerDown', function (e) {
+                        .on('touchstart.imagelightbox pointerdown.imagelightbox MSPointerDown.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -420,7 +409,7 @@
                             }
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                         })
-                        .on('touchmove pointermove MSPointerMove', function (e) {
+                        .on('touchmove.imagelightbox pointermove.imagelightbox MSPointerMove.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -433,7 +422,7 @@
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
                             }
                         })
-                        .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
+                        .on('touchend.imagelightbox touchcancel.imagelightbox pointerup.imagelightbox pointercancel.imagelightbox MSPointerUp.imagelightbox MSPointerCancel.imagelightbox', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -506,7 +495,7 @@
                     targets = targets.add($(this));
                 });
 
-                newTargets.on('click', function (e) {
+                newTargets.on('click.imagelightbox', function (e) {
                     e.preventDefault();
                     _openImageLightbox($(this));
                 });
@@ -518,11 +507,11 @@
             }
         };
 
-        $(window).on('resize', _setImage);
+        $(window).on('resize.imagelightbox', _setImage);
 
         $(document).ready(function() {
             if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend' : 'click', function (e) {
+                $(document).on(hasTouch ? 'touchend.imagelightbox' : 'click.imagelightbox', function (e) {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
                         _quitImageLightbox();
@@ -531,7 +520,7 @@
             }
 
             if (options.enableKeyboard) {
-                $(document).on('keyup', function (e) {
+                $(document).on('keyup.imagelightbox', function (e) {
                     if (!image.length) {
                         return true;
                     }
