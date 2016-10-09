@@ -1,14 +1,14 @@
 /*
- By Osvaldas Valutis, www.osvaldas.info
- Available for use under the MIT License
+  By Osvaldas Valutis, www.osvaldas.info
+  Available for use under the MIT License
 */
 
 ;(function ($, window, document, undefined) {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
-            .attr('id','imagelightbox-loading')
-            .append($('<div/>')),
+        .attr('id','imagelightbox-loading')
+        .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
@@ -28,28 +28,29 @@
         $navObject = $('<div/>', {
             id: 'imagelightbox-nav'
         }),
-        //
+        $navItem = $('<a/>',{href:'#',class:"imagelightbox-navitem"}),
+
         $wrapper = $('<div/>', {
             id: 'imagelightbox-wrapper'
         });
 
     var cssTransitionSupport = function () {
-            var s = document.body || document.documentElement;
-            s = s.style;
-            if (s.WebkitTransition === '') {
-                return '-webkit-';
-            }
-            if (s.MozTransition === '') {
-                return '-moz-';
-            }
-            if (s.OTransition === '') {
-                return '-o-';
-            }
-            if (s.transition === '') {
-                return '';
-            }
-            return false;
-        },
+        var s = document.body || document.documentElement;
+        s = s.style;
+        if (s.WebkitTransition === '') {
+            return '-webkit-';
+        }
+        if (s.MozTransition === '') {
+            return '-moz-';
+        }
+        if (s.OTransition === '') {
+            return '-o-';
+        }
+        if (s.transition === '') {
+            return '';
+        }
+        return false;
+    },
 
         isCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -85,101 +86,103 @@
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
-                selector:       'a[data-imagelightbox]',
-                id:             'imagelightbox',
-                allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
-                animationSpeed: 250,
-                activity:       false,
-                arrows:         false,
-                button:         false,
-                caption:        false,
-                enableKeyboard: true,
-                lockBody:       false,
-                navigation:     false,
-                overlay:        false,
-                preloadNext:    true,
-                quitOnEnd:      false,
-                quitOnImgClick: false,
-                quitOnDocClick: true,
-                quitOnEscKey:   true,
-                onStart: function () {
-                    if (options.arrows) {
-                        arrowsOn(this);
-                    }
-                    if (options.navigation) {
-                        navigationOn(this, options.selector);
-                    }
-                    if (options.overlay) {
-                        overlayOn();
-                    }
-                    if (options.button) {
-                        closeButtonOn();
-                    }
-                    if (options.lockBody) {
-                        lockBody(true);
-                    }
-                },
-                onEnd: function () {
-                    $wrapper.remove().find("*").remove();
-                    if (options.lockBody) {
-                        lockBody(false);
-                    }
-                },
-                onLoadStart: function () {
-                    if (options.activity) {
-                        activityIndicatorOn();
-                    }
-                    if (options.caption) {
-                        captionOff();
-                    }
-                },
-                onLoadEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        $arrows.css('display', 'block');
-                    }
-                    if (options.navigation) {
-                        navigationUpdate(options.selector);
-                    }
-                    if (options.caption) {
-                        captionOn();
-                    }
-                },
-                previousTarget: function () {
-                    return this.previousTargetDefault();
-                },
-                previousTargetDefault: function () {
-                    var targetIndex = targets.index(target) - 1;
-                    if (targetIndex < 0) {
-                        if (options.quitOnEnd === true) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = targets.length - 1;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
-                },
-                nextTarget: function () {
-                    return this.nextTargetDefault();
-                },
-                nextTargetDefault: function () {
-                    var targetIndex = targets.index(target) + 1;
-                    if (targetIndex >= targets.length) {
-                        if (options.quitOnEnd === true) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = 0;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
+            selector:       'a[data-imagelightbox]',
+            id:             'imagelightbox',
+            allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+            animationSpeed: 250,
+            activity:       false,
+            arrows:         false,
+            button:         false,
+            caption:        false,
+            enableKeyboard: true,
+            lockBody:       false,
+            navigation:     false,
+            overlay:        false,
+            preloadNext:    true,
+            quitOnEnd:      false,
+            quitOnImgClick: false,
+            quitOnDocClick: true,
+            quitOnEscKey:   true,
+            onStart: function imagelight() {
+                if (options.arrows) {
+                    arrowsOn(this);
                 }
-            }, opts),
+                if (options.navigation) {
+                    navigationOn(this, options.selector);
+                }
+                if (options.overlay) {
+                    overlayOn();
+                }
+                if (options.button) {
+                    closeButtonOn();
+                }
+                if (options.lockBody) {
+                    lockBody(true);
+                }
+            },
+            onEnd: function () {
+                $wrapper.remove().find("*").remove();
+                targets = $([]);
+                target = $();
+                if (options.lockBody) {
+                    lockBody(false);
+                }
+            },
+            onLoadStart: function () {
+                if (options.activity) {
+                    activityIndicatorOn();
+                }
+                if (options.caption) {
+                    captionOff();
+                }
+            },
+            onLoadEnd: function () {
+                if (options.activity) {
+                    activityIndicatorOff();
+                }
+                if (options.arrows) {
+                    $arrows.css('display', 'block');
+                }
+                if (options.navigation) {
+                    navigationUpdate(options.selector);
+                }
+                if (options.caption) {
+                    captionOn();
+                }
+            },
+            previousTarget: function () {
+                return this.previousTargetDefault();
+            },
+            previousTargetDefault: function () {
+                var targetIndex = targets.index(target) - 1;
+                if (targetIndex < 0) {
+                    if (options.quitOnEnd === true) {
+                        _quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = targets.length - 1;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            },
+            nextTarget: function () {
+                return this.nextTargetDefault();
+            },
+            nextTargetDefault: function () {
+                var targetIndex = targets.index(target) + 1;
+                if (targetIndex >= targets.length) {
+                    if (options.quitOnEnd === true) {
+                        _quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = 0;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            }
+        }, opts),
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
@@ -212,10 +215,10 @@
                 $captionObject.remove();
             },
             navigationOn = function (instance, selector) {
-                var images = $(selector);
+                var images = targets;
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
-                        $navObject.append($('<a/>',{href:'#'}));
+                        $navObject.append($navItem.clone());
                     }
                     $wrapper.append($navObject);
                     $navObject.on('click.imagelightbox touchend.imagelightbox', function () {
@@ -243,7 +246,7 @@
             navigationUpdate = function (selector) {
                 var items = $navObject.find('a');
                 items.removeClass('active');
-                items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+                items.eq(targets.index(target)).addClass('active');
             },
             navigationOff = function () {
                 $('#imagelightbox-nav').remove();
@@ -263,7 +266,8 @@
             arrowsOff = function () {
                 $('.imagelightbox-arrow').remove();
             },
-
+            navItems = $([]),
+            targetSet = "",
             targets = $([]),
             target = $(),
             image = $(),
@@ -273,12 +277,12 @@
             inProgress = false,
 
             /* TODO make it work again
-             isTargetValid = function (element) {
-             var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-             var html5 = $(element).attr('data-lightbox') !== undefined;
-             return classic || html5;
-             },
-             */
+               isTargetValid = function (element) {
+               var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+               var html5 = $(element).attr('data-lightbox') !== undefined;
+               return classic || html5;
+               },
+            */
 
             _setImage = function () {
                 if (!image.length) {
@@ -491,14 +495,21 @@
             },
 
             _addTargets = function( newTargets ) {
-                newTargets.each(function () {
-                    targets = targets.add($(this));
-                });
-
-                newTargets.on('click.imagelightbox', function (e) {
+                newTargets.on('click.imagelightbox', {set: targetSet}, function (e) {
                     e.preventDefault();
+                    targetSet = $(e.currentTarget).data("imagelightbox");
+                    filterTargets();
                     _openImageLightbox($(this));
                 });
+                function filterTargets () {
+                    newTargets
+                        .filter(function () {
+                            return $(this).data("imagelightbox") === targetSet;
+                        })
+                        .each(function () {
+                            targets = targets.add($(this));
+                        });
+                }
             };
 
         this.startImageLightbox = function () {
@@ -508,6 +519,7 @@
         };
 
         $(window).on('resize.imagelightbox', _setImage);
+
 
         $(document).ready(function() {
             if (options.quitOnDocClick) {
@@ -537,7 +549,7 @@
             }
         });
 
-        $(document).off('click', this.selector);
+        $(window,document).off('click.imagelightbox');
 
         _addTargets($(this));
 
