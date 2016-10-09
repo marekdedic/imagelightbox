@@ -8,6 +8,7 @@
     var $activityObject = $('<div/>')
         .attr('id','imagelightbox-loading')
         .append($('<div/>')),
+<<<<<<< HEAD
         $arrowLeftObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
@@ -34,6 +35,31 @@
         $wrapper = $('<div/>', {
             id: 'imagelightbox-wrapper'
         });
+=======
+    $arrowLeftObject = $('<button/>',{
+        type: 'button',
+        class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
+    $arrowRightObject = $('<button/>',{
+        type: 'button',
+        class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
+    $arrows = $arrowLeftObject.add($arrowRightObject),
+    $captionObject = $('<div/>', {
+        id: 'imagelightbox-caption'
+    }),
+    $buttonObject =  $('<a/>', {
+        id: 'imagelightbox-close'
+    }),
+    $overlayObject = $('<div/>', {
+        id:'imagelightbox-overlay'
+    }),
+    $navObject = $('<div/>', {
+        id: 'imagelightbox-nav'
+    }),
+    //
+    $wrapper = $('<div/>', {
+        id: 'imagelightbox-wrapper'
+    });
+>>>>>>> caption-fix
 
     var cssTransitionSupport = function () {
         var s = document.body || document.documentElement;
@@ -53,7 +79,18 @@
         return false;
     },
 
+<<<<<<< HEAD
         isCssTransitionSupport = cssTransitionSupport() !== false,
+=======
+    isCssTransitionSupport = cssTransitionSupport() !== false,
+
+    cssTransitionTranslateX = function (element, positionX, speed) {
+        var options = {}, prefix = cssTransitionSupport();
+        options[prefix + 'transform'] = 'translateX(' + positionX + ')';
+        options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
+        element.css(options);
+    },
+>>>>>>> caption-fix
 
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
@@ -62,6 +99,7 @@
             element.css(options);
         },
 
+<<<<<<< HEAD
         hasTouch = ( 'ontouchstart' in window ),
         hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
         wasTouched = function (event) {
@@ -72,6 +110,11 @@
             if (!hasPointers || typeof event === 'undefined' || typeof event.pointerType === 'undefined') {
                 return false;
             }
+=======
+        if (!hasPointers || typeof event === 'undefined' || typeof event.pointerType === 'undefined') {
+            return false;
+        }
+>>>>>>> caption-fix
 
             if (typeof event.MSPOINTER_TYPE_MOUSE !== 'undefined') {
                 if (event.MSPOINTER_TYPE_MOUSE !== event.pointerType) {
@@ -94,7 +137,10 @@
             activity:       false,
             arrows:         false,
             button:         false,
+<<<<<<< HEAD
             buttonAux:      false,
+=======
+>>>>>>> caption-fix
             caption:        false,
             enableKeyboard: true,
             lockBody:       false,
@@ -118,9 +164,12 @@
                 if (options.button) {
                     closeButtonOn();
                 }
+<<<<<<< HEAD
                 if (options.buttonAux) {
                     auxButtonOn();
                 }
+=======
+>>>>>>> caption-fix
                 if (options.lockBody) {
                     lockBody(true);
                 }
@@ -208,11 +257,6 @@
                     return false;
                 });
             },
-            auxButtonOn =  function () {
-                $buttonAuxObject.appendTo($wrapper).on('click',function (e) {
-                    $(e.target).trigger("aux.imagelightbox");
-                });
-            },
             captionOn = function () {
                 var description = $(target).find('img').attr('alt');
                 if (description && description.length > 0) {
@@ -270,6 +314,7 @@
                     }
                     return false;
                 });
+<<<<<<< HEAD
             },
             arrowsOff = function () {
                 $('.imagelightbox-arrow').remove();
@@ -294,12 +339,71 @@
             _setImage = function () {
                 if (!image.length) {
                     return true;
+=======
+            }
+        },
+        navigationUpdate = function (selector) {
+            var items = $navObject.find('a');
+            items.removeClass('active');
+            items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+        },
+        navigationOff = function () {
+            $('#imagelightbox-nav').remove();
+        },
+        arrowsOn = function () {
+            $wrapper.append($arrows);
+            $arrows.on('click touchend', function (e) {
+                e.preventDefault();
+                if ($(this).hasClass('imagelightbox-arrow-left')) {
+                    _loadPreviousImage();
+                } else {
+                    _loadNextImage();
+>>>>>>> caption-fix
                 }
 
+<<<<<<< HEAD
                 var screenWidth = $(window).width() * 0.8,
                 wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
                 screenHeight = wHeight * 0.9,
                 tmpImage = new Image();
+=======
+        targets = $([]),
+        target = $(),
+        image = $(),
+        imageWidth = 0,
+        imageHeight = 0,
+        swipeDiff = 0,
+        inProgress = false,
+
+        /* TODO make it work again
+           isTargetValid = function (element) {
+           var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+           var html5 = $(element).attr('data-lightbox') !== undefined;
+           return classic || html5;
+           },
+        */
+
+        _setImage = function () {
+            if (!image.length) {
+                return true;
+            }
+
+            var screenWidth = $(window).width() * 0.8,
+            wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
+            screenHeight = wHeight * 0.9,
+            tmpImage = new Image();
+
+            tmpImage.src = image.attr('src');
+            tmpImage.onload = function () {
+                imageWidth = tmpImage.width;
+                imageHeight = tmpImage.height;
+
+                if (imageWidth > screenWidth || imageHeight > screenHeight) {
+                    var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
+                    imageWidth /= ratio;
+                    imageHeight /= ratio;
+                }
+>>>>>>> caption-fix
 
                 tmpImage.src = image.attr('src');
                 tmpImage.onload = function () {
@@ -391,7 +495,11 @@
                             }
                         });
 
+<<<<<<< HEAD
                     var swipeStart = 0,
+=======
+                var swipeStart = 0,
+>>>>>>> caption-fix
                     swipeEnd = 0,
                     imagePosLeft = 0;
 
