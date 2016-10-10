@@ -8,29 +8,32 @@
     var $activityObject = $('<div/>')
         .attr('id','imagelightbox-loading')
         .append($('<div/>')),
-    $arrowLeftObject = $('<button/>',{
-        type: 'button',
-        class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
-    $arrowRightObject = $('<button/>',{
-        type: 'button',
-        class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
-    $arrows = $arrowLeftObject.add($arrowRightObject),
-    $captionObject = $('<div/>', {
-        id: 'imagelightbox-caption'
-    }),
-    $buttonObject =  $('<a/>', {
-        id: 'imagelightbox-close'
-    }),
-    $overlayObject = $('<div/>', {
-        id:'imagelightbox-overlay'
-    }),
-    $navObject = $('<div/>', {
-        id: 'imagelightbox-nav'
-    }),
-    //
-    $wrapper = $('<div/>', {
-        id: 'imagelightbox-wrapper'
-    });
+        $arrowLeftObject = $('<button/>',{
+            type: 'button',
+            class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
+        $arrowRightObject = $('<button/>',{
+            type: 'button',
+            class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
+        $arrows = $arrowLeftObject.add($arrowRightObject),
+        $captionObject = $('<div/>', {
+            id: 'imagelightbox-caption'
+        }),
+        $buttonObject =  $('<a/>', {
+            id: 'imagelightbox-close'
+        }),
+        $buttonAuxObject = $('<a/>', {
+            id: 'imagelightbox-aux'
+        }),
+        $overlayObject = $('<div/>', {
+            id:'imagelightbox-overlay'
+        }),
+        $navObject = $('<div/>', {
+            id: 'imagelightbox-nav'
+        }),
+        //
+        $wrapper = $('<div/>', {
+            id: 'imagelightbox-wrapper'
+        });
 
     var cssTransitionSupport = function () {
         var s = document.body || document.documentElement;
@@ -50,37 +53,37 @@
         return false;
     },
 
-    isCssTransitionSupport = cssTransitionSupport() !== false,
+        isCssTransitionSupport = cssTransitionSupport() !== false,
 
-    cssTransitionTranslateX = function (element, positionX, speed) {
-        var options = {}, prefix = cssTransitionSupport();
-        options[prefix + 'transform'] = 'translateX(' + positionX + ')';
-        options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
-        element.css(options);
-    },
+        cssTransitionTranslateX = function (element, positionX, speed) {
+            var options = {}, prefix = cssTransitionSupport();
+            options[prefix + 'transform'] = 'translateX(' + positionX + ')';
+            options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
+            element.css(options);
+        },
 
-    hasTouch = ( 'ontouchstart' in window ),
-    hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-    wasTouched = function (event) {
-        if (hasTouch) {
-            return true;
-        }
-
-        if (!hasPointers || typeof event === 'undefined' || typeof event.pointerType === 'undefined') {
-            return false;
-        }
-
-        if (typeof event.MSPOINTER_TYPE_MOUSE !== 'undefined') {
-            if (event.MSPOINTER_TYPE_MOUSE !== event.pointerType) {
+        hasTouch = ( 'ontouchstart' in window ),
+        hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+        wasTouched = function (event) {
+            if (hasTouch) {
                 return true;
             }
-        }
-        else if (event.pointerType !== 'mouse') {
-            return true;
-        }
 
-        return false;
-    };
+            if (!hasPointers || typeof event === 'undefined' || typeof event.pointerType === 'undefined') {
+                return false;
+            }
+
+            if (typeof event.MSPOINTER_TYPE_MOUSE !== 'undefined') {
+                if (event.MSPOINTER_TYPE_MOUSE !== event.pointerType) {
+                    return true;
+                }
+            }
+            else if (event.pointerType !== 'mouse') {
+                return true;
+            }
+
+            return false;
+        };
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
@@ -91,6 +94,7 @@
             activity:       false,
             arrows:         false,
             button:         false,
+            buttonAux:      false,
             caption:        false,
             enableKeyboard: true,
             lockBody:       false,
@@ -113,6 +117,9 @@
                 }
                 if (options.button) {
                     closeButtonOn();
+                }
+                if (options.buttonAux) {
+                    auxButtonOn();
                 }
                 if (options.lockBody) {
                     lockBody(true);
@@ -201,309 +208,309 @@
                     return false;
                 });
             },
+            auxButtonOn =  function () {
+                $buttonAuxObject.appendTo($wrapper).on('click',function (e) {
+                    $(e.target).trigger("aux.imagelightbox");
+                });
+            },
             captionOn = function () {
-                var description;//
-                if ($(target).find('img').length) {
-                    description = $(target).find('img').attr('alt');
-                } else {
-                    description = $(target).data("imagelightbox-caption");
-                }
+                var description = $(target).find('img').attr('alt');
                 if (description && description.length > 0) {
                     $wrapper.append($captionObject.text(description));
                 }
             },
             captionOff = function () {
-                $captionObject.html("&nbsp;");
+                $captionObject.remove();
             },
-        navigationOn = function (instance, selector) {
-            var images = $(selector);
-            if (images.length) {
-                for (var i = 0; i < images.length; i++) {
-                    $navObject.append($('<a/>',{href:'#'}));
-                }
-                $wrapper.append($navObject);
-                $navObject.on('click touchend', function () {
-                    return false;
-                });
-                var navItems = $navObject.find('a');
-                navItems.on('click touchend', function () {
-                    var $this = $(this);
-                    if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
-                        var tmpTarget = targets.eq($this.index());
-                        if (tmpTarget.length) {
-                            var currentIndex = targets.index(target);
-                            target = tmpTarget;
-                            _loadImage($this.index() < currentIndex ? 'left' : 'right');
-                        }
+            navigationOn = function (instance, selector) {
+                var images = $(selector);
+                if (images.length) {
+                    for (var i = 0; i < images.length; i++) {
+                        $navObject.append($('<a/>',{href:'#'}));
                     }
-                    navItems.removeClass('active');
-                    navItems.eq($this.index()).addClass('active');
-                    return false;
-                }).on('touchend', function () {
-                    return false;
-                });
-            }
-        },
-        navigationUpdate = function (selector) {
-            var items = $navObject.find('a');
-            items.removeClass('active');
-            items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
-        },
-        navigationOff = function () {
-            $('#imagelightbox-nav').remove();
-        },
-        arrowsOn = function () {
-            $wrapper.append($arrows);
-            $arrows.on('click touchend', function (e) {
-                e.preventDefault();
-                if ($(this).hasClass('imagelightbox-arrow-left')) {
-                    _loadPreviousImage();
-                } else {
-                    _loadNextImage();
-                }
-                return false;
-            });
-        },
-        arrowsOff = function () {
-            $('.imagelightbox-arrow').remove();
-        },
-
-        targets = $([]),
-        target = $(),
-        image = $(),
-        imageWidth = 0,
-        imageHeight = 0,
-        swipeDiff = 0,
-        inProgress = false,
-
-        /* TODO make it work again
-           isTargetValid = function (element) {
-           var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-           var html5 = $(element).attr('data-lightbox') !== undefined;
-           return classic || html5;
-           },
-        */
-
-        _setImage = function () {
-            if (!image.length) {
-                return true;
-            }
-
-            var screenWidth = $(window).width() * 0.8,
-            wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
-            screenHeight = wHeight * 0.9,
-            tmpImage = new Image();
-
-            tmpImage.src = image.attr('src');
-            tmpImage.onload = function () {
-                imageWidth = tmpImage.width;
-                imageHeight = tmpImage.height;
-
-                if (imageWidth > screenWidth || imageHeight > screenHeight) {
-                    var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
-                    imageWidth /= ratio;
-                    imageHeight /= ratio;
-                }
-
-                image.css({
-                    'width': imageWidth + 'px',
-                    'height': imageHeight + 'px',
-                    'top': ( wHeight - imageHeight ) / 2 + 'px',
-                    'left': ( $(window).width() - imageWidth ) / 2 + 'px'
-                });
-            };
-        },
-
-        _loadImage = function (direction) {
-            if (inProgress) {
-                return false;
-            }
-
-            direction = typeof direction === 'undefined' ? false : direction === 'left' ? 1 : -1;
-
-            if (image.length) {
-                var params = {'opacity': 0};
-                if (isCssTransitionSupport) {
-                    cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
-                }
-                else {
-                    params.left = parseInt(image.css('left')) + 100 * direction + 'px';
-                }
-                image.animate(params, options.animationSpeed, function () {
-                    _removeImage();
-                });
-                swipeDiff = 0;
-            }
-
-            inProgress = true;
-            if (options.onLoadStart !== false) {
-                options.onLoadStart();
-            }
-
-            setTimeout(function () {
-                var imgPath = target.attr('href');
-                // if ( imgPath === undefined ) {
-                //     imgPath = target.attr( 'data-lightbox' );
-                // }
-                image = $('<img id="' + options.id + '" />')
-                    .attr('src', imgPath)
-                    .on('load', function () {
-                        var params = {'opacity': 1};
-
-                        image.appendTo($wrapper);
-                        _setImage();
-                        image.css('opacity', 0);
-                        if (isCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                            setTimeout(function () {
-                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                            }, 50);
-                        } else {
-                            var imagePosLeft = parseInt(image.css('left'));
-                            params.left = imagePosLeft + 'px';
-                            image.css('left', imagePosLeft - 100 * direction + 'px');
-                        }
-
-                        image.animate(params, options.animationSpeed, function () {
-                            inProgress = false;
-                            if (options.onLoadEnd !== false) {
-                                options.onLoadEnd();
-                            }
-                        });
-                        if (options.preloadNext) {
-                            var nextTarget = targets.eq(targets.index(target) + 1);
-                            if (!nextTarget.length) {
-                                nextTarget = targets.eq(0);
-                            }
-                            $('<img />').attr('src', nextTarget.attr('href'));
-                        }
-                    })
-                    .on('error', function () {
-                        if (options.onLoadEnd !== false) {
-                            options.onLoadEnd();
-                        }
-                    });
-
-                var swipeStart = 0,
-                    swipeEnd = 0,
-                    imagePosLeft = 0;
-
-                image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
-                    e.preventDefault();
-                    if (options.quitOnImgClick) {
-                        _quitImageLightbox();
+                    $wrapper.append($navObject);
+                    $navObject.on('click touchend', function () {
                         return false;
-                    }
-                    if (wasTouched(e.originalEvent)) {
-                        return true;
-                    }
-                    var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                    if (imageWidth / 2 > posX) {
+                    });
+                    var navItems = $navObject.find('a');
+                    navItems.on('click touchend', function () {
+                        var $this = $(this);
+                        if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                            var tmpTarget = targets.eq($this.index());
+                            if (tmpTarget.length) {
+                                var currentIndex = targets.index(target);
+                                target = tmpTarget;
+                                _loadImage($this.index() < currentIndex ? 'left' : 'right');
+                            }
+                        }
+                        navItems.removeClass('active');
+                        navItems.eq($this.index()).addClass('active');
+                        return false;
+                    }).on('touchend', function () {
+                        return false;
+                    });
+                }
+            },
+            navigationUpdate = function (selector) {
+                var items = $navObject.find('a');
+                items.removeClass('active');
+                items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+            },
+            navigationOff = function () {
+                $('#imagelightbox-nav').remove();
+            },
+            arrowsOn = function () {
+                $wrapper.append($arrows);
+                $arrows.on('click touchend', function (e) {
+                    e.preventDefault();
+                    if ($(this).hasClass('imagelightbox-arrow-left')) {
                         _loadPreviousImage();
                     } else {
                         _loadNextImage();
                     }
-                })
-                    .on('touchstart pointerdown MSPointerDown', function (e) {
-                        if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                            return true;
-                        }
-                        if (isCssTransitionSupport) {
-                            imagePosLeft = parseInt(image.css('left'));
-                        }
-                        swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                    })
-                    .on('touchmove pointermove MSPointerMove', function (e) {
-                        if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                            return true;
-                        }
-                        e.preventDefault();
-                        swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                        swipeDiff = swipeStart - swipeEnd;
-                        if (isCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
-                        } else {
-                            image.css('left', imagePosLeft - swipeDiff + 'px');
-                        }
-                    })
-                    .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
-                        if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                            return true;
-                        }
-                        if (Math.abs(swipeDiff) > 50) {
-                            if (swipeDiff < 0) {
-                                _loadPreviousImage();
-                            } else {
-                                _loadNextImage();
-                            }
-                        } else {
-                            if (isCssTransitionSupport) {
-                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                            } else {
-                                image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
-                            }
-                        }
-                    });
+                    return false;
+                });
+            },
+            arrowsOff = function () {
+                $('.imagelightbox-arrow').remove();
+            },
 
-            }, options.animationSpeed + 100);
-        },
+            targets = $([]),
+            target = $(),
+            image = $(),
+            imageWidth = 0,
+            imageHeight = 0,
+            swipeDiff = 0,
+            inProgress = false,
 
-        _loadPreviousImage = function () {
-            if (options.previousTarget() !== false) {
-                _loadImage('left');
-            }
-        },
+            /* TODO make it work again
+               isTargetValid = function (element) {
+               var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+               var html5 = $(element).attr('data-lightbox') !== undefined;
+               return classic || html5;
+               },
+            */
 
-        _loadNextImage = function () {
-            if (options.nextTarget() !== false) {
-                _loadImage('right');
-            }
-        },
-
-        _removeImage = function () {
-            if (!image.length) {
-                return false;
-            }
-            image.remove();
-            image = $();
-        },
-
-        _openImageLightbox = function ($target) {
-            if (inProgress) {
-                return false;
-            }
-            inProgress = false;
-            if (options.onStart !== false) {
-                options.onStart();
-            }
-            $('body').append($wrapper);
-            target = $target;
-            _loadImage();
-        },
-
-        _quitImageLightbox = function () {
-            if (!image.length) {
-                return false;
-            }
-            image.animate({'opacity': 0}, options.animationSpeed, function () {
-                _removeImage();
-                inProgress = false;
-                if (options.onEnd !== false) {
-                    options.onEnd();
+            _setImage = function () {
+                if (!image.length) {
+                    return true;
                 }
-            });
-        },
 
-        _addTargets = function( newTargets ) {
-            newTargets.each(function () {
-                targets = targets.add($(this));
-            });
+                var screenWidth = $(window).width() * 0.8,
+                wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
+                screenHeight = wHeight * 0.9,
+                tmpImage = new Image();
 
-            newTargets.on('click', function (e) {
-                e.preventDefault();
-                _openImageLightbox($(this));
-            });
-        };
+                tmpImage.src = image.attr('src');
+                tmpImage.onload = function () {
+                    imageWidth = tmpImage.width;
+                    imageHeight = tmpImage.height;
+
+                    if (imageWidth > screenWidth || imageHeight > screenHeight) {
+                        var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
+                        imageWidth /= ratio;
+                        imageHeight /= ratio;
+                    }
+
+                    image.css({
+                        'width': imageWidth + 'px',
+                        'height': imageHeight + 'px',
+                        'top': ( wHeight - imageHeight ) / 2 + 'px',
+                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                    });
+                };
+            },
+
+            _loadImage = function (direction) {
+                if (inProgress) {
+                    return false;
+                }
+
+                direction = typeof direction === 'undefined' ? false : direction === 'left' ? 1 : -1;
+
+                if (image.length) {
+                    var params = {'opacity': 0};
+                    if (isCssTransitionSupport) {
+                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+                    }
+                    else {
+                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+                    }
+                    image.animate(params, options.animationSpeed, function () {
+                        _removeImage();
+                    });
+                    swipeDiff = 0;
+                }
+
+                inProgress = true;
+                if (options.onLoadStart !== false) {
+                    options.onLoadStart();
+                }
+
+                setTimeout(function () {
+                    var imgPath = target.attr('href');
+                    // if ( imgPath === undefined ) {
+                    //     imgPath = target.attr( 'data-lightbox' );
+                    // }
+                    image = $('<img id="' + options.id + '" />')
+                        .attr('src', imgPath)
+                        .on('load', function () {
+                            var params = {'opacity': 1};
+
+                            image.appendTo($wrapper);
+                            _setImage();
+                            image.css('opacity', 0);
+                            if (isCssTransitionSupport) {
+                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                                setTimeout(function () {
+                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                }, 50);
+                            } else {
+                                var imagePosLeft = parseInt(image.css('left'));
+                                params.left = imagePosLeft + 'px';
+                                image.css('left', imagePosLeft - 100 * direction + 'px');
+                            }
+
+                            image.animate(params, options.animationSpeed, function () {
+                                inProgress = false;
+                                if (options.onLoadEnd !== false) {
+                                    options.onLoadEnd();
+                                }
+                            });
+                            if (options.preloadNext) {
+                                var nextTarget = targets.eq(targets.index(target) + 1);
+                                if (!nextTarget.length) {
+                                    nextTarget = targets.eq(0);
+                                }
+                                $('<img />').attr('src', nextTarget.attr('href'));
+                            }
+                        })
+                        .on('error', function () {
+                            if (options.onLoadEnd !== false) {
+                                options.onLoadEnd();
+                            }
+                        });
+
+                    var swipeStart = 0,
+                    swipeEnd = 0,
+                    imagePosLeft = 0;
+
+                    image.on(hasPointers ? 'pointerup MSPointerUp' : 'click', function (e) {
+                        e.preventDefault();
+                        if (options.quitOnImgClick) {
+                            _quitImageLightbox();
+                            return false;
+                        }
+                        if (wasTouched(e.originalEvent)) {
+                            return true;
+                        }
+                        var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                        if (imageWidth / 2 > posX) {
+                            _loadPreviousImage();
+                        } else {
+                            _loadNextImage();
+                        }
+                    })
+                        .on('touchstart pointerdown MSPointerDown', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            if (isCssTransitionSupport) {
+                                imagePosLeft = parseInt(image.css('left'));
+                            }
+                            swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                        })
+                        .on('touchmove pointermove MSPointerMove', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            e.preventDefault();
+                            swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            swipeDiff = swipeStart - swipeEnd;
+                            if (isCssTransitionSupport) {
+                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+                            } else {
+                                image.css('left', imagePosLeft - swipeDiff + 'px');
+                            }
+                        })
+                        .on('touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            if (Math.abs(swipeDiff) > 50) {
+                                if (swipeDiff < 0) {
+                                    _loadPreviousImage();
+                                } else {
+                                    _loadNextImage();
+                                }
+                            } else {
+                                if (isCssTransitionSupport) {
+                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                } else {
+                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                }
+                            }
+                        });
+
+                }, options.animationSpeed + 100);
+            },
+
+            _loadPreviousImage = function () {
+                if (options.previousTarget() !== false) {
+                    _loadImage('left');
+                }
+            },
+
+            _loadNextImage = function () {
+                if (options.nextTarget() !== false) {
+                    _loadImage('right');
+                }
+            },
+
+            _removeImage = function () {
+                if (!image.length) {
+                    return false;
+                }
+                image.remove();
+                image = $();
+            },
+
+            _openImageLightbox = function ($target) {
+                if (inProgress) {
+                    return false;
+                }
+                inProgress = false;
+                if (options.onStart !== false) {
+                    options.onStart();
+                }
+                $('body').append($wrapper);
+                target = $target;
+                _loadImage();
+            },
+
+            _quitImageLightbox = function () {
+                if (!image.length) {
+                    return false;
+                }
+                image.animate({'opacity': 0}, options.animationSpeed, function () {
+                    _removeImage();
+                    inProgress = false;
+                    if (options.onEnd !== false) {
+                        options.onEnd();
+                    }
+                });
+            },
+
+            _addTargets = function( newTargets ) {
+                newTargets.each(function () {
+                    targets = targets.add($(this));
+                });
+
+                newTargets.on('click', function (e) {
+                    e.preventDefault();
+                    _openImageLightbox($(this));
+                });
+            };
 
         this.startImageLightbox = function () {
             if (this.length > 0) {
