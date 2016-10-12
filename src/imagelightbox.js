@@ -1,7 +1,7 @@
-/*
- By Osvaldas Valutis, www.osvaldas.info
- Available for use under the MIT License
- */
+//
+// By Osvaldas Valutis, www.osvaldas.info
+// Available for use under the MIT License
+//
 ;(function ($, window, document, undefined) {
     'use strict';
     // COMPONENTS //
@@ -271,13 +271,12 @@
             swipeDiff = 0,
             inProgress = false,
 
-            /* TODO make it work again
-             isTargetValid = function (element) {
-             var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-             var html5 = $(element).attr('data-lightbox') !== undefined;
-             return classic || html5;
-             },
-             */
+            // TODO make it work again
+            // isTargetValid = function (element) {
+            //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
+            //   var html5 = $(element).attr('data-lightbox') !== undefined;
+            //   return classic || html5;
+            // },
 
             _setImage = function () {
                 if (!image.length) {
