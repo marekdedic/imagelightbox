@@ -130,6 +130,8 @@
 }
 
 #imagelightbox-nav a {
+    position: relative;
+    top: 0.2em;
     width: 1em; /* 20 */
     height: 1em; /* 20 */
     border: 1px solid #fff;
@@ -211,9 +213,6 @@
     #imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
-    }
-    #imagelightbox-nav {
-        bottom: 1.25em; /* 20 */
     }
     .imagelightbox-arrow {
         width: 2.5em; /* 40 */
