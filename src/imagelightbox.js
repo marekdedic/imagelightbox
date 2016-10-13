@@ -27,6 +27,9 @@
         $navObject = $('<div/>', {
             id: 'imagelightbox-nav'
         }),
+        $navItem = $('<a/>', {
+            href:'#',class:"imagelightbox-navitem"
+        }),
         //
         $wrapper = $('<div/>', {
             id: 'imagelightbox-wrapper'
@@ -119,6 +122,7 @@
                     }
                 },
                 onEnd: function () {
+                    targets = $([]);
                     $wrapper.remove().find("*").remove();
                     if (options.lockBody) {
                         lockBody(false);
@@ -211,10 +215,10 @@
                 $captionObject.remove();
             },
             navigationOn = function (instance, selector) {
-                var images = $(selector);
+                var images = targets;
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
-                        $navObject.append($('<a/>',{href:'#'}));
+                        $navObject.append($navItem.clone());
                     }
                     $wrapper.append($navObject);
                     $navObject.on('click touchend', function () {
@@ -242,7 +246,7 @@
             navigationUpdate = function (selector) {
                 var items = $navObject.find('a');
                 items.removeClass('active');
-                items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+                items.eq(targets.index(target)).addClass('active');
             },
             navigationOff = function () {
                 $('#imagelightbox-nav').remove();
@@ -262,7 +266,7 @@
             arrowsOff = function () {
                 $('.imagelightbox-arrow').remove();
             },
-
+            targetSet = "",
             targets = $([]),
             target = $(),
             image = $(),
@@ -489,14 +493,21 @@
             },
 
             _addTargets = function( newTargets ) {
-                newTargets.each(function () {
-                    targets = targets.add($(this));
-                });
-
-                newTargets.on('click', function (e) {
+                newTargets.on('click.imagelightbox', {set: targetSet}, function (e) {
                     e.preventDefault();
+                    targetSet = $(e.currentTarget).data("imagelightbox");
+                    filterTargets();
                     _openImageLightbox($(this));
                 });
+                function filterTargets () {
+                    newTargets
+                        .filter(function () {
+                            return $(this).data("imagelightbox") === targetSet;
+                        })
+                        .each(function () {
+                            targets = targets.add($(this));
+                        });
+                }
             };
 
         this.startImageLightbox = function () {
