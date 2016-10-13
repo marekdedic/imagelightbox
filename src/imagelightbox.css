@@ -65,6 +65,7 @@
 /* WITH "CLOSE" BUTTON */
 
 #imagelightbox-close {
+    cursor: pointer;
     width: 2.5em; /* 40 */
     height: 2.5em; /* 40 */
     background-color: #666;
@@ -146,6 +147,7 @@
 /* WITH ARROWS */
 
 .imagelightbox-arrow {
+    cursor: pointer;
     width: 3.75em; /* 60 */
     height: 7.5em; /* 120 */
     background-color: #444;

@@ -27,6 +27,7 @@ $(document).ready(function() {
 
     $('a[data-imagelightbox="g"]').imageLightbox({
         activity: true,
+        arrows: true,
         button: true,
         caption: true,
         navigation: true,
