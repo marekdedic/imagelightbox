@@ -126,6 +126,8 @@
     padding: 0.313em; /* 5 */
     transform: translateX(-50%);
     border-radius: 20px;
+    width:80%;
+    max-width: -moz-max-content;
 }
 
 #imagelightbox-nav a {
@@ -209,9 +211,6 @@
     #imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
-    }
-    #imagelightbox-nav {
-        bottom: 1.25em; /* 20 */
     }
     .imagelightbox-arrow {
         width: 2.5em; /* 40 */
