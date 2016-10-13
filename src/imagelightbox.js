@@ -202,13 +202,18 @@
                 });
             },
             captionOn = function () {
-                var description = $(target).find('img').attr('alt');
+                var description;//
+                if ($(target).find('img').length) {
+                    description = $(target).find('img').attr('alt');
+                } else {
+                    description = $(target).data("imagelightbox-caption");
+}
                 if (description && description.length > 0) {
                     $wrapper.append($captionObject.text(description));
                 }
             },
             captionOff = function () {
-                $captionObject.remove();
+                $captionObject.html("&nbsp;");
             },
             navigationOn = function (instance, selector) {
                 var images = $(selector);
