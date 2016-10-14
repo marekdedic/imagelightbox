@@ -202,12 +202,12 @@
                 });
             },
             captionOn = function () {
-                var description;//
-                if ($(target).find('img').length) {
-                    description = $(target).find('img').attr('alt');
-                } else {
+                var description = "";//
+                if ($(target).data("imagelightbox-caption")) {
                     description = $(target).data("imagelightbox-caption");
-}
+                } else if ($(target).find('img').length) {
+                    description = $(target).find('img').attr('alt');
+                }
                 if (description && description.length > 0) {
                     $wrapper.append($captionObject.text(description));
                 }
