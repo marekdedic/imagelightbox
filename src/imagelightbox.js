@@ -196,7 +196,7 @@
                 $wrapper.append($overlayObject);
             },
             closeButtonOn = function () {
-                $buttonObject.appendTo($wrapper).on('click.imagelightbox', function () {
+                $buttonObject.appendTo($wrapper).on('click.ilb7', function () {
                     _quitImageLightbox();
                     return false;
                 });
@@ -217,11 +217,11 @@
                         $navObject.append($('<a/>',{href:'#'}));
                     }
                     $wrapper.append($navObject);
-                    $navObject.on('click.imagelightbox touchend.imagelightbox', function () {
+                    $navObject.on('click.ilb7 touchend.ilb7', function () {
                         return false;
                     });
                     var navItems = $navObject.find('a');
-                    navItems.on('click.imagelightbox touchend.imagelightbox', function () {
+                    navItems.on('click.ilb7 touchend.ilb7', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
@@ -234,7 +234,7 @@
                         navItems.removeClass('active');
                         navItems.eq($this.index()).addClass('active');
                         return false;
-                    }).on('touchend.imagelightbox', function () {
+                    }).on('touchend.ilb7', function () {
                         return false;
                     });
                 }
@@ -249,7 +249,7 @@
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
-                $arrows.on('click.imagelightbox touchend.imagelightbox', function (e) {
+                $arrows.on('click.ilb7 touchend.ilb7', function (e) {
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
                         _loadPreviousImage();
@@ -341,7 +341,7 @@
                     // }
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
-                        .on('load.imagelightbox', function () {
+                        .on('load.ilb7', function () {
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -372,7 +372,7 @@
                                 $('<img />').attr('src', nextTarget.attr('href'));
                             }
                         })
-                        .on('error.imagelightbox', function () {
+                        .on('error.ilb7', function () {
                             if (options.onLoadEnd !== false) {
                                 options.onLoadEnd();
                             }
@@ -382,7 +382,7 @@
                         swipeEnd = 0,
                         imagePosLeft = 0;
 
-                    image.on(hasPointers ? 'pointerup.imagelightbox MSPointerUp.imagelightbox' : 'click.imagelightbox', function (e) {
+                    image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
                         e.preventDefault();
                         if (options.quitOnImgClick) {
                             _quitImageLightbox();
@@ -398,7 +398,7 @@
                             _loadNextImage();
                         }
                     })
-                        .on('touchstart.imagelightbox pointerdown.imagelightbox MSPointerDown.imagelightbox', function (e) {
+                        .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -407,7 +407,7 @@
                             }
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                         })
-                        .on('touchmove.imagelightbox pointermove.imagelightbox MSPointerMove.imagelightbox', function (e) {
+                        .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -420,7 +420,7 @@
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
                             }
                         })
-                        .on('touchend.imagelightbox touchcancel.imagelightbox pointerup.imagelightbox pointercancel.imagelightbox MSPointerUp.imagelightbox MSPointerCancel.imagelightbox', function (e) {
+                        .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
@@ -493,7 +493,7 @@
                     targets = targets.add($(this));
                 });
 
-                newTargets.on('click.imagelightbox', function (e) {
+                newTargets.on('click.ilb7', function (e) {
                     e.preventDefault();
                     _openImageLightbox($(this));
                 });
@@ -505,11 +505,11 @@
             }
         };
 
-        $(window).on('resize.imagelightbox', _setImage);
+        $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
             if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend.imagelightbox' : 'click.imagelightbox', function (e) {
+                $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
                         _quitImageLightbox();
@@ -518,7 +518,7 @@
             }
 
             if (options.enableKeyboard) {
-                $(document).on('keyup.imagelightbox', function (e) {
+                $(document).on('keyup.ilb7', function (e) {
                     if (!image.length) {
                         return true;
                     }
