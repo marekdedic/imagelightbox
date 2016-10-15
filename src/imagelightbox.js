@@ -27,7 +27,6 @@
         $navObject = $('<div/>', {
             id: 'imagelightbox-nav'
         }),
-        //
         $wrapper = $('<div/>', {
             id: 'imagelightbox-wrapper'
         });
@@ -249,9 +248,6 @@
                 items.removeClass('active');
                 items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
             },
-            navigationOff = function () {
-                $('#imagelightbox-nav').remove();
-            },
             arrowsOn = function () {
                 $wrapper.append($arrows);
                 $arrows.on('click.ilb7 touchend.ilb7', function (e) {
@@ -263,9 +259,6 @@
                     }
                     return false;
                 });
-            },
-            arrowsOff = function () {
-                $('.imagelightbox-arrow').remove();
             },
 
             targets = $([]),
