@@ -201,14 +201,14 @@
                 });
             },
             captionOn = function () {
-                var description = "";//
-                if ($(target).data("imagelightbox-caption")) {
-                    description = $(target).data("imagelightbox-caption");
+                var captionText = "";
+                if ($(target).data("ilb2-caption")) {
+                    captionText = $(target).data("ilb2-caption");
                 } else if ($(target).find('img').length) {
-                    description = $(target).find('img').attr('alt');
+                    captionText = $(target).find('img').attr('alt');
                 }
-                if (description && description.length > 0) {
-                    $wrapper.append($captionObject.text(description));
+                if (captionText && captionText.length > 0) {
+                    $wrapper.append($captionObject.text(captionText));
                 }
             },
             captionOff = function () {

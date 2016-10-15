@@ -76,6 +76,16 @@ imageLightBox can be started with *startImageLightbox()* JavaScript function cal
     });
 </script>
 ````
+## Adding captions to lightbox 
+
+add an "ilb2-caption" data-attribute to the element, fallback value is the alt-attribute of the thumbnail-image
+                
+````html    
+    <a data-imagelightbox="x" data-ilb2-caption="caption text"
+        href="image.jpg">
+        <img src="thumbnail.jpg" alt="fallback caption"/>
+    </a>
+````         
              
 ## Adding images dynamically to lightbox 
 
