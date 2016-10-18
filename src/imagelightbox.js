@@ -218,7 +218,7 @@
             captionOff = function () {
                 $captionObject.html("&nbsp;");
             },
-            navigationOn = function (instance, selector) {
+            navigationOn = function () {
                 var images = targets;
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
@@ -247,7 +247,7 @@
                     });
                 }
             },
-            navigationUpdate = function (selector) {
+            navigationUpdate = function () {
                 var items = $navObject.find('a');
                 items.removeClass('active');
                 items.eq(targets.index(target)).addClass('active');
@@ -513,7 +513,6 @@
                 _openImageLightbox($(this[0]));
             }
         };
-
 
         $(window).on('resize.ilb7', _setImage);
 

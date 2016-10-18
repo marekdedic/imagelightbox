@@ -24,6 +24,9 @@
         $overlayObject = $('<div/>', {
             id:'imagelightbox-overlay'
         }),
+        $navItem = $('<a/>', {
+            href:'#',class:"imagelightbox-navitem"
+        }),
         $navObject = $('<div/>', {
             id: 'imagelightbox-nav'
         }),
@@ -118,6 +121,7 @@
                     }
                 },
                 onEnd: function () {
+                    targets = $([]);
                     $wrapper.remove().find("*").remove();
                     if (options.lockBody) {
                         lockBody(false);
@@ -214,11 +218,11 @@
             captionOff = function () {
                 $captionObject.html("&nbsp;");
             },
-            navigationOn = function (instance, selector) {
-                var images = $(selector);
+            navigationOn = function () {
+                var images = targets;
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
-                        $navObject.append($('<a/>',{href:'#'}));
+                        $navObject.append($navItem.clone());
                     }
                     $wrapper.append($navObject);
                     $navObject.on('click.ilb7 touchend.ilb7', function () {
@@ -243,10 +247,10 @@
                     });
                 }
             },
-            navigationUpdate = function (selector) {
+            navigationUpdate = function () {
                 var items = $navObject.find('a');
                 items.removeClass('active');
-                items.eq($(selector).filter('[href="' + $('#imagelightbox').attr('src') + '"]').index(selector)).addClass('active');
+                items.eq(targets.index(target)).addClass('active');
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
@@ -260,7 +264,7 @@
                     return false;
                 });
             },
-
+            targetSet = "",
             targets = $([]),
             target = $(),
             image = $(),
@@ -487,14 +491,21 @@
             },
 
             _addTargets = function( newTargets ) {
-                newTargets.each(function () {
-                    targets = targets.add($(this));
-                });
-
-                newTargets.on('click.ilb7', function (e) {
+                newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
+                    targetSet = $(e.currentTarget).data("imagelightbox");
+                    filterTargets();
                     _openImageLightbox($(this));
                 });
+                function filterTargets () {
+                    newTargets
+                        .filter(function () {
+                            return $(this).data("imagelightbox") === targetSet;
+                        })
+                        .each(function () {
+                            targets = targets.add($(this));
+                        });
+                }
             };
 
         this.startImageLightbox = function () {
@@ -511,6 +522,18 @@
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
                         _quitImageLightbox();
+                    }
+                });
+            }
+
+            if (options.lockBody) {
+                $(document).on('keydown.ilb7', function (e) {
+                    if (!image.length) {
+                        return true;
+                    }
+                    if([32,38,40].indexOf(e.which) > -1) {
+                        e.preventDefault();
+                        return false;
                     }
                 });
             }
