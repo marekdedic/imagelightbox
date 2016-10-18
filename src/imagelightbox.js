@@ -515,6 +515,18 @@
                 });
             }
 
+            if (options.lockBody) {
+                $(document).on('keydown.ilb7', function (e) {
+                    if (!image.length) {
+                        return true;
+                    }
+                    if([32,38,40].indexOf(e.which) > -1) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+
             if (options.enableKeyboard) {
                 $(document).on('keyup.ilb7', function (e) {
                     if (!image.length) {
