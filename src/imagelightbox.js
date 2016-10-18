@@ -153,7 +153,7 @@
                     return this.previousTargetDefault();
                 },
                 previousTargetDefault: function () {
-                 $wrapper.trigger("previous.ilb7");
+                    $wrapper.trigger("previous.ilb7");
                     var targetIndex = targets.index(target) - 1;
                     if (targetIndex < 0) {
                         if (options.quitOnEnd === true) {
