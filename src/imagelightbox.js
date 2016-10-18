@@ -488,6 +488,7 @@
                         options.onEnd();
                     }
                 });
+                //$.trigger("exit.ilb7");
             },
 
             _addTargets = function( newTargets ) {
