@@ -86,7 +86,37 @@ add an "ilb2-caption" data-attribute to the element, fallback value is the alt-a
         <img src="thumbnail.jpg" alt="fallback caption"/>
     </a>
 ````         
-             
+
+## Using multiple sets
+
+As of commit bf2b4db, imageLightbox supports "sets."
+A set is defined by the links with a common value for the "data-imagelightbox" attribute.
+
+For example:
+
+````html
+    <a data-imagelightbox="a"
+        href="image_1.jpg">
+        <img src="thumbnail_1.jpg" alt="caption"/>
+    </a>
+    <a data-imagelightbox="a"
+        href="image_2.jpg">
+        <img src="thumbnail_2.jpg" alt="caption"/>
+    </a>
+    
+    <a data-imagelightbox="b"
+        href="image_3.jpg">
+        <img src="thumbnail_3.jpg" alt="caption"/>
+    </a>
+    <a data-imagelightbox="b"
+        href="image_4.jpg">
+        <img src="thumbnail_4.jpg" alt="caption"/>
+    </a>
+````
+When the user clicks any of the thumbnails with a data-imagelightbox value of "a", only those images will appear in the lightbox. The same is true when clicking an image with data-imagelightbox value of "b" and any other.
+
+In order to "capture" all possible sets on a give webpage, it is necessary to apply imageLightbox to "a[data-imagelightbox]"; that is, without specifying a particular data-imagelightbox attribute value.
+
 ## Adding images dynamically to lightbox 
 
 imageLightBox allows adding more images dynamically at runtime
