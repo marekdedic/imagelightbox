@@ -87,6 +87,22 @@ add an "ilb2-caption" data-attribute to the element, fallback value is the alt-a
     </a>
 ````         
 
+## Hooks
+
+Image Lightbox now triggers unique events upon start, finish, and when either the next or previous image is requested.
+These events are, respectively, "start.ilb2", "quit.ilb2", "next.ilb2", and "previous.ilb2".
+
+Usage example:
+````javascript
+ $(document)
+    .on("start.ilb2", function () {
+    console.log("Image Lightbox has started.");
+    })
+    .on("quit.ilb2", function () {
+    console.log("Image Lightbox has quit.");
+    });
+````
+
 ## Using multiple sets
 
 As of commit bf2b4db, imageLightbox supports "sets."
