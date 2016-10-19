@@ -153,7 +153,7 @@
                     return this.previousTargetDefault();
                 },
                 previousTargetDefault: function () {
-                    $wrapper.trigger("previous.ilb7");
+                    $wrapper.trigger("previous.ilb2");
                     var targetIndex = targets.index(target) - 1;
                     if (targetIndex < 0) {
                         if (options.quitOnEnd === true) {
@@ -170,7 +170,7 @@
                     return this.nextTargetDefault();
                 },
                 nextTargetDefault: function () {
-                    $wrapper.trigger("next.ilb7");
+                    $wrapper.trigger("next.ilb2");
                     var targetIndex = targets.index(target) + 1;
                     if (targetIndex >= targets.length) {
                         if (options.quitOnEnd === true) {
@@ -475,13 +475,13 @@
                     options.onStart();
                 }
                 $('body').append($wrapper);
-                $wrapper.trigger("start.ilb7");
+                $wrapper.trigger("start.ilb2");
                 target = $target;
                 _loadImage();
             },
 
             _quitImageLightbox = function () {
-                $wrapper.trigger("quit.ilb7");
+                $wrapper.trigger("quit.ilb2");
                 if (!image.length) {
                     return false;
                 }
