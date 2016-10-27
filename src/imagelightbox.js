@@ -512,12 +512,6 @@
                 }
             };
 
-        this.startImageLightbox = function () {
-            if (this.length > 0) {
-                _openImageLightbox($(this[0]));
-            }
-        };
-
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
@@ -564,6 +558,10 @@
 
         _addTargets($(this));
 
+        this.addToImageLightbox = function(elements)  {
+            _addTargets(elements);
+        };
+
         this.loadPreviousImage = function () {
             _loadPreviousImage();
         };
@@ -577,8 +575,10 @@
             return this;
         };
 
-        this.addToImageLightbox = function(elements)  {
-            _addTargets(elements);
+        this.startImageLightbox = function () {
+            if (this.length > 0) {
+                _openImageLightbox($(this[0]));
+            }
         };
 
         return this;
