@@ -138,7 +138,7 @@
                     target = targets.eq(targetIndex);
                 }
             }, opts),
-            onStart = function () {
+            _onStart = function () {
                 if (options.arrows) {
                     arrowsOn(this);
                 }
@@ -155,14 +155,14 @@
                     lockBody(true);
                 }
             },
-            onEnd = function () {
+            _onEnd = function () {
                 targets = $([]);
                 $wrapper.remove().find("*").remove();
                 if (options.lockBody) {
                     lockBody(false);
                 }
             },
-            onLoadStart = function () {
+            _onLoadStart = function () {
                 if (options.activity) {
                     activityIndicatorOn();
                 }
@@ -170,7 +170,7 @@
                     captionOff();
                 }
             },
-            onLoadEnd = function () {
+            _onLoadEnd = function () {
                 if (options.activity) {
                     activityIndicatorOff();
                 }
@@ -334,8 +334,8 @@
                 }
 
                 inProgress = true;
-                if (onLoadStart !== false) {
-                    onLoadStart();
+                if (_onLoadStart !== false) {
+                    _onLoadStart();
                 }
 
                 setTimeout(function () {
@@ -364,8 +364,8 @@
 
                             image.animate(params, options.animationSpeed, function () {
                                 inProgress = false;
-                                if (onLoadEnd !== false) {
-                                    onLoadEnd();
+                                if (_onLoadEnd !== false) {
+                                    _onLoadEnd();
                                 }
                             });
                             if (options.preloadNext) {
@@ -377,8 +377,8 @@
                             }
                         })
                         .on('error.ilb7', function () {
-                            if (onLoadEnd !== false) {
-                                onLoadEnd();
+                            if (_onLoadEnd !== false) {
+                                _onLoadEnd();
                             }
                         });
 
@@ -471,8 +471,8 @@
                     return false;
                 }
                 inProgress = false;
-                if (onStart !== false) {
-                    onStart();
+                if (_onStart !== false) {
+                    _onStart();
                 }
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
@@ -488,8 +488,8 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    if (onEnd !== false) {
-                        onEnd();
+                    if (_onEnd !== false) {
+                        _onEnd();
                     }
                 });
             },
