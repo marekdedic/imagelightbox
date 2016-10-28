@@ -103,52 +103,6 @@
                 quitOnImgClick: false,
                 quitOnDocClick: true,
                 quitOnEscKey:   true,
-                onStart: function () {
-                    if (options.arrows) {
-                        arrowsOn(this);
-                    }
-                    if (options.navigation) {
-                        navigationOn(this, options.selector);
-                    }
-                    if (options.overlay) {
-                        overlayOn();
-                    }
-                    if (options.button) {
-                        closeButtonOn();
-                    }
-                    if (options.lockBody) {
-                        lockBody(true);
-                    }
-                },
-                onEnd: function () {
-                    targets = $([]);
-                    $wrapper.remove().find("*").remove();
-                    if (options.lockBody) {
-                        lockBody(false);
-                    }
-                },
-                onLoadStart: function () {
-                    if (options.activity) {
-                        activityIndicatorOn();
-                    }
-                    if (options.caption) {
-                        captionOff();
-                    }
-                },
-                onLoadEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        $arrows.css('display', 'block');
-                    }
-                    if (options.navigation) {
-                        navigationUpdate(options.selector);
-                    }
-                    if (options.caption) {
-                        captionOn();
-                    }
-                },
                 previousTarget: function () {
                     return this.previousTargetDefault();
                 },
@@ -184,6 +138,64 @@
                     target = targets.eq(targetIndex);
                 }
             }, opts),
+            _onStart = function () {
+                if (options.onStart) {
+                    options.onStart();
+                }
+                if (options.arrows) {
+                    arrowsOn(this);
+                }
+                if (options.navigation) {
+                    navigationOn(this, options.selector);
+                }
+                if (options.overlay) {
+                    overlayOn();
+                }
+                if (options.button) {
+                    closeButtonOn();
+                }
+                if (options.lockBody) {
+                    lockBody(true);
+                }
+            },
+            _onEnd = function () {
+                targets = $([]);
+                $wrapper.remove().find("*").remove();
+                if (options.lockBody) {
+                    lockBody(false);
+                }
+                if (options.onEnd) {
+                    options.onEnd();
+                }
+            },
+            _onLoadStart = function () {
+                if (options.onLoadStart) {
+                    options.onLoadStart();
+                }
+                if (options.activity) {
+                    activityIndicatorOn();
+                }
+                if (options.caption) {
+                    captionOff();
+                }
+            },
+            _onLoadEnd = function () {
+                if (options.activity) {
+                    activityIndicatorOff();
+                }
+                if (options.arrows) {
+                    $arrows.css('display', 'block');
+                }
+                if (options.navigation) {
+                    navigationUpdate(options.selector);
+                }
+                if (options.caption) {
+                    captionOn();
+                }
+                if (options.onLoadEnd) {
+                    options.onLoadStart();
+                }
+            },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
@@ -334,9 +346,7 @@
                 }
 
                 inProgress = true;
-                if (options.onLoadStart !== false) {
-                    options.onLoadStart();
-                }
+                _onLoadStart();
 
                 setTimeout(function () {
                     var imgPath = target.attr('href');
@@ -364,9 +374,7 @@
 
                             image.animate(params, options.animationSpeed, function () {
                                 inProgress = false;
-                                if (options.onLoadEnd !== false) {
-                                    options.onLoadEnd();
-                                }
+                                _onLoadEnd();
                             });
                             if (options.preloadNext) {
                                 var nextTarget = targets.eq(targets.index(target) + 1);
@@ -377,9 +385,7 @@
                             }
                         })
                         .on('error.ilb7', function () {
-                            if (options.onLoadEnd !== false) {
-                                options.onLoadEnd();
-                            }
+                            _onLoadEnd();
                         });
 
                     var swipeStart = 0,
@@ -471,9 +477,7 @@
                     return false;
                 }
                 inProgress = false;
-                if (options.onStart !== false) {
-                    options.onStart();
-                }
+                _onStart();
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
                 target = $target;
@@ -488,9 +492,7 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    if (options.onEnd !== false) {
-                        options.onEnd();
-                    }
+                    _onEnd();
                 });
             },
 

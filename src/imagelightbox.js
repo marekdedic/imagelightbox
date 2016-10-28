@@ -139,6 +139,9 @@
                 }
             }, opts),
             _onStart = function () {
+                if (options.onStart) {
+                    options.onStart();
+                }
                 if (options.arrows) {
                     arrowsOn(this);
                 }
@@ -161,8 +164,14 @@
                 if (options.lockBody) {
                     lockBody(false);
                 }
+                if (options.onEnd) {
+                    options.onEnd();
+                }
             },
             _onLoadStart = function () {
+                if (options.onLoadStart) {
+                    options.onLoadStart();
+                }
                 if (options.activity) {
                     activityIndicatorOn();
                 }
@@ -182,6 +191,9 @@
                 }
                 if (options.caption) {
                     captionOn();
+                }
+                if (options.onLoadEnd) {
+                    options.onLoadStart();
                 }
             },
             activityIndicatorOn = function () {
@@ -334,9 +346,7 @@
                 }
 
                 inProgress = true;
-                if (_onLoadStart !== false) {
-                    _onLoadStart();
-                }
+                _onLoadStart();
 
                 setTimeout(function () {
                     var imgPath = target.attr('href');
@@ -364,9 +374,7 @@
 
                             image.animate(params, options.animationSpeed, function () {
                                 inProgress = false;
-                                if (_onLoadEnd !== false) {
-                                    _onLoadEnd();
-                                }
+                                _onLoadEnd();
                             });
                             if (options.preloadNext) {
                                 var nextTarget = targets.eq(targets.index(target) + 1);
@@ -377,9 +385,7 @@
                             }
                         })
                         .on('error.ilb7', function () {
-                            if (_onLoadEnd !== false) {
-                                _onLoadEnd();
-                            }
+                            _onLoadEnd();
                         });
 
                     var swipeStart = 0,
@@ -471,9 +477,7 @@
                     return false;
                 }
                 inProgress = false;
-                if (_onStart !== false) {
-                    _onStart();
-                }
+                _onStart();
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
                 target = $target;
@@ -488,9 +492,7 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    if (_onEnd !== false) {
-                        _onEnd();
-                    }
+                    _onEnd();
                 });
             },
 
