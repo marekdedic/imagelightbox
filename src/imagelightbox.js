@@ -275,6 +275,10 @@
             swipeDiff = 0,
             inProgress = false,
 
+            isTargetValid = function (validImage) {
+                console.log(validImage);
+                //return options.allowedTypes.test();
+            },
             // TODO make it work again
             // isTargetValid = function (element) {
             //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
@@ -505,6 +509,9 @@
                     newTargets
                         .filter(function () {
                             return $(this).data("imagelightbox") === targetSet;
+                        })
+                        .filter(function () {
+                           // isTargetValid($(this));
                         })
                         .each(function () {
                             targets = targets.add($(this));
