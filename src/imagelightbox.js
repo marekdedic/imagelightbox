@@ -114,10 +114,8 @@
                 $wrapper.remove().find("*").remove();
                 if (options.lockBody) {
                     lockBody(false);
-                }
-                if (options.onEnd) {
-                    options.onEnd();
-                }
+		}
+ 		$(window,document).off(".ilb7");
             },
             _onLoadStart = function () {
                 if (options.activity) {
