@@ -102,41 +102,7 @@
                 quitOnEnd:      false,
                 quitOnImgClick: false,
                 quitOnDocClick: true,
-                quitOnEscKey:   true,
-                previousTarget: function () {
-                    return this.previousTargetDefault();
-                },
-                previousTargetDefault: function () {
-                    $wrapper.trigger("previous.ilb2");
-                    var targetIndex = targets.index(target) - 1;
-                    if (targetIndex < 0) {
-                        if (options.quitOnEnd === true) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = targets.length - 1;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
-                },
-                nextTarget: function () {
-                    return this.nextTargetDefault();
-                },
-                nextTargetDefault: function () {
-                    $wrapper.trigger("next.ilb2");
-                    var targetIndex = targets.index(target) + 1;
-                    if (targetIndex >= targets.length) {
-                        if (options.quitOnEnd === true) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = 0;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
-                }
+                quitOnEscKey:   true
             }, opts),
             _onStart = function () {
                 if (options.arrows) {
@@ -183,6 +149,40 @@
                 if (options.caption) {
                     captionOn();
                 }
+            },
+	    _previousTarget = function () {
+                return this.previousTargetDefault();
+            },
+           _previousTargetDefault = function () {
+                $wrapper.trigger("previous.ilb2");
+                var targetIndex = targets.index(target) - 1;
+                if (targetIndex < 0) {
+                    if (options.quitOnEnd === true) {
+                        _quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = targets.length - 1;
+                    }
+                }
+                target = targets.eq(targetIndex);
+           },
+	    _nextTarget = function () {
+                return this.nextTargetDefault();
+            },
+            _nextTargetDefault = function () {
+                $wrapper.trigger("next.ilb2");
+                var targetIndex = targets.index(target) + 1;
+                if (targetIndex >= targets.length) {
+                    if (options.quitOnEnd === true) {
+                        _quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = 0;
+                    }
+                }
+                target = targets.eq(targetIndex);
             },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
@@ -447,13 +447,13 @@
             },
 
             _loadPreviousImage = function () {
-                if (options.previousTarget() !== false) {
+                if (_previousTargetDefault() !== false) {
                     _loadImage('left');
                 }
             },
 
             _loadNextImage = function () {
-                if (options.nextTarget() !== false) {
+                if (_nextTargetDefault() !== false) {
                     _loadImage('right');
                 }
             },
