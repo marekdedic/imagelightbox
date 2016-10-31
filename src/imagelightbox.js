@@ -105,21 +105,6 @@
                 quitOnEscKey:   true
             }, opts),
             _onStart = function () {
-                if (options.onStart) {
-                    options.onStart();
-                }
-                if (options.arrows) {
-                    arrowsOn(this);
-                }
-                if (options.navigation) {
-                    navigationOn(this, options.selector);
-                }
-                if (options.overlay) {
-                    overlayOn();
-                }
-                if (options.button) {
-                    closeButtonOn();
-                }
                 if (options.lockBody) {
                     lockBody(true);
                 }
@@ -478,10 +463,26 @@
                 }
                 inProgress = false;
                 _onStart();
+		build();
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
                 target = $target;
                 _loadImage();
+		//
+		function build () {
+		    if (options.arrows) {
+			arrowsOn();
+                    }
+		    if (options.overlay) {
+			overlayOn();
+                    }
+		    if (options.button) {
+			closeButtonOn();
+                    }
+		    if (options.navigation) {
+			navigationOn();
+                    }
+		}
             },
 
             _quitImageLightbox = function () {
