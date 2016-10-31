@@ -119,25 +119,16 @@
  		$(window,document).off(".ilb7");
             },
             _onLoadStart = function () {
-                if (options.activity) {
-                    activityIndicatorOn();
-                }
-                if (options.caption) {
-                    captionOff();
-                }
+		$wrapper.append($activityObject);
+		$captionObject.html("&nbsp;");
             },
             _onLoadEnd = function () {
-                if (options.activity) {
-                    activityIndicatorOff();
-                }
+		$('#imagelightbox-loading').remove();
                 if (options.navigation) {
                     navigationUpdate(options.selector);
                 }
                 if (options.caption) {
                     captionOn();
-                }
-                if (options.onLoadEnd) {
-                    options.onLoadStart();
                 }
             },
            _previousTargetDefault = function () {
@@ -168,12 +159,6 @@
                 }
                 target = targets.eq(targetIndex);
             },
-            activityIndicatorOn = function () {
-                $wrapper.append($activityObject);
-            },
-            activityIndicatorOff = function () {
-                $('#imagelightbox-loading').remove();
-            },
             lockBody = function (toggle) {
                 if (toggle) {
                     $("body").css("overflow","hidden");
@@ -200,9 +185,6 @@
                 if (captionText && captionText.length > 0) {
                     $wrapper.append($captionObject.text(captionText));
                 }
-            },
-            captionOff = function () {
-                $captionObject.html("&nbsp;");
             },
             navigationOn = function () {
                 var images = targets;
