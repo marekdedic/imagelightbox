@@ -14,7 +14,8 @@
         $arrowRightObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
-        $arrows = $arrowLeftObject.add($arrowRightObject),
+        $arrows = $arrowLeftObject.add($arrowRightObject)
+	    .css('display','block'),
         $captionObject = $('<div/>', {
             id: 'imagelightbox-caption'
         }),
@@ -128,9 +129,6 @@
             _onLoadEnd = function () {
                 if (options.activity) {
                     activityIndicatorOff();
-                }
-                if (options.arrows) {
-                    $arrows.css('display', 'block');
                 }
                 if (options.navigation) {
                     navigationUpdate(options.selector);
