@@ -11,11 +11,11 @@
     "gulp-clean-css": "^2.0.13",
     "gulp-connect": "^5.0.0",
     "gulp-csslint": "^1.0.0",
-    "gulp-jshint": "^2.0.1",
+    "gulp-jshint": "^2.0.2",
     "gulp-lintspaces": "^0.5.0",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^2.0.0",
-    "jshint": "^2.9.3",
+    "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1"
   }
 }
