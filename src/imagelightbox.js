@@ -144,9 +144,6 @@
                     options.onLoadStart();
                 }
             },
-	    _previousTarget = function () {
-                return this.previousTargetDefault();
-            },
            _previousTargetDefault = function () {
                 $wrapper.trigger("previous.ilb2");
                 var targetIndex = targets.index(target) - 1;
@@ -161,9 +158,6 @@
                 }
                 target = targets.eq(targetIndex);
            },
-	    _nextTarget = function () {
-                return this.nextTargetDefault();
-            },
             _nextTargetDefault = function () {
                 $wrapper.trigger("next.ilb2");
                 var targetIndex = targets.index(target) + 1;
