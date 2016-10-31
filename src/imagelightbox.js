@@ -120,9 +120,6 @@
                 }
             },
             _onLoadStart = function () {
-                if (options.onLoadStart) {
-                    options.onLoadStart();
-                }
                 if (options.activity) {
                     activityIndicatorOn();
                 }
@@ -496,7 +493,6 @@
                     _onEnd();
                 });
             },
-
             _addTargets = function( newTargets ) {
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
