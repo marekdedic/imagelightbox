@@ -156,7 +156,7 @@
                     $wrapper.trigger("previous.ilb2");
                     var targetIndex = targets.index(target) - 1;
                     if (targetIndex < 0) {
-                        if (options.quitOnEnd === true) {
+                        if (options.quitOnEnd) {
                             _quitImageLightbox();
                             return false;
                         }
@@ -173,7 +173,7 @@
                     $wrapper.trigger("next.ilb2");
                     var targetIndex = targets.index(target) + 1;
                     if (targetIndex >= targets.length) {
-                        if (options.quitOnEnd === true) {
+                        if (options.quitOnEnd) {
                             _quitImageLightbox();
                             return false;
                         }
@@ -529,7 +529,7 @@
                     if (!image.length) {
                         return true;
                     }
-                    if([32,38,40].indexOf(e.which) > -1) {
+                    if([9,32,38,40].indexOf(e.which) > -1) {
                         e.preventDefault();
                         return false;
                     }
@@ -542,12 +542,12 @@
                         return true;
                     }
                     e.preventDefault();
-                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
                         _quitImageLightbox();
                     }
-                    if (e.keyCode === 37) {
+                    if ([37].indexOf(e.which) > -1) {
                         _loadPreviousImage();
-                    } else if (e.keyCode === 39) {
+                    } else if ([39].indexOf(e.which) > -1) {
                         _loadNextImage();
                     }
                 });
