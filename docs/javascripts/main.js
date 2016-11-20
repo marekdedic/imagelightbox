@@ -59,4 +59,11 @@ $(document).ready(function() {
     $('a[data-imagelightbox="j"]').imageLightbox({
         lockBody: true
     });
+
+    $('a[data-imagelightbox="k"]').imageLightbox({
+        onStart: function() { console.log("onStart") },
+        onEnd: function()   { console.log("onEnd") },
+        onLoadStart: function() { console.log("onLoadStart") },
+        onLoadEnd: function() { console.log("onLoadEnd") }
+    });
 });
