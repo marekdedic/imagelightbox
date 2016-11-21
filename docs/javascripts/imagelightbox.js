@@ -159,7 +159,7 @@
                     captionOn();
                 }
                 if (options.onLoadEnd) {
-                    options.onLoadStart();
+                    options.onLoadEnd();
                 }
             },
             _previousTarget = function () {
