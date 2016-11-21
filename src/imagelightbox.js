@@ -162,10 +162,10 @@
                     options.onLoadStart();
                 }
             },
-	    _previousTarget = function () {
+            _previousTarget = function () {
                 return this.previousTargetDefault();
             },
-           _previousTargetDefault = function () {
+            _previousTargetDefault = function () {
                 $wrapper.trigger("previous.ilb2");
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
@@ -178,8 +178,8 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-           },
-	    _nextTarget = function () {
+            },
+            _nextTarget = function () {
                 return this.nextTargetDefault();
             },
             _nextTargetDefault = function () {
@@ -531,7 +531,7 @@
                     if (!image.length) {
                         return true;
                     }
-                    if([32,38,40].indexOf(e.which) > -1) {
+                    if([9,32,38,40].indexOf(e.which) > -1) {
                         e.preventDefault();
                         return false;
                     }
@@ -544,12 +544,12 @@
                         return true;
                     }
                     e.preventDefault();
-                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
                         _quitImageLightbox();
                     }
-                    if (e.keyCode === 37) {
+                    if ([37].indexOf(e.which) > -1) {
                         _loadPreviousImage();
-                    } else if (e.keyCode === 39) {
+                    } else if ([39].indexOf(e.which) > -1) {
                         _loadNextImage();
                     }
                 });
