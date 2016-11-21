@@ -3,6 +3,7 @@ var gulp            = require('gulp'),
     csslint         = require('gulp-csslint'),
     jshint          = require('gulp-jshint'),
     lintspaces      = require("gulp-lintspaces"),
+    nightwatch      = require('gulp-nightwatch'),
     rename          = require('gulp-rename'),
     uglify          = require('gulp-uglify'),
     autoprefixer    = require('gulp-autoprefixer'),
@@ -68,7 +69,15 @@ gulp.task('serve', ['build', 'watch'], function() {
     });
 });
 
+gulp.task('night:js', ['serve'], function () {
+    return gulp.src('')
+        .pipe(nightwatch({
+            configFile: './nightwatch.json'
+        }));
+});
+
 gulp.task('build', ['minify:css', 'minify:js']);
 
 gulp.task('default', ['build']);
 
+gulp.task('test', ['night:js']);
