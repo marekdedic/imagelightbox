@@ -73,7 +73,11 @@ gulp.task('night:js', ['serve'], function () {
     return gulp.src('')
         .pipe(nightwatch({
             configFile: './nightwatch.json'
-        }));
+        }))
+        .on('end', function(){
+            connect.serverClose();
+            process.exit();
+        });
 });
 
 gulp.task('build', ['minify:css', 'minify:js']);
