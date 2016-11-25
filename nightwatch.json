@@ -8,7 +8,7 @@
         "log_path" : "./test/reports",
         "port" : 4444,
         "cli_args" : {
-            "webdriver.gecko.driver" : "./test/resources/geckodriver.exe"
+            "webdriver.gecko.driver" : "./test/resources/geckodriver"
         }
     },
 
