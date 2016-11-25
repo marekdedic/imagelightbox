@@ -74,6 +74,10 @@ gulp.task('night:js', ['serve'], function () {
         .pipe(nightwatch({
             configFile: './nightwatch.json'
         }))
+        .on('error', function(){
+            connect.serverClose();
+            process.exit();
+        })
         .on('end', function(){
             connect.serverClose();
             process.exit();
