@@ -36,13 +36,17 @@ $(document).ready(function() {
         selector: 'a[data-imagelightbox="f"]'
     });
 
-    var gallery = $('a[data-imagelightbox="h"]').imageLightbox();
-    $('.trigger-button').on('click', function () {
+    var gallery = $('a[data-imagelightbox="h"]').imageLightbox({
+        arrows: true
+    });
+    $('.trigger-lightbox').on('click', function () {
         gallery.startImageLightbox();
     });
 
-    var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox();
-    $("#addimage").on('click', function(){
+    var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox({
+        arrows: true
+    });
+    $(".add-image").on('click', function(){
         var adding_ul = $("#dynamically_adding");
         var li = $('<li></li>').appendTo( adding_ul );
         var a = $("<a></a>")
