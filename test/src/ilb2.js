@@ -21,19 +21,23 @@ module.exports = {
 
     "Dynamic add" : function (browser) {
         openDemo(browser);
-        browser.click('#addimage')
+        browser.click('.add-image')
             .click('[src="images/thumb4.jpg"')
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent("#imagelightbox")
             .assert.elementPresent('img[src$="images/demo4.jpg"]')
+            .click('.imagelightbox-arrow-right')
+            .assert.elementPresent('img[src$="images/demo1.jpg"]')
             .end();
     },
 
     "Manual trigger" : function (browser) {
         openDemo(browser);
-        browser.click('.trigger-button')
+        browser.click('.trigger-lightbox')
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent("#imagelightbox")
+            .click('.imagelightbox-arrow-right')
+            .assert.elementPresent('img[src$="images/demo2.jpg"]')
             .end();
     }
 };
