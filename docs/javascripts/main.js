@@ -50,14 +50,14 @@ $(document).ready(function() {
         var adding_ul = $("#dynamically_adding");
         var li = $('<li></li>').appendTo( adding_ul );
         var a = $("<a></a>")
-            .attr('data-imagelightbox',"add")
+            .attr('data-imagelightbox',"i")
             .attr('href', "images/demo4.jpg")
             .appendTo( li );
         $("<img />")
             .attr("src", "images/thumb4.jpg")
             .appendTo( a );
         // dynamically adding
-        instanceI.addToImageLightbox( $("a[data-imagelightbox='add']") );
+        instanceI.addToImageLightbox( $("a[data-imagelightbox='i']") );
     });
 
     $('a[data-imagelightbox="j"]').imageLightbox({
