@@ -25,6 +25,12 @@ $(document).ready(function() {
         arrows: true
     });
 
+     $('a[data-imagelightbox="katz"]').imageLightbox({
+         imageWidth:100,
+	 arrows: true,
+	 caption:true
+    });
+
     $('a[data-imagelightbox="g"]').imageLightbox({
         activity: true,
         arrows: true,

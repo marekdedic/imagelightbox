@@ -95,7 +95,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
-                imageWidth:     20,
+                imageWidth:     undefined,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -310,8 +310,10 @@
                             options.imageWidth > 100 ? 100:options.imageWidth;
 
                         imageWidth = screenWidth*options.imageWidth/100;
-                        imageHeight = imageWidth*ratio;
-                        //imageHeight *= options.imageWidth/100;
+                        imageHeight = imageWidth/ratio;
+
+
+
                     }
 
                     image.css({
