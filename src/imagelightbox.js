@@ -578,9 +578,7 @@
         };
 
         this.startImageLightbox = function () {
-            if (this.length > 0) {
-                _openImageLightbox($(this[0]));
-            }
+            $(this).trigger('click.ilb7');
         };
 
         return this;
