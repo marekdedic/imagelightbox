@@ -95,6 +95,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                imageWidth:     20,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -296,11 +297,21 @@
                 tmpImage.onload = function () {
                     imageWidth = tmpImage.width;
                     imageHeight = tmpImage.height;
+                    var ratio = imageWidth / imageHeight;
 
-                    if (imageWidth > screenWidth || imageHeight > screenHeight) {
-                        var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
-                        imageWidth /= ratio;
-                        imageHeight /= ratio;
+                    if ($.isNumeric(options.imageWidth) !== true && (imageWidth > screenWidth || imageHeight > screenHeight)) {
+                        ratio = ratio > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
+                            imageWidth /= ratio;
+                            imageHeight /= ratio;
+
+                    } else if ($.isNumeric(options.imageWidth)) {
+
+                        options.imageWidth =
+                            options.imageWidth > 100 ? 100:options.imageWidth;
+
+                        imageWidth = screenWidth*options.imageWidth/100;
+                        imageHeight = imageWidth*ratio;
+                        //imageHeight *= options.imageWidth/100;
                     }
 
                     image.css({
