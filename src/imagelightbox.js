@@ -551,7 +551,7 @@
                             return $(this).data("imagelightbox") === targetSet;
                         })
                         .filter(function () {
-                           return isTargetValid($(this));
+                            return isTargetValid($(this));
                         })
                         .each(function () {
                             targets = targets.add($(this));
