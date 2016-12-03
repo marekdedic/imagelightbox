@@ -25,8 +25,10 @@ module.exports = {
             .click('[src="images/thumb4.jpg"')
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent("#imagelightbox")
+            .waitForElementVisible('img[src$="images/demo4.jpg"]', 1000)
             .assert.elementPresent('img[src$="images/demo4.jpg"]')
             .click('.imagelightbox-arrow-right')
+            .waitForElementVisible('img[src$="images/demo1.jpg"]', 1000)
             .assert.elementPresent('img[src$="images/demo1.jpg"]')
             .end();
     },
@@ -37,6 +39,7 @@ module.exports = {
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent("#imagelightbox")
             .click('.imagelightbox-arrow-right')
+            .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
             .assert.elementPresent('img[src$="images/demo2.jpg"]')
             .end();
     }
