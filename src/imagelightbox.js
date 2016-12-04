@@ -89,7 +89,7 @@
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
-                allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+                allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
                 animationSpeed: 250,
                 activity:       false,
                 arrows:         false,
