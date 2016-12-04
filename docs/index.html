@@ -19,7 +19,6 @@
 <body>
 <div id="container">
     <div class="inner">
-
         <header>
             <h1>Imagelightbox</h1>
             <h2>Image Lightbox, Responsive and Touch‑friendly</h2>
@@ -31,94 +30,114 @@
             <a href="https://github.com/rejas/imagelightbox" id="view-on-github" class="button"><span>View on GitHub</span></a>
         </section>
 
-        <section id="main_content">
-            <h2>With activity indication</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="a"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="a"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="a"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <pre><code>$('a[data-imagelightbox="a"]')
-                    .imageLightbox(activity: true});
-            </code></pre>
-            <h2>With overlay</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="b"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="b"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="b"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <pre><code>$('a[data-imagelightbox="b"]')
-                .imageLightbox({overlay: true});
-            </code></pre>
-            <h2>With "close" button</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="c"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="c"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="c"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <pre><code>$('a[data-imagelightbox="c"]')
-                .imageLightbox({button: true, quitOnDocClick: false});
-            </code></pre>
-            <h2>With caption</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="d" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="d"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="d"><img src="images/thumb3.jpg" alt="Just another sunset in Tanzania"></a></li>
-            </ul>
-            <pre><code>
-                $('a[data-imagelightbox="d"]')
-                .imageLightbox({caption: true});
-            </code></pre>
-            <h2>With navigation</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="e"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="e"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="e"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <pre><code>
-                $('a[data-imagelightbox="e"]')
-                .imageLightbox({navigation: true});
-            </code></pre>
-            <h2>With arrows</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="f"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="f"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="f"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <pre><code>$('a[data-imagelightbox="f"]')
-                .imageLightbox({arrows: true});
-            </code></pre>
-            <h2>All of the above</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="g" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="g" data-ilb2-caption="Traffic jam in Tanzania"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="g" data-ilb2-caption="Just another sunset in Tanzania"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <h2>With manual trigger</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="h"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="h"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="h"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <button class="trigger-button">Klick Me!</button>
-            <h2>dynamically adding</h2>
-            <ul id="dynamically_adding">
-                <li><a href="images/demo1.jpg" data-imagelightbox="i"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="i"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="i"><img src="images/thumb3.jpg"></a></li>
-            </ul>
-            <button id="addimage">Add another image</button>
-            <h2>Disabled body scrolling</h2>
-            <ul>
-                <li><a href="images/demo1.jpg" data-imagelightbox="j"><img src="images/thumb1.jpg"></a></li>
-                <li><a href="images/demo2.jpg" data-imagelightbox="j"><img src="images/thumb2.jpg"></a></li>
-                <li><a href="images/demo3.jpg" data-imagelightbox="j"><img src="images/thumb3.jpg"></a></li>
-            </ul>
+        <div id="main_content">
+            <section class="options">
+                <h2>With activity indication</h2>
+                <ul class="options_activity">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="a"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="a"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="a"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>$('a[data-imagelightbox="a"]')
+                        .imageLightbox({{
+                            }}activity: true});
+                </code></pre>
+                <h2>With overlay</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="b"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="b"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="b"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>$('a[data-imagelightbox="b"]')
+                    .imageLightbox({overlay: true});
+                </code></pre>
+                <h2>With "close" button</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="c"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="c"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="c"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>$('a[data-imagelightbox="c"]')
+                    .imageLightbox({button: true, quitOnDocClick: false});
+                </code></pre>
+                <h2>With caption</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="d" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="d"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="d"><img src="images/thumb3.jpg" alt="Just another sunset in Tanzania"></a></li>
+                </ul>
+                <pre><code>
+                    $('a[data-imagelightbox="d"]')
+                    .imageLightbox({caption: true});
+                </code></pre>
+                <h2>With navigation</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="e"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="e"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="e"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>
+                    $('a[data-imagelightbox="e"]')
+                    .imageLightbox({navigation: true});
+                </code></pre>
+                <h2>With arrows</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="f"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="f"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="f"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>$('a[data-imagelightbox="f"]')
+                    .imageLightbox({arrows: true});
+                </code></pre>
+                <h2>All of the above</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="g" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="g" data-ilb2-caption="Traffic jam in Tanzania"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="g" data-ilb2-caption="Just another sunset in Tanzania"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <h2>With manual trigger</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="h"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="h"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="h"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <button class="trigger-lightbox">Click Me!</button>
+                <h2>dynamically adding</h2>
+                <ul id="dynamically_adding">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="i"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="i"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="i"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <button class="add-image">Add another image</button>
+                <h2>Disabled body scrolling</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="j"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="j"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="j"><img src="images/thumb3.jpg"></a></li>
+                </ul>
 
-            <script src="./bower_components/jquery/dist/jquery.min.js"></script>
-            <script src="./javascripts/imagelightbox.js"></script>
-            <script src="./javascripts/main.js"></script>
-        </section>
+                <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+                <script src="./javascripts/imagelightbox.js"></script>
+                <script src="./javascripts/main.js"></script>
+            </section>
+
+            <section id="events">
+                <h2>onStart / onEnd / onLoadStart / onLoadEnd</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="k"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="k"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="k"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>$('a[data-imagelightbox="k"]')
+                        .imageLightbox({
+                            onStart: function() { console.log("onStart") },
+                            onEnd: function() { console.log("onEnd") },
+                            onLoadStart: function() { console.log("onLoadStart") },
+                            onLoadEnd: function() { console.log("onLoadEnd") }
+                });
+                </code></pre>
+            </section>
+        </div>
 
         <footer>
             <p>Imagelightbox is maintained by <a href="https://github.com/rejas">rejas</a> Photos taken by <a href="https://www.veeck.de">me</a>.

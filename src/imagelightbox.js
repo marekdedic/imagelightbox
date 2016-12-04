@@ -89,7 +89,7 @@
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
-                allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+                allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
                 animationSpeed: 250,
                 activity:       false,
                 arrows:         false,
@@ -130,8 +130,14 @@
                 if (options.caption) {
                     captionOn();
                 }
+<<<<<<< variant A
+>>>>>>> variant B
             },
-           _previousTargetDefault = function () {
+            _previousTarget = function () {
+                return this.previousTargetDefault();
+======= end
+            },
+            _previousTargetDefault = function () {
                 $wrapper.trigger("previous.ilb2");
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
@@ -144,7 +150,14 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+<<<<<<< variant A
            },
+>>>>>>> variant B
+            },
+            _nextTarget = function () {
+                return this.nextTargetDefault();
+            },
+======= end
             _nextTargetDefault = function () {
                 $wrapper.trigger("next.ilb2");
                 var targetIndex = targets.index(target) + 1;
@@ -241,6 +254,48 @@
             swipeDiff = 0,
             inProgress = false,
 
+            isTargetValid = function (validImage) {
+                var allowedTypes = options.allowedTypes;
+
+                //test that RegExp is restricted to disjunction format
+                var isGoodRE = /^(?!\|)[\w\|]+(?!\|)$/.test(allowedTypes);
+                //
+                if (!isGoodRE) {
+                    //allowedTypes = 'png|jpg|jpeg|gif';
+                    return false;
+                }
+                //
+                var URL = validImage.attr("href");
+                var ext = parseURL(URL).pathname;
+                var re = new RegExp(allowedTypes,"i");
+                //
+                var isAllowed = re.test(ext);
+                // function by Cory LaViska
+                function parseURL(url) {
+                    var parser = document.createElement('a'),
+                        searchObject = {},
+                        queries, split, i;
+                    // Let the browser do the work
+                    parser.href = url;
+                    // Convert query string to object
+                    queries = parser.search.replace(/^\?/, '').split('&');
+                    for( i = 0; i < queries.length; i++ ) {
+                        split = queries[i].split('=');
+                        searchObject[split[0]] = split[1];
+                    }
+                    return {
+                        protocol: parser.protocol,
+                        host: parser.host,
+                        hostname: parser.hostname,
+                        port: parser.port,
+                        pathname: parser.pathname,
+                        search: parser.search,
+                        searchObject: searchObject,
+                        hash: parser.hash
+                    };
+                }
+                return isAllowed;
+            },
             // TODO make it work again
             // isTargetValid = function (element) {
             //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
@@ -477,6 +532,9 @@
                         .filter(function () {
                             return $(this).data("imagelightbox") === targetSet;
                         })
+                        .filter(function () {
+                            return isTargetValid($(this));
+                        })
                         .each(function () {
                             targets = targets.add($(this));
                         });
@@ -500,7 +558,7 @@
                     if (!image.length) {
                         return true;
                     }
-                    if([32,38,40].indexOf(e.which) > -1) {
+                    if([9,32,38,40].indexOf(e.which) > -1) {
                         e.preventDefault();
                         return false;
                     }
@@ -513,12 +571,12 @@
                         return true;
                     }
                     e.preventDefault();
-                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
+                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
                         _quitImageLightbox();
                     }
-                    if (e.keyCode === 37) {
+                    if ([37].indexOf(e.which) > -1) {
                         _loadPreviousImage();
-                    } else if (e.keyCode === 39) {
+                    } else if ([39].indexOf(e.which) > -1) {
                         _loadNextImage();
                     }
                 });
@@ -547,9 +605,7 @@
         };
 
         this.startImageLightbox = function () {
-            if (this.length > 0) {
-                _openImageLightbox($(this[0]));
-            }
+            $(this).trigger('click.ilb7');
         };
 
         return this;
