@@ -14,7 +14,8 @@
         $arrowRightObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
-        $arrows = $arrowLeftObject.add($arrowRightObject),
+        $arrows = $arrowLeftObject.add($arrowRightObject)
+	    .css('display','block'),
         $captionObject = $('<div/>', {
             id: 'imagelightbox-caption'
         }),
@@ -105,21 +106,6 @@
                 quitOnEscKey:   true
             }, opts),
             _onStart = function () {
-                if (options.onStart) {
-                    options.onStart();
-                }
-                if (options.arrows) {
-                    arrowsOn(this);
-                }
-                if (options.navigation) {
-                    navigationOn(this, options.selector);
-                }
-                if (options.overlay) {
-                    overlayOn();
-                }
-                if (options.button) {
-                    closeButtonOn();
-                }
                 if (options.lockBody) {
                     lockBody(true);
                 }
@@ -129,43 +115,23 @@
                 $wrapper.remove().find("*").remove();
                 if (options.lockBody) {
                     lockBody(false);
-                }
-                if (options.onEnd) {
-                    options.onEnd();
-                }
+		}
+ 		$(window,document).off(".ilb7");
             },
             _onLoadStart = function () {
-                if (options.onLoadStart) {
-                    options.onLoadStart();
-                }
-                if (options.activity) {
-                    activityIndicatorOn();
-                }
-                if (options.caption) {
-                    captionOff();
-                }
+		$wrapper.append($activityObject);
+		$captionObject.html("&nbsp;");
             },
             _onLoadEnd = function () {
-                if (options.activity) {
-                    activityIndicatorOff();
-                }
-                if (options.arrows) {
-                    $arrows.css('display', 'block');
-                }
+		$('#imagelightbox-loading').remove();
                 if (options.navigation) {
                     navigationUpdate(options.selector);
                 }
                 if (options.caption) {
                     captionOn();
                 }
-                if (options.onLoadEnd) {
-                    options.onLoadEnd();
-                }
             },
-            _previousTarget = function () {
-                return this.previousTargetDefault();
-            },
-            _previousTargetDefault = function () {
+           _previousTargetDefault = function () {
                 $wrapper.trigger("previous.ilb2");
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
@@ -178,10 +144,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-            },
-            _nextTarget = function () {
-                return this.nextTargetDefault();
-            },
+           },
             _nextTargetDefault = function () {
                 $wrapper.trigger("next.ilb2");
                 var targetIndex = targets.index(target) + 1;
@@ -195,12 +158,6 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-            },
-            activityIndicatorOn = function () {
-                $wrapper.append($activityObject);
-            },
-            activityIndicatorOff = function () {
-                $('#imagelightbox-loading').remove();
             },
             lockBody = function (toggle) {
                 if (toggle) {
@@ -228,9 +185,6 @@
                 if (captionText && captionText.length > 0) {
                     $wrapper.append($captionObject.text(captionText));
                 }
-            },
-            captionOff = function () {
-                $captionObject.html("&nbsp;");
             },
             navigationOn = function () {
                 var images = targets;
@@ -287,48 +241,6 @@
             swipeDiff = 0,
             inProgress = false,
 
-            isTargetValid = function (validImage) {
-                var allowedTypes = options.allowedTypes;
-
-                //test that RegExp is restricted to disjunction format
-                var isGoodRE = /^(?!\|)[\w\|]+(?!\|)$/.test(allowedTypes);
-                //
-                if (!isGoodRE) {
-                    //allowedTypes = 'png|jpg|jpeg|gif';
-                    return false;
-                }
-                //
-                var URL = validImage.attr("href");
-                var ext = parseURL(URL).pathname;
-                var re = new RegExp(allowedTypes,"i");
-                //
-                var isAllowed = re.test(ext);
-                // function by Cory LaViska
-                function parseURL(url) {
-                    var parser = document.createElement('a'),
-                        searchObject = {},
-                        queries, split, i;
-                    // Let the browser do the work
-                    parser.href = url;
-                    // Convert query string to object
-                    queries = parser.search.replace(/^\?/, '').split('&');
-                    for( i = 0; i < queries.length; i++ ) {
-                        split = queries[i].split('=');
-                        searchObject[split[0]] = split[1];
-                    }
-                    return {
-                        protocol: parser.protocol,
-                        host: parser.host,
-                        hostname: parser.hostname,
-                        port: parser.port,
-                        pathname: parser.pathname,
-                        search: parser.search,
-                        searchObject: searchObject,
-                        hash: parser.hash
-                    };
-                }
-                return isAllowed;
-            },
             // TODO make it work again
             // isTargetValid = function (element) {
             //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
@@ -520,10 +432,26 @@
                 }
                 inProgress = false;
                 _onStart();
+		build();
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
                 target = $target;
                 _loadImage();
+		//
+		function build () {
+		    if (options.arrows) {
+			arrowsOn();
+                    }
+		    if (options.overlay) {
+			overlayOn();
+                    }
+		    if (options.button) {
+			closeButtonOn();
+                    }
+		    if (options.navigation) {
+			navigationOn();
+                    }
+		}
             },
 
             _quitImageLightbox = function () {
@@ -537,7 +465,6 @@
                     _onEnd();
                 });
             },
-
             _addTargets = function( newTargets ) {
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
@@ -549,9 +476,6 @@
                     newTargets
                         .filter(function () {
                             return $(this).data("imagelightbox") === targetSet;
-                        })
-                        .filter(function () {
-                           return isTargetValid($(this));
                         })
                         .each(function () {
                             targets = targets.add($(this));
@@ -576,7 +500,7 @@
                     if (!image.length) {
                         return true;
                     }
-                    if([9,32,38,40].indexOf(e.which) > -1) {
+                    if([32,38,40].indexOf(e.which) > -1) {
                         e.preventDefault();
                         return false;
                     }
@@ -589,12 +513,12 @@
                         return true;
                     }
                     e.preventDefault();
-                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                    if (e.keyCode === 27 && options.quitOnEscKey === true) {
                         _quitImageLightbox();
                     }
-                    if ([37].indexOf(e.which) > -1) {
+                    if (e.keyCode === 37) {
                         _loadPreviousImage();
-                    } else if ([39].indexOf(e.which) > -1) {
+                    } else if (e.keyCode === 39) {
                         _loadNextImage();
                     }
                 });
@@ -623,7 +547,9 @@
         };
 
         this.startImageLightbox = function () {
-            $(this).trigger('click.ilb7');
+            if (this.length > 0) {
+                _openImageLightbox($(this[0]));
+            }
         };
 
         return this;
