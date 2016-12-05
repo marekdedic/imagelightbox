@@ -83,6 +83,7 @@
 
             return false;
         };
+
     var instances = [];
     $.fn.imageLightbox = function (opts) {
         instances.push(this.data("imagelightbox"));
@@ -522,7 +523,7 @@
                 inProgress = false;
                 _onStart();
                 $('body').append($wrapper);
-                $wrapper.trigger("start.ilb2",[instances]);
+                $wrapper.trigger("start.ilb7",[instances]);
                 target = $target;
                 _loadImage();
             },
@@ -563,8 +564,8 @@
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
-            $(this).on("start.ilb2", function (e,b) {
-                //console.log(b);
+            $(this).on("start.ilb7", function (e,b) {
+                console.log(b);
             });
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
