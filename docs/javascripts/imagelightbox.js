@@ -84,11 +84,13 @@
             return false;
         };
 
+    var instances = [];
     $.fn.imageLightbox = function (opts) {
+        instances.push(this.data("imagelightbox"));
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
-                allowedTypes:   'png|jpg|jpeg||gif', // TODO make it work again
+                allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
                 animationSpeed: 250,
                 activity:       false,
                 arrows:         false,
@@ -102,88 +104,100 @@
                 quitOnEnd:      false,
                 quitOnImgClick: false,
                 quitOnDocClick: true,
-                quitOnEscKey:   true,
-                onStart: function () {
-                    if (options.arrows) {
-                        arrowsOn(this);
-                    }
-                    if (options.navigation) {
-                        navigationOn(this, options.selector);
-                    }
-                    if (options.overlay) {
-                        overlayOn();
-                    }
-                    if (options.button) {
-                        closeButtonOn();
-                    }
-                    if (options.lockBody) {
-                        lockBody(true);
-                    }
-                },
-                onEnd: function () {
-                    targets = $([]);
-                    $wrapper.remove().find("*").remove();
-                    if (options.lockBody) {
-                        lockBody(false);
-                    }
-                },
-                onLoadStart: function () {
-                    if (options.activity) {
-                        activityIndicatorOn();
-                    }
-                    if (options.caption) {
-                        captionOff();
-                    }
-                },
-                onLoadEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        $arrows.css('display', 'block');
-                    }
-                    if (options.navigation) {
-                        navigationUpdate(options.selector);
-                    }
-                    if (options.caption) {
-                        captionOn();
-                    }
-                },
-                previousTarget: function () {
-                    return this.previousTargetDefault();
-                },
-                previousTargetDefault: function () {
-                    $wrapper.trigger("previous.ilb2");
-                    var targetIndex = targets.index(target) - 1;
-                    if (targetIndex < 0) {
-                        if (options.quitOnEnd) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = targets.length - 1;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
-                },
-                nextTarget: function () {
-                    return this.nextTargetDefault();
-                },
-                nextTargetDefault: function () {
-                    $wrapper.trigger("next.ilb2");
-                    var targetIndex = targets.index(target) + 1;
-                    if (targetIndex >= targets.length) {
-                        if (options.quitOnEnd) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        else {
-                            targetIndex = 0;
-                        }
-                    }
-                    target = targets.eq(targetIndex);
-                }
+                quitOnEscKey:   true
             }, opts),
+            _onStart = function () {
+                if (options.onStart) {
+                    options.onStart();
+                }
+                if (options.arrows) {
+                    arrowsOn(this);
+                }
+                if (options.navigation) {
+                    navigationOn(this, options.selector);
+                }
+                if (options.overlay) {
+                    overlayOn();
+                }
+                if (options.button) {
+                    closeButtonOn();
+                }
+                if (options.lockBody) {
+                    lockBody(true);
+                }
+            },
+            _onEnd = function () {
+                targets = $([]);
+                $wrapper.remove().find("*").remove();
+                if (options.lockBody) {
+                    lockBody(false);
+                }
+                if (options.onEnd) {
+                    options.onEnd();
+                }
+            },
+            _onLoadStart = function () {
+                if (options.onLoadStart) {
+                    options.onLoadStart();
+                }
+                if (options.activity) {
+                    activityIndicatorOn();
+                }
+                if (options.caption) {
+                    captionOff();
+                }
+            },
+            _onLoadEnd = function () {
+                if (options.activity) {
+                    activityIndicatorOff();
+                }
+                if (options.arrows) {
+                    $arrows.css('display', 'block');
+                }
+                if (options.navigation) {
+                    navigationUpdate(options.selector);
+                }
+                if (options.caption) {
+                    captionOn();
+                }
+                if (options.onLoadEnd) {
+                    options.onLoadEnd();
+                }
+            },
+            _previousTarget = function () {
+                return this.previousTargetDefault();
+            },
+            _previousTargetDefault = function () {
+                $wrapper.trigger("previous.ilb2");
+                var targetIndex = targets.index(target) - 1;
+                if (targetIndex < 0) {
+                    if (options.quitOnEnd === true) {
+                        _quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = targets.length - 1;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            },
+            _nextTarget = function () {
+                return this.nextTargetDefault();
+            },
+            _nextTargetDefault = function () {
+                $wrapper.trigger("next.ilb2");
+                var targetIndex = targets.index(target) + 1;
+                if (targetIndex >= targets.length) {
+                    if (options.quitOnEnd === true) {
+                        _quitImageLightbox();
+                        return false;
+                    }
+                    else {
+                        targetIndex = 0;
+                    }
+                }
+                target = targets.eq(targetIndex);
+            },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
@@ -275,6 +289,48 @@
             swipeDiff = 0,
             inProgress = false,
 
+            isTargetValid = function (validImage) {
+                var allowedTypes = options.allowedTypes;
+
+                //test that RegExp is restricted to disjunction format
+                var isGoodRE = /^(?!\|)[\w\|]+(?!\|)$/.test(allowedTypes);
+                //
+                if (!isGoodRE) {
+                    //allowedTypes = 'png|jpg|jpeg|gif';
+                    return false;
+                }
+                //
+                var URL = validImage.attr("href");
+                var ext = parseURL(URL).pathname;
+                var re = new RegExp(allowedTypes,"i");
+                //
+                var isAllowed = re.test(ext);
+                // function by Cory LaViska
+                function parseURL(url) {
+                    var parser = document.createElement('a'),
+                        searchObject = {},
+                        queries, split, i;
+                    // Let the browser do the work
+                    parser.href = url;
+                    // Convert query string to object
+                    queries = parser.search.replace(/^\?/, '').split('&');
+                    for( i = 0; i < queries.length; i++ ) {
+                        split = queries[i].split('=');
+                        searchObject[split[0]] = split[1];
+                    }
+                    return {
+                        protocol: parser.protocol,
+                        host: parser.host,
+                        hostname: parser.hostname,
+                        port: parser.port,
+                        pathname: parser.pathname,
+                        search: parser.search,
+                        searchObject: searchObject,
+                        hash: parser.hash
+                    };
+                }
+                return isAllowed;
+            },
             // TODO make it work again
             // isTargetValid = function (element) {
             //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
@@ -334,9 +390,7 @@
                 }
 
                 inProgress = true;
-                if (options.onLoadStart !== false) {
-                    options.onLoadStart();
-                }
+                _onLoadStart();
 
                 setTimeout(function () {
                     var imgPath = target.attr('href');
@@ -364,9 +418,7 @@
 
                             image.animate(params, options.animationSpeed, function () {
                                 inProgress = false;
-                                if (options.onLoadEnd !== false) {
-                                    options.onLoadEnd();
-                                }
+                                _onLoadEnd();
                             });
                             if (options.preloadNext) {
                                 var nextTarget = targets.eq(targets.index(target) + 1);
@@ -377,9 +429,7 @@
                             }
                         })
                         .on('error.ilb7', function () {
-                            if (options.onLoadEnd !== false) {
-                                options.onLoadEnd();
-                            }
+                            _onLoadEnd();
                         });
 
                     var swipeStart = 0,
@@ -447,13 +497,13 @@
             },
 
             _loadPreviousImage = function () {
-                if (options.previousTarget() !== false) {
+                if (_previousTargetDefault() !== false) {
                     _loadImage('left');
                 }
             },
 
             _loadNextImage = function () {
-                if (options.nextTarget() !== false) {
+                if (_nextTargetDefault() !== false) {
                     _loadImage('right');
                 }
             },
@@ -471,11 +521,9 @@
                     return false;
                 }
                 inProgress = false;
-                if (options.onStart !== false) {
-                    options.onStart();
-                }
+                _onStart();
                 $('body').append($wrapper);
-                $wrapper.trigger("start.ilb2");
+                $wrapper.trigger("start.ilb7",[instances]);
                 target = $target;
                 _loadImage();
             },
@@ -488,9 +536,7 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    if (options.onEnd !== false) {
-                        options.onEnd();
-                    }
+                    _onEnd();
                 });
             },
 
@@ -506,6 +552,9 @@
                         .filter(function () {
                             return $(this).data("imagelightbox") === targetSet;
                         })
+                        .filter(function () {
+                            return isTargetValid($(this));
+                        })
                         .each(function () {
                             targets = targets.add($(this));
                         });
@@ -515,6 +564,9 @@
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
+            $(this).on("start.ilb7", function (e,b) {
+                console.log(b);
+            });
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
                     if (image.length && !$(e.target).is(image)) {
