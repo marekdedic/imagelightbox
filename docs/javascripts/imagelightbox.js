@@ -83,8 +83,9 @@
 
             return false;
         };
-
+    var instances = [];
     $.fn.imageLightbox = function (opts) {
+        instances.push(this.data("imagelightbox"));
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
@@ -521,7 +522,7 @@
                 inProgress = false;
                 _onStart();
                 $('body').append($wrapper);
-                $wrapper.trigger("start.ilb2");
+                $wrapper.trigger("start.ilb2",[instances]);
                 target = $target;
                 _loadImage();
             },
@@ -551,7 +552,7 @@
                             return $(this).data("imagelightbox") === targetSet;
                         })
                         .filter(function () {
-                           return isTargetValid($(this));
+                            return isTargetValid($(this));
                         })
                         .each(function () {
                             targets = targets.add($(this));
@@ -562,6 +563,9 @@
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
+            $(this).on("start.ilb2", function (e,b) {
+                //console.log(b);
+            });
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
                     if (image.length && !$(e.target).is(image)) {
