@@ -107,9 +107,6 @@
                 quitOnEscKey:   true
             }, opts),
             _onStart = function () {
-                if (options.onStart) {
-                    options.onStart();
-                }
                 if (options.arrows) {
                     arrowsOn(this);
                 }
@@ -132,14 +129,8 @@
                 if (options.lockBody) {
                     lockBody(false);
                 }
-                if (options.onEnd) {
-                    options.onEnd();
-                }
             },
             _onLoadStart = function () {
-                if (options.onLoadStart) {
-                    options.onLoadStart();
-                }
                 if (options.activity) {
                     activityIndicatorOn();
                 }
@@ -159,9 +150,6 @@
                 }
                 if (options.caption) {
                     captionOn();
-                }
-                if (options.onLoadEnd) {
-                    options.onLoadEnd();
                 }
             },
             _previousTarget = function () {
