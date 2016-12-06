@@ -16,7 +16,8 @@
             class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
         $arrows = $arrowLeftObject.add($arrowRightObject),
         $captionObject = $('<div/>', {
-            id: 'imagelightbox-caption'
+            id: 'imagelightbox-caption',
+            html: "&nbsp;"
         }),
         $buttonObject =  $('<a/>', {
             id: 'imagelightbox-close'
@@ -133,7 +134,7 @@
                     activityIndicatorOn();
                 }
                 if (options.caption) {
-                    captionOff();
+                    captionReset();
                 }
             },
             _onLoadEnd = function () {
@@ -145,9 +146,6 @@
                 }
                 if (options.navigation) {
                     navigationUpdate(options.selector);
-                }
-                if (options.caption) {
-                    captionOn();
                 }
             },
             _previousTarget = function () {
@@ -206,19 +204,14 @@
                     return false;
                 });
             },
-            captionOn = function () {
-                var captionText = "";
+            captionReset = function () {
                 if ($(target).data("ilb2-caption")) {
-                    captionText = $(target).data("ilb2-caption");
+                    $captionObject.html($(target).data("ilb2-caption"));
                 } else if ($(target).find('img').length) {
-                    captionText = $(target).find('img').attr('alt');
+                    $captionObject.html($(target).find('img').attr('alt'));
+                } else {
+                    $captionObject.html("&nbsp;");
                 }
-                if (captionText && captionText.length > 0) {
-                    $wrapper.append($captionObject.text(captionText));
-                }
-            },
-            captionOff = function () {
-                $captionObject.html("&nbsp;");
             },
             navigationOn = function () {
                 var images = targets;
