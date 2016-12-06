@@ -328,9 +328,10 @@
                 if (!image.length) {
                     return true;
                 }
+                var captionHeight = $captionObject.outerHeight();
 
                 var screenWidth = $(window).width() * 0.8,
-                    wHeight = (window.innerHeight) ? window.innerHeight : $(window).height(),
+                    wHeight = ((window.innerHeight) ? window.innerHeight : $(window).height()) - captionHeight,
                     screenHeight = wHeight * 0.9,
                     tmpImage = new Image();
 
@@ -338,7 +339,7 @@
                 tmpImage.onload = function () {
                     imageWidth = tmpImage.width;
                     imageHeight = tmpImage.height;
-
+                    console.log(imageHeight);
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
