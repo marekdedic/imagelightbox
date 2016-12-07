@@ -143,9 +143,6 @@
                 if (options.arrows) {
                     $arrows.css('display', 'block');
                 }
-                if (options.navigation) {
-                    navigationUpdate(options.selector);
-                }
                 if (options.caption) {
                     captionOn();
                 }
@@ -172,6 +169,7 @@
             },
             _nextTargetDefault = function () {
                 $wrapper.trigger("next.ilb2");
+
                 var targetIndex = targets.index(target) + 1;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
@@ -226,13 +224,15 @@
                     for (var i = 0; i < images.length; i++) {
                         $navObject.append($navItem.clone());
                     }
-                    $wrapper.append($navObject);
-                    $navObject.on('click.ilb7 touchend.ilb7', function () {
-                        return false;
+                    $wrapper.on("next.ilb2 previous.ilb2", $navObject, function (e) {
+
                     });
-                    var navItems = $navObject.find('a');
-                    navItems.on('click.ilb7 touchend.ilb7', function () {
+                    $wrapper.append($navObject);
+                    $navObject.children('a').eq(images.index(target)).addClass('active');
+                    $navObject.on('click.ilb7 touchend.ilb7', "a", function (e) {
+
                         var $this = $(this);
+                        var $delegate = $(e.delegateTarget);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
                             if (tmpTarget.length) {
@@ -241,18 +241,15 @@
                                 _loadImage($this.index() < currentIndex ? 'left' : 'right');
                             }
                         }
-                        navItems.removeClass('active');
-                        navItems.eq($this.index()).addClass('active');
+                        $delegate.children('a').removeClass('active');
+                        $this.addClass('active');
+
                         return false;
                     }).on('touchend.ilb7', function () {
                         return false;
                     });
+
                 }
-            },
-            navigationUpdate = function () {
-                var items = $navObject.find('a');
-                items.removeClass('active');
-                items.eq(targets.index(target)).addClass('active');
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
@@ -506,11 +503,11 @@
                 if (inProgress) {
                     return false;
                 }
+                target = $target;
                 inProgress = false;
                 _onStart();
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
-                target = $target;
                 _loadImage();
             },
 
@@ -531,7 +528,11 @@
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
                     filterTargets();
-                    _openImageLightbox($(this));
+                    if (targets.length < 1) {
+                        _quitImageLightbox();
+                    } else {
+                        _openImageLightbox($(this));
+                    }
                 });
                 function filterTargets () {
                     newTargets
