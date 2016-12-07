@@ -336,7 +336,7 @@
                 tmpImage.onload = function () {
                     imageWidth = tmpImage.width;
                     imageHeight = tmpImage.height;
-                    console.log(imageHeight);
+
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
