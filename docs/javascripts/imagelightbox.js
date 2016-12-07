@@ -121,6 +121,9 @@
                 if (options.lockBody) {
                     lockBody(true);
                 }
+                if (options.caption) {
+                    $wrapper.append($captionObject);
+                }
             },
             _onEnd = function () {
                 targets = $([]);
@@ -133,9 +136,10 @@
                 if (options.activity) {
                     activityIndicatorOn();
                 }
-                if (options.caption) {
-                    captionReset();
+                 if (options.caption) {
+                     captionReset();
                 }
+
             },
             _onLoadEnd = function () {
                 if (options.activity) {
@@ -147,6 +151,7 @@
                 if (options.navigation) {
                     navigationUpdate(options.selector);
                 }
+
             },
             _previousTarget = function () {
                 return this.previousTargetDefault();
@@ -205,12 +210,11 @@
                 });
             },
             captionReset = function () {
+                $captionObject.html("&nbsp;");
                 if ($(target).data("ilb2-caption")) {
                     $captionObject.html($(target).data("ilb2-caption"));
-                } else if ($(target).find('img').length) {
+                } else if ($(target).find('img').length > 0) {
                     $captionObject.html($(target).find('img').attr('alt'));
-                } else {
-                    $captionObject.html("&nbsp;");
                 }
             },
             navigationOn = function () {
