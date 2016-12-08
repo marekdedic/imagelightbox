@@ -103,52 +103,6 @@
                 quitOnImgClick: false,
                 quitOnDocClick: true,
                 quitOnEscKey:   true,
-                onStart: function () {
-                    if (options.arrows) {
-                        arrowsOn(this);
-                    }
-                    if (options.navigation) {
-                        navigationOn(this, options.selector);
-                    }
-                    if (options.overlay) {
-                        overlayOn();
-                    }
-                    if (options.button) {
-                        closeButtonOn();
-                    }
-                    if (options.lockBody) {
-                        lockBody(true);
-                    }
-                },
-                onEnd: function () {
-                    targets = $([]);
-                    $wrapper.remove().find("*").remove();
-                    if (options.lockBody) {
-                        lockBody(false);
-                    }
-                },
-                onLoadStart: function () {
-                    if (options.activity) {
-                        activityIndicatorOn();
-                    }
-                    if (options.caption) {
-                        captionOff();
-                    }
-                },
-                onLoadEnd: function () {
-                    if (options.activity) {
-                        activityIndicatorOff();
-                    }
-                    if (options.arrows) {
-                        $arrows.css('display', 'block');
-                    }
-                    if (options.navigation) {
-                        navigationUpdate(options.selector);
-                    }
-                    if (options.caption) {
-                        captionOn();
-                    }
-                },
                 previousTarget: function () {
                     return this.previousTargetDefault();
                 },
@@ -184,6 +138,52 @@
                     target = targets.eq(targetIndex);
                 }
             }, opts),
+            _onStart = function () {
+                if (options.arrows) {
+                    arrowsOn(this);
+                }
+                if (options.navigation) {
+                    navigationOn(this, options.selector);
+                }
+                if (options.overlay) {
+                    overlayOn();
+                }
+                if (options.button) {
+                    closeButtonOn();
+                }
+                if (options.lockBody) {
+                    lockBody(true);
+                }
+            },
+            _onEnd = function () {
+                targets = $([]);
+                $wrapper.remove().find("*").remove();
+                if (options.lockBody) {
+                    lockBody(false);
+                }
+            },
+            _onLoadStart = function () {
+                if (options.activity) {
+                    activityIndicatorOn();
+                }
+                if (options.caption) {
+                    captionOff();
+                }
+            },
+            _onLoadEnd = function () {
+                if (options.activity) {
+                    activityIndicatorOff();
+                }
+                if (options.arrows) {
+                    $arrows.css('display', 'block');
+                }
+                if (options.navigation) {
+                    navigationUpdate(options.selector);
+                }
+                if (options.caption) {
+                    captionOn();
+                }
+            },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
@@ -334,8 +334,8 @@
                 }
 
                 inProgress = true;
-                if (options.onLoadStart !== false) {
-                    options.onLoadStart();
+                if (_onLoadStart !== false) {
+                    _onLoadStart();
                 }
 
                 setTimeout(function () {
@@ -364,8 +364,8 @@
 
                             image.animate(params, options.animationSpeed, function () {
                                 inProgress = false;
-                                if (options.onLoadEnd !== false) {
-                                    options.onLoadEnd();
+                                if (_onLoadEnd !== false) {
+                                    _onLoadEnd();
                                 }
                             });
                             if (options.preloadNext) {
@@ -377,8 +377,8 @@
                             }
                         })
                         .on('error.ilb7', function () {
-                            if (options.onLoadEnd !== false) {
-                                options.onLoadEnd();
+                            if (_onLoadEnd !== false) {
+                                _onLoadEnd();
                             }
                         });
 
@@ -471,8 +471,8 @@
                     return false;
                 }
                 inProgress = false;
-                if (options.onStart !== false) {
-                    options.onStart();
+                if (_onStart !== false) {
+                    _onStart();
                 }
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
@@ -488,8 +488,8 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    if (options.onEnd !== false) {
-                        options.onEnd();
+                    if (_onEnd !== false) {
+                        _onEnd();
                     }
                 });
             },
