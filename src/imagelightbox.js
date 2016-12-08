@@ -275,6 +275,48 @@
             swipeDiff = 0,
             inProgress = false,
 
+            isTargetValid = function (validImage) {
+                var allowedTypes = options.allowedTypes;
+
+                //test that RegExp is restricted to disjunction format
+                var isGoodRE = /^(?!\|)[\w\|]+(?!\|)$/.test(allowedTypes);
+                //
+                if (!isGoodRE) {
+                    //allowedTypes = 'png|jpg|jpeg|gif';
+                    return false;
+                }
+                //
+                var URL = validImage.attr("href");
+                var ext = parseURL(URL).pathname;
+                var re = new RegExp(allowedTypes,"i");
+                //
+                var isAllowed = re.test(ext);
+                // function by Cory LaViska
+                function parseURL(url) {
+                    var parser = document.createElement('a'),
+                        searchObject = {},
+                        queries, split, i;
+                    // Let the browser do the work
+                    parser.href = url;
+                    // Convert query string to object
+                    queries = parser.search.replace(/^\?/, '').split('&');
+                    for( i = 0; i < queries.length; i++ ) {
+                        split = queries[i].split('=');
+                        searchObject[split[0]] = split[1];
+                    }
+                    return {
+                        protocol: parser.protocol,
+                        host: parser.host,
+                        hostname: parser.hostname,
+                        port: parser.port,
+                        pathname: parser.pathname,
+                        search: parser.search,
+                        searchObject: searchObject,
+                        hash: parser.hash
+                    };
+                }
+                return isAllowed;
+            },
             // TODO make it work again
             // isTargetValid = function (element) {
             //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
@@ -505,6 +547,9 @@
                     newTargets
                         .filter(function () {
                             return $(this).data("imagelightbox") === targetSet;
+                        })
+                        .filter(function () {
+                           return isTargetValid($(this));
                         })
                         .each(function () {
                             targets = targets.add($(this));
