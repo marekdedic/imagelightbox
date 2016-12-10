@@ -64,10 +64,18 @@ $(document).ready(function() {
         lockBody: true
     });
 
-    $('a[data-imagelightbox="k"]').imageLightbox({
-        onStart: function() { console.log("onStart") },
-        onEnd: function()   { console.log("onEnd") },
-        onLoadStart: function() { console.log("onLoadStart") },
-        onLoadEnd: function() { console.log("onLoadEnd") }
-    });
+    $('a[data-imagelightbox="k"]').imageLightbox();
+    $(document)
+        .on("start.ilb2", function () {
+            console.log("start.ilb2");
+        })
+        .on("quit.ilb2", function () {
+            console.log("quit.ilb2");
+        })
+        .on("previous.ilb2", function () {
+            console.log("previous.ilb2");
+        })
+        .on("next.ilb2", function () {
+            console.log("next.ilb2");
+        });
 });
