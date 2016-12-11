@@ -3,6 +3,10 @@ $(document).ready(function() {
         activity: true
     });
 
+     $('a[data-imagelightbox="types"]').imageLightbox({
+	 allowedTypes: "gif"
+     });
+
     $('a[data-imagelightbox="b"]').imageLightbox({
         overlay: true
     });
