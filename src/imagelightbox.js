@@ -512,7 +512,11 @@
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
                     filterTargets();
-                    _openImageLightbox($(this));
+                    if (targets.length < 1) {
+                        _quitImageLightbox();
+                    } else {
+                        _openImageLightbox($(this));
+                    }
                 });
                 function filterTargets () {
                     newTargets
