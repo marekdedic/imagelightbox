@@ -136,8 +136,8 @@
                 if (options.activity) {
                     activityIndicatorOn();
                 }
-                 if (options.caption) {
-                     captionReset();
+                if (options.caption) {
+                    captionReset();
                 }
 
             },
