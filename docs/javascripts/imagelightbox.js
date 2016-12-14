@@ -150,7 +150,6 @@
                 }
             },
             _previousTarget = function () {
-                $wrapper.trigger("previous.ilb2");
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -162,10 +161,10 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+                $wrapper.trigger("previous.ilb2");
                 _loadImage(-1);
             },
             _nextTarget = function () {
-                $wrapper.trigger("next.ilb2");
                 var targetIndex = targets.index(target) + 1;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
@@ -177,6 +176,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+                $wrapper.trigger("next.ilb2");
                 _loadImage(+1);
             },
             activityIndicatorOn = function () {
@@ -216,34 +216,36 @@
                         $navObject.append($navItem.clone());
                     }
                     $wrapper.append($navObject);
-                    $navObject.on('click.ailb7 touchend.ilb7', function () {
-                        console.log("WTF");
-                        return false;
-                    });
                     var navItems = $navObject.find('a');
+                    //
                     $wrapper.on("previous.ilb2 next.ilb2", function () {
                         navItems.removeClass('active');
                         navItems.eq(targets.index(target)).addClass('active');
                     });
-
-
-                    navItems.eq(target.index()).addClass('active');
-                    navItems.on('click.ilb7 touchend.ilb7', function () {
-                        var $this = $(this);
-                        if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
-                            var tmpTarget = targets.eq($this.index());
-                            if (tmpTarget.length) {
-                                currentIndex = targets.index(target);
-                                target = tmpTarget;
-                                _loadImage($this.index() < currentIndex ? -1 : 1);
+                    $navObject.children('a').eq(images.index(target)).addClass('active');
+                    $navObject.on('click.ilb7 touchend.ilb7', function () {
+                            return false;
+                    })
+                        .on('click.ilb7 touchend.ilb7', "a", function (e) {
+                            var $this = $(this);
+                            var $delegate = $(e.delegateTarget);
+                            if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                                var tmpTarget = targets.eq($this.index());
+                                if (tmpTarget.length) {
+                                    currentIndex = targets.index(target);
+                                    target = tmpTarget;
+                                    _loadImage($this.index() < currentIndex ? -1 : 1);
+                                }
                             }
-                        }
-                        navItems.removeClass('active');
-                        navItems.eq($this.index()).addClass('active');
-                        return false;
-                    }).on('touchend.ilb7', function () {
-                        return false;
-                    });
+                            $delegate.children('a').removeClass('active');
+                            $this.addClass('active');
+                            //
+                        })
+                        .on('touchend.ilb7', function () {
+                            return false;
+                        });
+                    //
+
                 }
             },
             arrowsOn = function () {
@@ -486,10 +488,10 @@
                     return false;
                 }
                 inProgress = false;
+                target = $target;
                 _onStart();
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
-                target = $target;
                 _loadImage(0);
             },
 
