@@ -222,7 +222,7 @@
                     $wrapper.append($navObject);
                     //
                     $navObject
-                        .on('click.ilb7 touchend.ilb7', "a",function () {
+                        .on('click.ilb7 touchend.ilb7',function () {
                             return false;
                         })
                         .on('click.ilb7 touchend.ilb7', "a", function (e) {
