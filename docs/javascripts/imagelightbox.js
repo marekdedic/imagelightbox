@@ -139,7 +139,6 @@
                 if (options.caption) {
                     captionReset();
                 }
-
             },
             _onLoadEnd = function () {
                 if (options.activity) {
@@ -210,28 +209,26 @@
                 }
             },
             navigationOn = function () {
-                var images = targets;
-                if (images.length) {
-                    for (var i = 0; i < images.length; i++) {
+                if (targets.length) {
+                    for (var i = 0; i < targets.length; i++) {
                         $navObject.append($navItem.clone());
                     }
-                    var $navItems = $navObject.find('a');
-                    $navItems.eq(images.index(target)).addClass('active');
+                    var $navItems = $navObject.children("a");
+                    $navItems.eq(targets.index(target)).addClass('active');
                     //
                     $wrapper.on("previous.ilb2 next.ilb2", function () {
-                        $navItems.removeClass('active');
-                        $navItems.eq(targets.index(target)).addClass('active');
+                        $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
                     });
                     $wrapper.append($navObject);
                     //
                     $navObject
-                        .on('click.ilb7 touchend.ilb7', function () {
+                        .on('click.ilb7 touchend.ilb7', "a",function () {
                             return false;
                         })
                         .on('click.ilb7 touchend.ilb7', "a", function (e) {
                             var $this = $(this);
                             var $delegate = $(e.delegateTarget);
-                            if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                            if (targets.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                                 var tmpTarget = targets.eq($this.index());
                                 if (tmpTarget.length) {
                                     currentIndex = targets.index(target);
@@ -239,14 +236,11 @@
                                     _loadImage($this.index() < currentIndex ? -1 : 1);
                                 }
                             }
-                            $delegate.children('a').removeClass('active');
-                            $this.addClass('active');
+                            $this.addClass('active').siblings().removeClass('active');
                         })
                         .on('touchend.ilb7', function () {
                             return false;
                         });
-                    //
-
                 }
             },
             arrowsOn = function () {
