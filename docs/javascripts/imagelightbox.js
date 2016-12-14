@@ -148,10 +148,6 @@
                 if (options.arrows) {
                     $arrows.css('display', 'block');
                 }
-                if (options.navigation) {
-                    navigationUpdate(options.selector);
-                }
-
             },
             _previousTarget = function () {
                 $wrapper.trigger("previous.ilb2");
@@ -215,23 +211,29 @@
             },
             navigationOn = function () {
                 var images = targets;
-                console.log(targets.index(target));
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
                         $navObject.append($navItem.clone());
                     }
                     $wrapper.append($navObject);
-                    $navObject.on('click.ilb7 touchend.ilb7', function () {
+                    $navObject.on('click.ailb7 touchend.ilb7', function () {
+                        console.log("WTF");
                         return false;
                     });
                     var navItems = $navObject.find('a');
+                    $wrapper.on("previous.ilb2 next.ilb2", function () {
+                        navItems.removeClass('active');
+                        navItems.eq(targets.index(target)).addClass('active');
+                    });
+
+
                     navItems.eq(target.index()).addClass('active');
                     navItems.on('click.ilb7 touchend.ilb7', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
                             if (tmpTarget.length) {
-                                var currentIndex = targets.index(target);
+                                currentIndex = targets.index(target);
                                 target = tmpTarget;
                                 _loadImage($this.index() < currentIndex ? -1 : 1);
                             }
@@ -243,11 +245,6 @@
                         return false;
                     });
                 }
-            },
-            navigationUpdate = function () {
-              //   var items = $navObject.find('a');
-//                 items.removeClass('active');
-//                 items.eq(targets.index(target)).addClass('active');
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
@@ -269,6 +266,7 @@
             imageHeight = 0,
             swipeDiff = 0,
             inProgress = false,
+            currentIndex = 0,
 
             isTargetValid = function (validImage) {
                 var allowedTypes = options.allowedTypes;
