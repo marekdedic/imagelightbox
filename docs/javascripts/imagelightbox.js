@@ -166,7 +166,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                _loadImage("left");
+                _loadImage(-1);
             },
             _nextTarget = function () {
                 $wrapper.trigger("next.ilb2");
@@ -181,7 +181,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                _loadImage("right");
+                _loadImage(+1);
             },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
@@ -231,7 +231,7 @@
                             if (tmpTarget.length) {
                                 var currentIndex = targets.index(target);
                                 target = tmpTarget;
-                                _loadImage($this.index() < currentIndex ? 'left' : 'right');
+                                _loadImage($this.index() < currentIndex ? -1 : 1);
                             }
                         }
                         navItems.removeClass('active');
@@ -352,8 +352,6 @@
                 if (inProgress) {
                     return false;
                 }
-
-                direction = typeof direction === 'undefined' ? false : direction === 'left' ? 1 : -1;
 
                 if (image.length) {
                     var params = {'opacity': 0};
@@ -492,7 +490,7 @@
                 $('body').append($wrapper);
                 $wrapper.trigger("start.ilb2");
                 target = $target;
-                _loadImage();
+                _loadImage(0);
             },
 
             _quitImageLightbox = function () {
