@@ -215,6 +215,7 @@
             },
             navigationOn = function () {
                 var images = targets;
+                console.log(targets.index(target));
                 if (images.length) {
                     for (var i = 0; i < images.length; i++) {
                         $navObject.append($navItem.clone());
@@ -224,6 +225,7 @@
                         return false;
                     });
                     var navItems = $navObject.find('a');
+                    navItems.eq(target.index()).addClass('active');
                     navItems.on('click.ilb7 touchend.ilb7', function () {
                         var $this = $(this);
                         if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
@@ -243,9 +245,9 @@
                 }
             },
             navigationUpdate = function () {
-                var items = $navObject.find('a');
-                items.removeClass('active');
-                items.eq(targets.index(target)).addClass('active');
+              //   var items = $navObject.find('a');
+//                 items.removeClass('active');
+//                 items.eq(targets.index(target)).addClass('active');
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
