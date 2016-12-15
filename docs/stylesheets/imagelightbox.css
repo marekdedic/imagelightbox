@@ -15,6 +15,10 @@
     border-radius: 9999px;
 }
 
+.imagelightbox-scroll-lock {
+    overflow:hidden;
+}
+
 #imagelightbox-loading {
     background-color: rgb(128, 128, 128);
     background-color: rgba(0, 0, 0, .5);
@@ -153,7 +157,6 @@
     background-color: #444;
     background-color: rgba( 0, 0, 0, .5 );
     vertical-align: middle;
-    display: none;
     position: fixed;
     z-index: 10001;
     top: 50%;
