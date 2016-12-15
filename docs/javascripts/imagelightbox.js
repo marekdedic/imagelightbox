@@ -371,6 +371,7 @@
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
+                            $wrapper.trigger("loaded.ilb2");
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
