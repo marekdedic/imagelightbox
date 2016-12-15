@@ -125,13 +125,6 @@
                     $wrapper.append($captionObject);
                 }
             },
-            _onEnd = function () {
-                targets = $([]);
-                $wrapper.remove().find("*").remove();
-                if (options.lockBody) {
-                    lockBody(false);
-                }
-            },
             _onLoadStart = function () {
                 if (options.activity) {
                     activityIndicatorOn();
@@ -502,7 +495,11 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    _onEnd();
+                    targets = $([]);
+                    $wrapper.remove().find("*").remove();
+                    if (options.lockBody) {
+                        lockBody(false);
+                    }
                 });
             },
 
