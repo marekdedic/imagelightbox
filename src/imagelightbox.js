@@ -118,9 +118,6 @@
                 if (options.button) {
                     closeButtonOn();
                 }
-                if (options.lockBody) {
-                    lockBody(true);
-                }
                 if (options.caption) {
                     $wrapper.append($captionObject);
                 }
@@ -181,13 +178,6 @@
             },
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
-            },
-            lockBody = function (toggle) {
-                if (toggle) {
-                    $("body").css("overflow","hidden");
-                } else {
-                    $("body").css("overflow","scroll");
-                }
             },
             overlayOn = function () {
                 $wrapper.append($overlayObject);
@@ -482,6 +472,9 @@
                 inProgress = false;
                 _onStart();
                 $('body').append($wrapper);
+                if (options.lockBody) {
+                    $("body").addClass("imagelightbox-scroll-lock");
+                }
                 $wrapper.trigger("start.ilb2");
                 target = $target;
                 _loadImage(0);
@@ -489,6 +482,9 @@
 
             _quitImageLightbox = function () {
                 $wrapper.trigger("quit.ilb2");
+                if (options.lockBody) {
+                    $("body").removeClass("imagelightbox-scroll-lock");
+                }
                 if (!image.length) {
                     return false;
                 }
@@ -497,9 +493,6 @@
                     inProgress = false;
                     targets = $([]);
                     $wrapper.remove().find("*").remove();
-                    if (options.lockBody) {
-                        lockBody(false);
-                    }
                 });
             },
 
