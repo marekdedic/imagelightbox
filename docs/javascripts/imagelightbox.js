@@ -122,10 +122,13 @@
                     $wrapper.append($captionObject);
                 }
             },
+<<<<<<< HEAD
             _onEnd = function () {
                 $wrapper.hide().remove().find("*").remove();
                 targets = $([]);
             },
+=======
+>>>>>>> develop-rejas
             _onLoadStart = function () {
                 if (options.activity) {
                     activityIndicatorOn();
@@ -362,6 +365,7 @@
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
+                            $wrapper.trigger("loaded.ilb2");
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -491,7 +495,11 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    _onEnd();
+                    targets = $([]);
+                    $wrapper.remove().find("*").remove();
+                    if (options.lockBody) {
+                        lockBody(false);
+                    }
                 });
             },
 
