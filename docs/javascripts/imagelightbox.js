@@ -118,18 +118,8 @@
                 if (options.button) {
                     closeButtonOn();
                 }
-                if (options.lockBody) {
-                    lockBody(true);
-                }
                 if (options.caption) {
                     $wrapper.append($captionObject);
-                }
-            },
-            _onEnd = function () {
-                targets = $([]);
-                $wrapper.remove().find("*").remove();
-                if (options.lockBody) {
-                    lockBody(false);
                 }
             },
             _onLoadStart = function () {
@@ -183,13 +173,6 @@
             },
             activityIndicatorOff = function () {
                 $('#imagelightbox-loading').remove();
-            },
-            lockBody = function (toggle) {
-                if (toggle) {
-                    $("body").css("overflow","hidden");
-                } else {
-                    $("body").css("overflow","scroll");
-                }
             },
             overlayOn = function () {
                 $wrapper.append($overlayObject);
@@ -372,6 +355,7 @@
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
+                            $wrapper.trigger("loaded.ilb2");
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -483,19 +467,26 @@
                 target = $target;
                 _onStart();
                 $('body').append($wrapper);
+                if (options.lockBody) {
+                    $("body").addClass("imagelightbox-scroll-lock");
+                }
                 $wrapper.trigger("start.ilb2");
                 _loadImage(0);
             },
 
             _quitImageLightbox = function () {
                 $wrapper.trigger("quit.ilb2");
+                if (options.lockBody) {
+                    $("body").removeClass("imagelightbox-scroll-lock");
+                }
                 if (!image.length) {
                     return false;
                 }
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    _onEnd();
+                    targets = $([]);
+                    $wrapper.remove().find("*").remove();
                 });
             },
 
