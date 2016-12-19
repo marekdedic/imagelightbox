@@ -110,7 +110,7 @@
                     arrowsOn(this);
                 }
                 if (options.navigation) {
-                    navigationOn(this, options.selector);
+                    navigationOn();
                 }
                 if (options.overlay) {
                     overlayOn();
@@ -215,19 +215,19 @@
                     }
                     var $navItems = $navObject.children("a");
                     $navItems.eq(targets.index(target)).addClass('active');
+
                     //
                     $wrapper.on("previous.ilb2 next.ilb2", function () {
                         $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
                     });
                     $wrapper.append($navObject);
-                    //
+                    ////
                     $navObject
-                        .on('click.ilb7 touchend.ilb7',function () {
+                        .on('click.ilb7 touchend.ilb7', function () {
                             return false;
                         })
                         .on('click.ilb7 touchend.ilb7', "a", function (e) {
                             var $this = $(this);
-                            var $delegate = $(e.delegateTarget);
                             if (targets.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
                                 var tmpTarget = targets.eq($this.index());
                                 if (tmpTarget.length) {
@@ -237,9 +237,6 @@
                                 }
                             }
                             $this.addClass('active').siblings().removeClass('active');
-                        })
-                        .on('touchend.ilb7', function () {
-                            return false;
                         });
                 }
             },
