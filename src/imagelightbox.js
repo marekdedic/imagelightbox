@@ -57,7 +57,7 @@
 
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
-            options[prefix + 'transform'] = 'translateX(' + positionX + ')';
+            options[prefix + 'transform'] = 'translateX(' + positionX + 'px )';
             options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
             element.css(options);
         },
@@ -343,10 +343,10 @@
                     }
 
                     image.css({
-                        'width': imageWidth + 'px',
-                        'height': imageHeight + 'px',
-                        'top': ( wHeight - imageHeight ) / 2 + 'px',
-                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                        'width': imageWidth,
+                        'height': imageHeight,
+                        'top': ( wHeight - imageHeight ) / 2,
+                        'left': ( $(window).width() - imageWidth ) / 2
                     });
                 };
             },
@@ -361,10 +361,10 @@
                 if (image.length) {
                     var params = {'opacity': 0};
                     if (isCssTransitionSupport) {
-                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff, options.animationSpeed / 1000);
                     }
                     else {
-                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+                        params.left = parseInt(image.css('left')) + 100 * direction;
                     }
                     image.animate(params, options.animationSpeed, function () {
                         _removeImage();
@@ -389,14 +389,14 @@
                             _setImage();
                             image.css('opacity', 0);
                             if (isCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                                cssTransitionTranslateX(image, -100 * direction, 0);
                                 setTimeout(function () {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                    cssTransitionTranslateX(image, 0, options.animationSpeed / 1000);
                                 }, 50);
                             } else {
                                 var imagePosLeft = parseInt(image.css('left'));
-                                params.left = imagePosLeft + 'px';
-                                image.css('left', imagePosLeft - 100 * direction + 'px');
+                                params.left = imagePosLeft;
+                                image.css('left', imagePosLeft - 100 * direction);
                             }
 
                             image.animate(params, options.animationSpeed, function () {
@@ -452,9 +452,9 @@
                             swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                             swipeDiff = swipeStart - swipeEnd;
                             if (isCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+                                cssTransitionTranslateX(image, -swipeDiff, 0);
                             } else {
-                                image.css('left', imagePosLeft - swipeDiff + 'px');
+                                image.css('left', imagePosLeft - swipeDiff);
                             }
                         })
                         .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
@@ -469,9 +469,9 @@
                                 }
                             } else {
                                 if (isCssTransitionSupport) {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                    cssTransitionTranslateX(image, 0, options.animationSpeed / 1000);
                                 } else {
-                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                    image.animate({'left': imagePosLeft}, options.animationSpeed / 2);
                                 }
                             }
                         });
