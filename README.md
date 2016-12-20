@@ -133,6 +133,28 @@ For example:
 ````
 When the user clicks any of the thumbnails with a data-imagelightbox value of "a", only those images will appear in the lightbox. The same is true when clicking an image with data-imagelightbox value of "b" and any other.
 
+If you want unlimited gallerys call this snippet (for example: https://jsfiddle.net/7ow26fcg/):
+
+<i>(Используйте этот код вызова lightbox, если у вас на странице несколько галерей, где у каждой галереи уникальное значение атрибута data-imagelightbox. Например data-imagelightbox="gallery_1", data-imagelightbox="gallery_2" и т.д.)</i>
+
+````javascript
+<script>
+    var attrs = {};
+    var classes = $("a[data-imagelightbox]").map(function(indx, element){  
+      var key = $(element).attr("data-imagelightbox");
+      attrs[key] = true;
+      return attrs;
+    });
+    var attrsName = Object.keys(attrs);
+
+    attrsName.forEach(function(entry) {
+        $( "[data-imagelightbox='"+entry+"']" ).imageLightbox({
+            overlay: true
+        });
+    });
+</script>
+````
+
 In order to "capture" all possible sets on a give webpage, it is necessary to apply imageLightbox to "a[data-imagelightbox]"; that is, without specifying a particular data-imagelightbox attribute value.
 
 ## Adding images dynamically to lightbox

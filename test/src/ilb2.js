@@ -42,5 +42,19 @@ module.exports = {
             .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
             .assert.elementPresent('img[src$="images/demo2.jpg"]')
             .end();
+    },
+
+    "Navigation" : function (browser) {
+        openDemo(browser);
+        browser
+            .click('.demo-navigation li [src="images/thumb1.jpg"')
+            .waitForElementVisible('#imagelightbox', 1000)
+            .assert.elementPresent("#imagelightbox")
+            .assert.elementPresent("#imagelightbox-nav")
+            .assert.elementPresent(".imagelightbox-navitem")
+            .click('.imagelightbox-navitem:nth-child(2)')
+            .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
+            .assert.elementPresent('img[src$="images/demo2.jpg"]')
+            .end();
     }
 };
