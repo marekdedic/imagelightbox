@@ -12,6 +12,7 @@
     "jquery": ">= 1.12"
   },
   "ignore": [
+    "./test",
     ".csslintrc",
     ".gitignore",
     ".jshintrc",
