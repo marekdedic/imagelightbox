@@ -364,7 +364,7 @@
                             _setImage();
                             image.css('opacity', 0);
                             if (isCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                                cssTransitionTranslateX(image, (-1 * $windowWidth * direction / 3) + 'px', 0);
                                 setTimeout(function () {
                                     cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                                 }, 50);
