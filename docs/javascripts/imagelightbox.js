@@ -327,6 +327,7 @@
             },
 
             _loadImage = function (direction) {
+                var $windowWidth = $(window).width();
                 if (inProgress) {
                     return false;
                 }
@@ -334,10 +335,10 @@
                 if (image.length) {
                     var params = {'opacity': 0};
                     if (isCssTransitionSupport) {
-                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+                        cssTransitionTranslateX(image, ( $windowWidth  * direction / 3) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
                     else {
-                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+                        params.left = parseInt(image.css('left')) + ($windowWidth * direction / 3) + 'px';
                     }
                     image.animate(params, options.animationSpeed, function () {
                         _removeImage();
