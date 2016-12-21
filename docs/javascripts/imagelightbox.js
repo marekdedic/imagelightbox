@@ -17,7 +17,7 @@
         $arrows = $arrowLeftObject.add($arrowRightObject),
         $captionObject = $('<div/>', {
             class: 'imagelightbox-caption',
-            html: "&nbsp;"
+            html: '&nbsp;'
         }),
         $buttonObject =  $('<a/>', {
             class: 'imagelightbox-close'
@@ -151,7 +151,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                $wrapper.trigger("previous.ilb2");
+                $wrapper.trigger('previous.ilb2');
                 _loadImage(-1);
             },
             _nextTarget = function () {
@@ -166,7 +166,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                $wrapper.trigger("next.ilb2");
+                $wrapper.trigger('next.ilb2');
                 _loadImage(+1);
             },
             activityIndicatorOn = function () {
@@ -185,9 +185,9 @@
                 });
             },
             captionReset = function () {
-                $captionObject.html("&nbsp;");
-                if ($(target).data("ilb2-caption")) {
-                    $captionObject.html($(target).data("ilb2-caption"));
+                $captionObject.html('&nbsp;');
+                if ($(target).data('ilb2-caption')) {
+                    $captionObject.html($(target).data('ilb2-caption'));
                 } else if ($(target).find('img').length > 0) {
                     $captionObject.html($(target).find('img').attr('alt'));
                 }
@@ -197,11 +197,11 @@
                     for (var i = 0; i < targets.length; i++) {
                         $navObject.append($navItem.clone());
                     }
-                    var $navItems = $navObject.children("a");
+                    var $navItems = $navObject.children('a');
                     $navItems.eq(targets.index(target)).addClass('active');
 
                     //
-                    $wrapper.on("previous.ilb2 next.ilb2", function () {
+                    $wrapper.on('previous.ilb2 next.ilb2', function () {
                         $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
                     });
                     $wrapper.append($navObject);
@@ -210,7 +210,7 @@
                         .on('click.ilb7 touchend.ilb7', function () {
                             return false;
                         })
-                        .on('click.ilb7 touchend.ilb7', "a", function (e) {
+                        .on('click.ilb7 touchend.ilb7', 'a', function () {
                             var $this = $(this);
                             if (targets.eq($this.index()).attr('href') !== $('.imagelightbox').attr('src')) {
                                 var tmpTarget = targets.eq($this.index());
@@ -356,7 +356,7 @@
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
-                            $wrapper.trigger("loaded.ilb2");
+                            $wrapper.trigger('loaded.ilb2');
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -469,16 +469,16 @@
                 _onStart();
                 $('body').append($wrapper);
                 if (options.lockBody) {
-                    $("body").addClass("imagelightbox-scroll-lock");
+                    $('body').addClass('imagelightbox-scroll-lock');
                 }
-                $wrapper.trigger("start.ilb2");
+                $wrapper.trigger('start.ilb2');
                 _loadImage(0);
             },
 
             _quitImageLightbox = function () {
-                $wrapper.trigger("quit.ilb2");
+                $wrapper.trigger('quit.ilb2');
                 if (options.lockBody) {
-                    $("body").removeClass("imagelightbox-scroll-lock");
+                    $('body').removeClass('imagelightbox-scroll-lock');
                 }
                 if (!image.length) {
                     return false;
@@ -487,7 +487,7 @@
                     _removeImage();
                     inProgress = false;
                     targets = $([]);
-                    $wrapper.remove().find("*").remove();
+                    $wrapper.remove().find('*').remove();
                 });
             },
 

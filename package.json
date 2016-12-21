@@ -21,7 +21,7 @@
     "jshint-stylish": "^2.2.1"
   },
   "scripts": {
-    "eslint": "node node_modules/eslint/bin/eslint.js *.js src/*.js",
-    "fix": "node node_modules/eslint/bin/eslint.js --fix *.js src/*.js"
+    "eslint": "node node_modules/eslint/bin/eslint.js *.js src/*.js test/src/*.js",
+    "fix": "node node_modules/eslint/bin/eslint.js --fix *.js src/*.js test/src/*.js"
   }
 }
