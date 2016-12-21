@@ -6,7 +6,7 @@
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
-            .attr('id','imagelightbox-loading')
+            .attr('class','imagelightbox-loading')
             .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
             type: 'button',
@@ -16,24 +16,24 @@
             class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
         $arrows = $arrowLeftObject.add($arrowRightObject),
         $captionObject = $('<div/>', {
-            id: 'imagelightbox-caption',
+            class: 'imagelightbox-caption',
             html: "&nbsp;"
         }),
         $buttonObject =  $('<a/>', {
-            id: 'imagelightbox-close'
+            class: 'imagelightbox-close'
         }),
         $overlayObject = $('<div/>', {
-            id:'imagelightbox-overlay'
+            class:'imagelightbox-overlay'
         }),
         $navItem = $('<a/>', {
             href:'#',
             class:"imagelightbox-navitem"
         }),
         $navObject = $('<div/>', {
-            id: 'imagelightbox-nav'
+            class: 'imagelightbox-nav'
         }),
         $wrapper = $('<div/>', {
-            id: 'imagelightbox-wrapper'
+            class: 'imagelightbox-wrapper'
         });
 
     var cssTransitionSupport = function () {
@@ -63,7 +63,7 @@
             element.css(options);
         },
 
-        hasTouch = ( 'ontouchstart' in window ),
+        hasTouch = ('ontouchstart' in window),
         hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
         wasTouched = function (event) {
             if (hasTouch) {
@@ -173,7 +173,7 @@
                 $wrapper.append($activityObject);
             },
             activityIndicatorOff = function () {
-                $('#imagelightbox-loading').remove();
+                $('.imagelightbox-loading').remove();
             },
             overlayOn = function () {
                 $wrapper.append($overlayObject);
@@ -212,7 +212,7 @@
                         })
                         .on('click.ilb7 touchend.ilb7', "a", function (e) {
                             var $this = $(this);
-                            if (targets.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
+                            if (targets.eq($this.index()).attr('href') !== $('.imagelightbox').attr('src')) {
                                 var tmpTarget = targets.eq($this.index());
                                 if (tmpTarget.length) {
                                     currentIndex = targets.index(target);
