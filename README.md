@@ -13,7 +13,7 @@ See most of the available options at the [Demo Page](http://rejas.github.io/imag
 ## Requirements and Browser support
 
 * jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
-* All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone. 
+* All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
 * IE8 is NOT supported
 
 ## How to use
@@ -34,7 +34,7 @@ See most of the available options at the [Demo Page](http://rejas.github.io/imag
 The list of options and their default values is:
 
 ````javascript
-$( selector ).imageLightbox({                                     
+$( selector ).imageLightbox({
     selector:       'a[data-imagelightbox]', // string;
     id:             'imagelightbox',         // string;
     allowedTypes:   'png|jpg|jpeg||gif',     // string; * NOT WORKING ATM *
@@ -51,7 +51,7 @@ $( selector ).imageLightbox({
     quitOnEnd:      false,                   // bool;            quit after viewing the last image
     quitOnImgClick: false,                   // bool;            quit when the viewed image is clicked
     quitOnDocClick: true,                    // bool;            quit when anything but the viewed image is clicked
-    quitOnEscKey:   true                     // bool;            quit when Esc key is pressed    
+    quitOnEscKey:   true                     // bool;            quit when Esc key is pressed
 });
 ````
 
@@ -72,21 +72,21 @@ imageLightBox can be started with *startImageLightbox()* JavaScript function cal
     });
 </script>
 ````
-## Adding captions to lightbox 
+## Adding captions to lightbox
 
 add an "ilb2-caption" data-attribute to the element, fallback value is the alt-attribute of the thumbnail-image
-                
-````html    
+
+````html
     <a data-imagelightbox="x" data-ilb2-caption="caption text"
         href="image.jpg">
         <img src="thumbnail.jpg" alt="fallback caption"/>
     </a>
-````         
+````
 
 ## Hooks
 
 Image Lightbox now triggers unique events upon start, finish, and when either the next or previous image is requested.
-These events are, respectively, "start.ilb2", "quit.ilb2", "next.ilb2", and "previous.ilb2".
+These events are, respectively, "start.ilb2", "quit.ilb2", "loaded.ilb2", "next.ilb2", and "previous.ilb2".
 
 Usage example:
 ````javascript
@@ -121,7 +121,7 @@ For example:
         href="image_2.jpg">
         <img src="thumbnail_2.jpg" alt="caption"/>
     </a>
-    
+
     <a data-imagelightbox="b"
         href="image_3.jpg">
         <img src="thumbnail_3.jpg" alt="caption"/>
@@ -157,10 +157,10 @@ If you want unlimited gallerys call this snippet (for example: https://jsfiddle.
 
 In order to "capture" all possible sets on a give webpage, it is necessary to apply imageLightbox to "a[data-imagelightbox]"; that is, without specifying a particular data-imagelightbox attribute value.
 
-## Adding images dynamically to lightbox 
+## Adding images dynamically to lightbox
 
 imageLightBox allows adding more images dynamically at runtime
-                                                                                               
+
 ###### Example:
 
 ````javascript
@@ -173,12 +173,12 @@ imageLightBox allows adding more images dynamically at runtime
         var image = $( '<img />' );
         gallery.addToImageLightbox( image );
     });
-</script>  
+</script>
 ````
-                        
+
 ## Changelog
 
-* 0.6.0 Replaced onStart/onEnd/onLoadStart/onLoadEnd with event hooks (@Paxperscientiam), added ui-tests 
+* 0.6.0 Replaced onStart/onEnd/onLoadStart/onLoadEnd with event hooks (@Paxperscientiam), added ui-tests
 * 0.5.4 Add ilb2-caption option (@Paxperscientiam)
 * 0.5.3 Add lockBody option (@Paxperscientiam)
 * 0.5.2 Updates to demo page, cleanups
