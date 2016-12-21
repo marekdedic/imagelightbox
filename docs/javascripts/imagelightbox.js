@@ -2,7 +2,7 @@
 // By Osvaldas Valutis, www.osvaldas.info
 // Available for use under the MIT License
 //
-;(function ($, window, document, undefined) {
+(function ($, window, document) {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
@@ -26,7 +26,7 @@
         }),
         $navItem = $('<a/>', {
             href:'#',
-            class:"imagelightbox-navitem"
+            class:'imagelightbox-navitem'
         }),
         $navObject = $('<div/>', {
             id: 'imagelightbox-nav'
@@ -124,7 +124,7 @@
             },
             _onEnd = function () {
                 targets = $([]);
-                $wrapper.remove().find("*").remove();
+                $wrapper.remove().find('*').remove();
                 if (options.lockBody) {
                     lockBody(false);
                 }
@@ -152,7 +152,7 @@
                 }
             },
             _previousTarget = function () {
-                $wrapper.trigger("previous.ilb2");
+                $wrapper.trigger('previous.ilb2');
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -164,10 +164,10 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                _loadImage("left");
+                _loadImage('left');
             },
             _nextTarget = function () {
-                $wrapper.trigger("next.ilb2");
+                $wrapper.trigger('next.ilb2');
                 var targetIndex = targets.index(target) + 1;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
@@ -179,7 +179,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                _loadImage("right");
+                _loadImage('right');
             },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
@@ -189,9 +189,9 @@
             },
             lockBody = function (toggle) {
                 if (toggle) {
-                    $("body").css("overflow","hidden");
+                    $('body').css('overflow','hidden');
                 } else {
-                    $("body").css("overflow","scroll");
+                    $('body').css('overflow','scroll');
                 }
             },
             overlayOn = function () {
@@ -204,9 +204,9 @@
                 });
             },
             captionOn = function () {
-                var captionText = "";
-                if ($(target).data("ilb2-caption")) {
-                    captionText = $(target).data("ilb2-caption");
+                var captionText = '';
+                if ($(target).data('ilb2-caption')) {
+                    captionText = $(target).data('ilb2-caption');
                 } else if ($(target).find('img').length) {
                     captionText = $(target).find('img').attr('alt');
                 }
@@ -215,7 +215,7 @@
                 }
             },
             captionOff = function () {
-                $captionObject.html("&nbsp;");
+                $captionObject.html('&nbsp;');
             },
             navigationOn = function () {
                 var images = targets;
@@ -263,7 +263,7 @@
                     return false;
                 });
             },
-            targetSet = "",
+            targetSet = '',
             targets = $([]),
             target = $(),
             image = $(),
@@ -283,9 +283,9 @@
                     return false;
                 }
                 //
-                var URL = validImage.attr("href");
+                var URL = validImage.attr('href');
                 var ext = parseURL(URL).pathname;
-                var re = new RegExp(allowedTypes,"i");
+                var re = new RegExp(allowedTypes,'i');
                 //
                 var isAllowed = re.test(ext);
                 // function by Cory LaViska
@@ -493,13 +493,13 @@
                 inProgress = false;
                 _onStart();
                 $('body').append($wrapper);
-                $wrapper.trigger("start.ilb2");
+                $wrapper.trigger('start.ilb2');
                 target = $target;
                 _loadImage();
             },
 
             _quitImageLightbox = function () {
-                $wrapper.trigger("quit.ilb2");
+                $wrapper.trigger('quit.ilb2');
                 if (!image.length) {
                     return false;
                 }
@@ -513,14 +513,14 @@
             _addTargets = function( newTargets ) {
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
-                    targetSet = $(e.currentTarget).data("imagelightbox");
+                    targetSet = $(e.currentTarget).data('imagelightbox');
                     filterTargets();
                     _openImageLightbox($(this));
                 });
                 function filterTargets () {
                     newTargets
                         .filter(function () {
-                            return $(this).data("imagelightbox") === targetSet;
+                            return $(this).data('imagelightbox') === targetSet;
                         })
                         .filter(function () {
                             return isTargetValid($(this));
