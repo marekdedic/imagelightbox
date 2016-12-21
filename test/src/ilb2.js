@@ -22,8 +22,8 @@ module.exports = {
         browser.click('.demo_caption li [src="images/thumb1.jpg"]')
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent("#imagelightbox")
-            .waitForElementVisible('#imagelightbox-caption', 1000)
-            .assert.containsText('#imagelightbox-caption', 'Sunset in Tanzania');
+            .waitForElementVisible('.imagelightbox-caption', 1000)
+            .assert.containsText('.imagelightbox-caption', 'Sunset in Tanzania');
         closeDemo(browser);
     },
 
@@ -58,7 +58,7 @@ module.exports = {
             .click('.demo_navigation li [src="images/thumb1.jpg"]')
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent("#imagelightbox")
-            .assert.elementPresent("#imagelightbox-nav")
+            .assert.elementPresent(".imagelightbox-nav")
             .assert.elementPresent(".imagelightbox-navitem")
             .click('.imagelightbox-navitem:nth-child(2)')
             .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)

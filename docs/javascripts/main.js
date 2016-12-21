@@ -3,6 +3,10 @@ $(document).ready(function() {
         activity: true
     });
 
+     $('a[data-imagelightbox="types"]').imageLightbox({
+	 allowedTypes: "gif"
+     });
+
     $('a[data-imagelightbox="b"]').imageLightbox({
         overlay: true
     });
@@ -71,6 +75,9 @@ $(document).ready(function() {
         })
         .on("quit.ilb2", function () {
             console.log("quit.ilb2");
+        })
+        .on("loaded.ilb2", function () {
+            console.log("loaded.ilb2");
         })
         .on("previous.ilb2", function () {
             console.log("previous.ilb2");
