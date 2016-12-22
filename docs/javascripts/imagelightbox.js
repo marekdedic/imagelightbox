@@ -317,12 +317,14 @@
                         imageWidth /= ratio;
                         imageHeight /= ratio;
                     }
-                    var cssHeight = imageHeight*gutterFactor;
+                    var cssHeight = imageHeight*gutterFactor,
+                        cssWidth = imageWidth*gutterFactor;
+
                     image.css({
-                        'width': imageWidth + 'px',
+                        'width': cssWidth + 'px',
                         'height': cssHeight + 'px',
                         'top': (imageHeight - cssHeight)/2 + 'px',
-                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                        'left': ( $(window).width() - cssWidth ) / 2 + 'px'
                     });
                 };
             },
