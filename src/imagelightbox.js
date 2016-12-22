@@ -299,7 +299,7 @@
                 if (!image.length) {
                     return true;
                 }
-                var captionHeight = $captionObject.outerHeight();
+                var captionHeight = options.caption ? $captionObject.outerHeight() : 0;
                 console.log(captionHeight);
                 var screenWidth = $(window).width(),
                     screenHeight = $(window).height() - captionHeight,
