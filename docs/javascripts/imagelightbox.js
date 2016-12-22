@@ -97,7 +97,8 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
-                gutter:         2,
+                gutter:         10,     // percentage of client height
+                offsetY:        0,    // percentage of gutter
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -318,13 +319,15 @@
                         imageHeight /= ratio;
                     }
                     var cssHeight = imageHeight*gutterFactor,
-                        cssWidth = imageWidth*gutterFactor;
+                        cssWidth = imageWidth*gutterFactor,
+                        cssTop = (1 + options.offsetY/100)*(imageHeight - cssHeight)/2,
+                        cssLeft = ($(window).width() - cssWidth ) / 2;
 
                     image.css({
                         'width': cssWidth + 'px',
                         'height': cssHeight + 'px',
-                        'top': (imageHeight - cssHeight)/2 + 'px',
-                        'left': ( $(window).width() - cssWidth ) / 2 + 'px'
+                        'top': cssTop + 'px',
+                        'left':  cssLeft + 'px'
                     });
                 };
             },
