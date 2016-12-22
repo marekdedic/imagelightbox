@@ -300,10 +300,9 @@
                     return true;
                 }
                 var captionHeight = $captionObject.outerHeight();
-
-                var screenWidth = $(window).width() * 0.8,
-                    wHeight = ((window.innerHeight) ? window.innerHeight : $(window).height()) - captionHeight,
-                    screenHeight = wHeight * 0.9,
+                console.log(captionHeight);
+                var screenWidth = $(window).width(),
+                    screenHeight = $(window).height() - captionHeight,
                     tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
@@ -320,7 +319,7 @@
                     image.css({
                         'width': imageWidth + 'px',
                         'height': imageHeight + 'px',
-                        'top': ( wHeight - imageHeight ) / 2 + 'px',
+                        'top': 10 + 'px',
                         'left': ( $(window).width() - imageWidth ) / 2 + 'px'
                     });
                 };
