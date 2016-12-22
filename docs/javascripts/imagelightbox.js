@@ -97,6 +97,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                gutter:         2,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -303,6 +304,7 @@
 
                 var screenWidth = $(window).width(),
                     screenHeight = $(window).height() - captionHeight,
+                    gutterFactor = Math.abs(1 - options.gutter/100),
                     tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
@@ -315,11 +317,11 @@
                         imageWidth /= ratio;
                         imageHeight /= ratio;
                     }
-
+                    var cssHeight = imageHeight*gutterFactor;
                     image.css({
                         'width': imageWidth + 'px',
-                        'height': imageHeight + 'px',
-                        'top': '0px',
+                        'height': cssHeight + 'px',
+                        'top': (imageHeight - cssHeight)/2 + 'px',
                         'left': ( $(window).width() - imageWidth ) / 2 + 'px'
                     });
                 };
