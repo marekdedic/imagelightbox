@@ -335,12 +335,13 @@
                 if (image.length) {
                     var params = {'opacity': 0};
                     if (isCssTransitionSupport) {
-                        cssTransitionTranslateX(image, ( $windowWidth  * direction / 3) - swipeDiff + 'px', options.animationSpeed / 1000);
+                        cssTransitionTranslateX(image, ( $windowWidth * direction /3) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
                     else {
                         params.left = parseInt(image.css('left')) + ($windowWidth * direction / 3) + 'px';
                     }
                     image.animate(params, options.animationSpeed, function () {
+
                         _removeImage();
                     });
                     swipeDiff = 0;
