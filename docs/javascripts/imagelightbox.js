@@ -22,6 +22,9 @@
         $buttonObject =  $('<a/>', {
             id: 'imagelightbox-close'
         }),
+        $buttonAuxObject = $('<a/>', {
+            id: 'imagelightbox-aux'
+        }),
         $overlayObject = $('<div/>', {
             id:'imagelightbox-overlay'
         }),
@@ -95,6 +98,7 @@
                 activity:       false,
                 arrows:         false,
                 button:         false,
+                buttonAux:      false,
                 caption:        false,
                 enableKeyboard: true,
                 gutter:         10,     // percentage of client height
@@ -106,6 +110,7 @@
                 quitOnEnd:      false,
                 quitOnImgClick: false,
                 quitOnDocClick: true,
+<<<<<<< HEAD
                 quitOnEscKey:   true
             }, opts),
             _onStart = function () {
@@ -147,10 +152,58 @@
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
                         return false;
+=======
+                quitOnEscKey:   true,
+                onStart: function () {
+                    if (options.arrows) {
+                        arrowsOn(this);
+                    }
+                    if (options.navigation) {
+                        navigationOn(this, options.selector);
+                    }
+                    if (options.overlay) {
+                        overlayOn();
+                    }
+                    if (options.button) {
+                        closeButtonOn();
+                    }
+                    if (options.buttonAux) {
+                        auxButtonOn();
+                    }
+                    if (options.lockBody) {
+                        lockBody(true);
+                    }
+                },
+                onEnd: function () {
+                    targets = $([]);
+                    $wrapper.remove().find("*").remove();
+                    if (options.lockBody) {
+                        lockBody(false);
+                    }
+                },
+                onLoadStart: function () {
+                    if (options.activity) {
+                        activityIndicatorOn();
+                    }
+                    if (options.caption) {
+                        captionOff();
+                    }
+                },
+                onLoadEnd: function () {
+                    if (options.activity) {
+                        activityIndicatorOff();
+                    }
+                    if (options.arrows) {
+                        $arrows.css('display', 'block');
+                    }
+                    if (options.navigation) {
+                        navigationUpdate(options.selector);
+>>>>>>> origin
                     }
                     else {
                         targetIndex = targets.length - 1;
                     }
+<<<<<<< HEAD
                 }
                 target = targets.eq(targetIndex);
                 $wrapper.trigger("previous.ilb2");
@@ -165,6 +218,40 @@
                     }
                     else {
                         targetIndex = 0;
+=======
+                },
+                previousTarget: function () {
+                    return this.previousTargetDefault();
+                },
+                previousTargetDefault: function () {
+                    $wrapper.trigger("previous.ilb2");
+                    var targetIndex = targets.index(target) - 1;
+                    if (targetIndex < 0) {
+                        if (options.quitOnEnd === true) {
+                            _quitImageLightbox();
+                            return false;
+                        }
+                        else {
+                            targetIndex = targets.length - 1;
+                        }
+                    }
+                    target = targets.eq(targetIndex);
+                },
+                nextTarget: function () {
+                    return this.nextTargetDefault();
+                },
+                nextTargetDefault: function () {
+                    $wrapper.trigger("next.ilb2");
+                    var targetIndex = targets.index(target) + 1;
+                    if (targetIndex >= targets.length) {
+                        if (options.quitOnEnd === true) {
+                            _quitImageLightbox();
+                            return false;
+                        }
+                        else {
+                            targetIndex = 0;
+                        }
+>>>>>>> origin
                     }
                 }
                 target = targets.eq(targetIndex);
@@ -186,8 +273,18 @@
                     return false;
                 });
             },
+<<<<<<< HEAD
             captionReset = function () {
                 $captionObject.html("&nbsp;");
+=======
+            auxButtonOn = function () {
+                $buttonAuxObject.appendTo($wrapper).on('click',function (e) {
+                    $(e.target).trigger("aux.imagelightbox");
+                });
+            },
+            captionOn = function () {
+                var captionText = "";
+>>>>>>> origin
                 if ($(target).data("ilb2-caption")) {
                     $captionObject.html($(target).data("ilb2-caption"));
                 } else if ($(target).find('img').length > 0) {
@@ -471,6 +568,14 @@
                     return false;
                 }
                 inProgress = false;
+<<<<<<< HEAD
+=======
+                if (options.onStart !== false) {
+                    options.onStart();
+                }
+                $('body').append($wrapper);
+                $wrapper.trigger("start.ilb2");
+>>>>>>> origin
                 target = $target;
                 _onStart();
                 $('body').append($wrapper);
@@ -483,9 +588,12 @@
 
             _quitImageLightbox = function () {
                 $wrapper.trigger("quit.ilb2");
+<<<<<<< HEAD
                 if (options.lockBody) {
                     $("body").removeClass("imagelightbox-scroll-lock");
                 }
+=======
+>>>>>>> origin
                 if (!image.length) {
                     return false;
                 }

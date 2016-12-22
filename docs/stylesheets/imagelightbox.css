@@ -67,6 +67,22 @@
     left: 0;
 }
 
+
+/* WITH "AUX" BUTTON */
+#imagelightbox-aux {
+    width: 2.5em; /* 40 */
+    height: 2.5em; /* 40 */
+    background-color: #6660;
+    position: fixed;
+    z-index: 10002;
+    top: 2.5em; /* 40 */
+    left: 2.5em; /* 40 */
+    border-radius: 50%;
+    transition: color .3s ease;
+    box-shadow: inset 0 0 0 0.5em #666666;
+}
+
+
 /* WITH "CLOSE" BUTTON */
 
 #imagelightbox-close {
@@ -82,6 +98,7 @@
     transition: color .3s ease;
 }
 
+#imagelightbox-aux:hover,
 #imagelightbox-close:hover {
     background-color: #111;
 }
@@ -199,6 +216,7 @@
 
 #imagelightbox-loading,
 #imagelightbox-overlay,
+#imagelightbox-aux,
 #imagelightbox-close,
 #imagelightbox-nav,
 .imagelightbox-arrow {
@@ -214,6 +232,10 @@
     #container {
         width: 100%;
     }
+     #imagelightbox-aux {
+        top: 1.25em; /* 20 */
+        right: 1.25em; /* 20 */
+     }
     #imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
