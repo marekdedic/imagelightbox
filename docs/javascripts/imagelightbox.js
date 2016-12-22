@@ -300,7 +300,7 @@
                     return true;
                 }
                 var captionHeight = options.caption ? $captionObject.outerHeight() : 0;
-                console.log(captionHeight);
+
                 var screenWidth = $(window).width(),
                     screenHeight = $(window).height() - captionHeight,
                     tmpImage = new Image();
@@ -319,7 +319,7 @@
                     image.css({
                         'width': imageWidth + 'px',
                         'height': imageHeight + 'px',
-                        'top': 10 + 'px',
+                        'top': '0px',
                         'left': ( $(window).width() - imageWidth ) / 2 + 'px'
                     });
                 };
