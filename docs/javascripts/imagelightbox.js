@@ -36,6 +36,17 @@
             id: 'imagelightbox-wrapper'
         });
 
+    var stateHistory = {
+        'home': {
+            'href':window.location.pathname,
+            'title': document.title
+        },
+        'pushSpace':{
+            'name':"#!imagelightbox/",
+            'title':'ImageLightBox'
+        },
+        'spacer':' | '
+    };
     var cssTransitionSupport = function () {
             var s = document.body || document.documentElement;
             s = s.style;
@@ -53,6 +64,7 @@
             }
             return false;
         },
+        isHistorySupport = !!(window.history && history.pushState),
 
         isCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -97,6 +109,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                history:        false,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -156,6 +169,7 @@
             },
             _nextTarget = function () {
                 var targetIndex = targets.index(target) + 1;
+
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -353,6 +367,12 @@
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
+                    var historicIndex = targets.index(target) + 1;
+                    var stateObj = {index:historicIndex};
+                    var page = stateHistory.pushSpace.name + stateObj.index;
+                    window.history.pushState(stateObj,"",page );
+
+
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
