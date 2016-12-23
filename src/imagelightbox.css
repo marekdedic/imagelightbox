@@ -197,12 +197,19 @@
     margin-right: -0.313em; /* 5 */
 }
 
+.imagelightbox-navitem:active {
+  background:grey;
+}
+.imagelightbox-navitem.active {
+  animation: fade-in 0.45s linear;
+}
+
 #imagelightbox-loading,
 #imagelightbox-overlay,
 #imagelightbox-close,
 #imagelightbox-nav,
 .imagelightbox-arrow {
-    animation: fade-in .25s linear;
+    animation: fade-in 0.25s linear;
 }
 
 @keyframes fade-in {

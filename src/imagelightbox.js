@@ -59,7 +59,7 @@
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
             options[prefix + 'transform'] = 'translateX(' + positionX + ')';
-            options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
+            options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
             element.css(options);
         },
 
@@ -91,7 +91,7 @@
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
                 allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
-                animationSpeed: 250,
+                animationSpeed: 350,
                 activity:       false,
                 arrows:         false,
                 button:         false,
@@ -202,7 +202,9 @@
 
                     //
                     $wrapper.on("previous.ilb2 next.ilb2", function () {
-                        $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
+                        $navItems.removeClass('active')
+                            .eq(targets.index(target))
+                            .addClass('active');
                     });
                     $wrapper.append($navObject);
                     ////
