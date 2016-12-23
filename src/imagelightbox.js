@@ -98,7 +98,14 @@
             return false;
         };
 
+   //  var instances = {};
+//     var classes = $("a[data-imagelightbox]").map(function(indx, element){
+//         var key = $(element).attr("data-imagelightbox");
+//         instances[key] = true;
+//         return instances;
+//     });
     $.fn.imageLightbox = function (opts) {
+
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
@@ -370,8 +377,8 @@
                     // }
                     if (isHistorySupport && options.history) {
                         var historicIndex = targets.index(target) + 1;
-                        var stateObj = {index:historicIndex};
-                        var page = stateHistory.pushSpace.name + stateObj.index;
+                        var stateObj = {index:historicIndex,set:targetIndex};
+                        var page = stateHistory.pushSpace.name + stateObj.set + "/" +stateObj.index;
                         window.history.pushState(stateObj,"",page );
                     }
 
@@ -489,11 +496,14 @@
                 inProgress = false;
                 target = $target;
                 _onStart();
+
                 $('body').append($wrapper);
                 if (options.lockBody) {
                     $("body").addClass("imagelightbox-scroll-lock");
                 }
+
                 $wrapper.trigger("start.ilb2");
+
                 _loadImage(0);
             },
 
@@ -517,10 +527,12 @@
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
+                    $wrapper.data("imagelightbox-wrapper",targetSet);
                     filterTargets();
                     if (targets.length < 1) {
                         _quitImageLightbox();
                     } else {
+                        console.log(targets);
                         _openImageLightbox($(this));
                     }
                 });
@@ -547,6 +559,7 @@
 
         $(document).ready(function() {
             if (options.quitOnDocClick) {
+
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
@@ -556,6 +569,7 @@
             }
 
             if (options.lockBody) {
+                console.log("keyboard ready");
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
                         return true;
@@ -569,7 +583,6 @@
 
             if (options.enableKeyboard) {
                 $(document).on('keyup.ilb7', function (e) {
-                    console.log(history.state);
                     if (!image.length) {
                         return true;
                     }
