@@ -116,7 +116,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
-                history:        false,
+                history:        true,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -376,8 +376,9 @@
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
                     if (isHistorySupport && options.history) {
+                        console.log("supported!");
                         var historicIndex = targets.index(target) + 1;
-                        var stateObj = {index:historicIndex,set:targetIndex};
+                        var stateObj = {index:historicIndex,set:targetSet};
                         var page = stateHistory.pushSpace.name + stateObj.set + "/" +stateObj.index;
                         window.history.pushState(stateObj,"",page );
                     }
@@ -521,6 +522,10 @@
                     targets = $([]);
                     $wrapper.remove().find("*").remove();
                 });
+                if (isHistorySupport && options.history) {
+                    window.history.pushState({},"",stateHistory.home.href);
+                }
+
             },
 
             _addTargets = function( newTargets ) {
