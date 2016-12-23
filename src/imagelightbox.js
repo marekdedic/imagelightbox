@@ -164,7 +164,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                $wrapper.trigger("previous.ilb2");
+                $wrapper.trigger("previous.ilb2",{index:targetIndex});
                 _loadImage(-1);
             },
             _nextTarget = function () {
@@ -180,7 +180,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                $wrapper.trigger("next.ilb2");
+                $wrapper.trigger("next.ilb2",{index:targetIndex});
                 _loadImage(+1);
             },
             activityIndicatorOn = function () {
@@ -368,11 +368,12 @@
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
-                    var historicIndex = targets.index(target) + 1;
-                    var stateObj = {index:historicIndex};
-                    var page = stateHistory.pushSpace.name + stateObj.index;
-                    window.history.pushState(stateObj,"",page );
-
+                    if (isHistorySupport && options.history) {
+                        var historicIndex = targets.index(target) + 1;
+                        var stateObj = {index:historicIndex};
+                        var page = stateHistory.pushSpace.name + stateObj.index;
+                        window.history.pushState(stateObj,"",page );
+                    }
 
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
@@ -537,7 +538,12 @@
                 }
             };
 
-        $(window).on('resize.ilb7', _setImage);
+        $(window)
+            .on('resize.ilb7', _setImage)
+            .on('popstate.ilb7', function (event) {
+                console.log(targetIndex);
+                console.log(event.originalEvent.state);
+            });
 
         $(document).ready(function() {
             if (options.quitOnDocClick) {
@@ -563,6 +569,7 @@
 
             if (options.enableKeyboard) {
                 $(document).on('keyup.ilb7', function (e) {
+                    console.log(history.state);
                     if (!image.length) {
                         return true;
                     }
