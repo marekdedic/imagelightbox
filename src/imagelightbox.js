@@ -153,7 +153,7 @@
                 }
             },
             _previousTarget = function () {
-                var targetIndex = targets.index(target) - 1;
+                targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -168,7 +168,7 @@
                 _loadImage(-1);
             },
             _nextTarget = function () {
-                var targetIndex = targets.index(target) + 1;
+                targetIndex = targets.index(target) + 1;
 
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
@@ -252,6 +252,7 @@
             },
             targetSet = "",
             targets = $([]),
+            targetIndex = 0,
             target = $(),
             image = $(),
             imageWidth = 0,
