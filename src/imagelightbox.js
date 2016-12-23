@@ -380,7 +380,7 @@
                         var historicIndex = targets.index(target) + 1;
                         var stateObj = {index:historicIndex,set:targetSet};
                         var page = stateHistory.pushSpace.name + stateObj.set + "/" +stateObj.index;
-                        window.history.pushState(stateObj,"",page );
+                        window.history.pushState(stateObj,"",page);
                     }
 
                     image = $('<img id="' + options.id + '" />')
@@ -558,8 +558,9 @@
         $(window)
             .on('resize.ilb7', _setImage)
             .on('popstate.ilb7', function (event) {
-                console.log(targetIndex);
-                console.log(event.originalEvent.state);
+                console.log("LOL");
+//                console.log(target);
+  //              console.log(event.originalEvent.state);
             });
 
         $(document).ready(function() {
