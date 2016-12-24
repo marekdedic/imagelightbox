@@ -531,7 +531,8 @@
             },
 
             _addTargets = function( newTargets ) {
-                newTargets.on('click.ilb7', {set: targetSet}, function (e) {
+                newTargets.on('startILB click.ilb7', {set: targetSet}, function (e) {
+                    console.log($(this));
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
                     $wrapper.data("imagelightbox-wrapper",targetSet);
@@ -571,8 +572,7 @@
                  if (!$.isEmptyObject(window.history.state)) {
                      var set = window.history.state.set;
                      var index = window.history.state.index - 1;
-                     //$("[data-imagelightbox='"+set+"']").trigger('click.ilb7',{index:index});
-                     _openImageLightbox($("[data-imagelightbox='"+set+"']")[index]);
+                     $("[data-imagelightbox='"+set+"']").eq(index).trigger('startILB');
                  }
              }
         };
