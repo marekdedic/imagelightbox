@@ -376,11 +376,14 @@
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
                     if (isHistorySupport && options.history) {
-                        console.log("supported!");
                         var historicIndex = targets.index(target) + 1;
-                        var stateObj = {index:historicIndex,set:targetSet};
+                        if (historicIndex !== 0) {
+                            var stateObj = {index:historicIndex,set:targetSet};
                         var page = stateHistory.pushSpace.name + stateObj.set + "/" +stateObj.index;
-                        window.history.pushState(stateObj,"",page);
+                            window.history.pushState(stateObj,"",page);
+                        } else {
+                            _quitImageLightbox();
+                        }
                     }
 
                     image = $('<img id="' + options.id + '" />')
@@ -525,7 +528,6 @@
                 if (isHistorySupport && options.history) {
                     window.history.pushState({},"",stateHistory.home.href);
                 }
-
             },
 
             _addTargets = function( newTargets ) {
@@ -537,7 +539,6 @@
                     if (targets.length < 1) {
                         _quitImageLightbox();
                     } else {
-                        console.log(targets);
                         _openImageLightbox($(this));
                     }
                 });
@@ -555,55 +556,82 @@
                 }
             };
 
+
         $(window)
             .on('resize.ilb7', _setImage)
-            .on('popstate.ilb7', function (event) {
-                console.log("LOL");
-//                console.log(target);
-  //              console.log(event.originalEvent.state);
+            .on("popstate", function(e) {
+                console.log(window.location.href);
+                if (window.location.hash === "") {
+                    _quitImageLightbox();
+                }
             });
 
-        $(document).ready(function() {
+        window.onload = function (e) {
+             if (isHistorySupport && options.history) {
+                 if (!$.isEmptyObject(window.history.state)) {
+                     var set = window.history.state.set;
+                     var index = window.history.state.index - 1;
+                     //$("[data-imagelightbox='"+set+"']").trigger('click.ilb7',{index:index});
+                     _openImageLightbox($("[data-imagelightbox='"+set+"']")[index]);
+                 }
+             }
+        };
+
+        // $(window)
+//
+//             .on('popstate.ilb7', function (event) {
+// //                console.log(event.originalEvent.state);
+//                 if (window.location.hash === "") {
+//                     _quitImageLightbox();
+//                 }
+//                 var arrHash = window.location.hash.split("/");
+//                //  console.log("current set:"+ targets.index(target));
+// //                 console.log("stored set:" + (event.originalEvent.state.set));
+//                 //_loadImage(0);
+// //                console.log(target);
+//   //              console.log(event.originalEvent.state);
+//             });
+
+
+          //   console.log($(this));
+//             if (isHistorySupport && options.history) {
+//                 console.log(window.history.state);
+        //             }
+        $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
             if (options.quitOnDocClick) {
-
-                $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
-                    if (image.length && !$(e.target).is(image)) {
-                        e.preventDefault();
-                        _quitImageLightbox();
-                    }
-                });
-            }
-
-            if (options.lockBody) {
-                console.log("keyboard ready");
-                $(document).on('keydown.ilb7', function (e) {
-                    if (!image.length) {
-                        return true;
-                    }
-                    if([9,32,38,40].indexOf(e.which) > -1) {
-                        e.preventDefault();
-                        return false;
-                    }
-                });
-            }
-
-            if (options.enableKeyboard) {
-                $(document).on('keyup.ilb7', function (e) {
-                    if (!image.length) {
-                        return true;
-                    }
+                if (image.length && !$(e.target).is(image)) {
                     e.preventDefault();
-                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
-                        _quitImageLightbox();
-                    }
-                    if ([37].indexOf(e.which) > -1) {
-                        _previousTarget();
-                    } else if ([39].indexOf(e.which) > -1) {
-                        _nextTarget();
-                    }
-                });
+                    _quitImageLightbox();
+                }
+            }
+        }).on('keydown.ilb7', function (e) {
+            if (options.lockBody) {
+                if (!image.length) {
+                    return true;
+                }
+                if([9,32,38,40].indexOf(e.which) > -1) {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        }).on('keyup.ilb7', function (e) {
+            if (options.enableKeyboard) {
+                if (!image.length) {
+                    return true;
+                }
+                e.preventDefault();
+                if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                    _quitImageLightbox();
+                }
+                if ([37].indexOf(e.which) > -1) {
+                    _previousTarget();
+                } else if ([39].indexOf(e.which) > -1) {
+                    _nextTarget();
+                }
             }
         });
+
+
 
         $(document).off('click', this.selector);
 
