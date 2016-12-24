@@ -532,7 +532,6 @@
 
             _addTargets = function( newTargets ) {
                 newTargets.on('startILB click.ilb7', {set: targetSet}, function (e) {
-                    console.log($(this));
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data("imagelightbox");
                     $wrapper.data("imagelightbox-wrapper",targetSet);
@@ -560,43 +559,23 @@
 
         $(window)
             .on('resize.ilb7', _setImage)
-            .on("popstate", function(e) {
-                console.log(window.location.href);
+            .on("popstate",function(e) {
                 if (window.location.hash === "") {
                     _quitImageLightbox();
                 }
+                _previousTarget();
+                return false;
+            })
+            .on("load.ilb7", function (e) {
+                if (isHistorySupport && options.history) {
+                    if (!$.isEmptyObject(window.history.state)) {
+                        var set = window.history.state.set;
+                        var index = window.history.state.index - 1;
+                        $("[data-imagelightbox='"+set+"']").eq(index).trigger('startILB');
+                    }
+                }
             });
 
-        window.onload = function (e) {
-             if (isHistorySupport && options.history) {
-                 if (!$.isEmptyObject(window.history.state)) {
-                     var set = window.history.state.set;
-                     var index = window.history.state.index - 1;
-                     $("[data-imagelightbox='"+set+"']").eq(index).trigger('startILB');
-                 }
-             }
-        };
-
-        // $(window)
-//
-//             .on('popstate.ilb7', function (event) {
-// //                console.log(event.originalEvent.state);
-//                 if (window.location.hash === "") {
-//                     _quitImageLightbox();
-//                 }
-//                 var arrHash = window.location.hash.split("/");
-//                //  console.log("current set:"+ targets.index(target));
-// //                 console.log("stored set:" + (event.originalEvent.state.set));
-//                 //_loadImage(0);
-// //                console.log(target);
-//   //              console.log(event.originalEvent.state);
-//             });
-
-
-          //   console.log($(this));
-//             if (isHistorySupport && options.history) {
-//                 console.log(window.history.state);
-        //             }
         $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
             if (options.quitOnDocClick) {
                 if (image.length && !$(e.target).is(image)) {
