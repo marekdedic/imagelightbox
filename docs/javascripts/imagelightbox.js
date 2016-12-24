@@ -577,6 +577,7 @@
             });
 
         $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
+            console.log("TOUCHME");
             if (options.quitOnDocClick) {
                 if (image.length && !$(e.target).is(image)) {
                     e.preventDefault();
