@@ -13,7 +13,7 @@ See most of the available options at the [Demo Page](http://rejas.github.io/imag
 ## Requirements and Browser support
 
 * jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
-* All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
+* All major desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
 * IE8 is NOT supported
 
 ## How to use
