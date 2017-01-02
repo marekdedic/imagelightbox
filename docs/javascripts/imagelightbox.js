@@ -116,7 +116,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
-                history:        true,
+                history:        false,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
