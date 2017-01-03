@@ -2,7 +2,7 @@ var gulp            = require('gulp'),
     connect         = require('gulp-connect'),
     csslint         = require('gulp-csslint'),
     jshint          = require('gulp-jshint'),
-    lintspaces      = require("gulp-lintspaces"),
+    lintspaces      = require('gulp-lintspaces'),
     nightwatch      = require('gulp-nightwatch'),
     rename          = require('gulp-rename'),
     uglify          = require('gulp-uglify'),
@@ -10,18 +10,18 @@ var gulp            = require('gulp'),
     cleanCSS        = require('gulp-clean-css'),
     stylish         = require('jshint-stylish');
 
-gulp.task('csslint', function () {
+gulp.task('csslint', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(csslint('.csslintrc'))
-        .pipe(csslint.formatter())
+        .pipe(csslint.formatter());
 });
 
-gulp.task('copy:css', ['jshint'], function () {
+gulp.task('copy:css', ['jshint'], function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(gulp.dest('docs/stylesheets/'));
 });
 
-gulp.task('minify:css', ['copy:css'], function () {
+gulp.task('minify:css', ['copy:css'], function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(autoprefixer({
             browsers: ['last 2 versions', 'ie >= 9', 'Firefox ESR', 'Android >= 2.3'],
@@ -32,24 +32,24 @@ gulp.task('minify:css', ['copy:css'], function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task("editorconfig", function() {
+gulp.task('editorconfig', function() {
     return gulp.src('src/imagelightbox.js')
-        .pipe(lintspaces({editorconfig: './.editorconfig'} ))
+        .pipe(lintspaces({editorconfig: './.editorconfig'}))
         .pipe(lintspaces.reporter());
 });
 
-gulp.task('jshint', function () {
+gulp.task('jshint', function() {
     return gulp.src('src/imagelightbox.js')
         .pipe(jshint())
         .pipe(jshint.reporter(stylish));
 });
 
-gulp.task('copy:js', ['editorconfig', 'jshint'], function () {
+gulp.task('copy:js', ['editorconfig', 'jshint'], function() {
     return gulp.src('src/imagelightbox.js')
         .pipe(gulp.dest('docs/javascripts/'));
 });
 
-gulp.task('minify:js', ['copy:js'], function () {
+gulp.task('minify:js', ['copy:js'], function() {
     return gulp.src('src/imagelightbox.js')
         .pipe(uglify())
         .pipe(rename('imagelightbox.min.js'))
@@ -69,16 +69,16 @@ gulp.task('serve', ['build', 'watch'], function() {
     });
 });
 
-gulp.task('night:js', ['serve'], function () {
+gulp.task('night:js', ['serve'], function() {
     return gulp.src('')
         .pipe(nightwatch({
             configFile: './nightwatch.json'
         }))
-        .on('error', function(){
+        .on('error', function() {
             connect.serverClose();
             process.exit();
         })
-        .on('end', function(){
+        .on('end', function() {
             connect.serverClose();
             process.exit();
         });
