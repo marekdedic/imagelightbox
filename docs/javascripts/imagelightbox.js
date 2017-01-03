@@ -171,11 +171,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-<<<<<<< HEAD
-                $wrapper.trigger("previous.ilb2",{index:targetIndex});
-=======
-                $wrapper.trigger('previous.ilb2');
->>>>>>> upstream/develop
+                $wrapper.trigger('previous.ilb2',{index:targetIndex});
                 _loadImage(-1);
             },
             _nextTarget = function () {
@@ -191,11 +187,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-<<<<<<< HEAD
-                $wrapper.trigger("next.ilb2",{index:targetIndex});
-=======
-                $wrapper.trigger('next.ilb2');
->>>>>>> upstream/develop
+                $wrapper.trigger('next.ilb2',{index:targetIndex});
                 _loadImage(+1);
             },
             activityIndicatorOn = function () {
@@ -513,13 +505,7 @@
                 if (options.lockBody) {
                     $('body').addClass('imagelightbox-scroll-lock');
                 }
-<<<<<<< HEAD
-
-                $wrapper.trigger("start.ilb2");
-
-=======
                 $wrapper.trigger('start.ilb2');
->>>>>>> upstream/develop
                 _loadImage(0);
             },
 
@@ -545,12 +531,8 @@
             _addTargets = function( newTargets ) {
                 newTargets.on('startILB click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
-<<<<<<< HEAD
-                    targetSet = $(e.currentTarget).data("imagelightbox");
-                    $wrapper.data("imagelightbox-wrapper",targetSet);
-=======
                     targetSet = $(e.currentTarget).data('imagelightbox');
->>>>>>> upstream/develop
+                    $wrapper.data('imagelightbox-wrapper',targetSet);
                     filterTargets();
                     if (targets.length < 1) {
                         _quitImageLightbox();
