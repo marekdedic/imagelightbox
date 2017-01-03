@@ -13,7 +13,7 @@ See most of the available options at the [Demo Page](http://rejas.github.io/imag
 ## Requirements and Browser support
 
 * jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
-* All mayor desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
+* All major desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
 * IE8 is NOT supported
 
 ## How to use
@@ -178,6 +178,7 @@ imageLightBox allows adding more images dynamically at runtime
 
 ## Changelog
 
+* 0.7.0 Replaced css-ids with classes (@rejas), added loaded.ilb2 event, optimize image sizing and misc. cleanups (@Paxperscientiam)
 * 0.6.0 Replaced onStart/onEnd/onLoadStart/onLoadEnd with event hooks (@Paxperscientiam), added ui-tests
 * 0.5.4 Add ilb2-caption option (@Paxperscientiam)
 * 0.5.3 Add lockBody option (@Paxperscientiam)

@@ -15,12 +15,12 @@
 
 /* WITH ACTIVITY INDICATION */
 
-#imagelightbox-loading,
-#imagelightbox-loading div {
+.imagelightbox-loading,
+.imagelightbox-loading div {
     border-radius: 9999px;
 }
 
-#imagelightbox-loading {
+.imagelightbox-loading {
     background-color: rgb(128, 128, 128);
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
@@ -32,7 +32,7 @@
     box-shadow: 0 0 2.5em rgba(0, 0, 0, .75); /* 40 */
 }
 
-#imagelightbox-loading div {
+.imagelightbox-loading div {
     width: 1.3em;
     height: 1.3em;
     background-color: #fff;
@@ -56,7 +56,7 @@
 
 /* WITH OVERLAY */
 
-#imagelightbox-overlay {
+.imagelightbox-overlay {
     background-color: #fff;
     background-color: rgba(255, 255, 255, .9);
     position: fixed;
@@ -69,7 +69,7 @@
 
 /* WITH "CLOSE" BUTTON */
 
-#imagelightbox-close {
+.imagelightbox-close {
     cursor: pointer;
     width: 2.5em; /* 40 */
     height: 2.5em; /* 40 */
@@ -82,12 +82,12 @@
     transition: color .3s ease;
 }
 
-#imagelightbox-close:hover {
+.imagelightbox-close:hover {
     background-color: #111;
 }
 
-#imagelightbox-close:before,
-#imagelightbox-close:after {
+.imagelightbox-close:before,
+.imagelightbox-close:after {
     width: 2px;
     background-color: #fff;
     content: '';
@@ -98,17 +98,17 @@
     margin-left: -1px;
 }
 
-#imagelightbox-close:before {
+.imagelightbox-close:before {
     transform: rotate(45deg);
 }
 
-#imagelightbox-close:after {
+.imagelightbox-close:after {
     transform: rotate(-45deg);
 }
 
 /* WITH CAPTION */
 
-#imagelightbox-caption {
+.imagelightbox-caption {
     text-align: center;
     color: #fff;
     background-color: #666;
@@ -122,7 +122,7 @@
 
 /* WITH NAVIGATION */
 
-#imagelightbox-nav {
+.imagelightbox-nav {
     background-color: #444;
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
@@ -134,7 +134,7 @@
     border-radius: 20px;
 }
 
-#imagelightbox-nav a {
+.imagelightbox-nav a {
     position: relative;
     top: 0.2em;
     width: 1em; /* 20 */
@@ -145,7 +145,7 @@
     border-radius: 50%;
 }
 
-#imagelightbox-nav .active {
+.imagelightbox-nav .active {
     background-color: #fff;
 }
 
@@ -197,10 +197,10 @@
     margin-right: -0.313em; /* 5 */
 }
 
-#imagelightbox-loading,
-#imagelightbox-overlay,
-#imagelightbox-close,
-#imagelightbox-nav,
+.imagelightbox-loading,
+.imagelightbox-overlay,
+.imagelightbox-close,
+.imagelightbox-nav,
 .imagelightbox-arrow {
     animation: fade-in .25s linear;
 }
@@ -214,7 +214,7 @@
     #container {
         width: 100%;
     }
-    #imagelightbox-close {
+    .imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
     }

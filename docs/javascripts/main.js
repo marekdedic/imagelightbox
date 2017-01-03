@@ -43,15 +43,15 @@ $(document).ready(function() {
     var gallery = $('a[data-imagelightbox="h"]').imageLightbox({
         arrows: true
     });
-    $('.trigger-lightbox').on('click', function () {
+    $('.trigger_lightbox').on('click', function () {
         gallery.startImageLightbox();
     });
 
     var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox({
         arrows: true
     });
-    $(".add-image").on('click', function(){
-        var adding_ul = $("#dynamically_adding");
+    $(".add_image").on('click', function(){
+        var adding_ul = $(".demo_dynamic");
         var li = $('<li></li>').appendTo( adding_ul );
         var a = $("<a></a>")
             .attr('data-imagelightbox',"i")
