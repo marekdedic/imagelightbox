@@ -574,44 +574,44 @@
                 }
             });
 
-        $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
-            console.log("TOUCHME");
-            if (options.quitOnDocClick) {
-                if (image.length && !$(e.target).is(image)) {
-                    e.preventDefault();
-                    _quitImageLightbox();
-                }
-            }
-        }).on('keydown.ilb7', function (e) {
-            if (options.lockBody) {
-                if (!image.length) {
-                    return true;
-                }
-                if([9,32,38,40].indexOf(e.which) > -1) {
-                    e.preventDefault();
-                    return false;
-                }
-            }
-        }).on('keyup.ilb7', function (e) {
-            if (options.enableKeyboard) {
-                if (!image.length) {
-                    return true;
-                }
-                e.preventDefault();
-                if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
-                    _quitImageLightbox();
-                }
-                if ([37].indexOf(e.which) > -1) {
-                    _previousTarget();
-                } else if ([39].indexOf(e.which) > -1) {
-                    _nextTarget();
-                }
-            }
+        $(document).ready(function() {
+            $(document)
+                .on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
+                    if (options.quitOnDocClick) {
+                        if (image.length && !$(e.target).is(image)) {
+                            e.preventDefault();
+                            _quitImageLightbox();
+                        }
+                    }
+                }).on('keydown.ilb7', function (e) {
+                    if (options.lockBody) {
+                        if (!image.length) {
+                            return true;
+                        }
+                        if([9,32,38,40].indexOf(e.which) > -1) {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                }).on('keyup.ilb7', function (e) {
+                    if (options.enableKeyboard) {
+                        if (!image.length) {
+                            return true;
+                        }
+                        e.preventDefault();
+                        if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                            _quitImageLightbox();
+                        }
+                        if ([37].indexOf(e.which) > -1) {
+                            _previousTarget();
+                        } else if ([39].indexOf(e.which) > -1) {
+                            _nextTarget();
+                        }
+                    }
+                });
         });
-
-
-
-        $(document).off('click', this.selector);
+        //
+        $(document).off('click.ilb7', this.selector);
 
         _addTargets($(this));
 
