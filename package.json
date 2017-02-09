@@ -1,14 +1,15 @@
 {
   "name": "imagelightbox",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "repository": "https://github.com/rejas/imagelightbox.git",
   "license": "MIT",
   "style": "./dist/imagelightbox.min.css",
   "devDependencies": {
+    "eslint": "^3.12.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
-    "gulp-clean-css": "^2.2.1",
+    "gulp-clean-css": "^2.3.2",
     "gulp-connect": "^5.0.0",
     "gulp-csslint": "^1.0.0",
     "gulp-jshint": "^2.0.4",
@@ -18,5 +19,9 @@
     "gulp-uglify": "^2.0.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1"
+  },
+  "scripts": {
+    "eslint": "node node_modules/eslint/bin/eslint.js *.js src/*.js test/src/*.js",
+    "fix": "node node_modules/eslint/bin/eslint.js --fix *.js src/*.js test/src/*.js"
   }
 }

@@ -2,11 +2,11 @@
 // By Osvaldas Valutis, www.osvaldas.info
 // Available for use under the MIT License
 //
-;(function ($, window, document, undefined) {
+(function ($, window, document) {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
-            .attr('id','imagelightbox-loading')
+            .attr('class','imagelightbox-loading')
             .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
             type: 'button',
@@ -16,23 +16,24 @@
             class: 'imagelightbox-arrow imagelightbox-arrow-right'}),
         $arrows = $arrowLeftObject.add($arrowRightObject),
         $captionObject = $('<div/>', {
-            id: 'imagelightbox-caption',
-            html: "&nbsp;"
+            class: 'imagelightbox-caption',
+            html: '&nbsp;'
         }),
         $buttonObject =  $('<a/>', {
-            id: 'imagelightbox-close'
+            class: 'imagelightbox-close'
         }),
         $overlayObject = $('<div/>', {
-            id:'imagelightbox-overlay'
+            class:'imagelightbox-overlay'
         }),
         $navItem = $('<a/>', {
-            href:'#',class:"imagelightbox-navitem"
+            href:'#',
+            class:'imagelightbox-navitem'
         }),
         $navObject = $('<div/>', {
-            id: 'imagelightbox-nav'
+            class: 'imagelightbox-nav'
         }),
         $wrapper = $('<div/>', {
-            id: 'imagelightbox-wrapper'
+            class: 'imagelightbox-wrapper'
         });
 
     var cssTransitionSupport = function () {
@@ -110,16 +111,13 @@
                     arrowsOn(this);
                 }
                 if (options.navigation) {
-                    navigationOn(this, options.selector);
+                    navigationOn();
                 }
                 if (options.overlay) {
                     overlayOn();
                 }
                 if (options.button) {
                     closeButtonOn();
-                }
-                if (options.lockBody) {
-                    lockBody(true);
                 }
                 if (options.caption) {
                     $wrapper.append($captionObject);
@@ -132,7 +130,6 @@
                 if (options.caption) {
                     captionReset();
                 }
-
             },
             _onLoadEnd = function () {
                 if (options.activity) {
@@ -141,13 +138,8 @@
                 if (options.arrows) {
                     $arrows.css('display', 'block');
                 }
-                if (options.navigation) {
-                    navigationUpdate(options.selector);
-                }
-
             },
             _previousTarget = function () {
-                $wrapper.trigger("previous.ilb2");
                 var targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -159,10 +151,10 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+                $wrapper.trigger('previous.ilb2');
                 _loadImage(-1);
             },
             _nextTarget = function () {
-                $wrapper.trigger("next.ilb2");
                 var targetIndex = targets.index(target) + 1;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
@@ -174,20 +166,14 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+                $wrapper.trigger('next.ilb2');
                 _loadImage(+1);
             },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
             },
             activityIndicatorOff = function () {
-                $('#imagelightbox-loading').remove();
-            },
-            lockBody = function (toggle) {
-                if (toggle) {
-                    $("body").css("overflow","hidden");
-                } else {
-                    $("body").css("overflow","scroll");
-                }
+                $('.imagelightbox-loading').remove();
             },
             overlayOn = function () {
                 $wrapper.append($overlayObject);
@@ -199,46 +185,44 @@
                 });
             },
             captionReset = function () {
-                $captionObject.html("&nbsp;");
-                if ($(target).data("ilb2-caption")) {
-                    $captionObject.html($(target).data("ilb2-caption"));
+                $captionObject.html('&nbsp;');
+                if ($(target).data('ilb2-caption')) {
+                    $captionObject.html($(target).data('ilb2-caption'));
                 } else if ($(target).find('img').length > 0) {
                     $captionObject.html($(target).find('img').attr('alt'));
                 }
             },
             navigationOn = function () {
-                var images = targets;
-                if (images.length) {
-                    for (var i = 0; i < images.length; i++) {
+                if (targets.length) {
+                    for (var i = 0; i < targets.length; i++) {
                         $navObject.append($navItem.clone());
                     }
+                    var $navItems = $navObject.children('a');
+                    $navItems.eq(targets.index(target)).addClass('active');
+
+                    //
+                    $wrapper.on('previous.ilb2 next.ilb2', function () {
+                        $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
+                    });
                     $wrapper.append($navObject);
-                    $navObject.on('click.ilb7 touchend.ilb7', function () {
-                        return false;
-                    });
-                    var navItems = $navObject.find('a');
-                    navItems.on('click.ilb7 touchend.ilb7', function () {
-                        var $this = $(this);
-                        if (images.eq($this.index()).attr('href') !== $('#imagelightbox').attr('src')) {
-                            var tmpTarget = targets.eq($this.index());
-                            if (tmpTarget.length) {
-                                var currentIndex = targets.index(target);
-                                target = tmpTarget;
-                                _loadImage($this.index() < currentIndex ? -1 : 1);
+                    ////
+                    $navObject
+                        .on('click.ilb7 touchend.ilb7', function () {
+                            return false;
+                        })
+                        .on('click.ilb7 touchend.ilb7', 'a', function () {
+                            var $this = $(this);
+                            if (targets.eq($this.index()).attr('href') !== $('.imagelightbox').attr('src')) {
+                                var tmpTarget = targets.eq($this.index());
+                                if (tmpTarget.length) {
+                                    currentIndex = targets.index(target);
+                                    target = tmpTarget;
+                                    _loadImage($this.index() < currentIndex ? -1 : 1);
+                                }
                             }
-                        }
-                        navItems.removeClass('active');
-                        navItems.eq($this.index()).addClass('active');
-                        return false;
-                    }).on('touchend.ilb7', function () {
-                        return false;
-                    });
+                            $this.addClass('active').siblings().removeClass('active');
+                        });
                 }
-            },
-            navigationUpdate = function () {
-                var items = $navObject.find('a');
-                items.removeClass('active');
-                items.eq(targets.index(target)).addClass('active');
             },
             arrowsOn = function () {
                 $wrapper.append($arrows);
@@ -252,7 +236,7 @@
                     return false;
                 });
             },
-            targetSet = "",
+            targetSet = '',
             targets = $([]),
             target = $(),
             image = $(),
@@ -260,6 +244,7 @@
             imageHeight = 0,
             swipeDiff = 0,
             inProgress = false,
+            currentIndex = 0,
 
             isTargetValid = function (validImage) {
                 var allowedTypes = options.allowedTypes;
@@ -272,9 +257,9 @@
                     return false;
                 }
                 //
-                var URL = validImage.attr("href");
+                var URL = validImage.attr('href');
                 var ext = parseURL(URL).pathname;
-                var re = new RegExp(allowedTypes,"i");
+                var re = new RegExp(allowedTypes,'i');
                 //
                 var isAllowed = re.test(ext);
                 // function by Cory LaViska
@@ -371,7 +356,7 @@
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
-                            $wrapper.trigger("loaded.ilb2");
+                            $wrapper.trigger('loaded.ilb2');
                             var params = {'opacity': 1};
 
                             image.appendTo($wrapper);
@@ -480,15 +465,21 @@
                     return false;
                 }
                 inProgress = false;
+                target = $target;
                 _onStart();
                 $('body').append($wrapper);
-                $wrapper.trigger("start.ilb2");
-                target = $target;
+                if (options.lockBody) {
+                    $('body').addClass('imagelightbox-scroll-lock');
+                }
+                $wrapper.trigger('start.ilb2');
                 _loadImage(0);
             },
 
             _quitImageLightbox = function () {
-                $wrapper.trigger("quit.ilb2");
+                $wrapper.trigger('quit.ilb2');
+                if (options.lockBody) {
+                    $('body').removeClass('imagelightbox-scroll-lock');
+                }
                 if (!image.length) {
                     return false;
                 }
@@ -496,17 +487,14 @@
                     _removeImage();
                     inProgress = false;
                     targets = $([]);
-                    $wrapper.remove().find("*").remove();
-                    if (options.lockBody) {
-                        lockBody(false);
-                    }
+                    $wrapper.remove().find('*').remove();
                 });
             },
 
             _addTargets = function( newTargets ) {
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
-                    targetSet = $(e.currentTarget).data("imagelightbox");
+                    targetSet = $(e.currentTarget).data('imagelightbox');
                     filterTargets();
                     if (targets.length < 1) {
                         _quitImageLightbox();
@@ -517,7 +505,7 @@
                 function filterTargets () {
                     newTargets
                         .filter(function () {
-                            return $(this).data("imagelightbox") === targetSet;
+                            return $(this).data('imagelightbox') === targetSet;
                         })
                         .filter(function () {
                             return isTargetValid($(this));

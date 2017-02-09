@@ -33,14 +33,13 @@
         <div id="main_content">
             <section class="options">
                 <h2>With activity indication</h2>
-                <ul class="options_activity">
+                <ul class="demo_activity">
                     <li><a href="images/demo1.jpg" data-imagelightbox="a"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="a"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="a"><img src="images/thumb3.jpg"></a></li>
                 </ul>
                 <pre><code>$('a[data-imagelightbox="a"]')
-                    .imageLightbox({{
-                    }}activity: true});
+                        .imageLightbox({activity: true});
                 </code></pre>
 
                 <h2>With overlay</h2>
@@ -64,7 +63,7 @@
                 </code></pre>
 
                 <h2>With caption</h2>
-                <ul>
+                <ul class="demo_caption">
                     <li><a href="images/demo1.jpg" data-imagelightbox="d" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="d"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="d"><img src="images/thumb3.jpg" alt="Just another sunset in Tanzania"></a></li>
@@ -75,7 +74,7 @@
                 </code></pre>
 
                 <h2>With navigation</h2>
-                <ul>
+                <ul class="demo_navigation">
                     <li><a href="images/demo1.jpg" data-imagelightbox="e"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="e"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="e"><img src="images/thumb3.jpg"></a></li>
@@ -108,15 +107,15 @@
                     <li><a href="images/demo2.jpg" data-imagelightbox="h"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="h"><img src="images/thumb3.jpg"></a></li>
                 </ul>
-                <button class="trigger-lightbox">Click Me!</button>
+                <button class="trigger_lightbox">Click Me!</button>
 
                 <h2>dynamically adding</h2>
-                <ul id="dynamically_adding">
+                <ul class="demo_dynamic">
                     <li><a href="images/demo1.jpg" data-imagelightbox="i"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="i"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="i"><img src="images/thumb3.jpg"></a></li>
                 </ul>
-                <button class="add-image">Add another image</button>
+                <button class="add_image">Add another image</button>
 
                 <h2>Disabled body scrolling</h2>
                 <ul>
