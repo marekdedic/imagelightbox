@@ -558,7 +558,7 @@
             }
         });
 
-        $(document).off('click', this.selector);
+        $(document).off('click', options.selector);
 
         _addTargets($(this));
 
