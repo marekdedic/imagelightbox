@@ -101,6 +101,18 @@
                     <li><a href="images/demo3.jpg" data-imagelightbox="g" data-ilb2-caption="Just another sunset in Tanzania"><img src="images/thumb3.jpg"></a></li>
                 </ul>
 
+		<h2>With history</h2>
+		<ul>
+		 <li><a href="images/demo1.jpg" data-imagelightbox="history" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
+                 <li><a href="images/demo2.jpg" data-imagelightbox="history" data-ilb2-caption="Traffic jam in Tanzania"><img src="images/thumb2.jpg"></a></li>
+                 <li><a href="images/demo3.jpg" data-imagelightbox="history" data-ilb2-caption="Just another sunset in Tanzania"><img src="images/thumb3.jpg"></a></li>
+
+		</ul>
+		 <pre><code>$('a[data-imagelightbox="history"]')
+                    .imageLightbox({history: true});
+                </code></pre>
+
+
                 <h2>With manual trigger</h2>
                 <ul>
                     <li><a href="images/demo1.jpg" data-imagelightbox="h"><img src="images/thumb1.jpg"></a></li>

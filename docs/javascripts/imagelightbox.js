@@ -36,6 +36,17 @@
             class: 'imagelightbox-wrapper'
         });
 
+    var stateHistory = {
+        'home': {
+            'href':window.location.pathname,
+            'title': document.title
+        },
+        'pushSpace':{
+            'name':"#!imagelightbox/",
+            'title':'ImageLightBox'
+        },
+        'spacer':' | '
+    };
     var cssTransitionSupport = function () {
             var s = document.body || document.documentElement;
             s = s.style;
@@ -53,6 +64,7 @@
             }
             return false;
         },
+        isHistorySupport = !!(window.history && history.pushState),
 
         isCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -86,7 +98,14 @@
             return false;
         };
 
+   //  var instances = {};
+//     var classes = $("a[data-imagelightbox]").map(function(indx, element){
+//         var key = $(element).attr("data-imagelightbox");
+//         instances[key] = true;
+//         return instances;
+//     });
     $.fn.imageLightbox = function (opts) {
+
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
@@ -97,6 +116,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                history:        false,
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -140,7 +160,7 @@
                 }
             },
             _previousTarget = function () {
-                var targetIndex = targets.index(target) - 1;
+                targetIndex = targets.index(target) - 1;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -151,11 +171,12 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                $wrapper.trigger('previous.ilb2');
+                $wrapper.trigger('previous.ilb2',{index:targetIndex});
                 _loadImage(-1);
             },
             _nextTarget = function () {
-                var targetIndex = targets.index(target) + 1;
+                targetIndex = targets.index(target) + 1;
+
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -166,7 +187,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                $wrapper.trigger('next.ilb2');
+                $wrapper.trigger('next.ilb2',{index:targetIndex});
                 _loadImage(+1);
             },
             activityIndicatorOn = function () {
@@ -238,6 +259,7 @@
             },
             targetSet = '',
             targets = $([]),
+            targetIndex = 0,
             target = $(),
             image = $(),
             imageWidth = 0,
@@ -353,6 +375,17 @@
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
+                    if (isHistorySupport && options.history) {
+                        var historicIndex = targets.index(target) + 1;
+                        if (historicIndex !== 0) {
+                            var stateObj = {index:historicIndex,set:targetSet};
+                        var page = stateHistory.pushSpace.name + stateObj.set + "/" +stateObj.index;
+                            window.history.pushState(stateObj,"",page);
+                        } else {
+                            _quitImageLightbox();
+                        }
+                    }
+
                     image = $('<img id="' + options.id + '" />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
@@ -467,6 +500,7 @@
                 inProgress = false;
                 target = $target;
                 _onStart();
+
                 $('body').append($wrapper);
                 if (options.lockBody) {
                     $('body').addClass('imagelightbox-scroll-lock');
@@ -489,12 +523,16 @@
                     targets = $([]);
                     $wrapper.remove().find('*').remove();
                 });
+                if (isHistorySupport && options.history) {
+                    window.history.pushState({},"",stateHistory.home.href);
+                }
             },
 
             _addTargets = function( newTargets ) {
-                newTargets.on('click.ilb7', {set: targetSet}, function (e) {
+                newTargets.on('startILB click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data('imagelightbox');
+                    $wrapper.data('imagelightbox-wrapper',targetSet);
                     filterTargets();
                     if (targets.length < 1) {
                         _quitImageLightbox();
@@ -516,49 +554,64 @@
                 }
             };
 
-        $(window).on('resize.ilb7', _setImage);
+
+        $(window)
+            .on('resize.ilb7', _setImage)
+            .on("popstate",function(e) {
+                if (window.location.hash === "") {
+                    _quitImageLightbox();
+                }
+                _previousTarget();
+                return false;
+            })
+            .on("load.ilb7", function (e) {
+                if (isHistorySupport && options.history) {
+                    if (!$.isEmptyObject(window.history.state)) {
+                        var set = window.history.state.set;
+                        var index = window.history.state.index - 1;
+                        $("[data-imagelightbox='"+set+"']").eq(index).trigger('startILB');
+                    }
+                }
+            });
 
         $(document).ready(function() {
-            if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
-                    if (image.length && !$(e.target).is(image)) {
+            $(document)
+                .on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
+                    if (options.quitOnDocClick) {
+                        if (image.length && !$(e.target).is(image)) {
+                            e.preventDefault();
+                            _quitImageLightbox();
+                        }
+                    }
+                }).on('keydown.ilb7', function (e) {
+                    if (options.lockBody) {
+                        if (!image.length) {
+                            return true;
+                        }
+                        if([9,32,38,40].indexOf(e.which) > -1) {
+                            e.preventDefault();
+                            return false;
+                        }
+                    }
+                }).on('keyup.ilb7', function (e) {
+                    if (options.enableKeyboard) {
+                        if (!image.length) {
+                            return true;
+                        }
                         e.preventDefault();
-                        _quitImageLightbox();
+                        if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                            _quitImageLightbox();
+                        }
+                        if ([37].indexOf(e.which) > -1) {
+                            _previousTarget();
+                        } else if ([39].indexOf(e.which) > -1) {
+                            _nextTarget();
+                        }
                     }
                 });
-            }
-
-            if (options.lockBody) {
-                $(document).on('keydown.ilb7', function (e) {
-                    if (!image.length) {
-                        return true;
-                    }
-                    if([9,32,38,40].indexOf(e.which) > -1) {
-                        e.preventDefault();
-                        return false;
-                    }
-                });
-            }
-
-            if (options.enableKeyboard) {
-                $(document).on('keyup.ilb7', function (e) {
-                    if (!image.length) {
-                        return true;
-                    }
-                    e.preventDefault();
-                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
-                        _quitImageLightbox();
-                    }
-                    if ([37].indexOf(e.which) > -1) {
-                        _previousTarget();
-                    } else if ([39].indexOf(e.which) > -1) {
-                        _nextTarget();
-                    }
-                });
-            }
         });
-
-        $(document).off('click', this.selector);
+        //
+        $(document).off('click.ilb7', this.selector);
 
         _addTargets($(this));
 

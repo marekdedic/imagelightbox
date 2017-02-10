@@ -29,6 +29,10 @@ $(document).ready(function() {
         arrows: true
     });
 
+     $('a[data-imagelightbox="history"]').imageLightbox({
+        history: true
+    });
+
     $('a[data-imagelightbox="g"]').imageLightbox({
         activity: true,
         arrows: true,
