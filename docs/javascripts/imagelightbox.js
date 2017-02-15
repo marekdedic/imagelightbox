@@ -419,7 +419,7 @@
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                         })
                         .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                            if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
                             e.preventDefault();
