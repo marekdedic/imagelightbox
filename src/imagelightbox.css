@@ -12,6 +12,12 @@
     overflow:hidden;
 }
 
+/* WRAPPER */
+/* required according to mozilla */
+.imagelightbox-wrapper:-webkit-full-screen {
+  height: 100%;
+  width: 100%;
+}
 
 /* WITH ACTIVITY INDICATION */
 

@@ -403,11 +403,26 @@
                             return true;
                         }
                         var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                        if (imageWidth / 2 > posX) {
-                            _previousTarget();
-                        } else {
-                            _nextTarget();
-                        }
+
+                        $(this).dblclick(function (e) {
+                            var element = $(".imagelightbox-wrapper")[0];
+                            if(element.requestFullscreen) {
+                                element.requestFullscreen();
+                            } else if(element.mozRequestFullScreen) {
+                                element.mozRequestFullScreen();
+                            } else if(element.webkitRequestFullscreen) {
+                                element.webkitRequestFullscreen();
+                            } else if(element.msRequestFullscreen) {
+                                element.msRequestFullscreen();
+                            }
+                        });
+
+
+                       //  if (imageWidth / 2 > posX) {
+//                             _previousTarget();
+//                         } else {
+//                             _nextTarget();
+//                         }
                     })
                         .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
@@ -527,6 +542,7 @@
                     }
                 });
             }
+
 
             if (options.lockBody) {
                 $(document).on('keydown.ilb7', function (e) {
