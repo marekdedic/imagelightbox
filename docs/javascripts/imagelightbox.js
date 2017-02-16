@@ -54,7 +54,7 @@
             return false;
         },
 
-        isCssTransitionSupport = cssTransitionSupport() !== false,
+        hasCssTransitionSupport = cssTransitionSupport() !== false,
 
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
@@ -334,7 +334,7 @@
 
                 if (image.length) {
                     var params = {'opacity': 0};
-                    if (isCssTransitionSupport) {
+                    if (hasCssTransitionSupport) {
                         cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
                     else {
@@ -363,7 +363,7 @@
                             image.appendTo($wrapper);
                             _setImage();
                             image.css('opacity', 0);
-                            if (isCssTransitionSupport) {
+                            if (hasCssTransitionSupport) {
                                 cssTransitionTranslateX(image, -100 * direction + 'px', 0);
                                 setTimeout(function () {
                                     cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
@@ -414,7 +414,7 @@
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
-                            if (isCssTransitionSupport) {
+                            if (hasCssTransitionSupport) {
                                 imagePosLeft = parseInt(image.css('left'));
                             }
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
@@ -426,7 +426,7 @@
                             e.preventDefault();
                             swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                             swipeDiff = swipeStart - swipeEnd;
-                            if (isCssTransitionSupport) {
+                            if (hasCssTransitionSupport) {
                                 cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
                             } else {
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
@@ -443,7 +443,7 @@
                                     _nextTarget();
                                 }
                             } else {
-                                if (isCssTransitionSupport) {
+                                if (hasCssTransitionSupport) {
                                     cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                                 } else {
                                     image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
