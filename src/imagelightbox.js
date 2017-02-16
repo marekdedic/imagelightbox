@@ -227,6 +227,7 @@
             arrowsOn = function () {
                 $wrapper.append($arrows);
                 $arrows.on('click.ilb7 touchend.ilb7', function (e) {
+                    e.stopImmediatePropagation();
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
                         _previousTarget();
