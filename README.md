@@ -44,6 +44,8 @@ $( selector ).imageLightbox({
     button:         false,                   // bool;            show close button
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
+    gutter:         10,                      // integer;         window height less height of image as a percentage
+    offsetY:        0,                       // integer;         vertical offset in terms of gutter
     lockBody:       false,                   // bool;            disables body scrolling when lightbox is open
     navigation:     false,                   // bool;            show navigation
     overlay:        false,                   // bool;            display the lightbox as an overlay
@@ -140,7 +142,7 @@ If you want unlimited gallerys call this snippet (for example: https://jsfiddle.
 ````javascript
 <script>
     var attrs = {};
-    var classes = $("a[data-imagelightbox]").map(function(indx, element){  
+    var classes = $("a[data-imagelightbox]").map(function(indx, element){
       var key = $(element).attr("data-imagelightbox");
       attrs[key] = true;
       return attrs;
