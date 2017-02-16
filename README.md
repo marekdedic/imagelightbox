@@ -1,6 +1,8 @@
 imagelightbox
 =============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://secure.travis-ci.org/rejas/imagelightbox.png?branch=master)](http://travis-ci.org/rejas/imagelightbox)
 [![devDependency Status](https://david-dm.org/rejas/imagelightbox/dev-status.svg)](https://david-dm.org/rejas/imagelightbox#info=devDependencies)
 [![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
