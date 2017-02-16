@@ -9,12 +9,15 @@ function closeDemo (browser) {
 
 module.exports = {
 
-    'Open lightbox page' : function (browser) {
+    'Open and Close lightbox page' : function (browser) {
         openDemo(browser);
         browser.click('.demo_activity li [src="images/thumb1.jpg"]')
-            .waitForElementVisible('#imagelightbox', 1000)
-            .assert.elementPresent('#imagelightbox');
-        closeDemo(browser);
+            .waitForElementPresent('#imagelightbox', 1000)
+            .execute(function() {
+                document.querySelector('#container').click();
+                browser.waitForElementNotPresent('#imagelightbox', 1000);
+                closeDemo(browser);
+            })
     },
 
     'Caption' : function (browser) {
