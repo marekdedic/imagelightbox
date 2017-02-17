@@ -1,8 +1,8 @@
 imagelightbox
 =============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
 [![Build Status](https://secure.travis-ci.org/rejas/imagelightbox.png?branch=master)](http://travis-ci.org/rejas/imagelightbox)
-[![devDependency Status](https://david-dm.org/rejas/imagelightbox/dev-status.svg)](https://david-dm.org/rejas/imagelightbox#info=devDependencies)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
@@ -180,6 +180,7 @@ imageLightBox allows adding more images dynamically at runtime
 
 ## Changelog
 
+* 0.7.1 Fix #108
 * 0.7.1 Fix #113
 * 0.7.0 Replaced css-ids with classes (@rejas), added loaded.ilb2 event, optimize image sizing and misc. cleanups (@Paxperscientiam)
 * 0.6.0 Replaced onStart/onEnd/onLoadStart/onLoadEnd with event hooks (@Paxperscientiam), added ui-tests
