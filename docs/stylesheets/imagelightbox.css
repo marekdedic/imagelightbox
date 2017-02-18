@@ -9,9 +9,12 @@
 }
 
 .imagelightbox-scroll-lock {
-    overflow:hidden;
+    overflow: hidden;
 }
 
+.imagelightbox-disable-select {
+    user-select: none;
+}
 
 /* WITH ACTIVITY INDICATION */
 
