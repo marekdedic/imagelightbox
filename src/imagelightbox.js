@@ -476,7 +476,7 @@
                 _onStart();
                 $('body')
                     .append($wrapper)
-                    .addClass("imagelightbox-disable-select");
+                    .addClass('imagelightbox-disable-select');
 
                 if (options.lockBody) {
                     $('body').addClass('imagelightbox-scroll-lock');
@@ -487,7 +487,7 @@
 
             _quitImageLightbox = function () {
                 $wrapper.trigger('quit.ilb2');
-                $('body').removeClass("imagelightbox-disable-select");
+                $('body').removeClass('imagelightbox-disable-select');
                 if (options.lockBody) {
                     $('body').removeClass('imagelightbox-scroll-lock');
                 }
