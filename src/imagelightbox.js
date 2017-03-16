@@ -118,7 +118,7 @@
                 quitOnImgClick: false,
                 quitOnDocClick: true,
                 quitOnEscKey:   true
-        }, opts),
+            }, opts),
             _onStart = function () {
                 if (options.arrows) {
                     arrowsOn(this);
