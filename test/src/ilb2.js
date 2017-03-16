@@ -17,7 +17,7 @@ module.exports = {
                 document.querySelector('#container').click();
                 browser.waitForElementNotPresent('#imagelightbox', 1000);
                 closeDemo(browser);
-            })
+            });
     },
 
     'Caption' : function (browser) {

@@ -108,6 +108,8 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                gutter:         10,     // percentage of client height
+                offsetY:        0,    // percentage of gutter
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -311,11 +313,11 @@
                 if (!image.length) {
                     return true;
                 }
-                var captionHeight = $captionObject.outerHeight();
+                var captionHeight = options.caption ? $captionObject.outerHeight() : 0;
 
-                var screenWidth = $(window).width() * 0.8,
-                    wHeight = ((window.innerHeight) ? window.innerHeight : $(window).height()) - captionHeight,
-                    screenHeight = wHeight * 0.9,
+                var screenWidth = $(window).width(),
+                    screenHeight = $(window).height() - captionHeight,
+                    gutterFactor = Math.abs(1 - options.gutter/100),
                     tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
@@ -328,12 +330,16 @@
                         imageWidth /= ratio;
                         imageHeight /= ratio;
                     }
+                    var cssHeight = imageHeight*gutterFactor,
+                        cssWidth = imageWidth*gutterFactor,
+                        cssTop = (1 + options.offsetY/100)*(imageHeight - cssHeight)/2,
+                        cssLeft = ($(window).width() - cssWidth ) / 2;
 
                     image.css({
-                        'width': imageWidth + 'px',
-                        'height': imageHeight + 'px',
-                        'top': ( wHeight - imageHeight ) / 2 + 'px',
-                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                        'width': cssWidth + 'px',
+                        'height': cssHeight + 'px',
+                        'top': cssTop + 'px',
+                        'left':  cssLeft + 'px'
                     });
                 };
             },
@@ -481,7 +487,7 @@
                 _onStart();
                 $('body')
                     .append($wrapper)
-                    .addClass("disable-select");
+                    .addClass('imagelightbox-disable-select');
 
                 if (options.lockBody) {
                     $('body').addClass('imagelightbox-scroll-lock');
@@ -492,7 +498,7 @@
 
             _quitImageLightbox = function () {
                 $wrapper.trigger('quit.ilb2');
-                $('body').removeClass("disable-select");
+                $('body').removeClass('imagelightbox-disable-select');
                 if (options.lockBody) {
                     $('body').removeClass('imagelightbox-scroll-lock');
                 }
