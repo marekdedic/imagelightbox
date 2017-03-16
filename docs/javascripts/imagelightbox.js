@@ -6,8 +6,8 @@
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
-        .attr('class','imagelightbox-loading')
-        .append($('<div/>')),
+            .attr('class','imagelightbox-loading')
+            .append($('<div/>')),
         $arrowLeftObject = $('<button/>',{
             type: 'button',
             class: 'imagelightbox-arrow imagelightbox-arrow-left'}),
@@ -37,22 +37,22 @@
         });
 
     var cssTransitionSupport = function () {
-        var s = document.body || document.documentElement;
-        s = s.style;
-        if (s.WebkitTransition === '') {
-            return '-webkit-';
-        }
-        if (s.MozTransition === '') {
-            return '-moz-';
-        }
-        if (s.OTransition === '') {
-            return '-o-';
-        }
-        if (s.transition === '') {
-            return '';
-        }
-        return false;
-    },
+            var s = document.body || document.documentElement;
+            s = s.style;
+            if (s.WebkitTransition === '') {
+                return '-webkit-';
+            }
+            if (s.MozTransition === '') {
+                return '-moz-';
+            }
+            if (s.OTransition === '') {
+                return '-o-';
+            }
+            if (s.transition === '') {
+                return '';
+            }
+            return false;
+        },
 
         hasCssTransitionSupport = cssTransitionSupport() !== false,
 
@@ -97,27 +97,25 @@
             }
         };
 
-
-
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
-            selector:       'a[data-imagelightbox]',
-            id:             'imagelightbox',
-            allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
-            animationSpeed: 250,
-            activity:       false,
-            arrows:         false,
-            button:         false,
-            caption:        false,
-            enableKeyboard: true,
-            lockBody:       false,
-            navigation:     false,
-            overlay:        false,
-            preloadNext:    true,
-            quitOnEnd:      false,
-            quitOnImgClick: false,
-            quitOnDocClick: true,
-            quitOnEscKey:   true
+                selector:       'a[data-imagelightbox]',
+                id:             'imagelightbox',
+                allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
+                animationSpeed: 250,
+                activity:       false,
+                arrows:         false,
+                button:         false,
+                caption:        false,
+                enableKeyboard: true,
+                lockBody:       false,
+                navigation:     false,
+                overlay:        false,
+                preloadNext:    true,
+                quitOnEnd:      false,
+                quitOnImgClick: false,
+                quitOnDocClick: true,
+                quitOnEscKey:   true
         }, opts),
             _onStart = function () {
                 if (options.arrows) {
@@ -316,9 +314,9 @@
                 var captionHeight = $captionObject.outerHeight();
 
                 var screenWidth = $(window).width() * 0.8,
-                wHeight = ((window.innerHeight) ? window.innerHeight : $(window).height()) - captionHeight,
-                screenHeight = wHeight * 0.9,
-                tmpImage = new Image();
+                    wHeight = ((window.innerHeight) ? window.innerHeight : $(window).height()) - captionHeight,
+                    screenHeight = wHeight * 0.9,
+                    tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
                 tmpImage.onload = function () {
@@ -340,199 +338,199 @@
                 };
             },
 
-        _loadImage = function (direction) {
-            if (inProgress) {
-                return false;
-            }
-
-            if (image.length) {
-                var params = {'opacity': 0};
-                if (hasCssTransitionSupport) {
-                    cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+            _loadImage = function (direction) {
+                if (inProgress) {
+                    return false;
                 }
-                else {
-                    params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+
+                if (image.length) {
+                    var params = {'opacity': 0};
+                    if (hasCssTransitionSupport) {
+                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+                    }
+                    else {
+                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+                    }
+                    image.animate(params, options.animationSpeed, function () {
+                        _removeImage();
+                    });
+                    swipeDiff = 0;
                 }
-                image.animate(params, options.animationSpeed, function () {
-                    _removeImage();
-                });
-                swipeDiff = 0;
-            }
 
-            inProgress = true;
-            _onLoadStart();
+                inProgress = true;
+                _onLoadStart();
 
-            setTimeout(function () {
-                var imgPath = target.attr('href');
-                // if ( imgPath === undefined ) {
-                //     imgPath = target.attr( 'data-lightbox' );
-                // }
-                image = $('<img id="' + options.id + '" />')
-                    .attr('src', imgPath)
-                    .on('load.ilb7', function () {
-                        $wrapper.trigger('loaded.ilb2');
-                        var params = {'opacity': 1};
+                setTimeout(function () {
+                    var imgPath = target.attr('href');
+                    // if ( imgPath === undefined ) {
+                    //     imgPath = target.attr( 'data-lightbox' );
+                    // }
+                    image = $('<img id="' + options.id + '" />')
+                        .attr('src', imgPath)
+                        .on('load.ilb7', function () {
+                            $wrapper.trigger('loaded.ilb2');
+                            var params = {'opacity': 1};
 
-                        image.appendTo($wrapper);
-                        _setImage();
-                        image.css('opacity', 0);
-                        if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                            setTimeout(function () {
-                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                            }, 50);
-                        } else {
-                            var imagePosLeft = parseInt(image.css('left'));
-                            params.left = imagePosLeft + 'px';
-                            image.css('left', imagePosLeft - 100 * direction + 'px');
-                        }
+                            image.appendTo($wrapper);
+                            _setImage();
+                            image.css('opacity', 0);
+                            if (hasCssTransitionSupport) {
+                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                                setTimeout(function () {
+                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                }, 50);
+                            } else {
+                                var imagePosLeft = parseInt(image.css('left'));
+                                params.left = imagePosLeft + 'px';
+                                image.css('left', imagePosLeft - 100 * direction + 'px');
+                            }
 
-                        image.animate(params, options.animationSpeed, function () {
-                            inProgress = false;
+                            image.animate(params, options.animationSpeed, function () {
+                                inProgress = false;
+                                _onLoadEnd();
+                            });
+                            if (options.preloadNext) {
+                                var nextTarget = targets.eq(targets.index(target) + 1);
+                                if (!nextTarget.length) {
+                                    nextTarget = targets.eq(0);
+                                }
+                                $('<img />').attr('src', nextTarget.attr('href'));
+                            }
+                        })
+                        .on('error.ilb7', function () {
                             _onLoadEnd();
                         });
-                        if (options.preloadNext) {
-                            var nextTarget = targets.eq(targets.index(target) + 1);
-                            if (!nextTarget.length) {
-                                nextTarget = targets.eq(0);
-                            }
-                            $('<img />').attr('src', nextTarget.attr('href'));
-                        }
-                    })
-                    .on('error.ilb7', function () {
-                        _onLoadEnd();
-                    });
 
-                var swipeStart = 0,
-                    swipeEnd = 0,
-                    imagePosLeft = 0;
+                    var swipeStart = 0,
+                        swipeEnd = 0,
+                        imagePosLeft = 0;
 
-                image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
-                    e.preventDefault();
-                    if (options.quitOnImgClick) {
-                        _quitImageLightbox();
-                        return false;
-                    }
-                    if (wasTouched(e.originalEvent)) {
-                        return true;
-                    }
-                    var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                    if (imageWidth / 2 > posX) {
-                        _previousTarget();
-                    } else {
-                        _nextTarget();
-                    }
-                })
-                    .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
-                        if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                            return true;
-                        }
-                        if (hasCssTransitionSupport) {
-                            imagePosLeft = parseInt(image.css('left'));
-                        }
-                        swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                    })
-                    .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
-                        if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                            return true;
-                        }
+                    image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
                         e.preventDefault();
-                        swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                        swipeDiff = swipeStart - swipeEnd;
-                        if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
-                        } else {
-                            image.css('left', imagePosLeft - swipeDiff + 'px');
+                        if (options.quitOnImgClick) {
+                            _quitImageLightbox();
+                            return false;
                         }
-                    })
-                    .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
-                        if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                        if (wasTouched(e.originalEvent)) {
                             return true;
                         }
-                        if (Math.abs(swipeDiff) > 50) {
-                            if (swipeDiff < 0) {
-                                _previousTarget();
-                            } else {
-                                _nextTarget();
-                            }
+                        var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                        if (imageWidth / 2 > posX) {
+                            _previousTarget();
                         } else {
-                            if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                            } else {
-                                image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
-                            }
+                            _nextTarget();
                         }
-                    });
+                    })
+                        .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            if (hasCssTransitionSupport) {
+                                imagePosLeft = parseInt(image.css('left'));
+                            }
+                            swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                        })
+                        .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
+                            if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            e.preventDefault();
+                            swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            swipeDiff = swipeStart - swipeEnd;
+                            if (hasCssTransitionSupport) {
+                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+                            } else {
+                                image.css('left', imagePosLeft - swipeDiff + 'px');
+                            }
+                        })
+                        .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
+                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                return true;
+                            }
+                            if (Math.abs(swipeDiff) > 50) {
+                                if (swipeDiff < 0) {
+                                    _previousTarget();
+                                } else {
+                                    _nextTarget();
+                                }
+                            } else {
+                                if (hasCssTransitionSupport) {
+                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                } else {
+                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                }
+                            }
+                        });
 
-            }, options.animationSpeed + 100);
-        },
-        _removeImage = function () {
-            if (!image.length) {
-                return false;
-            }
-            image.remove();
-            image = $();
-        },
-
-        _openImageLightbox = function ($target) {
-            if (inProgress) {
-                return false;
-            }
-            inProgress = false;
-            target = $target;
-            _onStart();
-            $('body')
-                .append($wrapper)
-                .addClass("disable-select");
-
-            if (options.lockBody) {
-                $('body').addClass('imagelightbox-scroll-lock');
-            }
-            $wrapper.trigger('start.ilb2');
-            _loadImage(0);
-        },
-
-        _quitImageLightbox = function () {
-            $wrapper.trigger('quit.ilb2');
-            $('body').removeClass("disable-select");
-            if (options.lockBody) {
-                $('body').removeClass('imagelightbox-scroll-lock');
-            }
-            if (!image.length) {
-                return false;
-            }
-            image.animate({'opacity': 0}, options.animationSpeed, function () {
-                _removeImage();
-                inProgress = false;
-                targets = $([]);
-                $wrapper.remove().find('*').remove();
-            });
-        },
-
-        _addTargets = function( newTargets ) {
-            newTargets.on('click.ilb7', {set: targetSet}, function (e) {
-                e.preventDefault();
-                targetSet = $(e.currentTarget).data('imagelightbox');
-                filterTargets();
-                if (targets.length < 1) {
-                    _quitImageLightbox();
-                } else {
-                    _openImageLightbox($(this));
+                }, options.animationSpeed + 100);
+            },
+            _removeImage = function () {
+                if (!image.length) {
+                    return false;
                 }
-            });
-            function filterTargets () {
-                newTargets
-                    .filter(function () {
-                        return $(this).data('imagelightbox') === targetSet;
-                    })
-                    .filter(function () {
-                        return isTargetValid($(this));
-                    })
-                    .each(function () {
-                        targets = targets.add($(this));
-                    });
-            }
-        };
+                image.remove();
+                image = $();
+            },
+
+            _openImageLightbox = function ($target) {
+                if (inProgress) {
+                    return false;
+                }
+                inProgress = false;
+                target = $target;
+                _onStart();
+                $('body')
+                    .append($wrapper)
+                    .addClass("disable-select");
+
+                if (options.lockBody) {
+                    $('body').addClass('imagelightbox-scroll-lock');
+                }
+                $wrapper.trigger('start.ilb2');
+                _loadImage(0);
+            },
+
+            _quitImageLightbox = function () {
+                $wrapper.trigger('quit.ilb2');
+                $('body').removeClass("disable-select");
+                if (options.lockBody) {
+                    $('body').removeClass('imagelightbox-scroll-lock');
+                }
+                if (!image.length) {
+                    return false;
+                }
+                image.animate({'opacity': 0}, options.animationSpeed, function () {
+                    _removeImage();
+                    inProgress = false;
+                    targets = $([]);
+                    $wrapper.remove().find('*').remove();
+                });
+            },
+
+            _addTargets = function( newTargets ) {
+                newTargets.on('click.ilb7', {set: targetSet}, function (e) {
+                    e.preventDefault();
+                    targetSet = $(e.currentTarget).data('imagelightbox');
+                    filterTargets();
+                    if (targets.length < 1) {
+                        _quitImageLightbox();
+                    } else {
+                        _openImageLightbox($(this));
+                    }
+                });
+                function filterTargets () {
+                    newTargets
+                        .filter(function () {
+                            return $(this).data('imagelightbox') === targetSet;
+                        })
+                        .filter(function () {
+                            return isTargetValid($(this));
+                        })
+                        .each(function () {
+                            targets = targets.add($(this));
+                        });
+                }
+            };
 
         $(window).on('resize.ilb7', _setImage);
 
@@ -611,7 +609,7 @@
 
 
         function toggleFullScreen() {
-            launchIntoFullscreen(document.documentElement) ||
+            launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
                 exitFullscreen();
         }
 
