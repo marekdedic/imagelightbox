@@ -185,12 +185,13 @@ imageLightBox allows adding more images dynamically at runtime
 
 ## Changelog
 
+* 0.7.5 Add fullscreen option (@paxperscientiam)
 * 0.7.2 Fix #108
 * 0.7.1 Fix #113
 * 0.7.0 Replaced css-ids with classes (@rejas), added loaded.ilb2 event, optimize image sizing and misc. cleanups (@Paxperscientiam)
 * 0.6.0 Replaced onStart/onEnd/onLoadStart/onLoadEnd with event hooks (@Paxperscientiam), added ui-tests
-* 0.5.4 Add ilb2-caption option (@Paxperscientiam)
-* 0.5.3 Add lockBody option (@Paxperscientiam)
+* 0.5.4 Add ilb2-caption option (@paxperscientiam)
+* 0.5.3 Add lockBody option (@paxperscientiam)
 * 0.5.2 Updates to demo page, cleanups
 * 0.5.1 Fix startImageLightbox
 * 0.5.0 Support jQuery3
