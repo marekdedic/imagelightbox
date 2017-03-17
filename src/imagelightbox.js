@@ -86,16 +86,20 @@
             return false;
         },
 
-        hasFullscreenSupport = function () {
+        fullscreenSupport = function () {
             if (
                 document.fullscreenEnabled ||
                     document.webkitFullscreenEnabled ||
                     document.mozFullScreenEnabled ||
                     document.msFullscreenEnabled
             ) {
-                return false;
+                return true;
             }
-        };
+            return false;
+        },
+        hasFullscreenSupport = fullscreenSupport() !== false;
+
+
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
@@ -108,6 +112,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                fullscreen:     false,
                 gutter:         10,     // percentage of client height
                 offsetY:        0,    // percentage of gutter
                 lockBody:       false,
@@ -541,6 +546,13 @@
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
+            // prevent overloading
+            $(document).on('keydown.ilb7', function (e) {
+                if ([13].indexOf(e.which) > -1) {
+                    e.preventDefault();
+                }});
+
+
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
                     if (image.length && !$(e.target).is(image)) {
@@ -550,14 +562,16 @@
                 });
             }
 
-            if (options.lockBody) {
+            if (options.lockBody || (options.fullscreen && hasFullscreenSupport)) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
                         return true;
                     }
                     if([9,32,38,40].indexOf(e.which) > -1) {
                         e.preventDefault();
-                        return false;
+                    }
+                    if ([13].indexOf(e.which) > -1) {
+                        toggleFullScreen();
                     }
                 });
             }
@@ -578,15 +592,6 @@
                     }
                 });
             }
-
-            document.addEventListener("keydown", function(e) {
-                if ([13].indexOf(e.which) > -1) {
-                    if (!hasFullscreenSupport()) {
-                        toggleFullScreen();
-                    }
-                }
-            }, false);
-
         });
 
         function launchIntoFullscreen(element) {
