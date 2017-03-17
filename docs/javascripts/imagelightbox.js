@@ -84,7 +84,16 @@
             }
 
             return false;
-        };
+        },
+
+        fullscreenSupport = function () {
+            return !!(document.fullscreenEnabled ||
+            document.webkitFullscreenEnabled ||
+            document.mozFullScreenEnabled ||
+            document.msFullscreenEnabled);
+
+        },
+        hasFullscreenSupport = fullscreenSupport() !== false;
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
@@ -97,6 +106,9 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                fullscreen:     false,
+                gutter:         10,     // percentage of client height
+                offsetY:        0,    // percentage of gutter
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -199,13 +211,12 @@
                     }
                     var $navItems = $navObject.children('a');
                     $navItems.eq(targets.index(target)).addClass('active');
-
                     //
                     $wrapper.on('previous.ilb2 next.ilb2', function () {
                         $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
                     });
                     $wrapper.append($navObject);
-                    ////
+                    //
                     $navObject
                         .on('click.ilb7 touchend.ilb7', function () {
                             return false;
@@ -300,11 +311,11 @@
                 if (!image.length) {
                     return true;
                 }
-                var captionHeight = $captionObject.outerHeight();
+                var captionHeight = options.caption ? $captionObject.outerHeight() : 0;
 
-                var screenWidth = $(window).width() * 0.8,
-                    wHeight = ((window.innerHeight) ? window.innerHeight : $(window).height()) - captionHeight,
-                    screenHeight = wHeight * 0.9,
+                var screenWidth = $(window).width(),
+                    screenHeight = $(window).height() - captionHeight,
+                    gutterFactor = Math.abs(1 - options.gutter/100),
                     tmpImage = new Image();
 
                 tmpImage.src = image.attr('src');
@@ -317,12 +328,16 @@
                         imageWidth /= ratio;
                         imageHeight /= ratio;
                     }
+                    var cssHeight = imageHeight*gutterFactor,
+                        cssWidth = imageWidth*gutterFactor,
+                        cssTop = (1 + options.offsetY/100)*(imageHeight - cssHeight)/2,
+                        cssLeft = ($(window).width() - cssWidth ) / 2;
 
                     image.css({
-                        'width': imageWidth + 'px',
-                        'height': imageHeight + 'px',
-                        'top': ( wHeight - imageHeight ) / 2 + 'px',
-                        'left': ( $(window).width() - imageWidth ) / 2 + 'px'
+                        'width': cssWidth + 'px',
+                        'height': cssHeight + 'px',
+                        'top': cssTop + 'px',
+                        'left':  cssLeft + 'px'
                     });
                 };
             },
@@ -468,7 +483,10 @@
                 inProgress = false;
                 target = $target;
                 _onStart();
-                $('body').append($wrapper);
+                $('body')
+                    .append($wrapper)
+                    .addClass('imagelightbox-disable-select');
+
                 if (options.lockBody) {
                     $('body').addClass('imagelightbox-scroll-lock');
                 }
@@ -478,6 +496,7 @@
 
             _quitImageLightbox = function () {
                 $wrapper.trigger('quit.ilb2');
+                $('body').removeClass('imagelightbox-disable-select');
                 if (options.lockBody) {
                     $('body').removeClass('imagelightbox-scroll-lock');
                 }
@@ -520,6 +539,13 @@
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
+            // prevent overloading
+            $(document).on('keydown.ilb7', function (e) {
+                if ([13].indexOf(e.which) > -1) {
+                    e.preventDefault();
+                }});
+
+
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
                     if (image.length && !$(e.target).is(image)) {
@@ -529,14 +555,16 @@
                 });
             }
 
-            if (options.lockBody) {
+            if (options.lockBody || (options.fullscreen && hasFullscreenSupport)) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
                         return true;
                     }
                     if([9,32,38,40].indexOf(e.which) > -1) {
                         e.preventDefault();
-                        return false;
+                    }
+                    if ([13].indexOf(e.which) > -1) {
+                        toggleFullScreen();
                     }
                 });
             }
@@ -558,6 +586,36 @@
                 });
             }
         });
+
+        function launchIntoFullscreen(element) {
+            if(element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if(element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if(element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if(element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+            return false;
+        }
+
+        function exitFullscreen() {
+            if(document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if(document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if(document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            return false;
+        }
+
+
+        function toggleFullScreen() {
+            launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
+            exitFullscreen();
+        }
 
         $(document).off('click', options.selector);
 

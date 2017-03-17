@@ -44,6 +44,9 @@ $( selector ).imageLightbox({
     button:         false,                   // bool;            show close button
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
+    fullscreen:     true                     // bool;            enable fullscreen (enter/return key)
+    gutter:         10,                      // integer;         window height less height of image as a percentage
+    offsetY:        0,                       // integer;         vertical offset in terms of gutter
     lockBody:       false,                   // bool;            disables body scrolling when lightbox is open
     navigation:     false,                   // bool;            show navigation
     overlay:        false,                   // bool;            display the lightbox as an overlay
@@ -82,6 +85,10 @@ add an "ilb2-caption" data-attribute to the element, fallback value is the alt-a
         <img src="thumbnail.jpg" alt="fallback caption"/>
     </a>
 ````
+
+## Fullscreen
+
+Simply set the `fullscreen` option to true to enable the option. If the user's browser supports the fullscreen API, they can switch to fullscreen mode by pressing enter.
 
 ## Hooks
 
@@ -140,7 +147,7 @@ If you want unlimited gallerys call this snippet (for example: https://jsfiddle.
 ````javascript
 <script>
     var attrs = {};
-    var classes = $("a[data-imagelightbox]").map(function(indx, element){  
+    var classes = $("a[data-imagelightbox]").map(function(indx, element){
       var key = $(element).attr("data-imagelightbox");
       attrs[key] = true;
       return attrs;

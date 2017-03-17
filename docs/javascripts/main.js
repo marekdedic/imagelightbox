@@ -29,6 +29,10 @@ $(document).ready(function() {
         arrows: true
     });
 
+    $('a[data-imagelightbox="fs"]').imageLightbox({
+        fullscreen: true
+    });
+
     $('a[data-imagelightbox="g"]').imageLightbox({
         activity: true,
         arrows: true,
