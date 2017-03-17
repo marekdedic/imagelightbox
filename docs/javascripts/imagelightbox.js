@@ -87,19 +87,13 @@
         },
 
         fullscreenSupport = function () {
-            if (
-                document.fullscreenEnabled ||
-                    document.webkitFullscreenEnabled ||
-                    document.mozFullScreenEnabled ||
-                    document.msFullscreenEnabled
-            ) {
-                return true;
-            }
-            return false;
+            return !!(document.fullscreenEnabled ||
+            document.webkitFullscreenEnabled ||
+            document.mozFullScreenEnabled ||
+            document.msFullscreenEnabled);
+
         },
         hasFullscreenSupport = fullscreenSupport() !== false;
-
-
 
     $.fn.imageLightbox = function (opts) {
         var options = $.extend({
@@ -217,13 +211,12 @@
                     }
                     var $navItems = $navObject.children('a');
                     $navItems.eq(targets.index(target)).addClass('active');
-
                     //
                     $wrapper.on('previous.ilb2 next.ilb2', function () {
                         $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
                     });
                     $wrapper.append($navObject);
-                    ////
+                    //
                     $navObject
                         .on('click.ilb7 touchend.ilb7', function () {
                             return false;
@@ -621,7 +614,7 @@
 
         function toggleFullScreen() {
             launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
-                exitFullscreen();
+            exitFullscreen();
         }
 
         $(document).off('click', options.selector);
