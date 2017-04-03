@@ -1,14 +1,13 @@
 var gulp            = require('gulp'),
     connect         = require('gulp-connect'),
     csslint         = require('gulp-csslint'),
-    jshint          = require('gulp-jshint'),
+    eslint          = require('gulp-eslint'),
     lintspaces      = require('gulp-lintspaces'),
     nightwatch      = require('gulp-nightwatch'),
     rename          = require('gulp-rename'),
     uglify          = require('gulp-uglify'),
     autoprefixer    = require('gulp-autoprefixer'),
-    cleanCSS        = require('gulp-clean-css'),
-    stylish         = require('jshint-stylish');
+    cleanCSS        = require('gulp-clean-css');
 
 gulp.task('csslint', function() {
     return gulp.src('src/imagelightbox.css')
@@ -16,7 +15,7 @@ gulp.task('csslint', function() {
         .pipe(csslint.formatter());
 });
 
-gulp.task('copy:css', ['jshint'], function() {
+gulp.task('copy:css', ['csslint'], function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(gulp.dest('docs/stylesheets/'));
 });
@@ -38,13 +37,14 @@ gulp.task('editorconfig', function() {
         .pipe(lintspaces.reporter());
 });
 
-gulp.task('jshint', function() {
+gulp.task('eslint', function() {
     return gulp.src('src/imagelightbox.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter(stylish));
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
-gulp.task('copy:js', ['editorconfig', 'jshint'], function() {
+gulp.task('copy:js', ['editorconfig', 'eslint'], function() {
     return gulp.src('src/imagelightbox.js')
         .pipe(gulp.dest('docs/javascripts/'));
 });
