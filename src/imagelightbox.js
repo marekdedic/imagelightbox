@@ -262,7 +262,7 @@
                 var allowedTypes = options.allowedTypes;
 
                 //test that RegExp is restricted to disjunction format
-                var isGoodRE = /^(?!\|)[\w\|]+(?!\|)$/.test(allowedTypes);
+                var isGoodRE = /^(?!\|)[\w|]+(?!\|)$/.test(allowedTypes);
                 //
                 if (!isGoodRE) {
                     //allowedTypes = 'png|jpg|jpeg|gif';
