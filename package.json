@@ -5,6 +5,9 @@
   "repository": "https://github.com/rejas/imagelightbox.git",
   "license": "MIT",
   "style": "./dist/imagelightbox.min.css",
+  "scripts": {
+    "fix": "node ./node_modules/eslint/bin/eslint.js src/**/*.js --fix"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
