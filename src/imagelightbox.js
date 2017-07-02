@@ -330,7 +330,7 @@
                     }
                     var cssHeight = imageHeight*gutterFactor,
                         cssWidth = imageWidth*gutterFactor,
-                        cssTop = (1 + options.offsetY/100)*(imageHeight - cssHeight)/2,
+                        cssTop = (1 + options.offsetY/100)*($( window ).height() - cssHeight)/2,
                         cssLeft = ($(window).width() - cssWidth ) / 2;
 
                     image.css({
@@ -407,7 +407,15 @@
 
                     var swipeStart = 0,
                         swipeEnd = 0,
-                        imagePosLeft = 0;
+                        imagePosLeft = 0,
+                        scaling = false,
+                        zoomActive = false,
+                        zoomScrollX = 0,
+                        zoomScrollY = 0,
+                        zoomScroll = false,
+                        zoomRatio = 1,
+                        zoomBase = 1;
+
 
                     image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
                         e.preventDefault();
@@ -429,39 +437,100 @@
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
-                            if (hasCssTransitionSupport) {
-                                imagePosLeft = parseInt(image.css('left'));
+                            if(e.type == 'touchstart' && e.originalEvent.touches.length == 2) {
+                                scaling = true;
+                                zoomBase = Math.sqrt( (e.originalEvent.touches[0].screenX-e.originalEvent.touches[1].screenX) * (e.originalEvent.touches[0].screenX-e.originalEvent.touches[1].screenX) +
+                                    (e.originalEvent.touches[0].screenY-e.originalEvent.touches[1].screenY) * (e.originalEvent.touches[0].screenY-e.originalEvent.touches[1].screenY));
+                                console.log(zoomBase);
                             }
-                            swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            if (!zoomActive) {
+                                if (hasCssTransitionSupport) {
+                                    imagePosLeft = parseInt(image.css('left'));
+                                }
+                                swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            }
+                            if (zoomActive && e.originalEvent.touches.length == 1)
+                            {
+                                zoomScrollX = e.originalEvent.touches[0].screenX;
+                                zoomScrollY = e.originalEvent.touches[0].screenY;
+                                zoomScroll = true;
+                            }
                         })
                         .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
-                            if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                                return true;
+                            if (!zoomActive) {
+                                if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                    return true;
+                                }
+                                e.preventDefault();
+                                swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                                swipeDiff = swipeStart - swipeEnd;
+                                if (hasCssTransitionSupport) {
+                                    cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+                                } else {
+                                    image.css('left', imagePosLeft - swipeDiff + 'px');
+                                }
                             }
-                            e.preventDefault();
-                            swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
-                            swipeDiff = swipeStart - swipeEnd;
-                            if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
-                            } else {
-                                image.css('left', imagePosLeft - swipeDiff + 'px');
+                            if (zoomScroll) {
+                                image.css(
+                                    {
+                                        'top':    (parseInt(image.css('top')) + e.originalEvent.touches[0].screenY - zoomScrollY) + 'px',
+                                        'left':   (parseInt(image.css('left')) + e.originalEvent.touches[0].screenX - zoomScrollX) + 'px'
+                                    });
+                                zoomScrollX = e.originalEvent.touches[0].screenX;
+                                zoomScrollY = e.originalEvent.touches[0].screenY;
+                            }
+                            if (scaling) {
+                                zoomRatio = Math.sqrt( (e.originalEvent.touches[0].screenX-e.originalEvent.touches[1].screenX) * (e.originalEvent.touches[0].screenX-e.originalEvent.touches[1].screenX) +
+                                        (e.originalEvent.touches[0].screenY-e.originalEvent.touches[1].screenY) * (e.originalEvent.touches[0].screenY-e.originalEvent.touches[1].screenY)) / zoomBase;
+                                image.css(
+                                    {
+                                        'width':  imageWidth * zoomRatio + 'px',
+                                        'height': imageHeight * zoomRatio + 'px',
+                                        'top':    ( $( window ).height() - imageHeight * zoomRatio ) / 2 + 'px',
+                                        'left':   ( $( window ).width() - imageWidth * zoomRatio ) / 2 + 'px'
+                                    });
+                                zoomActive = true;
+
                             }
                         })
                         .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                                return true;
-                            }
-                            if (Math.abs(swipeDiff) > 50) {
-                                if (swipeDiff < 0) {
-                                    _previousTarget();
-                                } else {
-                                    _nextTarget();
+                            if (!zoomActive) {
+                                if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                                    return true;
                                 }
-                            } else {
-                                if (hasCssTransitionSupport) {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                if (Math.abs(swipeDiff) > 50) {
+                                    if (swipeDiff < 0) {
+                                        _previousTarget();
+                                    } else {
+                                        _nextTarget();
+                                    }
                                 } else {
-                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                    if (hasCssTransitionSupport) {
+                                        cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                    } else {
+                                        image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                    }
+                                }
+                            }
+                            if (zoomScroll) {
+                                zoomScroll = false;
+                            }
+                            if(scaling) {
+                                scaling = false;
+                                zoomBase = 1;
+                                if (zoomActive && zoomRatio <= 1) {
+                                    var gutterFactor = Math.abs(1 - options.gutter/100);
+                                    image.css(
+                                        {
+                                            'width':  imageWidth*gutterFactor + 'px',
+                                            'height': imageHeight*gutterFactor + 'px',
+                                            //to use for vertical alignment of image
+                                            //'top':    ( $( window ).height() - imageHeight ) / 2 + 'px',
+                                            //'left':   ( $( window ).width() - imageWidth ) / 2 + 'px'
+                                            'top' : (1 + options.offsetY/100)*($( window ).height() - imageHeight*gutterFactor)/2,
+                                            'left': ($(window).width() - imageWidth*gutterFactor ) / 2
+                                        });
+                                    zoomActive = false;
                                 }
                             }
                         });
