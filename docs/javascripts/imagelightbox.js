@@ -410,6 +410,9 @@
                         imagePosLeft = 0,
                         scaling = false,
                         zoomActive = false,
+                        zoomScrollX = 0,
+                        zoomScrollY = 0,
+                        zoomScroll = false,
                         zoomRatio = 1,
                         zoomBase = 1;
 
@@ -446,6 +449,12 @@
                                 }
                                 swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                             }
+                            if (zoomActive && e.originalEvent.touches.length == 1)
+                            {
+                                zoomScrollX = e.originalEvent.touches[0].screenX;
+                                zoomScrollY = e.originalEvent.touches[0].screenY;
+                                zoomScroll = true;
+                            }
                         })
                         .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
                             if (!zoomActive) {
@@ -461,7 +470,16 @@
                                     image.css('left', imagePosLeft - swipeDiff + 'px');
                                 }
                             }
-                            if(scaling) {
+                            if (zoomScroll) {
+                                image.css(
+                                    {
+                                        'top':    (parseInt(image.css('top')) + e.originalEvent.touches[0].screenY - zoomScrollY) + 'px',
+                                        'left':   (parseInt(image.css('left')) + e.originalEvent.touches[0].screenX - zoomScrollX) + 'px'
+                                    });
+                                zoomScrollX = e.originalEvent.touches[0].screenX;
+                                zoomScrollY = e.originalEvent.touches[0].screenY;
+                            }
+                            if (scaling) {
                                 zoomRatio = Math.sqrt( (e.originalEvent.touches[0].screenX-e.originalEvent.touches[1].screenX) * (e.originalEvent.touches[0].screenX-e.originalEvent.touches[1].screenX) +
                                         (e.originalEvent.touches[0].screenY-e.originalEvent.touches[1].screenY) * (e.originalEvent.touches[0].screenY-e.originalEvent.touches[1].screenY)) / zoomBase;
                                 image.css(
@@ -493,6 +511,9 @@
                                         image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
                                     }
                                 }
+                            }
+                            if (zoomScroll) {
+                                zoomScroll = false;
                             }
                             if(scaling) {
                                 scaling = false;
