@@ -543,8 +543,8 @@
             $(document).on('keydown.ilb7', function (e) {
                 if ([13].indexOf(e.which) > -1) {
                     e.preventDefault();
-                }});
-
+                }
+            });
 
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
@@ -610,7 +610,6 @@
             }
             return false;
         }
-
 
         function toggleFullScreen() {
             launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
