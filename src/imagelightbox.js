@@ -2,7 +2,20 @@
 // By Osvaldas Valutis, www.osvaldas.info
 // Available for use under the MIT License
 //
-(function ($, window, document) {
+(function (factory) {
+    // http://blog.npmjs.org/post/112712169830/making-your-jquery-plugin-work-better-with-npm
+    // If there is a variable named module and it has an exports property,
+    // then we're working in a Node-like environment. Use require to load
+    // the jQuery object that the module system is using and pass it in.
+    if(typeof module === 'object' && typeof module.exports === 'object') {
+        factory(require('jquery'), window, document);
+    }
+    // Otherwise, we're working in a browser, so just pass in the global
+    // jQuery object.
+    else {
+        factory(jQuery, window, document);
+    }
+}(function ($, window, document) {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
@@ -88,9 +101,9 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-            document.webkitFullscreenEnabled ||
-            document.mozFullScreenEnabled ||
-            document.msFullscreenEnabled);
+                    document.webkitFullscreenEnabled ||
+                    document.mozFullScreenEnabled ||
+                    document.msFullscreenEnabled);
 
         },
         hasFullscreenSupport = fullscreenSupport() !== false;
@@ -369,7 +382,7 @@
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
-                    image = $('<img id="' + options.id + '" />')
+                    image = $('<img id=\'' + options.id + '\' />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
                             var params = {'opacity': 1};
@@ -613,7 +626,7 @@
 
         function toggleFullScreen() {
             launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
-            exitFullscreen();
+                exitFullscreen();
         }
 
         $(document).off('click', options.selector);
@@ -643,4 +656,4 @@
 
         return this;
     };
-})(jQuery, window, document);
+}));
