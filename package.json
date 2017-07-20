@@ -1,7 +1,7 @@
 {
   "name": "imagelightbox",
   "main": "./src/imagelightbox.js",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "repository": "https://github.com/rejas/imagelightbox.git",
   "license": "MIT",

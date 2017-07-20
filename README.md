@@ -185,6 +185,7 @@ imageLightBox allows adding more images dynamically at runtime
 
 ## Changelog
 
+* 0.7.7 Update webpack support (@paxperscientiam)
 * 0.7.6 Fix #126
 * 0.7.5 Add fullscreen option (@paxperscientiam)
 * 0.7.2 Fix #108
