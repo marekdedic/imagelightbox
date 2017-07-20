@@ -12,7 +12,7 @@
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
-    "gulp-clean-css": "^3.5.0",
+    "gulp-clean-css": "^3.7.0",
     "gulp-connect": "^5.0.0",
     "gulp-csslint": "^1.0.0",
     "gulp-eslint": "^4.0.0",
