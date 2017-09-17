@@ -215,7 +215,7 @@ Open imageLightBox with a specific image
         if (hashData.length > 0 && hashData[0] === 'showImage')
         {
             // start imagelightbox with this image
-            var image = $(selector[data-ilb2-id="' + hashData[1] + '"]');
+            var image = $('selector[data-ilb2-id="' + hashData[1] + '"]');
             var lightboxInstance = $( selector ).imageLightbox();
             lightboxInstance.startImageLightbox(image);
         }
