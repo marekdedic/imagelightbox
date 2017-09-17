@@ -650,8 +650,11 @@
             return this;
         };
 
-        this.startImageLightbox = function () {
-            $(this).trigger('click.ilb7');
+        this.startImageLightbox = function (element) {
+            if (element)
+                element.trigger('click.ilb7');
+            else
+                $(this).trigger('click.ilb7');
         };
 
         return this;
