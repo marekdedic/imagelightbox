@@ -75,6 +75,21 @@ imageLightBox can be started with *startImageLightbox()* JavaScript function cal
     });
 </script>
 ````
+###### Example: Open specific image
+
+````javascript
+<script src="jquery.js"></script>
+<script src="imagelightbox.js"></script>
+<script>
+    $( function()
+    {
+        var gallery = $( selector ).imageLightbox();
+        var $image = $ ( image_selector );
+        gallery.startImageLightbox( $image );
+    });
+</script>
+````
+
 ## Adding captions to lightbox
 
 add an "ilb2-caption" data-attribute to the element, fallback value is the alt-attribute of the thumbnail-image
@@ -183,8 +198,34 @@ imageLightBox allows adding more images dynamically at runtime
 </script>
 ````
 
+## Deep linking
+
+Open imageLightBox with a specific image
+
+###### Example:
+
+````javascript
+<script src="jquery.js"></script>
+<script src="imagelightbox.js"></script>
+<script>
+    $( function()
+    {
+        // location: http://example.org/galleries/123#showImage_1
+        var hashData = $(location).attr('hash').substring(1).split('_');
+        if (hashData.length > 0 && hashData[0] === 'showImage')
+        {
+            // start imagelightbox with this image
+            var image = $(selector[data-ilb2-id="' + hashData[1] + '"]');
+            var lightboxInstance = $( selector ).imageLightbox();
+            lightboxInstance.startImageLightbox(image);
+        }
+    });
+</script>
+````
+
 ## Changelog
 
+* 0.7.8 Add deep link functionality
 * 0.7.7 Update webpack support (@paxperscientiam)
 * 0.7.6 Fix #126
 * 0.7.5 Add fullscreen option (@paxperscientiam)
