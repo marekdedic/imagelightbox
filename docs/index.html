@@ -124,6 +124,14 @@
                     <li><a href="images/demo3.jpg" data-imagelightbox="j"><img src="images/thumb3.jpg"></a></li>
                 </ul>
 
+                <h2>Deep links</h2>
+                <ul class="demo_activity">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="k" data-ilb2-id="1"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="k" data-ilb2-id="2"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="k" data-ilb2-id="3"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre>Add data-ilb2-id="2" to images and call with #showImage_2 add to the url</pre>
+
                 <h2>Press enter for fullscreen</h2>
                 <ul>
                  <li><a href="images/demo1.jpg" data-imagelightbox="fs"><img src="images/thumb1.jpg"></a></li>
@@ -147,11 +155,11 @@
             <section id="events">
                 <h2>Events</h2>
                 <ul>
-                    <li><a href="images/demo1.jpg" data-imagelightbox="k"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="k"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="k"><img src="images/thumb3.jpg"></a></li>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="events"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="events"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="events"><img src="images/thumb3.jpg"></a></li>
                 </ul>
-                <pre><code>$('a[data-imagelightbox="k"]').imageLightbox();<br/>
+                <pre><code>$('a[data-imagelightbox="events"]').imageLightbox();<br/>
                     $(document)<br/>
                     .on("start.ilb2", function () { console.log("start.ilb2"); })<br/>
                     .on("loaded.ilb2", function () { console.log("loaded.ilb2"); })<br/>
