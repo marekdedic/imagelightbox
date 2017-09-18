@@ -225,6 +225,7 @@ Open imageLightBox with a specific image
 
 ## Changelog
 
+* 0.7.9 Fix #128
 * 0.7.8 Add deep link functionality (@art4)
 * 0.7.7 Update webpack support (@paxperscientiam)
 * 0.7.6 Fix #126

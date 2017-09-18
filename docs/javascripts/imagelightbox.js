@@ -71,7 +71,7 @@
 
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
-            options[prefix + 'transform'] = 'translateX(' + positionX + ')';
+            options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
             options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
             element.css(options);
         },
@@ -121,7 +121,7 @@
                 enableKeyboard: true,
                 fullscreen:     false,
                 gutter:         10,     // percentage of client height
-                offsetY:        0,    // percentage of gutter
+                offsetY:        0,      // percentage of gutter
                 lockBody:       false,
                 navigation:     false,
                 overlay:        false,
@@ -313,6 +313,7 @@
                 }
                 return isAllowed;
             },
+
             // TODO make it work again
             // isTargetValid = function (element) {
             //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
@@ -343,13 +344,11 @@
                     }
                     var cssHeight = imageHeight*gutterFactor,
                         cssWidth = imageWidth*gutterFactor,
-                        cssTop = (1 + options.offsetY/100)*(imageHeight - cssHeight)/2,
                         cssLeft = ($(window).width() - cssWidth ) / 2;
 
                     image.css({
                         'width': cssWidth + 'px',
                         'height': cssHeight + 'px',
-                        'top': cssTop + 'px',
                         'left':  cssLeft + 'px'
                     });
                 };
