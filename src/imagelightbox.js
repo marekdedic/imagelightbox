@@ -47,7 +47,8 @@
         }),
         $wrapper = $('<div/>', {
             class: 'imagelightbox-wrapper'
-        });
+        }),
+        $body = $('body');
 
     var cssTransitionSupport = function () {
             var s = document.body || document.documentElement;
@@ -495,9 +496,8 @@
                 inProgress = false;
                 target = $target;
                 _onStart();
-                $('body')
-                    .append($wrapper)
-                    .addClass('imagelightbox-disable-select');
+                $body.append($wrapper)
+                    .addClass('imagelightbox-open');
 
                 if (options.lockBody) {
                     $('body').addClass('imagelightbox-scroll-lock');
@@ -508,7 +508,7 @@
 
             _quitImageLightbox = function () {
                 $wrapper.trigger('quit.ilb2');
-                $('body').removeClass('imagelightbox-disable-select');
+                $body.removeClass('imagelightbox-open');
                 if (options.lockBody) {
                     $('body').removeClass('imagelightbox-scroll-lock');
                 }
