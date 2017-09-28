@@ -551,12 +551,6 @@
         $(window).on('resize.ilb7', _setImage);
 
         $(document).ready(function() {
-            // prevent overloading
-            $(document).on('keydown.ilb7', function (e) {
-                if ([13].indexOf(e.which) > -1) {
-                    e.preventDefault();
-                }
-            });
 
             if (options.quitOnDocClick) {
                 $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
@@ -573,26 +567,35 @@
                         return true;
                     }
                     if([9,32,38,40].indexOf(e.which) > -1) {
+                        e.stopPropagation();
                         e.preventDefault();
                     }
                     if ([13].indexOf(e.which) > -1) {
+                        e.stopPropagation();
+                        e.preventDefault();
                         toggleFullScreen();
                     }
                 });
             }
 
             if (options.enableKeyboard) {
-                $(document).on('keyup.ilb7', function (e) {
+                $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
                         return true;
                     }
-                    e.preventDefault();
                     if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                        e.stopPropagation();
+                        e.preventDefault();
                         _quitImageLightbox();
                     }
                     if ([37].indexOf(e.which) > -1) {
+                        e.stopPropagation();
+                        e.preventDefault();
                         _previousTarget();
-                    } else if ([39].indexOf(e.which) > -1) {
+                    }
+                    if ([39].indexOf(e.which) > -1) {
+                        e.stopPropagation();
+                        e.preventDefault();
                         _nextTarget();
                     }
                 });
