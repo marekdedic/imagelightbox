@@ -9,12 +9,9 @@
     box-shadow: 0 0 3.125em rgba(0, 0, 0, .75); /* 50 */
 }
 
-.imagelightbox-scroll-lock {
-    overflow: hidden;
-}
-
 .imagelightbox-open {
     user-select: none;
+    overflow: hidden;
 }
 
 /* WITH ACTIVITY INDICATION */

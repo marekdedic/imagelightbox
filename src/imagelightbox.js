@@ -123,7 +123,6 @@
                 fullscreen:     false,
                 gutter:         10,     // percentage of client height
                 offsetY:        0,      // percentage of gutter
-                lockBody:       false,
                 navigation:     false,
                 overlay:        false,
                 preloadNext:    true,
@@ -498,10 +497,6 @@
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
-
-                if (options.lockBody) {
-                    $('body').addClass('imagelightbox-scroll-lock');
-                }
                 $wrapper.trigger('start.ilb2');
                 _loadImage(0);
             },
@@ -509,9 +504,6 @@
             _quitImageLightbox = function () {
                 $wrapper.trigger('quit.ilb2');
                 $body.removeClass('imagelightbox-open');
-                if (options.lockBody) {
-                    $('body').removeClass('imagelightbox-scroll-lock');
-                }
                 if (!image.length) {
                     return false;
                 }
@@ -567,7 +559,7 @@
                 });
             }
 
-            if (options.lockBody || (options.fullscreen && hasFullscreenSupport)) {
+            if (options.fullscreen && hasFullscreenSupport) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
                         return true;

@@ -68,10 +68,6 @@ $(document).ready(function() {
         instanceI.addToImageLightbox( $("a[data-imagelightbox='i']") );
     });
 
-    $('a[data-imagelightbox="j"]').imageLightbox({
-        lockBody: true
-    });
-
     // location: http://example.org/galleries/123#showImage_1
     var hashData = $(location).attr('hash').substring(1).split('_');
     if (hashData.length > 0 && hashData[0] === 'showImage')

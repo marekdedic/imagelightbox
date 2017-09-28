@@ -47,7 +47,6 @@ $( selector ).imageLightbox({
     fullscreen:     true                     // bool;            enable fullscreen (enter/return key)
     gutter:         10,                      // integer;         window height less height of image as a percentage
     offsetY:        0,                       // integer;         vertical offset in terms of gutter
-    lockBody:       false,                   // bool;            disables body scrolling when lightbox is open
     navigation:     false,                   // bool;            show navigation
     overlay:        false,                   // bool;            display the lightbox as an overlay
     preloadNext:    true,                    // bool;            silently preload the next image
@@ -229,6 +228,7 @@ Open imageLightBox with a specific image
 
 ## Changelog
 
+* Removed lockBody option, is default behaviour now, can be overwritten in imagelightbox-open css class
 * 0.7.9 Fix #128
 * 0.7.8 Add deep link functionality (@art4)
 * 0.7.7 Update webpack support (@paxperscientiam)
