@@ -13,7 +13,7 @@
     overflow: hidden;
 }
 
-.imagelightbox-disable-select {
+.imagelightbox-open {
     user-select: none;
 }
 
