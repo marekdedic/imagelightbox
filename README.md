@@ -103,7 +103,8 @@ add an "ilb2-caption" data-attribute to the element, fallback value is the alt-a
 
 ## Fullscreen
 
-Simply set the `fullscreen` option to true to enable the option. If the user's browser supports the fullscreen API, they can switch to fullscreen mode by pressing enter.
+Simply set the `fullscreen` option to true to enable the option. If the user's browser supports the fullscreen API, 
+they can switch to fullscreen mode by pressing enter.
 
 ## Hooks
 
@@ -153,11 +154,13 @@ For example:
         <img src="thumbnail_4.jpg" alt="caption"/>
     </a>
 ````
-When the user clicks any of the thumbnails with a data-imagelightbox value of "a", only those images will appear in the lightbox. The same is true when clicking an image with data-imagelightbox value of "b" and any other.
+When the user clicks any of the thumbnails with a data-imagelightbox value of "a", only those images will appear in the 
+lightbox. The same is true when clicking an image with data-imagelightbox value of "b" and any other.
 
 If you want unlimited gallerys call this snippet (for example: https://jsfiddle.net/7ow26fcg/):
 
-<i>(Используйте этот код вызова lightbox, если у вас на странице несколько галерей, где у каждой галереи уникальное значение атрибута data-imagelightbox. Например data-imagelightbox="gallery_1", data-imagelightbox="gallery_2" и т.д.)</i>
+<i>(Используйте этот код вызова lightbox, если у вас на странице несколько галерей, где у каждой галереи уникальное 
+значение атрибута data-imagelightbox. Например data-imagelightbox="gallery_1", data-imagelightbox="gallery_2" и т.д.)</i>
 
 ````javascript
 <script>
@@ -177,7 +180,8 @@ If you want unlimited gallerys call this snippet (for example: https://jsfiddle.
 </script>
 ````
 
-In order to "capture" all possible sets on a give webpage, it is necessary to apply imageLightbox to "a[data-imagelightbox]"; that is, without specifying a particular data-imagelightbox attribute value.
+In order to "capture" all possible sets on a give webpage, it is necessary to apply imageLightbox to 
+"a[data-imagelightbox]"; that is, without specifying a particular data-imagelightbox attribute value.
 
 ## Adding images dynamically to lightbox
 
