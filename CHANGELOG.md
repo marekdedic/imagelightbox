@@ -13,17 +13,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
--  Removed lockBody option, is default behaviour now, can be overwritten in imagelightbox-open css class
+- **Breaking:** Removed lockBody option, is default behaviour now, can be overwritten in imagelightbox-open css class
 
 ### Fixed
 
-- Fixed bug #133: keydown:Enter is blocked by imagelightbox
+- Fixed bug #133 keydown:Enter is blocked by imagelightbox
 
 ## [0.7.9] - 2017-09-18
 
 ### Fixed
 
-- Fixed #128: align the image in the center of the screen
+- Fixed #128 align the image in the center of the screen
 
 ## [0.7.8] - 2017-09-17
 
