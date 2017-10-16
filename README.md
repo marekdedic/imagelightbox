@@ -228,19 +228,4 @@ Open imageLightBox with a specific image
 
 ## Changelog
 
-* 0.8.0 Removed lockBody option, is default behaviour now, can be overwritten in imagelightbox-open css class
-        Fixed #133
-* 0.7.9 Fixed #128
-* 0.7.8 Added deep link functionality (@art4)
-* 0.7.7 Updated webpack support (@paxperscientiam)
-* 0.7.6 Fixed #126
-* 0.7.5 Added fullscreen option (@paxperscientiam)
-* 0.7.2 Fixed #108
-* 0.7.1 Fixed #113
-* 0.7.0 Replaced css-ids with classes (@rejas), added loaded.ilb2 event, optimize image sizing and misc. cleanups (@Paxperscientiam)
-* 0.6.0 Replaced onStart/onEnd/onLoadStart/onLoadEnd with event hooks (@Paxperscientiam), added ui-tests
-* 0.5.4 Added ilb2-caption option (@paxperscientiam)
-* 0.5.3 Added lockBody option (@paxperscientiam)
-* 0.5.2 Updated demo page, cleanups
-* 0.5.1 Fixed startImageLightbox
-* 0.5.0 Support jQuery3
+You can find all notable changes to this project in the [CHANGELOG.md](CHANGELOG.md).
