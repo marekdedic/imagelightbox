@@ -177,7 +177,7 @@
                 }
                 target = targets.eq(targetIndex);
                 $wrapper.trigger('previous.ilb2');
-                _loadImage(-1);
+                _loadImage(+1);
             },
             _nextTarget = function () {
                 var targetIndex = targets.index(target) + 1;
@@ -192,7 +192,7 @@
                 }
                 target = targets.eq(targetIndex);
                 $wrapper.trigger('next.ilb2');
-                _loadImage(+1);
+                _loadImage(-1);
             },
             activityIndicatorOn = function () {
                 $wrapper.append($activityObject);
