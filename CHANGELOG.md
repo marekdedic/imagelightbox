@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-- Added CHANGELOG.md
+## [0.8.1] - 2017-11-03
+
+### Changed
+
+- Changed #136 Reverse transition direction for prev/next image
+- Added CHANGELOG.md (@art4)
 
 ## [0.8.0] - 2017-10-11
 
@@ -17,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Fixed bug #133 keydown:Enter is blocked by imagelightbox
+- Fixed #133 keydown:Enter is blocked by imagelightbox
 
 ## [0.7.9] - 2017-09-18
 
@@ -137,7 +142,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.8.0...HEAD
+[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.8.1...HEAD
+[0.8.1]: https://github.com/rejas/imagelightbox/compare/0.8.0...0.8.1
 [0.8.0]: https://github.com/rejas/imagelightbox/compare/0.7.9...0.8.0
 [0.7.9]: https://github.com/rejas/imagelightbox/compare/0.7.8...0.7.9
 [0.7.8]: https://github.com/rejas/imagelightbox/compare/0.7.7...0.7.8
