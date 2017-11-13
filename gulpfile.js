@@ -9,6 +9,21 @@ var gulp            = require('gulp'),
     autoprefixer    = require('gulp-autoprefixer'),
     cleanCSS        = require('gulp-clean-css');
 
+gulp.task('night:js', ['serve'], function() {
+    return gulp.src('')
+        .pipe(nightwatch({
+            configFile: './nightwatch.json'
+        }))
+        .on('error', function() {
+            connect.serverClose();
+            process.exit();
+        })
+        .on('end', function() {
+            connect.serverClose();
+            process.exit();
+        });
+});
+
 gulp.task('csslint', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(csslint('.csslintrc'))
@@ -67,21 +82,6 @@ gulp.task('serve', ['build', 'watch'], function() {
     connect.server({
         livereload: true
     });
-});
-
-gulp.task('night:js', ['serve'], function() {
-    return gulp.src('')
-        .pipe(nightwatch({
-            configFile: './nightwatch.json'
-        }))
-        .on('error', function() {
-            connect.serverClose();
-            process.exit();
-        })
-        .on('end', function() {
-            connect.serverClose();
-            process.exit();
-        });
 });
 
 gulp.task('build', ['minify:css', 'minify:js']);

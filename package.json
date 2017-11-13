@@ -1,10 +1,10 @@
 {
   "name": "imagelightbox",
-  "main": "./src/imagelightbox.js",
   "version": "0.8.1",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "repository": "https://github.com/rejas/imagelightbox.git",
   "license": "MIT",
+  "main": "./src/imagelightbox.js",
   "style": "./dist/imagelightbox.min.css",
   "scripts": {
     "fix": "node ./node_modules/eslint/bin/eslint.js src/**/*.js --fix"
