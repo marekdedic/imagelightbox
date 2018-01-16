@@ -10,12 +10,12 @@
     "fix": "node ./node_modules/eslint/bin/eslint.js src/**/*.js --fix"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-autoprefixer": "^4.1.0",
     "gulp-clean-css": "^3.9.2",
-    "gulp-connect": "^5.0.0",
+    "gulp-connect": "^5.2.0",
     "gulp-csslint": "^1.0.0",
-    "gulp-eslint": "^4.0.0",
+    "gulp-eslint": "^4.0.1",
     "gulp-lintspaces": "^0.5.0",
     "gulp-nightwatch": "^0.3.2",
     "gulp-rename": "^1.2.2",
