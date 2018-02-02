@@ -58,29 +58,23 @@ gulp.task('minify:js', gulp.series('copy:js', function() {
 
 gulp.task('build', gulp.parallel('minify:css', 'minify:js'));
 
-gulp.task('watch', function() {
+gulp.task('watch', function(done) {
     gulp.watch(['docs/*.html','src/**/*'], gulp.series('build'));
+    done();
 });
 
-gulp.task('serve', gulp.parallel('build', 'watch', function() {
+gulp.task('serve', gulp.parallel('build', 'watch', function(done) {
     connect.server({
         livereload: true
     });
+    done();
 }));
 
 gulp.task('night:js', gulp.series('serve', function() {
-    return gulp.src('')
+    return gulp.src('./gulpfile.js')
         .pipe(nightwatch({
             configFile: './nightwatch.json'
-        }))
-        .on('error', function() {
-            connect.serverClose();
-            process.exit();
-        })
-        .on('end', function() {
-            connect.serverClose();
-            process.exit();
-        });
+        }));
 }));
 
 gulp.task('default', gulp.series('build'));
