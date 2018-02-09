@@ -1754,14 +1754,16 @@ gulp-connect@^5.2.0:
     send "^0.13.2"
     tiny-lr "^0.2.1"
 
-gulp-csslint@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/gulp-csslint/-/gulp-csslint-1.0.0.tgz#d95a56f7719466147fa9a07302fdba1690391523"
+gulp-csslint@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gulp-csslint/-/gulp-csslint-1.0.1.tgz#112a908f7aef98efc27b7bd00801f13a77becb93"
   dependencies:
     csslint "^1.0.2"
-    gulp-util "^3.0.7"
+    fancy-log "^1.3.2"
+    plugin-error "^1.0.1"
     rcloader "^0.2.1"
     through2 "^2.0.1"
+    vinyl "^2.1.0"
 
 gulp-eslint@^4.0.2:
   version "4.0.2"
@@ -1822,7 +1824,7 @@ gulp-util@^2.2.14:
     through2 "^0.5.0"
     vinyl "^0.2.1"
 
-gulp-util@^3.0.1, gulp-util@^3.0.7:
+gulp-util@^3.0.1:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-3.0.8.tgz#0054e1e744502e27c04c187c3ecc505dd54bbb4f"
   dependencies:
@@ -3414,7 +3416,7 @@ plugin-error@0.1.2, plugin-error@^0.1.2:
     arr-union "^2.0.1"
     extend-shallow "^1.1.2"
 
-plugin-error@^1.0.0:
+plugin-error@^1.0.0, plugin-error@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/plugin-error/-/plugin-error-1.0.1.tgz#77016bd8919d0ac377fdcdd0322328953ca5781c"
   dependencies:
@@ -4541,7 +4543,7 @@ vinyl@^0.5.0:
     clone-stats "^0.0.1"
     replace-ext "0.0.1"
 
-vinyl@^2.0.0:
+vinyl@^2.0.0, vinyl@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vinyl/-/vinyl-2.1.0.tgz#021f9c2cf951d6b939943c89eb5ee5add4fd924c"
   dependencies:

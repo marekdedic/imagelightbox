@@ -17,7 +17,7 @@
     "gulp-autoprefixer": "^4.1.0",
     "gulp-clean-css": "^3.9.2",
     "gulp-connect": "^5.2.0",
-    "gulp-csslint": "^1.0.0",
+    "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^4.0.2",
     "gulp-lintspaces": "^0.5.0",
     "gulp-nightwatch": "^0.3.2",
