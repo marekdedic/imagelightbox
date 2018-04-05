@@ -7,7 +7,8 @@
   "main": "./src/imagelightbox.js",
   "style": "./dist/imagelightbox.min.css",
   "scripts": {
-    "fix": "node ./node_modules/eslint/bin/eslint.js src/**/*.js --fix"
+    "chk": "eslint src/**/*.js",
+    "fix": "eslint src/**/*.js --fix"
   },
   "dependencies": {
     "jquery": "^1.12.4"
