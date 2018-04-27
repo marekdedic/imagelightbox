@@ -2,14 +2,11 @@
   "name": "imagelightbox",
   "version": "0.8.1",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
-  "repository": "https://github.com/rejas/imagelightbox.git",
+  "homepage": "https://rejas.github.io/imagelightbox",
   "license": "MIT",
+  "repository": "https://github.com/rejas/imagelightbox.git",
   "main": "./src/imagelightbox.js",
   "style": "./dist/imagelightbox.min.css",
-  "scripts": {
-    "chk": "eslint src/**/*.js",
-    "fix": "eslint src/**/*.js --fix"
-  },
   "dependencies": {
     "jquery": "^1.12.4"
   },
@@ -24,5 +21,14 @@
     "gulp-nightwatch": "^0.3.2",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0"
+  },
+  "keywords": [
+    "jquery",
+    "lightbox"
+  ],
+  "scripts": {
+    "check": "eslint src/**/*.js",
+    "fix": "eslint src/**/*.js --fix",
+    "test": "gulp test"
   }
 }
