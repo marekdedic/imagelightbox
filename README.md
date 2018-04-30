@@ -1,8 +1,9 @@
 imagelightbox
 =============
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
+[![npm version](https://badge.fury.io/js/imagelightbox.svg)](https://badge.fury.io/js/imagelightbox)
 [![Build Status](https://secure.travis-ci.org/rejas/imagelightbox.png?branch=master)](http://travis-ci.org/rejas/imagelightbox)
+[![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
