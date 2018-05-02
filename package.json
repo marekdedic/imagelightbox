@@ -18,7 +18,7 @@
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^4.0.2",
     "gulp-lintspaces": "^1.0.0",
-    "gulp-nightwatch": "^0.3.2",
+    "gulp-nightwatch": "^0.3.3",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0"
   },
