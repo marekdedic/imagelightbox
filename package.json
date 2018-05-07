@@ -13,7 +13,7 @@
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^5.0.0",
-    "gulp-clean-css": "^3.9.3",
+    "gulp-clean-css": "^3.9.4",
     "gulp-connect": "^5.5.0",
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^4.0.2",
@@ -29,6 +29,7 @@
   "scripts": {
     "check": "eslint src/**/*.js",
     "fix": "eslint src/**/*.js --fix",
+    "start": "gulp dev",
     "test": "gulp test"
   }
 }
