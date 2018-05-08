@@ -1,7 +1,3 @@
-//
-// By Osvaldas Valutis, www.osvaldas.info
-// Available for use under the MIT License
-//
 (function (factory) {
     // http://blog.npmjs.org/post/112712169830/making-your-jquery-plugin-work-better-with-npm
     // If there is a variable named module and it has an exports property,
