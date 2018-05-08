@@ -113,7 +113,7 @@
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
-                allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
+                allowedTypes:   'png|jpg|jpeg|gif',
                 animationSpeed: 250,
                 activity:       false,
                 arrows:         false,
@@ -271,9 +271,9 @@
             inProgress = false,
             currentIndex = 0,
 
-            // TODO make it work again
-            isTargetValid = function( element ) {
-                return $( element ).prop( 'tagName' ).toLowerCase() === 'a' && ( new RegExp( '\.(' + options.allowedTypes + ')$', 'i' ) ).test( $( element ).attr( 'href' ) );
+            isTargetValid = function (element) {
+                // eslint-disable-next-line
+                return $(element).prop('tagName').toLowerCase() === 'a' && (new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test( $(element).attr('href'));
             },
 
             _setImage = function () {
