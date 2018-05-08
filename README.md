@@ -37,7 +37,7 @@ The list of options and their default values is:
 $( selector ).imageLightbox({
     selector:       'a[data-imagelightbox]', // string;
     id:             'imagelightbox',         // string;
-    allowedTypes:   'png|jpg|jpeg|gif',      // string;         
+    allowedTypes:   'png|jpg|jpeg|gif',      // string;          use empty string to allow any file type
     animationSpeed: 250,                     // integer;
     activity:       false,                   // bool;            show activity indicator
     arrows:         false,                   // bool;            show left/right arrows
