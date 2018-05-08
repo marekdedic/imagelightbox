@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.9.0] - 2018-05-08
 
 ### Fixed
 
@@ -13,8 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Removed bower.json (use npm) and package-lock.json (use yarn) 
 - Added jquery as dependency in package.json
+- Removed bower.json (use npm) and package-lock.json (use yarn) 
+- Updated to gulp4 for building
 
 ## [0.8.1] - 2017-11-03
 
@@ -151,7 +152,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.8.1...HEAD
+[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.9.0...HEAD
+[0.9.0]: https://github.com/rejas/imagelightbox/compare/0.8.1...0.9.0
 [0.8.1]: https://github.com/rejas/imagelightbox/compare/0.8.0...0.8.1
 [0.8.0]: https://github.com/rejas/imagelightbox/compare/0.7.9...0.8.0
 [0.7.9]: https://github.com/rejas/imagelightbox/compare/0.7.8...0.7.9
