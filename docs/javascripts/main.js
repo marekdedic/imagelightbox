@@ -3,9 +3,9 @@ $(document).ready(function() {
         activity: true
     });
 
-     $('a[data-imagelightbox="types"]').imageLightbox({
-	 allowedTypes: "gif"
-     });
+    $('a[data-imagelightbox="allowedtypes"]').imageLightbox({
+        allowedTypes: "gif"
+    });
 
     $('a[data-imagelightbox="b"]').imageLightbox({
         overlay: true
@@ -29,7 +29,7 @@ $(document).ready(function() {
         arrows: true
     });
 
-    $('a[data-imagelightbox="fs"]').imageLightbox({
+    $('a[data-imagelightbox="fullscreen"]').imageLightbox({
         fullscreen: true
     });
 
@@ -44,6 +44,9 @@ $(document).ready(function() {
         selector: 'a[data-imagelightbox="f"]'
     });
 
+    /**
+     *
+     */
     var gallery = $('a[data-imagelightbox="h"]').imageLightbox({
         arrows: true
     });
@@ -51,10 +54,13 @@ $(document).ready(function() {
         gallery.startImageLightbox();
     });
 
+    /**
+     * dynamically adding more images
+     */
     var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox({
         arrows: true
     });
-    $(".add_image").on('click', function(){
+    $(".add_image").on('click', function () {
         var adding_ul = $(".demo_dynamic");
         var li = $('<li></li>').appendTo( adding_ul );
         var a = $("<a></a>")
@@ -64,20 +70,24 @@ $(document).ready(function() {
         $("<img />")
             .attr("src", "images/thumb4.jpg")
             .appendTo( a );
-        // dynamically adding
         instanceI.addToImageLightbox( $("a[data-imagelightbox='i']") );
     });
 
-    // location: http://example.org/galleries/123#showImage_1
+    /**
+     * Usage: http://example.org/galleries/123#showImage_1
+     */
+    $('a[data-imagelightbox="k"]').imageLightbox();
     var hashData = $(location).attr('hash').substring(1).split('_');
-    if (hashData.length > 0 && hashData[0] === 'showImage')
-    {
+    if (hashData.length > 0 && hashData[0] === 'showImage') {
         // start imagelightbox with this image
         var image = $('a[data-imagelightbox="k"][data-ilb2-id="' + hashData[1] + '"]');
         var lightboxInstance = $('a[data-imagelightbox="k"]').imageLightbox();
         lightboxInstance.startImageLightbox(image);
     }
 
+    /**
+     *
+     */
     $('a[data-imagelightbox="events"]').imageLightbox();
     $(document)
         .on("start.ilb2", function () {
