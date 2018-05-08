@@ -1,7 +1,3 @@
-//
-// By Osvaldas Valutis, www.osvaldas.info
-// Available for use under the MIT License
-//
 (function (factory) {
     // http://blog.npmjs.org/post/112712169830/making-your-jquery-plugin-work-better-with-npm
     // If there is a variable named module and it has an exports property,
@@ -113,7 +109,7 @@
         var options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
-                allowedTypes:   'png|jpg|jpeg|gif', // TODO make it work again
+                allowedTypes:   'png|jpg|jpeg|gif',
                 animationSpeed: 250,
                 activity:       false,
                 arrows:         false,
@@ -271,55 +267,10 @@
             inProgress = false,
             currentIndex = 0,
 
-            isTargetValid = function (validImage) {
-                var allowedTypes = options.allowedTypes;
-
-                //test that RegExp is restricted to disjunction format
-                var isGoodRE = /^(?!\|)[\w|]+(?!\|)$/.test(allowedTypes);
-                //
-                if (!isGoodRE) {
-                    //allowedTypes = 'png|jpg|jpeg|gif';
-                    return false;
-                }
-                //
-                var URL = validImage.attr('href');
-                var ext = parseURL(URL).pathname;
-                var re = new RegExp(allowedTypes,'i');
-                //
-                var isAllowed = re.test(ext);
-                // function by Cory LaViska
-                function parseURL(url) {
-                    var parser = document.createElement('a'),
-                        searchObject = {},
-                        queries, split, i;
-                    // Let the browser do the work
-                    parser.href = url;
-                    // Convert query string to object
-                    queries = parser.search.replace(/^\?/, '').split('&');
-                    for( i = 0; i < queries.length; i++ ) {
-                        split = queries[i].split('=');
-                        searchObject[split[0]] = split[1];
-                    }
-                    return {
-                        protocol: parser.protocol,
-                        host: parser.host,
-                        hostname: parser.hostname,
-                        port: parser.port,
-                        pathname: parser.pathname,
-                        search: parser.search,
-                        searchObject: searchObject,
-                        hash: parser.hash
-                    };
-                }
-                return isAllowed;
+            isTargetValid = function (element) {
+                // eslint-disable-next-line
+                return $(element).prop('tagName').toLowerCase() === 'a' && (new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test( $(element).attr('href'));
             },
-
-            // TODO make it work again
-            // isTargetValid = function (element) {
-            //   var classic = $(element).prop('tagName').toLowerCase() === 'a' && ( new RegExp('.(' + options.allowedTypes + ')$', 'i') ).test($(element).attr('href'));
-            //   var html5 = $(element).attr('data-lightbox') !== undefined;
-            //   return classic || html5;
-            // },
 
             _setImage = function () {
                 if (!image.length) {

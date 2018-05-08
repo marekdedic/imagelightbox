@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed #141 Make allowedTypes work again, use empty string to allow any filetype
+
+### Changed
+
+- Removed bower.json (use npm) and package-lock.json (use yarn) 
+- Added jquery as dependency in package.json
+
 ## [0.8.1] - 2017-11-03
 
 ### Changed
