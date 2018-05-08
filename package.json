@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": "https://github.com/rejas/imagelightbox.git",
   "main": "./src/imagelightbox.js",
-  "style": "./dist/imagelightbox.min.css",
+  "style": "./src/imagelightbox.css",
   "dependencies": {
     "jquery": "^1.12.4"
   },
