@@ -45,7 +45,7 @@ $( selector ).imageLightbox({
     button:         false,                   // bool;            show close button
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
-    fullscreen:     true                     // bool;            enable fullscreen (enter/return key)
+    fullscreen:     false                    // bool;            enable fullscreen (enter/return key)
     gutter:         10,                      // integer;         window height less height of image as a percentage
     offsetY:        0,                       // integer;         vertical offset in terms of gutter
     navigation:     false,                   // bool;            show navigation
