@@ -8,7 +8,7 @@
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
   "dependencies": {
-    "jquery": "^1.12.4"
+    "jquery": ">=1.12.4 <4.0.0"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
