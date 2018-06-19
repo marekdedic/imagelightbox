@@ -230,3 +230,8 @@ Open imageLightBox with a specific image
 ## Changelog
 
 You can find all notable changes to this project in the [CHANGELOG.md](CHANGELOG.md).
+
+
+## See also
+
+Used by https://cs.wordpress.org/plugins/skaut-google-drive-gallery/
