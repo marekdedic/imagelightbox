@@ -185,6 +185,15 @@
                     window.history.pushState({}, '', newQuery);
                 }
             },
+            _openHistory = function (newTargets) {
+                var regex = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)'),
+                results = regex.exec(document.location.search);
+                if (!results) return;
+                if (!results[2]) return;
+                targetIndex = decodeURIComponent(results[2].replace(/\+/g, ' '));
+                targets = newTargets; // No idea why this is neccesary
+                _openImageLightbox($(targets[targetIndex]));
+            },
             _previousTarget = function () {
                 targetIndex--;
                 if (targetIndex < 0) {
@@ -608,6 +617,8 @@
         $(document).off('click', options.selector);
 
         _addTargets($(this));
+
+        _openHistory($(this));
 
         this.addToImageLightbox = function(elements)  {
             _addTargets(elements);
