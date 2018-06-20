@@ -160,6 +160,31 @@
                     $arrows.css('display', 'block');
                 }
             },
+            _pushHistory = function () {
+                var query = document.location.search;
+                var newParam = 'imageLightboxIndex=' + targetIndex;
+                var newQuery = '?' + newParam;
+
+                if (query) {
+                    var keyRegex = new RegExp('([?&])imageLightboxIndex=[^&]*');
+                    if (query.match(keyRegex) !== null) {
+                        newQuery = query.replace(keyRegex, '$1' + newParam);
+                    } else {
+                        newQuery = query + '&' + newParam;
+                    }
+                }
+                window.history.pushState({}, '', newQuery);
+            },
+            _pushHistoryQuit = function () {
+                var query = document.location.search;
+                if (query) {
+                    var keyRegex1 = new RegExp('[?]imageLightboxIndex=[^&]*');
+                    var keyRegex2 = new RegExp('&imageLightboxIndex=[^&]*');
+                    var newQuery = query.replace(keyRegex1, '?');
+                    newQuery = newQuery.replace(keyRegex2, '');
+                    window.history.pushState({}, '', newQuery);
+                }
+            },
             _previousTarget = function () {
                 targetIndex--;
                 if (targetIndex < 0) {
@@ -172,6 +197,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+                _pushHistory();
                 $wrapper.trigger('previous.ilb2');
                 _loadImage(+1);
             },
@@ -186,6 +212,7 @@
                         targetIndex = 0;
                     }
                 }
+                _pushHistory();
                 target = targets.eq(targetIndex);
                 $wrapper.trigger('next.ilb2');
                 _loadImage(-1);
@@ -447,6 +474,7 @@
                 inProgress = false;
                 target = $target;
                 targetIndex = targets.index(target);
+                _pushHistory();
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
@@ -455,6 +483,7 @@
             },
 
             _quitImageLightbox = function () {
+                _pushHistoryQuit();
                 $wrapper.trigger('quit.ilb2');
                 $body.removeClass('imagelightbox-open');
                 if (!image.length) {
