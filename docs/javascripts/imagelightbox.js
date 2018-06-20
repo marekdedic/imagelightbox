@@ -161,7 +161,7 @@
                 }
             },
             _previousTarget = function () {
-                var targetIndex = targets.index(target) - 1;
+                targetIndex--;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -176,7 +176,7 @@
                 _loadImage(+1);
             },
             _nextTarget = function () {
-                var targetIndex = targets.index(target) + 1;
+                targetIndex++;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -260,6 +260,7 @@
             targetSet = '',
             targets = $([]),
             target = $(),
+            targetIndex = 0,
             image = $(),
             imageWidth = 0,
             imageHeight = 0,
@@ -445,6 +446,7 @@
                 }
                 inProgress = false;
                 target = $target;
+                targetIndex = targets.index(target);
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
