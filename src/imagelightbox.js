@@ -173,7 +173,7 @@
                         newQuery = query + '&' + newParam;
                     }
                 }
-                window.history.pushState({}, '', newQuery);
+                window.history.pushState({imageLightboxIndex: targetIndex}, '', newQuery);
             },
             _pushHistoryQuit = function () {
                 var query = document.location.search;
@@ -186,13 +186,27 @@
                 }
             },
             _openHistory = function (newTargets) {
-                var regex = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)'),
-                results = regex.exec(document.location.search);
+                var regex = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)');
+                var results = regex.exec(document.location.search);
                 if (!results) return;
                 if (!results[2]) return;
                 targetIndex = decodeURIComponent(results[2].replace(/\+/g, ' '));
                 targets = newTargets; // No idea why this is neccesary
                 _openImageLightbox($(targets[targetIndex]));
+            },
+            _popHistory = function (event) {
+                var newIndex = event.originalEvent.state.imageLightboxIndex;
+                if(!newIndex) {
+                    _quitImageLightbox();
+                    return;
+                }
+                var direction = +1;
+                if(newIndex > targetIndex) {
+                    direction = -1;
+                }
+                target = $(targets[newIndex]);
+                targetIndex = newIndex;
+                _loadImage(direction);
             },
             _previousTarget = function () {
                 targetIndex--;
@@ -296,7 +310,7 @@
             targetSet = '',
             targets = $([]),
             target = $(),
-            targetIndex = 0,
+            targetIndex = 0, // Isn't it the same as currentIndex?
             image = $(),
             imageWidth = 0,
             imageHeight = 0,
@@ -531,7 +545,9 @@
                 }
             };
 
-        $(window).on('resize.ilb7', _setImage);
+        $(window)
+            .on('resize.ilb7', _setImage)
+            .on('popstate', _popHistory);
 
         $(document).ready(function() {
 
