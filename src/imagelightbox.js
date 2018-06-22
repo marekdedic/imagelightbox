@@ -98,15 +98,23 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                    document.webkitFullscreenEnabled ||
-                    document.mozFullScreenEnabled ||
-                    document.msFullscreenEnabled);
-
+                document.webkitFullscreenEnabled ||
+                document.mozFullScreenEnabled ||
+                document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false;
 
     $.fn.imageLightbox = function (opts) {
-        var options = $.extend({
+        var targetSet = '',
+            targets = $([]),
+            target = $(),
+            image = $(),
+            imageWidth = 0,
+            imageHeight = 0,
+            swipeDiff = 0,
+            inProgress = false,
+            currentIndex = 0,
+            options = $.extend({
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
                 allowedTypes:   'png|jpg|jpeg|gif',
@@ -127,6 +135,7 @@
                 quitOnDocClick: true,
                 quitOnEscKey:   true
             }, opts),
+
             _onStart = function () {
                 if (options.arrows) {
                     arrowsOn(this);
@@ -257,15 +266,6 @@
                     return false;
                 });
             },
-            targetSet = '',
-            targets = $([]),
-            target = $(),
-            image = $(),
-            imageWidth = 0,
-            imageHeight = 0,
-            swipeDiff = 0,
-            inProgress = false,
-            currentIndex = 0,
 
             isTargetValid = function (element) {
                 // eslint-disable-next-line
@@ -276,9 +276,9 @@
                 if (!image.length) {
                     return true;
                 }
-                var captionHeight = options.caption ? $captionObject.outerHeight() : 0;
 
-                var screenWidth = $(window).width(),
+                var captionHeight = options.caption ? $captionObject.outerHeight() : 0,
+                    screenWidth = $(window).width(),
                     screenHeight = $(window).height() - captionHeight,
                     gutterFactor = Math.abs(1 - options.gutter/100),
                     tmpImage = new Image();
@@ -328,10 +328,15 @@
                 _onLoadStart();
 
                 setTimeout(function () {
-                    var imgPath = target.attr('href');
+                    var imgPath = target.attr('href'),
+                        swipeStart = 0,
+                        swipeEnd = 0,
+                        imagePosLeft = 0;
+
                     // if ( imgPath === undefined ) {
                     //     imgPath = target.attr( 'data-lightbox' );
                     // }
+
                     image = $('<img id=\'' + options.id + '\' />')
                         .attr('src', imgPath)
                         .on('load.ilb7', function () {
@@ -366,28 +371,23 @@
                         })
                         .on('error.ilb7', function () {
                             _onLoadEnd();
-                        });
-
-                    var swipeStart = 0,
-                        swipeEnd = 0,
-                        imagePosLeft = 0;
-
-                    image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
-                        e.preventDefault();
-                        if (options.quitOnImgClick) {
-                            _quitImageLightbox();
-                            return false;
-                        }
-                        if (wasTouched(e.originalEvent)) {
-                            return true;
-                        }
-                        var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
-                        if (imageWidth / 2 > posX) {
-                            _previousTarget();
-                        } else {
-                            _nextTarget();
-                        }
-                    })
+                        })
+                        .on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
+                            e.preventDefault();
+                            if (options.quitOnImgClick) {
+                                _quitImageLightbox();
+                                return false;
+                            }
+                            if (wasTouched(e.originalEvent)) {
+                                return true;
+                            }
+                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                            if (imageWidth / 2 > posX) {
+                                _previousTarget();
+                            } else {
+                                _nextTarget();
+                            }
+                        })
                         .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
@@ -431,6 +431,7 @@
 
                 }, options.animationSpeed + 100);
             },
+
             _removeImage = function () {
                 if (!image.length) {
                     return false;
@@ -571,7 +572,7 @@
 
         function toggleFullScreen() {
             launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
-                exitFullscreen();
+            exitFullscreen();
         }
 
         $(document).off('click', options.selector);
