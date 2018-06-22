@@ -62,6 +62,7 @@ module.exports = {
         browser.click('.trigger_lightbox')
             .waitForElementVisible('#imagelightbox', 1000)
             .assert.elementPresent('#imagelightbox')
+            .waitForElementVisible('.imagelightbox-arrow-right', 1000)
             .click('.imagelightbox-arrow-right')
             .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
             .assert.elementPresent('img[src$="images/demo2.jpg"]');
