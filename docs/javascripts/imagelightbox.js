@@ -233,21 +233,28 @@
                     _quitImageLightbox();
                     return;
                 }
-                var newIndex = newState.imageLightboxIndex;
-                if(newIndex === undefined) {
+                var newId = newState.imageLightboxIndex;
+                if(newId === undefined) {
                     _quitImageLightbox(true);
                     return;
                 }
+                var element = origTargets.filter('[data-ilb2-id="' + newId + '"]');
+                if(element.length > 0) {
+                    var newIndex = origTargets.index(element);
+                } else {
+                    newIndex = newId;
+                    element = $(origTargets[newIndex]);
+                }
                 if(targetIndex < 0) {
                     targets = origTargets;
-                    _openImageLightbox($(targets[newIndex]), true);
+                    _openImageLightbox(element, true);
                     return;
                 }
                 var direction = +1;
                 if(newIndex > targetIndex) {
                     direction = -1;
                 }
-                target = $(targets[newIndex]);
+                target = element;
                 targetIndex = newIndex;
                 _loadImage(direction);
             },
