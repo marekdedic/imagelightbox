@@ -230,7 +230,7 @@
             _popHistory = function (event) {
                 var newState = event.originalEvent.state;
                 if(!newState) {
-                    _quitImageLightbox();
+                    _quitImageLightbox(true);
                     return;
                 }
                 var newId = newState.imageLightboxIndex;
