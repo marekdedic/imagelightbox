@@ -108,7 +108,8 @@
         var targetSet = '',
             targets = $([]),
             target = $(),
-            targetIndex = 0, // Isn't it the same as currentIndex?
+            targetIndex = -1,
+            origTargets = $(this),
             image = $(),
             imageWidth = 0,
             imageHeight = 0,
@@ -213,6 +214,11 @@
                 var newIndex = newState.imageLightboxIndex;
                 if(!newIndex) {
                     _quitImageLightbox(true);
+                    return;
+                }
+                if(targetIndex < 0) {
+                    targets = origTargets;
+                    _openImageLightbox($(targets[newIndex]), true);
                     return;
                 }
                 var direction = +1;
