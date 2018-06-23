@@ -177,8 +177,12 @@
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
+                var value = targets[targetIndex].dataset.ilb2Id;
+                if(!value) {
+                    value = targetIndex;
+                }
                 var query = document.location.search;
-                var newParam = 'imageLightboxIndex=' + targetIndex;
+                var newParam = 'imageLightboxIndex=' + value;
                 var newQuery = '?' + newParam;
 
                 if (query) {
@@ -189,7 +193,7 @@
                         newQuery = query + '&' + newParam;
                     }
                 }
-                window.history.pushState({imageLightboxIndex: targetIndex}, '', newQuery);
+                window.history.pushState({imageLightboxIndex: value}, '', newQuery);
             },
             _pushQuitToHistory = function () {
                 if(!hasHistorySupport || !options.history) {
@@ -212,9 +216,16 @@
                 var results = regex.exec(document.location.search);
                 if (!results) return;
                 if (!results[2]) return;
-                targetIndex = decodeURIComponent(results[2].replace(/\+/g, ' '));
                 targets = origTargets; // No idea why this is neccesary
-                _openImageLightbox($(targets[targetIndex]));
+                var id = decodeURIComponent(results[2].replace(/\+/g, ' '));
+                var element = targets.filter('[data-ilb2-id="' + id + '"]');
+                if(element.length > 0) {
+                    targetIndex = targets.index(element);
+                } else {
+                    targetIndex = id;
+                    element = $(targets[targetIndex]);
+                }
+                _openImageLightbox(element, true);
             },
             _popHistory = function (event) {
                 var newState = event.originalEvent.state;
