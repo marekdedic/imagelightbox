@@ -102,7 +102,8 @@
                 document.mozFullScreenEnabled ||
                 document.msFullscreenEnabled);
         },
-        hasFullscreenSupport = fullscreenSupport() !== false;
+        hasFullscreenSupport = fullscreenSupport() !== false,
+        hasHistorySupport = !!(window.history && history.pushState);
 
     $.fn.imageLightbox = function (opts) {
         var targetSet = '',
@@ -172,6 +173,9 @@
                 }
             },
             _pushToHistory = function () {
+                if(!hasHistorySupport) {
+                    return;
+                }
                 var query = document.location.search;
                 var newParam = 'imageLightboxIndex=' + targetIndex;
                 var newQuery = '?' + newParam;
@@ -187,6 +191,9 @@
                 window.history.pushState({imageLightboxIndex: targetIndex}, '', newQuery);
             },
             _pushQuitToHistory = function () {
+                if(!hasHistorySupport) {
+                    return;
+                }
                 var query = document.location.search;
                 if (query) {
                     var keyRegex1 = new RegExp('[?]imageLightboxIndex=[^&]*');
@@ -197,6 +204,9 @@
                 }
             },
             _openHistory = function () {
+                if(!hasHistorySupport) {
+                    return;
+                }
                 var regex = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)');
                 var results = regex.exec(document.location.search);
                 if (!results) return;
@@ -562,9 +572,10 @@
                 }
             };
 
-        $(window)
-            .on('resize.ilb7', _setImage)
-            .on('popstate', _popHistory);
+        $(window).on('resize.ilb7', _setImage);
+        if(hasHistorySupport) {
+            $(window).on('popstate', _popHistory);
+        }
 
         $(document).ready(function() {
 
