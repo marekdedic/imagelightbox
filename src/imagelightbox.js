@@ -205,7 +205,12 @@
                 _openImageLightbox($(targets[targetIndex]));
             },
             _popHistory = function (event) {
-                var newIndex = event.originalEvent.state.imageLightboxIndex;
+                var newState = event.originalEvent.state;
+                if(!newState) {
+                    _quitImageLightbox();
+                    return;
+                }
+                var newIndex = newState.imageLightboxIndex;
                 if(!newIndex) {
                     _quitImageLightbox();
                     return;
