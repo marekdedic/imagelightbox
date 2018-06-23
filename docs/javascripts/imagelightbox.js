@@ -212,7 +212,7 @@
                 }
                 var newIndex = newState.imageLightboxIndex;
                 if(!newIndex) {
-                    _quitImageLightbox();
+                    _quitImageLightbox(true);
                     return;
                 }
                 var direction = +1;
@@ -496,14 +496,16 @@
                 image = $();
             },
 
-            _openImageLightbox = function ($target) {
+            _openImageLightbox = function ($target, noHistory) {
                 if (inProgress) {
                     return false;
                 }
                 inProgress = false;
                 target = $target;
                 targetIndex = targets.index(target);
-                _pushToHistory();
+                if(!noHistory) {
+                    _pushToHistory();
+                }
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
@@ -511,8 +513,11 @@
                 _loadImage(0);
             },
 
-            _quitImageLightbox = function () {
-                _pushQuitToHistory();
+            _quitImageLightbox = function (noHistory) {
+                targetIndex = -1;
+                if(!noHistory) {
+                    _pushQuitToHistory();
+                }
                 $wrapper.trigger('quit.ilb2');
                 $body.removeClass('imagelightbox-open');
                 if (!image.length) {
