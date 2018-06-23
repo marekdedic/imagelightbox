@@ -234,7 +234,7 @@
                     return;
                 }
                 var newIndex = newState.imageLightboxIndex;
-                if(!newIndex) {
+                if(newIndex === undefined) {
                     _quitImageLightbox(true);
                     return;
                 }
