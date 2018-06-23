@@ -127,6 +127,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                history:        false,
                 fullscreen:     false,
                 gutter:         10,     // percentage of client height
                 offsetY:        0,      // percentage of gutter
@@ -173,7 +174,7 @@
                 }
             },
             _pushToHistory = function () {
-                if(!hasHistorySupport) {
+                if(!hasHistorySupport || !options.history) {
                     return;
                 }
                 var query = document.location.search;
@@ -191,7 +192,7 @@
                 window.history.pushState({imageLightboxIndex: targetIndex}, '', newQuery);
             },
             _pushQuitToHistory = function () {
-                if(!hasHistorySupport) {
+                if(!hasHistorySupport || !options.history) {
                     return;
                 }
                 var query = document.location.search;
@@ -204,7 +205,7 @@
                 }
             },
             _openHistory = function () {
-                if(!hasHistorySupport) {
+                if(!hasHistorySupport || !options.history) {
                     return;
                 }
                 var regex = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)');
@@ -573,7 +574,7 @@
             };
 
         $(window).on('resize.ilb7', _setImage);
-        if(hasHistorySupport) {
+        if(hasHistorySupport && options.history) {
             $(window).on('popstate', _popHistory);
         }
 
