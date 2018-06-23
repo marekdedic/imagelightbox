@@ -170,7 +170,7 @@
                     $arrows.css('display', 'block');
                 }
             },
-            _pushHistory = function () {
+            _pushToHistory = function () {
                 var query = document.location.search;
                 var newParam = 'imageLightboxIndex=' + targetIndex;
                 var newQuery = '?' + newParam;
@@ -185,7 +185,7 @@
                 }
                 window.history.pushState({imageLightboxIndex: targetIndex}, '', newQuery);
             },
-            _pushHistoryQuit = function () {
+            _pushQuitToHistory = function () {
                 var query = document.location.search;
                 if (query) {
                     var keyRegex1 = new RegExp('[?]imageLightboxIndex=[^&]*');
@@ -230,7 +230,7 @@
                     }
                 }
                 target = targets.eq(targetIndex);
-                _pushHistory();
+                _pushToHistory();
                 $wrapper.trigger('previous.ilb2');
                 _loadImage(+1);
             },
@@ -245,7 +245,7 @@
                         targetIndex = 0;
                     }
                 }
-                _pushHistory();
+                _pushToHistory();
                 target = targets.eq(targetIndex);
                 $wrapper.trigger('next.ilb2');
                 _loadImage(-1);
@@ -498,7 +498,7 @@
                 inProgress = false;
                 target = $target;
                 targetIndex = targets.index(target);
-                _pushHistory();
+                _pushToHistory();
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
@@ -507,7 +507,7 @@
             },
 
             _quitImageLightbox = function () {
-                _pushHistoryQuit();
+                _pushQuitToHistory();
                 $wrapper.trigger('quit.ilb2');
                 $body.removeClass('imagelightbox-open');
                 if (!image.length) {
