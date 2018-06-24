@@ -212,12 +212,11 @@
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
-                var regex = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)');
-                var results = regex.exec(document.location.search);
-                if (!results) return;
-                if (!results[2]) return;
-                targets = origTargets; // No idea why this is neccesary
-                var id = decodeURIComponent(results[2].replace(/\+/g, ' '));
+                var queryArgPair = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)').exec(document.location.search);
+                if (!queryArgPair) return;
+                if (!queryArgPair[2]) return;
+                targets = origTargets;
+                var id = decodeURIComponent(queryArgPair[2].replace(/\+/g, ' '));
                 var element = targets.filter('[data-ilb2-id="' + id + '"]');
                 if(element.length > 0) {
                     targetIndex = targets.index(element);
