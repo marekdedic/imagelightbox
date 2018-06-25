@@ -173,27 +173,38 @@
                     $arrows.css('display', 'block');
                 }
             },
+            _addQueryField = function (query, key, value) {
+                var newField = key + '=' + value;
+                var newQuery = '?' + newField;
+
+                if (query) {
+                    var keyRegex = new RegExp('([?&])' + key + '=[^&]*');
+                    if (query.match(keyRegex) !== null) {
+                        newQuery = query.replace(keyRegex, '$1' + newField);
+                    } else {
+                        newQuery = query + '&' + newField;
+                    }
+                }
+                return newQuery;
+            },
             _pushToHistory = function () {
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
-                var value = targets[targetIndex].dataset.ilb2Id;
-                if(!value) {
-                    value = targetIndex;
+                var newIndex = targets[targetIndex].dataset.ilb2Id;
+                if(!newIndex) {
+                    newIndex = targetIndex;
                 }
-                var query = document.location.search;
-                var newParam = 'imageLightboxIndex=' + value;
-                var newQuery = '?' + newParam;
-
-                if (query) {
-                    var keyRegex = new RegExp('([?&])imageLightboxIndex=[^&]*');
-                    if (query.match(keyRegex) !== null) {
-                        newQuery = query.replace(keyRegex, '$1' + newParam);
-                    } else {
-                        newQuery = query + '&' + newParam;
-                    }
+                var newState = {imageLightboxIndex: newIndex};
+                var set = targets[targetIndex].dataset.imagelightbox;
+                if(set) {
+                    newState.imageLightboxSet = set;
                 }
-                window.history.pushState({imageLightboxIndex: value}, '', newQuery);
+                var newQuery = _addQueryField(document.location.search, 'imageLightBoxIndex', newIndex);
+                if(set) {
+                    newQuery = _addQueryField(newQuery, 'imageLightboxSet', set);
+                }
+                window.history.pushState(newState, '', newQuery);
             },
             _pushQuitToHistory = function () {
                 if(!hasHistorySupport || !options.history) {
