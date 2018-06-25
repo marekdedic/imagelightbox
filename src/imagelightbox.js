@@ -224,21 +224,32 @@
                 newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
                 window.history.pushState({}, '', newQuery);
             },
+            _getQueryField = function(key) {
+                var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
+                if(!keyValuePair || !keyValuePair[2]) {
+                    return undefined;
+                }
+                return decodeURIComponent(keyValuePair[2].replace(/\+/g, ' '));
+            },
             _openHistory = function () {
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
-                var queryArgPair = new RegExp('[?&]imageLightboxIndex(=([^&#]*)|&|#|$)').exec(document.location.search);
-                if (!queryArgPair) return;
-                if (!queryArgPair[2]) return;
+                var id = _getQueryField('imageLightboxIndex');
+                if(!id) {
+                    return;
+                }
                 targets = origTargets;
-                var id = decodeURIComponent(queryArgPair[2].replace(/\+/g, ' '));
                 var element = targets.filter('[data-ilb2-id="' + id + '"]');
                 if(element.length > 0) {
                     targetIndex = targets.index(element);
                 } else {
                     targetIndex = id;
                     element = $(targets[targetIndex]);
+                }
+                var set = _getQueryField('imageLightboxSet');
+                if(!!set && set !== element[0].dataset.imagelightbox) {
+                    return;
                 }
                 _openImageLightbox(element, true);
             },
