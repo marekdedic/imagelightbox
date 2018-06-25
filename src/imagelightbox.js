@@ -271,6 +271,9 @@
                     newIndex = newId;
                     element = $(origTargets[newIndex]);
                 }
+                if(newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox) {
+                    return;
+                }
                 if(targetIndex < 0) {
                     targets = origTargets;
                     _openImageLightbox(element, true);
