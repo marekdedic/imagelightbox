@@ -200,24 +200,29 @@
                 if(set) {
                     newState.imageLightboxSet = set;
                 }
-                var newQuery = _addQueryField(document.location.search, 'imageLightBoxIndex', newIndex);
+                var newQuery = _addQueryField(document.location.search, 'imageLightboxIndex', newIndex);
                 if(set) {
                     newQuery = _addQueryField(newQuery, 'imageLightboxSet', set);
                 }
                 window.history.pushState(newState, '', newQuery);
             },
+            _removeQueryField = function(query, key) {
+                var newQuery = query;
+                if (newQuery) {
+                    var keyRegex1 = new RegExp('[?]' + key + '=[^&]*');
+                    var keyRegex2 = new RegExp('&' + key + '=[^&]*');
+                    newQuery = newQuery.replace(keyRegex1, '?');
+                    newQuery = newQuery.replace(keyRegex2, '');
+                }
+                return newQuery;
+            },
             _pushQuitToHistory = function () {
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
-                var query = document.location.search;
-                if (query) {
-                    var keyRegex1 = new RegExp('[?]imageLightboxIndex=[^&]*');
-                    var keyRegex2 = new RegExp('&imageLightboxIndex=[^&]*');
-                    var newQuery = query.replace(keyRegex1, '?');
-                    newQuery = newQuery.replace(keyRegex2, '');
-                    window.history.pushState({}, '', newQuery);
-                }
+                var newQuery = _removeQueryField(document.location.search, 'imageLightboxIndex');
+                newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
+                window.history.pushState({}, '', newQuery);
             },
             _openHistory = function () {
                 if(!hasHistorySupport || !options.history) {
