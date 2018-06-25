@@ -44,7 +44,7 @@ gulp.task('eslint', function() {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('copy:js',  gulp.series('editorconfig', function() {
+gulp.task('copy:js',  gulp.series('editorconfig', 'eslint', function() {
     return gulp.src('src/imagelightbox.js')
         .pipe(gulp.dest('docs/javascripts/'));
 }));
