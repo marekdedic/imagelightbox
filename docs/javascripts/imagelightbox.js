@@ -73,7 +73,7 @@
             element.css(options);
         },
 
-        hasTouch = ( 'ontouchstart' in window ),
+        hasTouch = ('ontouchstart' in window),
         hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
         wasTouched = function (event) {
             if (hasTouch) {
@@ -389,7 +389,7 @@
 
             isTargetValid = function (element) {
                 // eslint-disable-next-line
-                return $(element).prop('tagName').toLowerCase() === 'a' && (new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test( $(element).attr('href'));
+                return $(element).prop('tagName').toLowerCase() === 'a' && (new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href'));
             },
 
             _setImage = function () {
@@ -433,10 +433,10 @@
                 if (image.length) {
                     var params = {'opacity': 0};
                     if (hasCssTransitionSupport) {
-                        cssTransitionTranslateX(image, ( 100 * direction ) - swipeDiff + 'px', options.animationSpeed / 1000);
+                        cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
                     else {
-                        params.left = parseInt(image.css('left')) + 100 * direction + 'px';
+                        params.left = parseInt(image.css('left')) + (100 * direction) + 'px';
                     }
                     image.animate(params, options.animationSpeed, function () {
                         _removeImage();
@@ -453,8 +453,8 @@
                         swipeEnd = 0,
                         imagePosLeft = 0;
 
-                    // if ( imgPath === undefined ) {
-                    //     imgPath = target.attr( 'data-lightbox' );
+                    // if (imgPath === undefined) {
+                    //     imgPath = target.attr('data-lightbox');
                     // }
 
                     image = $('<img id=\'' + options.id + '\' />')
@@ -501,7 +501,7 @@
                             if (wasTouched(e.originalEvent)) {
                                 return true;
                             }
-                            var posX = ( e.pageX || e.originalEvent.pageX ) - e.target.offsetLeft;
+                            var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
                             if (imageWidth / 2 > posX) {
                                 _previousTarget();
                             } else {
@@ -595,7 +595,7 @@
                 });
             },
 
-            _addTargets = function( newTargets ) {
+            _addTargets = function (newTargets) {
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data('imagelightbox');
@@ -712,7 +712,7 @@
 
         _openHistory();
 
-        this.addToImageLightbox = function(elements)  {
+        this.addToImageLightbox = function (elements)  {
             _addTargets(elements);
         };
 
