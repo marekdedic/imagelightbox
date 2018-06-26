@@ -76,7 +76,6 @@ $(document).ready(function() {
     /**
      * Usage: http://example.org/galleries/123#showImage_1
      */
-    $('a[data-imagelightbox="k"]').imageLightbox();
     var hashData = $(location).attr('hash').substring(1).split('_');
     if (hashData.length > 0 && hashData[0] === 'showImage') {
         // start imagelightbox with this image
