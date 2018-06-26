@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('a[data-imagelightbox="hist"]').imageLightbox({
-        history: true,
+        history: true
     });
 
     $('a[data-imagelightbox="a"]').imageLightbox({
