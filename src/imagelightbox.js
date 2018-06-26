@@ -102,12 +102,15 @@
                 document.mozFullScreenEnabled ||
                 document.msFullscreenEnabled);
         },
-        hasFullscreenSupport = fullscreenSupport() !== false;
+        hasFullscreenSupport = fullscreenSupport() !== false,
+        hasHistorySupport = !!(window.history && history.pushState);
 
     $.fn.imageLightbox = function (opts) {
         var targetSet = '',
             targets = $([]),
             target = $(),
+            targetIndex = -1,
+            origTargets = $(this),
             image = $(),
             imageWidth = 0,
             imageHeight = 0,
@@ -124,6 +127,7 @@
                 button:         false,
                 caption:        false,
                 enableKeyboard: true,
+                history:        false,
                 fullscreen:     false,
                 gutter:         10,     // percentage of client height
                 offsetY:        0,      // percentage of gutter
@@ -169,8 +173,122 @@
                     $arrows.css('display', 'block');
                 }
             },
+            _addQueryField = function (query, key, value) {
+                var newField = key + '=' + value;
+                var newQuery = '?' + newField;
+
+                if (query) {
+                    var keyRegex = new RegExp('([?&])' + key + '=[^&]*');
+                    if (query.match(keyRegex) !== null) {
+                        newQuery = query.replace(keyRegex, '$1' + newField);
+                    } else {
+                        newQuery = query + '&' + newField;
+                    }
+                }
+                return newQuery;
+            },
+            _pushToHistory = function () {
+                if(!hasHistorySupport || !options.history) {
+                    return;
+                }
+                var newIndex = targets[targetIndex].dataset.ilb2Id;
+                if(!newIndex) {
+                    newIndex = targetIndex;
+                }
+                var newState = {imageLightboxIndex: newIndex};
+                var set = targets[targetIndex].dataset.imagelightbox;
+                if(set) {
+                    newState.imageLightboxSet = set;
+                }
+                var newQuery = _addQueryField(document.location.search, 'imageLightboxIndex', newIndex);
+                if(set) {
+                    newQuery = _addQueryField(newQuery, 'imageLightboxSet', set);
+                }
+                window.history.pushState(newState, '', newQuery);
+            },
+            _removeQueryField = function(query, key) {
+                var newQuery = query;
+                if (newQuery) {
+                    var keyRegex1 = new RegExp('[?]' + key + '=[^&]*');
+                    var keyRegex2 = new RegExp('&' + key + '=[^&]*');
+                    newQuery = newQuery.replace(keyRegex1, '?');
+                    newQuery = newQuery.replace(keyRegex2, '');
+                }
+                return newQuery;
+            },
+            _pushQuitToHistory = function () {
+                if(!hasHistorySupport || !options.history) {
+                    return;
+                }
+                var newQuery = _removeQueryField(document.location.search, 'imageLightboxIndex');
+                newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
+                window.history.pushState({}, '', newQuery);
+            },
+            _getQueryField = function(key) {
+                var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
+                if(!keyValuePair || !keyValuePair[2]) {
+                    return undefined;
+                }
+                return decodeURIComponent(keyValuePair[2].replace(/\+/g, ' '));
+            },
+            _openHistory = function () {
+                if(!hasHistorySupport || !options.history) {
+                    return;
+                }
+                var id = _getQueryField('imageLightboxIndex');
+                if(!id) {
+                    return;
+                }
+                targets = origTargets;
+                var element = targets.filter('[data-ilb2-id="' + id + '"]');
+                if(element.length > 0) {
+                    targetIndex = targets.index(element);
+                } else {
+                    targetIndex = id;
+                    element = $(targets[targetIndex]);
+                }
+                var set = _getQueryField('imageLightboxSet');
+                if(!!set && set !== element[0].dataset.imagelightbox) {
+                    return;
+                }
+                _openImageLightbox(element, true);
+            },
+            _popHistory = function (event) {
+                var newState = event.originalEvent.state;
+                if(!newState) {
+                    _quitImageLightbox(true);
+                    return;
+                }
+                var newId = newState.imageLightboxIndex;
+                if(newId === undefined) {
+                    _quitImageLightbox(true);
+                    return;
+                }
+                var element = origTargets.filter('[data-ilb2-id="' + newId + '"]');
+                if(element.length > 0) {
+                    var newIndex = origTargets.index(element);
+                } else {
+                    newIndex = newId;
+                    element = $(origTargets[newIndex]);
+                }
+                if(newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox) {
+                    return;
+                }
+                if(targetIndex < 0) {
+                    targets = origTargets;
+                    _openImageLightbox(element, true);
+                    return;
+                }
+                var direction = +1;
+                if(newIndex > targetIndex) {
+                    direction = -1;
+                }
+                target = element;
+                targetIndex = newIndex;
+                _loadImage(direction);
+            },
             _previousTarget = function () {
-                var targetIndex = targets.index(target) - 1;
+                targetIndex--;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -181,11 +299,12 @@
                     }
                 }
                 target = targets.eq(targetIndex);
+                _pushToHistory();
                 $wrapper.trigger('previous.ilb2');
                 _loadImage(+1);
             },
             _nextTarget = function () {
-                var targetIndex = targets.index(target) + 1;
+                targetIndex++;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
                         _quitImageLightbox();
@@ -195,6 +314,7 @@
                         targetIndex = 0;
                     }
                 }
+                _pushToHistory();
                 target = targets.eq(targetIndex);
                 $wrapper.trigger('next.ilb2');
                 _loadImage(-1);
@@ -440,12 +560,16 @@
                 image = $();
             },
 
-            _openImageLightbox = function ($target) {
+            _openImageLightbox = function ($target, noHistory) {
                 if (inProgress) {
                     return false;
                 }
                 inProgress = false;
                 target = $target;
+                targetIndex = targets.index(target);
+                if(!noHistory) {
+                    _pushToHistory();
+                }
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
@@ -453,7 +577,11 @@
                 _loadImage(0);
             },
 
-            _quitImageLightbox = function () {
+            _quitImageLightbox = function (noHistory) {
+                targetIndex = -1;
+                if(!noHistory) {
+                    _pushQuitToHistory();
+                }
                 $wrapper.trigger('quit.ilb2');
                 $body.removeClass('imagelightbox-open');
                 if (!image.length) {
@@ -493,6 +621,9 @@
             };
 
         $(window).on('resize.ilb7', _setImage);
+        if(hasHistorySupport && options.history) {
+            $(window).on('popstate', _popHistory);
+        }
 
         $(document).ready(function() {
 
@@ -577,7 +708,9 @@
 
         $(document).off('click', options.selector);
 
-        _addTargets($(this));
+        _addTargets(origTargets);
+
+        _openHistory();
 
         this.addToImageLightbox = function(elements)  {
             _addTargets(elements);
