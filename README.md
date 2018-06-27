@@ -45,6 +45,7 @@ $( selector ).imageLightbox({
     button:         false,                   // bool;            show close button
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
+    history:        false,                   // bool;            enable image permalinks and history
     fullscreen:     false                    // bool;            enable fullscreen (enter/return key)
     gutter:         10,                      // integer;         window height less height of image as a percentage
     offsetY:        0,                       // integer;         vertical offset in terms of gutter
@@ -202,30 +203,31 @@ imageLightBox allows adding more images dynamically at runtime
 </script>
 ````
 
-## Deep linking
+## Permalinks & History
 
-Open imageLightBox with a specific image
+When history is enabled, upon clicking on an image, the query field `imageLightboxIndex=X` is added to the URL, where `X` is the index of the currently opened image. This means that such an URL can be copied and used as a permanent link to that particular image. When somebody opens the URL, the lightbox will be open on the image in question. This also works with multiple sets, where an aditional query field `imageLightBoxSet=Y` is used to distinguish between the sets in one page.
+
+In some cases, this could lead to a different image being opened, for example if new images have been added to the set, or if the order of the images has changed. To solve this issue, whenever the HTML attribute `data-ilb2-id=X` is present in the image tag, this value is used instead of the image index (this means this id has to be different for each image and mustn't change over time).
 
 ###### Example:
 
-````javascript
+```javascript
 <script src="jquery.js"></script>
 <script src="imagelightbox.js"></script>
+
+<a href="image1.jpg" data-imagelightbox="images" data-ilb2-id="img1"><img src="thumb1.jpg"></a>
+<a href="image2.jpg" data-imagelightbox="images" data-ilb2-id="img2"><img src="thumb2.jpg"></a>
+<a href="image3.jpg" data-imagelightbox="images" data-ilb2-id="img3"><img src="thumb3.jpg"></a>
+
 <script>
     $( function()
     {
-        // location: http://example.org/galleries/123#showImage_1
-        var hashData = $(location).attr('hash').substring(1).split('_');
-        if (hashData.length > 0 && hashData[0] === 'showImage')
-        {
-            // start imagelightbox with this image
-            var image = $('selector[data-ilb2-id="' + hashData[1] + '"]');
-            var lightboxInstance = $( selector ).imageLightbox();
-            lightboxInstance.startImageLightbox(image);
-        }
+        $('a[data-imagelightbox=images]').imageLightbox({
+            history: true
+        });
     });
 </script>
-````
+```
 
 ## Changelog
 
