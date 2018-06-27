@@ -205,7 +205,7 @@ imageLightBox allows adding more images dynamically at runtime
 
 ## Permalinks & History
 
-When history is enabled, upon clicking on an image, the query field `imageLightboxIndex=X` is added to the URL, where `X` is the index of the currently opened image. This means that such an URL can be copied and used as a permanent link to that particular image. When somebody opens the URL, the lightbox will be open on the image in question. This also works with multiple sets, where an aditional query field `imageLightBoxSet=Y` is used to distinguish between the sets in one page.
+When history is enabled, upon clicking on an image, the query field `imageLightboxIndex=X` is added to the URL, where `X` is the index of the currently opened image. This means that such an URL can be copied and used as a permanent link to that particular image. When somebody opens the URL, the lightbox will be open on the image in question. This also works with multiple sets, where an aditional query field `imageLightboxSet=Y` is used to distinguish between the sets in one page.
 
 In some cases, this could lead to a different image being opened, for example if new images have been added to the set, or if the order of the images has changed. To solve this issue, whenever the HTML attribute `data-ilb2-id=X` is present in the image tag, this value is used instead of the image index (this means this id has to be different for each image and mustn't change over time).
 
