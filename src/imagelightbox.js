@@ -248,7 +248,7 @@
                     element = $(targets[targetIndex]);
                 }
                 var set = _getQueryField('imageLightboxSet');
-                if(!!set && set !== element[0].dataset.imagelightbox) {
+                if(!element[0] || (!!set && set !== element[0].dataset.imagelightbox)) {
                     return;
                 }
                 _openImageLightbox(element, true);
@@ -271,7 +271,7 @@
                     newIndex = newId;
                     element = $(origTargets[newIndex]);
                 }
-                if(newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox) {
+                if(!element[0] || (newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox)) {
                     return;
                 }
                 if(targetIndex < 0) {
