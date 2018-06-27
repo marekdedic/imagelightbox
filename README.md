@@ -236,4 +236,4 @@ You can find all notable changes to this project in the [CHANGELOG.md](CHANGELOG
 
 ## See also
 
-Used by https://cs.wordpress.org/plugins/skaut-google-drive-gallery/
+Used by https://wordpress.org/plugins/skaut-google-drive-gallery/
