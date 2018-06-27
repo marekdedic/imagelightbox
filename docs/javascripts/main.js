@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    $('a[data-imagelightbox="hist"]').imageLightbox({
-        history: true
-    });
-
     $('a[data-imagelightbox="a"]').imageLightbox({
         activity: true
     });
@@ -77,16 +73,13 @@ $(document).ready(function() {
         instanceI.addToImageLightbox( $("a[data-imagelightbox='i']") );
     });
 
-    /**
-     * Usage: http://example.org/galleries/123#showImage_1
-     */
-    var hashData = $(location).attr('hash').substring(1).split('_');
-    if (hashData.length > 0 && hashData[0] === 'showImage') {
-        // start imagelightbox with this image
-        var image = $('a[data-imagelightbox="k"][data-ilb2-id="' + hashData[1] + '"]');
-        var lightboxInstance = $('a[data-imagelightbox="k"]').imageLightbox();
-        lightboxInstance.startImageLightbox(image);
-    }
+    $('a[data-imagelightbox="j"]').imageLightbox({
+        history: true
+    });
+
+    $('a[data-imagelightbox="k"]').imageLightbox({
+        history: true
+    });
 
     /**
      *
