@@ -222,7 +222,7 @@ In some cases, this could lead to a different image being opened, for example if
 <script>
     $( function()
     {
-        $('a[data-imagelightbox=images]').imageLightbox({
+        $('a[data-imagelightbox="images"]').imageLightbox({
             history: true
         });
     });
