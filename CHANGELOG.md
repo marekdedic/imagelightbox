@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.10.0] - 2018-06-29
+
 ### Added
 
 - Added history functionality (@genabitu & @paxperscientiam)
+
+### Changed
+
+- Switched back to package-lock.json
 
 ## [0.9.1] - 2018-05-17
 
@@ -26,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Added jquery as dependency in package.json
-- Removed bower.json (use npm) and package-lock.json (use yarn) 
+- Removed bower.json (use npm) and package-lock.json (use yarn)
 - Updated to gulp4 for building
 
 ## [0.8.1] - 2017-11-03
@@ -164,7 +170,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.9.1...HEAD
+[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.10.0...HEAD
+[0.10.0]: https://github.com/rejas/imagelightbox/compare/0.9.1...0.10.0
 [0.9.1]: https://github.com/rejas/imagelightbox/compare/0.9.0...0.9.1
 [0.9.0]: https://github.com/rejas/imagelightbox/compare/0.8.1...0.9.0
 [0.8.1]: https://github.com/rejas/imagelightbox/compare/0.8.0...0.8.1
