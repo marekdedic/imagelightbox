@@ -1,7 +1,7 @@
 function openDemo (browser, hash) {
     var url = 'http://localhost:8080/docs/index.html';
     if (hash)
-        url += '#'+hash;
+        url += hash;
     browser.url(url);
     browser.expect.element('#main_content').to.be.present;
 }
@@ -34,12 +34,12 @@ module.exports = {
     },
 
     'Deep links' : function (browser) {
-        openDemo(browser, 'showImage_2');
+        openDemo(browser, '?imageLightboxIndex=2');
         browser
             .waitForElementVisible('#imagelightbox', 2000)
             .assert.elementPresent('#imagelightbox')
-            .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
-            .assert.elementPresent('img[src$="images/demo2.jpg"]');
+            .waitForElementVisible('img[src$="images/demo3.jpg"]', 1000)
+            .assert.elementPresent('img[src$="images/demo3.jpg"]');
         closeDemo(browser);
     },
 
