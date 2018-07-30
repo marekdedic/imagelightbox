@@ -458,9 +458,9 @@
                     // }
 
                     if ( target.data('ilb2Video') ) {
-                        var options = target.data('ilb2Video');
-                        var element = $('<video id=\'' + options.id + '\' />')
-                            .attr('src', options.src);
+                        var videoOptions = target.data('ilb2Video');
+                        var element = $('<video id=\'' + videoOptions.id + '\' />')
+                            .attr('src', videoOptions.src);
                     } else {
                         element = $('<img id=\'' + options.id + '\' />')
                             .attr('src', imgPath);
