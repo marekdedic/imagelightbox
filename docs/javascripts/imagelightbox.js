@@ -465,37 +465,39 @@
                         element = $('<img id=\'' + options.id + '\' />')
                             .attr('src', imgPath);
                     }
+                    function onload () {
+                        var params = {'opacity': 1};
+
+                        image.appendTo($wrapper);
+                        _setImage();
+                        image.css('opacity', 0);
+                        if (hasCssTransitionSupport) {
+                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                            setTimeout(function () {
+                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                            }, 50);
+                        } else {
+                            var imagePosLeft = parseInt(image.css('left'));
+                            params.left = imagePosLeft + 'px';
+                            image.css('left', imagePosLeft - 100 * direction + 'px');
+                        }
+
+                        image.animate(params, options.animationSpeed, function () {
+                            inProgress = false;
+                            _onLoadEnd();
+                        });
+                        if (options.preloadNext) {
+                            var nextTarget = targets.eq(targets.index(target) + 1);
+                            if (!nextTarget.length) {
+                                nextTarget = targets.eq(0);
+                            }
+                            $('<img />').attr('src', nextTarget.attr('href'));
+                        }
+                        $wrapper.trigger('loaded.ilb2');
+                    }
                     image = element
-                        .on('load.ilb7', function () {
-                            var params = {'opacity': 1};
-
-                            image.appendTo($wrapper);
-                            _setImage();
-                            image.css('opacity', 0);
-                            if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                                setTimeout(function () {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                                }, 50);
-                            } else {
-                                var imagePosLeft = parseInt(image.css('left'));
-                                params.left = imagePosLeft + 'px';
-                                image.css('left', imagePosLeft - 100 * direction + 'px');
-                            }
-
-                            image.animate(params, options.animationSpeed, function () {
-                                inProgress = false;
-                                _onLoadEnd();
-                            });
-                            if (options.preloadNext) {
-                                var nextTarget = targets.eq(targets.index(target) + 1);
-                                if (!nextTarget.length) {
-                                    nextTarget = targets.eq(0);
-                                }
-                                $('<img />').attr('src', nextTarget.attr('href'));
-                            }
-                            $wrapper.trigger('loaded.ilb2');
-                        })
+                        .on('load.ilb7', onload)
+                        .on('canplay.ilb7', onload)
                         .on('error.ilb7', function () {
                             _onLoadEnd();
                         })
