@@ -457,10 +457,12 @@
                     //     imgPath = target.attr('data-lightbox');
                     // }
 
-                    if ( target.data('ilb2Video') ) {
-                        var videoOptions = target.data('ilb2Video');
-                        var element = $('<video id=\'' + videoOptions.id + '\' />')
-                            .attr('src', videoOptions.src);
+                    var videoOptions = target.data('ilb2Video');
+                    if ( videoOptions ) {
+                        var element = $('<video id=\'' + options.id + '\' />');
+                        $.each(videoOptions, function(key, value) {
+                            element = element.attr(key, value);
+                        });
                     } else {
                         element = $('<img id=\'' + options.id + '\' />')
                             .attr('src', imgPath);
