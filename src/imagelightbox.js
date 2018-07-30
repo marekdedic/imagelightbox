@@ -457,8 +457,15 @@
                     //     imgPath = target.attr('data-lightbox');
                     // }
 
-                    image = $('<img id=\'' + options.id + '\' />')
-                        .attr('src', imgPath)
+                    if ( target.data('ilb2Video') ) {
+                        var options = target.data('ilb2Video');
+                        var element = $('<video id=\'' + options.id + '\' />')
+                            .attr('src', options.src);
+                    } else {
+                        element = $('<img id=\'' + options.id + '\' />')
+                            .attr('src', imgPath);
+                    }
+                    image = element
                         .on('load.ilb7', function () {
                             var params = {'opacity': 1};
 
