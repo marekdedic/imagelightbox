@@ -458,11 +458,20 @@
                     // }
 
                     var videoOptions = target.data('ilb2Video');
-                    if ( videoOptions ) {
-                        var element = $('<video id=\'' + options.id + '\' />');
+                    if (videoOptions) {
+                        var element = $('<video id=\'' + options.id + '\'></video>');
                         $.each(videoOptions, function(key, value) {
                             element = element.attr(key, value);
                         });
+                        if (videoOptions.sources) {
+                            $.each(videoOptions.sources, function (_, source) {
+                                var sourceElement = $('<source />');
+                                $.each(source, function(key, value) {
+                                    sourceElement = sourceElement.attr(key, value);
+                                });
+                                element.append(sourceElement);
+                            });
+                        }
                     } else {
                         element = $('<img id=\'' + options.id + '\' />')
                             .attr('src', imgPath);
