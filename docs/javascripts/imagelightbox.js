@@ -400,13 +400,18 @@
                 var captionHeight = options.caption ? $captionObject.outerHeight() : 0,
                     screenWidth = $(window).width(),
                     screenHeight = $(window).height() - captionHeight,
-                    gutterFactor = Math.abs(1 - options.gutter/100),
-                    tmpImage = new Image();
+                    gutterFactor = Math.abs(1 - options.gutter/100);
 
-                tmpImage.src = image.attr('src');
-                tmpImage.onload = function () {
-                    imageWidth = tmpImage.width;
-                    imageHeight = tmpImage.height;
+                if(image.children().length > 0) {
+                    var tmpImage = $('<video />').get(0);
+                    tmpImage.src = $(image.children()[0]).attr('src');
+                } else {
+                    tmpImage = new Image();
+                    tmpImage.src = image.attr('src');
+                }
+                function onload () {
+                    imageWidth = tmpImage.videoWidth !== undefined ? tmpImage.videoWidth : tmpImage.width;
+                    imageHeight = tmpImage.videoHeight !== undefined ? tmpImage.videoHeight : tmpImage.height;
 
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
@@ -422,7 +427,9 @@
                         'height': cssHeight + 'px',
                         'left':  cssLeft + 'px'
                     });
-                };
+                }
+                tmpImage.onload = onload;
+                tmpImage.ondurationchange = onload;
             },
 
             _loadImage = function (direction) {
