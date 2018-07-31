@@ -389,7 +389,7 @@
 
             isTargetValid = function (element) {
                 // eslint-disable-next-line
-                return $(element).prop('tagName').toLowerCase() === 'a' && (new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href'));
+                return $(element).prop('tagName').toLowerCase() === 'a' && ((new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href')) || $(element).data('ilb2Video'));
             },
 
             _setImage = function () {
