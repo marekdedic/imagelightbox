@@ -45,6 +45,9 @@
     var cssTransitionSupport = function () {
             var s = document.body || document.documentElement;
             s = s.style;
+            if (s.transition === '') {
+                return '';
+            }
             if (s.WebkitTransition === '') {
                 return '-webkit-';
             }
@@ -53,9 +56,6 @@
             }
             if (s.OTransition === '') {
                 return '-o-';
-            }
-            if (s.transition === '') {
-                return '';
             }
             return false;
         },
