@@ -389,7 +389,7 @@
 
             isTargetValid = function (element) {
                 // eslint-disable-next-line
-                return $(element).prop('tagName').toLowerCase() === 'a' && (new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href'));
+                return $(element).prop('tagName').toLowerCase() === 'a' && ((new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href')) || $(element).data('ilb2Video'));
             },
 
             _setImage = function () {
@@ -400,13 +400,18 @@
                 var captionHeight = options.caption ? $captionObject.outerHeight() : 0,
                     screenWidth = $(window).width(),
                     screenHeight = $(window).height() - captionHeight,
-                    gutterFactor = Math.abs(1 - options.gutter/100),
-                    tmpImage = new Image();
+                    gutterFactor = Math.abs(1 - options.gutter/100);
 
-                tmpImage.src = image.attr('src');
-                tmpImage.onload = function () {
-                    imageWidth = tmpImage.width;
-                    imageHeight = tmpImage.height;
+                if(image.children().length > 0) {
+                    var tmpImage = $('<video />').get(0);
+                    tmpImage.src = $(image.children()[0]).attr('src');
+                } else {
+                    tmpImage = new Image();
+                    tmpImage.src = image.attr('src');
+                }
+                function onload () {
+                    imageWidth = tmpImage.videoWidth !== undefined ? tmpImage.videoWidth : tmpImage.width;
+                    imageHeight = tmpImage.videoHeight !== undefined ? tmpImage.videoHeight : tmpImage.height;
 
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
@@ -422,7 +427,9 @@
                         'height': cssHeight + 'px',
                         'left':  cssLeft + 'px'
                     });
-                };
+                }
+                tmpImage.onload = onload;
+                tmpImage.ondurationchange = onload;
             },
 
             _loadImage = function (direction) {
@@ -457,38 +464,58 @@
                     //     imgPath = target.attr('data-lightbox');
                     // }
 
-                    image = $('<img id=\'' + options.id + '\' />')
-                        .attr('src', imgPath)
-                        .on('load.ilb7', function () {
-                            var params = {'opacity': 1};
-
-                            image.appendTo($wrapper);
-                            _setImage();
-                            image.css('opacity', 0);
-                            if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                                setTimeout(function () {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                                }, 50);
-                            } else {
-                                var imagePosLeft = parseInt(image.css('left'));
-                                params.left = imagePosLeft + 'px';
-                                image.css('left', imagePosLeft - 100 * direction + 'px');
-                            }
-
-                            image.animate(params, options.animationSpeed, function () {
-                                inProgress = false;
-                                _onLoadEnd();
+                    var videoOptions = target.data('ilb2Video');
+                    if (videoOptions) {
+                        var element = $('<video id=\'' + options.id + '\'></video>');
+                        $.each(videoOptions, function(key, value) {
+                            element = element.attr(key, value);
+                        });
+                        if (videoOptions.sources) {
+                            $.each(videoOptions.sources, function (_, source) {
+                                var sourceElement = $('<source />');
+                                $.each(source, function(key, value) {
+                                    sourceElement = sourceElement.attr(key, value);
+                                });
+                                element.append(sourceElement);
                             });
-                            if (options.preloadNext) {
-                                var nextTarget = targets.eq(targets.index(target) + 1);
-                                if (!nextTarget.length) {
-                                    nextTarget = targets.eq(0);
-                                }
-                                $('<img />').attr('src', nextTarget.attr('href'));
+                        }
+                    } else {
+                        element = $('<img id=\'' + options.id + '\' />')
+                            .attr('src', imgPath);
+                    }
+                    function onload () {
+                        var params = {'opacity': 1};
+
+                        image.appendTo($wrapper);
+                        _setImage();
+                        image.css('opacity', 0);
+                        if (hasCssTransitionSupport) {
+                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                            setTimeout(function () {
+                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                            }, 50);
+                        } else {
+                            var imagePosLeft = parseInt(image.css('left'));
+                            params.left = imagePosLeft + 'px';
+                            image.css('left', imagePosLeft - 100 * direction + 'px');
+                        }
+
+                        image.animate(params, options.animationSpeed, function () {
+                            inProgress = false;
+                            _onLoadEnd();
+                        });
+                        if (options.preloadNext) {
+                            var nextTarget = targets.eq(targets.index(target) + 1);
+                            if (!nextTarget.length) {
+                                nextTarget = targets.eq(0);
                             }
-                            $wrapper.trigger('loaded.ilb2');
-                        })
+                            $('<img />').attr('src', nextTarget.attr('href'));
+                        }
+                        $wrapper.trigger('loaded.ilb2');
+                    }
+                    image = element
+                        .on('load.ilb7', onload)
+                        .on('canplay.ilb7', onload)
                         .on('error.ilb7', function () {
                             _onLoadEnd();
                         })
