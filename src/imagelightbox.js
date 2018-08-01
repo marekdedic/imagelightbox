@@ -394,7 +394,7 @@
 
             _setImage = function () {
                 if (!image.length) {
-                    return;
+                    return true;
                 }
 
                 var captionHeight = options.caption ? $captionObject.outerHeight() : 0,
