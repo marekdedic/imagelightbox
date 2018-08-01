@@ -3,14 +3,9 @@
     // If there is a variable named module and it has an exports property,
     // then we're working in a Node-like environment. Use require to load
     // the jQuery object that the module system is using and pass it in.
-    if(typeof module === 'object' && typeof module.exports === 'object') {
-        factory(require('jquery'), window, document);
-    }
     // Otherwise, we're working in a browser, so just pass in the global
     // jQuery object.
-    else {
-        factory(jQuery, window, document);
-    }
+    factory((typeof module === 'object' && typeof module.exports === 'object') ? require('jquery') : jQuery, window, document );
 }(function ($, window, document) {
     'use strict';
     // COMPONENTS //
