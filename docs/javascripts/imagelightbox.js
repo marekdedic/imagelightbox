@@ -105,8 +105,6 @@
             videos = $([]),
             targetIndex = -1,
             image = $(),
-            imageWidth = 0,
-            imageHeight = 0,
             swipeDiff = 0,
             inProgress = false,
             currentIndex = 0,
@@ -393,7 +391,7 @@
                     screenHeight = $(window).height() - captionHeight,
                     gutterFactor = Math.abs(1 - options.gutter/100);
 
-                function setSizes () {
+                function setSizes (imageWidth, imageHeight) {
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
@@ -411,18 +409,14 @@
                 }
 
                 if(image.get(0).videoWidth !== undefined) {
-                    imageWidth = image.get(0).videoWidth;
-                    imageHeight = image.get(0).videoHeight;
-                    setSizes();
+                    setSizes(image.get(0).videoWidth, image.get(0).videoHeight);
                     return;
                 }
 
                 var tmpImage = new Image();
                 tmpImage.src = image.attr('src');
                 tmpImage.onload = function() {
-                    imageWidth = tmpImage.width;
-                    imageHeight = tmpImage.height;
-                    setSizes();
+                    setSizes(tmpImage.width, tmpImage.height);
                 };
             },
 
