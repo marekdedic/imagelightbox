@@ -97,13 +97,10 @@
             return false;
         },
 
-        fullscreenSupport = function () {
-            return !!(document.fullscreenEnabled ||
+        hasFullscreenSupport = !!(document.fullscreenEnabled ||
                 document.webkitFullscreenEnabled ||
                 document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled);
-        },
-        hasFullscreenSupport = fullscreenSupport() !== false,
+                document.msFullscreenEnabled),
         hasHistorySupport = !!(window.history && history.pushState);
 
     $.fn.imageLightbox = function (opts) {
