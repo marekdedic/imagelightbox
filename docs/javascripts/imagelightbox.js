@@ -402,17 +402,7 @@
                     screenHeight = $(window).height() - captionHeight,
                     gutterFactor = Math.abs(1 - options.gutter/100);
 
-                if(image.children().length > 0) {
-                    var tmpImage = $('<video />').get(0);
-                    tmpImage.src = $(image.children()[0]).attr('src');
-                } else {
-                    tmpImage = new Image();
-                    tmpImage.src = image.attr('src');
-                }
-                function onload () {
-                    imageWidth = tmpImage.videoWidth !== undefined ? tmpImage.videoWidth : tmpImage.width;
-                    imageHeight = tmpImage.videoHeight !== undefined ? tmpImage.videoHeight : tmpImage.height;
-
+                function setSizes () {
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
@@ -428,8 +418,21 @@
                         'left':  cssLeft + 'px'
                     });
                 }
-                tmpImage.onload = onload;
-                tmpImage.ondurationchange = onload;
+
+                if(image.get(0).videoWidth !== undefined) {
+                    imageWidth = image.get(0).videoWidth;
+                    imageHeight = image.get(0).videoHeight;
+                    setSizes();
+                    return;
+                }
+
+                var tmpImage = new Image();
+                tmpImage.src = image.attr('src');
+                tmpImage.onload = function() {
+                    imageWidth = tmpImage.width;
+                    imageHeight = tmpImage.height;
+                    setSizes();
+                };
             },
 
             _loadImage = function (direction) {
