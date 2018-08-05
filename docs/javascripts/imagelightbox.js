@@ -518,7 +518,7 @@
                     }
                     image = element
                         .on('load.ilb7', onload)
-                        .on('canplay.ilb7', onload)
+                        .on('loadedmetadata.ilb7', onload)
                         .on('error.ilb7', function () {
                             _onLoadEnd();
                         })
