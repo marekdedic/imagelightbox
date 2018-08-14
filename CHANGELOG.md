@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+- Added video functionality (@genabitu)
+
 ## [0.10.0] - 2018-06-29
 
 ### Added
