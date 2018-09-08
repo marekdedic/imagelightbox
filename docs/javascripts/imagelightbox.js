@@ -109,6 +109,7 @@
         var targetSet = '',
             targets = $([]),
             target = $(),
+            videos = $([]),
             targetIndex = -1,
             origTargets = $(this),
             image = $(),
@@ -468,20 +469,22 @@
                     // }
 
                     var videoOptions = target.data('ilb2Video');
+                    var preloadedVideo, element;
                     if (videoOptions) {
-                        var element = $('<video id=\'' + options.id + '\'></video>');
-                        $.each(videoOptions, function(key, value) {
-                            element = element.attr(key, value);
+                        videos.each(function() {
+                            if(this.e.attr('id') === options.id) {
+                                preloadedVideo = this.l;
+                                element = this.e;
+                                if(this.a) {
+                                    if(preloadedVideo === false) {
+                                        element.attr('autoplay', this.a);
+                                    }
+                                    if(preloadedVideo === true) {
+                                        element.get(0).play();
+                                    }
+                                }
+                            }
                         });
-                        if (videoOptions.sources) {
-                            $.each(videoOptions.sources, function (_, source) {
-                                var sourceElement = $('<source />');
-                                $.each(source, function(key, value) {
-                                    sourceElement = sourceElement.attr(key, value);
-                                });
-                                element.append(sourceElement);
-                            });
-                        }
                     } else {
                         element = $('<img id=\'' + options.id + '\' />')
                             .attr('src', imgPath);
@@ -518,7 +521,6 @@
                     }
                     image = element
                         .on('load.ilb7', onload)
-                        .on('loadedmetadata.ilb7', onload)
                         .on('error.ilb7', function () {
                             _onLoadEnd();
                         })
@@ -578,6 +580,12 @@
                                 }
                             }
                         });
+                    if(preloadedVideo === true) {
+                        onload();
+                    }
+                    if(preloadedVideo === false) {
+                        image = image.on('loadedmetadata.ilb7', onload);
+                    }
 
                 }, options.animationSpeed + 100);
             },
@@ -648,6 +656,35 @@
                             targets = targets.add($(this));
                         });
                 }
+            },
+
+            _preloadVideos = function () {
+                origTargets.each(function() {
+                    var videoOptions = $(this).data('ilb2Video');
+                    if (videoOptions) {
+                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), l: false, a: undefined}; // e = element, l = is metadata loaded, a = autoplay
+                        $.each(videoOptions, function(key, value) {
+                            if(key === 'autoplay') {
+                                container.a = value;
+                            } else if(key !== 'sources') {
+                                container.e = container.e.attr(key, value);
+                            }
+                        });
+                        if(videoOptions.sources) {
+                            $.each(videoOptions.sources, function (_, source) {
+                                var sourceElement = $('<source>');
+                                $.each(source, function(key, value) {
+                                    sourceElement = sourceElement.attr(key, value);
+                                });
+                                container.e.append(sourceElement);
+                            });
+                        }
+                        container.e.on('loadedmetadata.ilb7', function() {
+                            container.l = true;
+                        });
+                        videos = videos.add(container);
+                    }
+                });
             };
 
         $(window).on('resize.ilb7', _setImage);
@@ -741,6 +778,8 @@
         _addTargets(origTargets);
 
         _openHistory();
+
+        _preloadVideos();
 
         this.addToImageLightbox = function (elements)  {
             _addTargets(elements);
