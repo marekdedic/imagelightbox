@@ -8,13 +8,13 @@
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
   "dependencies": {
-    "jquery": ">=1.12.4 <4.0.0"
+    "jquery": "^3.3.1"
   },
   "devDependencies": {
     "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^5.0.0",
+    "gulp-autoprefixer": "^6.0.0",
     "gulp-clean-css": "^3.10.0",
-    "gulp-connect": "^5.5.0",
+    "gulp-connect": "^5.6.1",
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^5.0.0",
     "gulp-lintspaces": "^1.0.0",
