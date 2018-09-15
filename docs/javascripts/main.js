@@ -81,6 +81,12 @@ $(document).ready(function() {
         history: true
     });
 
+    $('a[data-imagelightbox="video"]').imageLightbox({
+        activity: true,
+        arrows: true,
+        overlay: true
+    });
+
     /**
      *
      */
