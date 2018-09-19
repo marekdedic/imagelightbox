@@ -205,7 +205,7 @@
                 if(set) {
                     newQuery = _addQueryField(newQuery, 'imageLightboxSet', set);
                 }
-                window.history.pushState(newState, '', newQuery);
+                window.history.pushState(newState, '', document.location.pathname + newQuery);
             },
             _removeQueryField = function(query, key) {
                 var newQuery = query;
@@ -223,7 +223,7 @@
                 }
                 var newQuery = _removeQueryField(document.location.search, 'imageLightboxIndex');
                 newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
-                window.history.pushState({}, '', newQuery);
+                window.history.pushState({}, '', document.location.pathname + newQuery);
             },
             _getQueryField = function(key) {
                 var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
