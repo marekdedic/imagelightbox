@@ -71,6 +71,7 @@
 /* WITH "CLOSE" BUTTON */
 
 .imagelightbox-close {
+    border: none;
     cursor: pointer;
     width: 3em; /* 40 */
     height: 3em; /* 40 */
