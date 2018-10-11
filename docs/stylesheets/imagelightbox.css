@@ -74,7 +74,8 @@
     cursor: pointer;
     width: 2.5em; /* 40 */
     height: 2.5em; /* 40 */
-    background-color: #666;
+    background-color: #9b9b9b;
+    background-color: rgba(130, 130, 130, 0.8);
     position: fixed;
     z-index: 10002;
     top: 2.5em; /* 40 */
