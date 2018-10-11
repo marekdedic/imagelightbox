@@ -159,8 +159,8 @@
     cursor: pointer;
     width: 4em; /* 53.3 */
     height: 4em; /* 53.3 */
-    background-color: #444;
-    background-color: rgba( 0, 0, 0, .5 );
+    background-color: #9b9b9b;
+    background-color: rgba(130, 130, 130, 0.8);
     vertical-align: middle;
     display: none;
     position: fixed;
@@ -169,10 +169,9 @@
     padding: 0;
     margin-top: -3.75em; /* 60 */
 }
-.imagelightbox-arrow:hover,
-.imagelightbox-arrow:focus {
-    background-color: #666;
-    background-color: rgba( 0, 0, 0, .75 );
+.imagelightbox-arrow:hover {
+    background-color: #404040;
+    background-color: rgba(0, 0, 0, 0.75);
 }
 .imagelightbox-arrow:active {
     background-color: #111;
