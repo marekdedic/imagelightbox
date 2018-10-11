@@ -2,5 +2,5 @@
     "box-model":            false,
     "ids":                  false,
     "order-alphabetical":   false,
-	"fallback-colors":      false
+    "fallback-colors":      false
 }
