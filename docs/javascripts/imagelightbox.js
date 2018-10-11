@@ -28,7 +28,8 @@
             class: 'imagelightbox-caption',
             html: '&nbsp;'
         }),
-        $buttonObject =  $('<a/>', {
+        $buttonObject =  $('<button/>', {
+            type: 'button',
             class: 'imagelightbox-close'
         }),
         $overlayObject = $('<div/>', {
