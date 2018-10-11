@@ -153,6 +153,7 @@
 /* WITH ARROWS */
 
 .imagelightbox-arrow {
+    border: none;
     cursor: pointer;
     width: 3.75em; /* 60 */
     height: 7.5em; /* 120 */
