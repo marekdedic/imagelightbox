@@ -22,7 +22,6 @@
 }
 
 .imagelightbox-loading {
-    background-color: #9b9b9b;
     background-color: rgba(130, 130, 130, 0.8);
     position: fixed;
     z-index: 10003;
@@ -58,7 +57,6 @@
 /* WITH OVERLAY */
 
 .imagelightbox-overlay {
-    background-color: #343434;
     background-color: rgba(30, 30, 30, 0.9);
     position: fixed;
     z-index: 9998;
@@ -75,7 +73,6 @@
     cursor: pointer;
     width: 3em; /* 40 */
     height: 3em; /* 40 */
-    background-color: #9b9b9b;
     background-color: rgba(130, 130, 130, 0.8);
     position: fixed;
     z-index: 10002;
@@ -126,7 +123,6 @@
 /* WITH NAVIGATION */
 
 .imagelightbox-nav {
-    background-color: #444;
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     z-index: 10001;
@@ -160,7 +156,6 @@
     cursor: pointer;
     width: 4em; /* 53.3 */
     height: 4em; /* 53.3 */
-    background-color: #9b9b9b;
     background-color: rgba(130, 130, 130, 0.8);
     vertical-align: middle;
     display: none;
@@ -171,7 +166,6 @@
     margin-top: -3.75em; /* 60 */
 }
 .imagelightbox-arrow:hover {
-    background-color: #404040;
     background-color: rgba(0, 0, 0, 0.75);
 }
 .imagelightbox-arrow:active {
