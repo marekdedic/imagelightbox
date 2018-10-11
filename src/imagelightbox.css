@@ -71,9 +71,10 @@
 /* WITH "CLOSE" BUTTON */
 
 .imagelightbox-close {
+    border: none;
     cursor: pointer;
-    width: 2.5em; /* 40 */
-    height: 2.5em; /* 40 */
+    width: 3em; /* 40 */
+    height: 3em; /* 40 */
     background-color: #666;
     position: fixed;
     z-index: 10002;
