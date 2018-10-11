@@ -155,9 +155,10 @@
 
 .imagelightbox-arrow {
     border: none;
+    border-radius: 50%;
     cursor: pointer;
-    width: 3.75em; /* 60 */
-    height: 7.5em; /* 120 */
+    width: 4em; /* 53.3 */
+    height: 4em; /* 53.3 */
     background-color: #444;
     background-color: rgba( 0, 0, 0, .5 );
     vertical-align: middle;
@@ -165,6 +166,7 @@
     position: fixed;
     z-index: 10001;
     top: 50%;
+    padding: 0;
     margin-top: -3.75em; /* 60 */
 }
 .imagelightbox-arrow:hover,
@@ -187,17 +189,17 @@
     border: 1em solid transparent;
     content: '';
     display: inline-block;
-    margin-bottom: -0.125em; /* 2 */
+    margin-bottom: -7%;
 }
 .imagelightbox-arrow-left:before {
     border-left: none;
     border-right-color: #fff;
-    margin-left: -0.313em; /* 5 */
+    margin-left: -0.35em;
 }
 .imagelightbox-arrow-right:before {
     border-right: none;
     border-left-color: #fff;
-    margin-right: -0.313em; /* 5 */
+    margin-left: 0.2em;
 }
 
 .imagelightbox-loading,
