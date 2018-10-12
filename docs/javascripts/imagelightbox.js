@@ -28,7 +28,8 @@
             class: 'imagelightbox-caption',
             html: '&nbsp;'
         }),
-        $buttonObject =  $('<a/>', {
+        $buttonObject =  $('<button/>', {
+            type: 'button',
             class: 'imagelightbox-close'
         }),
         $overlayObject = $('<div/>', {
@@ -205,7 +206,7 @@
                 if(set) {
                     newQuery = _addQueryField(newQuery, 'imageLightboxSet', set);
                 }
-                window.history.pushState(newState, '', newQuery);
+                window.history.pushState(newState, '', document.location.pathname + newQuery);
             },
             _removeQueryField = function(query, key) {
                 var newQuery = query;
@@ -223,7 +224,7 @@
                 }
                 var newQuery = _removeQueryField(document.location.search, 'imageLightboxIndex');
                 newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
-                window.history.pushState({}, '', newQuery);
+                window.history.pushState({}, '', document.location.pathname + newQuery);
             },
             _getQueryField = function(key) {
                 var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
@@ -472,7 +473,7 @@
                     var preloadedVideo, element;
                     if (videoOptions) {
                         videos.each(function() {
-                            if(this.e.attr('id') === options.id) {
+                            if(this.i === target.data('ilb2VideoId')) {
                                 preloadedVideo = this.l;
                                 element = this.e;
                                 if(this.a) {
@@ -662,7 +663,12 @@
                 origTargets.each(function() {
                     var videoOptions = $(this).data('ilb2Video');
                     if (videoOptions) {
-                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), l: false, a: undefined}; // e = element, l = is metadata loaded, a = autoplay
+                        var id = $(this).data('ilb2Id');
+                        if(!id) {
+                            id = 'a' + (((1+Math.random())*0x10000)|0).toString(16); // Random id
+                        }
+                        $(this).data('ilb2VideoId', id);
+                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined}; // e = element, i = id, l = is metadata loaded, a = autoplay
                         $.each(videoOptions, function(key, value) {
                             if(key === 'autoplay') {
                                 container.a = value;
