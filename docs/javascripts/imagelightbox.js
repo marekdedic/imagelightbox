@@ -473,7 +473,7 @@
                     var preloadedVideo, element;
                     if (videoOptions) {
                         videos.each(function() {
-                            if(this.e.attr('id') === options.id) {
+                            if(this.i === target.data('ilb2VideoId')) {
                                 preloadedVideo = this.l;
                                 element = this.e;
                                 if(this.a) {
@@ -663,7 +663,12 @@
                 origTargets.each(function() {
                     var videoOptions = $(this).data('ilb2Video');
                     if (videoOptions) {
-                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), l: false, a: undefined}; // e = element, l = is metadata loaded, a = autoplay
+                        var id = $(this).data('ilb2Id');
+                        if(!id) {
+                            id = 'a' + (((1+Math.random())*0x10000)|0).toString(16); // Random id
+                        }
+                        $(this).data('ilb2VideoId', id);
+                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined}; // e = element, i = id, l = is metadata loaded, a = autoplay
                         $.each(videoOptions, function(key, value) {
                             if(key === 'autoplay') {
                                 container.a = value;
