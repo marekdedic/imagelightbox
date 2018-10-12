@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.11.0] - 2018-09-15
+
 - Added video functionality (@genabitu)
 
 ## [0.10.0] - 2018-06-29
@@ -172,7 +174,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.10.0...HEAD
+[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.11.0...HEAD
+[0.11.0]: https://github.com/rejas/imagelightbox/compare/0.10.0...0.11.0
 [0.10.0]: https://github.com/rejas/imagelightbox/compare/0.9.1...0.10.0
 [0.9.1]: https://github.com/rejas/imagelightbox/compare/0.9.0...0.9.1
 [0.9.0]: https://github.com/rejas/imagelightbox/compare/0.8.1...0.9.0
