@@ -7,7 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.12.0] - 2018-10-12
+
+### Fixed
+
+- Fixed #161 All videos playing simultaneously (@genabitu)
+- Fixed error with history sometimes deleting path (@genabitu)
+
+### Changed
+
+- Use correct html element for close-button (@genabitu)
+- Updated style (@genabitu)
+
 ## [0.11.0] - 2018-09-15
+
+### Added
 
 - Added video functionality (@genabitu)
 
@@ -174,7 +188,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.11.0...HEAD
+[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.12.0...HEAD
+[0.12.0]: https://github.com/rejas/imagelightbox/compare/0.11.0...0.12.0
 [0.11.0]: https://github.com/rejas/imagelightbox/compare/0.10.0...0.11.0
 [0.10.0]: https://github.com/rejas/imagelightbox/compare/0.9.1...0.10.0
 [0.9.1]: https://github.com/rejas/imagelightbox/compare/0.9.0...0.9.1
