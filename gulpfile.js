@@ -63,19 +63,25 @@ gulp.task('watch', function(done) {
     done();
 });
 
-gulp.task('serve', gulp.parallel('build', 'watch', function(done) {
+gulp.task('selenium:start', function(done) {
     connect.server({
         livereload: true
     });
     done();
-}));
+});
 
-gulp.task('night:js', gulp.series('serve', function() {
+gulp.task('selenium:stop', function(done) {
+    connect.serverClose();
+    done();
+});
+
+gulp.task('serve', gulp.parallel('build', 'watch', 'selenium:start'));
+
+gulp.task('night:js', gulp.series(gulp.parallel('build', 'selenium:start'), function() {
     return gulp.src('./gulpfile.js')
         .pipe(nightwatch({
             configFile: './nightwatch.json.js'
-        }));
-}));
+        }));}, 'selenium:stop'));
 
 gulp.task('default', gulp.series('build'));
 
