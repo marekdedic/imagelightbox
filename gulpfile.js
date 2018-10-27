@@ -73,7 +73,7 @@ gulp.task('serve', gulp.parallel('build', 'watch', function(done) {
 gulp.task('night:js', gulp.series('serve', function() {
     return gulp.src('./gulpfile.js')
         .pipe(nightwatch({
-            configFile: './nightwatch.json'
+            configFile: './nightwatch.json.js'
         }));
 }));
 
