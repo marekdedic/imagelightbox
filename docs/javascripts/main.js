@@ -44,6 +44,13 @@ $(document).ready(function() {
         selector: 'a[data-imagelightbox="f"]'
     });
 
+    $('a[data-imagelightbox="placeholder"]').imageLightbox({
+        allowedTypes: '',
+        navigation: true,
+        overlay: true,
+        magnify: {w: 485, h: 300},
+    });
+
     /**
      *
      */

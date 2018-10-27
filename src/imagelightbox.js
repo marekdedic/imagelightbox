@@ -133,6 +133,7 @@
                 fullscreen:     false,
                 gutter:         10,     // percentage of client height
                 offsetY:        0,      // percentage of gutter
+                magnify:        false,
                 navigation:     false,
                 overlay:        false,
                 preloadNext:    true,
@@ -410,9 +411,18 @@
                         imageWidth /= ratio;
                         imageHeight /= ratio;
                     }
+
                     var cssHeight = imageHeight*gutterFactor,
-                        cssWidth = imageWidth*gutterFactor,
-                        cssLeft = ($(window).width() - cssWidth ) / 2;
+                        cssWidth = imageWidth*gutterFactor;
+
+
+                    if (options.magnify) {
+                        cssHeight = options.magnify.h;
+                        cssWidth = options.magnify.w;
+                    }
+
+                    var cssLeft = ($(window).width() - cssWidth ) / 2;
+
 
                     image.css({
                         'width': cssWidth + 'px',
@@ -776,7 +786,7 @@
 
         function toggleFullScreen() {
             launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
-            exitFullscreen();
+                exitFullscreen();
         }
 
         $(document).off('click', options.selector);
