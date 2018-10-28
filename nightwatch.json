@@ -4,7 +4,6 @@
 
     "selenium" : {
         "start_process" : true,
-        "server_path" : "./test/resources/selenium-server-standalone-3.14.0.jar",
         "log_path" : false,
         "port" : 4444,
         "cli_args" : {}
