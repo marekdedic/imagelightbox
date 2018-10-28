@@ -77,14 +77,17 @@ gulp.task('selenium:stop', function(done) {
 
 gulp.task('serve', gulp.parallel('build', 'watch', 'selenium:start'));
 
-gulp.task('night:js', gulp.series(gulp.parallel('build', 'selenium:start'), function() {
+gulp.task('night:js', function() {
     return gulp.src('./gulpfile.js')
         .pipe(nightwatch({
             configFile: './nightwatch.json.js'
-        }));}, 'selenium:stop'));
+        }));
+});
 
 gulp.task('default', gulp.series('build'));
 
 gulp.task('dev', gulp.series('serve'));
 
-gulp.task('test', gulp.series('night:js'));
+gulp.task('test', gulp.series(gulp.parallel('build', 'selenium:start'), 'night:js', 'selenium:stop'));
+
+gulp.task('ci', gulp.series('build', 'night:js'));
