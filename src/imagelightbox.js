@@ -200,7 +200,7 @@
             _removeQueryField = function(query, key) {
                 var newQuery = query;
                 if (newQuery) {
-                    var keyRegex1 = new RegExp('[?]' + key + '=[^&]*');
+                    var keyRegex1 = new RegExp('\\?' + key + '=[^&]*');
                     var keyRegex2 = new RegExp('&' + key + '=[^&]*');
                     newQuery = newQuery.replace(keyRegex1, '?');
                     newQuery = newQuery.replace(keyRegex2, '');
