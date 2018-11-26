@@ -794,6 +794,10 @@
             _addTargets(elements);
         };
 
+        this.openHistory = function() {
+            _openHistory();
+        };
+
         this.loadPreviousImage = function () {
             _previousTarget();
         };
