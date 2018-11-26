@@ -125,14 +125,17 @@ These events are, respectively, "start.ilb2", "quit.ilb2", "loaded.ilb2", "next.
 Usage example:
 ````javascript
  $(document)
-    .on("start.ilb2", function () {
-    console.log("Image Lightbox has started.");
+    .on("start.ilb2", function (_, e) {
+    console.log("Image Lightbox has started on element: ");
+    console.log(e);
     })
-    .on("next.ilb2", function () {
-    console.log("Next image");
+    .on("next.ilb2", function (_, e) {
+    console.log("Next image: ");
+    console.log(e);
     })
-    .on("previous.ilb2", function () {
-    console.log("Previous image");
+    .on("previous.ilb2", function (_, e) {
+    console.log("Previous image: ");
+    console.log(e);
     })
     .on("quit.ilb2", function () {
     console.log("Image Lightbox has quit.");
