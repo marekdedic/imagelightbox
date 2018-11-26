@@ -635,6 +635,9 @@
             },
 
             _addTargets = function (newTargets) {
+                newTargets.each(function() {
+                    origTargets = origTargets.add($(this));
+                });
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data('imagelightbox');
