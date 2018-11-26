@@ -242,6 +242,8 @@ In some cases, this could lead to a different image being opened, for example if
 </script>
 ```
 
+If you want a dynamically added image to be opened after the page load, you have to call `gallery.openHistory()` on the ImageLightbox object yourself after adding the image.
+
 ## Changelog
 
 You can find all notable changes to this project in the [CHANGELOG.md](CHANGELOG.md).
