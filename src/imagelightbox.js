@@ -45,6 +45,10 @@
         $wrapper = $('<div/>', {
             class: 'imagelightbox-wrapper'
         }),
+        $fullscreenNotice = $('<div/>', {
+            text:  'fullscreen',
+            class: 'imagelightbox-fullscreen'
+        }),
         $body = $('body');
 
     var cssTransitionSupport = function () {
@@ -157,6 +161,9 @@
                 }
                 if (options.caption) {
                     $wrapper.append($captionObject);
+                }
+                if (options.fullscreen) {
+                    $wrapper.append($fullscreenNotice);
                 }
             },
             _onLoadStart = function () {
@@ -726,6 +733,8 @@
                         e.preventDefault();
                         toggleFullScreen();
                     }
+                }).on('mozfullscreenchange fullscreenchange fullscreenChange', function () {
+                    $fullscreenNotice.fadeToggle('fast');
                 });
             }
 

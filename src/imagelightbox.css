@@ -14,6 +14,18 @@
     overflow: hidden;
 }
 
+.imagelightbox-fullscreen {
+    background: black;
+    bottom: 2%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.55);
+    color: white;
+    display: none;
+    font-size: 2rem;
+    padding: .5em;
+    position: fixed;
+    right: 2%;
+}
+
 /* WITH ACTIVITY INDICATION */
 
 .imagelightbox-loading,
