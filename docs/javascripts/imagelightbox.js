@@ -45,6 +45,10 @@
         $wrapper = $('<div/>', {
             class: 'imagelightbox-wrapper'
         }),
+        $fullscreenNotice = $('<div/>', {
+            text:  'Press [ENTER] for fullscreen',
+            class: 'imagelightbox-fullscreen'
+        }),
         $body = $('body');
 
     var cssTransitionSupport = function () {
@@ -157,6 +161,9 @@
                 }
                 if (options.caption) {
                     $wrapper.append($captionObject);
+                }
+                if (options.fullscreen) {
+                    $wrapper.append($fullscreenNotice);
                 }
             },
             _onLoadStart = function () {
@@ -613,6 +620,9 @@
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
                 $wrapper.trigger('start.ilb2', $target);
+                if (options.fullscreen && hasFullscreenSupport) {
+                    $fullscreenNotice.fadeIn(600).delay(800).fadeOut(600);
+                }
                 _loadImage(0);
             },
 
