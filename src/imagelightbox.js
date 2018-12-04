@@ -302,7 +302,7 @@
                 }
                 target = targets.eq(targetIndex);
                 _pushToHistory();
-                $wrapper.trigger('previous.ilb2');
+                $wrapper.trigger('previous.ilb2', target);
                 _loadImage(+1);
             },
             _nextTarget = function () {
@@ -318,7 +318,7 @@
                 }
                 _pushToHistory();
                 target = targets.eq(targetIndex);
-                $wrapper.trigger('next.ilb2');
+                $wrapper.trigger('next.ilb2', target);
                 _loadImage(-1);
             },
             activityIndicatorOn = function () {
@@ -612,7 +612,7 @@
                 _onStart();
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
-                $wrapper.trigger('start.ilb2');
+                $wrapper.trigger('start.ilb2', $target);
                 _loadImage(0);
             },
 
@@ -635,6 +635,9 @@
             },
 
             _addTargets = function (newTargets) {
+                newTargets.each(function() {
+                    origTargets = origTargets.add($(this));
+                });
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data('imagelightbox');
@@ -789,6 +792,10 @@
 
         this.addToImageLightbox = function (elements)  {
             _addTargets(elements);
+        };
+
+        this.openHistory = function() {
+            _openHistory();
         };
 
         this.loadPreviousImage = function () {
