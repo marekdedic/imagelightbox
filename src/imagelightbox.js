@@ -103,9 +103,9 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                      document.webkitFullscreenEnabled ||
-                      document.mozFullScreenEnabled ||
-                      document.msFullscreenEnabled);
+                document.webkitFullscreenEnabled ||
+                document.mozFullScreenEnabled ||
+                document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
