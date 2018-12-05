@@ -15,6 +15,7 @@
 }
 
 .imagelightbox-fullscreen {
+    z-index: 11000;
     font-size: 2rem;
     position: fixed;
     bottom: 2%;

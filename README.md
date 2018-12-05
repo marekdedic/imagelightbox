@@ -105,7 +105,7 @@ add an "ilb2-caption" data-attribute to the element, fallback value is the alt-a
 ## Fullscreen
 
 Simply set the `fullscreen` option to true to enable the option. If the user's browser supports the fullscreen API, 
-they can switch to fullscreen mode by pressing enter.
+they can switch to fullscreen mode by pressing enter. A indicator will flash to inform the user.
 
 ## Video
 

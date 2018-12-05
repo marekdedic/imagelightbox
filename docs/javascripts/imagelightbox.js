@@ -103,9 +103,9 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                document.webkitFullscreenEnabled ||
-                document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled);
+                      document.webkitFullscreenEnabled ||
+                      document.mozFullScreenEnabled ||
+                      document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
@@ -162,7 +162,7 @@
                 if (options.caption) {
                     $wrapper.append($captionObject);
                 }
-                if (options.fullscreen) {
+                if (options.fullscreen && hasFullscreenSupport) {
                     $wrapper.append($fullscreenNotice);
                 }
             },
