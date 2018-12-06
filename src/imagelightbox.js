@@ -452,7 +452,6 @@
                         params.left = parseInt(image.css('left')) + ($windowWidth * direction / 3) + 'px';
                     }
                     image.animate(params, options.animationSpeed, function () {
-
                         _removeImage();
                     });
                     swipeDiff = 0;
