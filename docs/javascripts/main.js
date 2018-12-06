@@ -3,9 +3,9 @@ $(document).ready(function() {
         activity: true
     });
 
-     $('a[data-imagelightbox="types"]').imageLightbox({
-	 allowedTypes: "gif"
-     });
+    $('a[data-imagelightbox="allowedtypes"]').imageLightbox({
+        allowedTypes: "gif"
+    });
 
     $('a[data-imagelightbox="b"]').imageLightbox({
         overlay: true
@@ -29,6 +29,10 @@ $(document).ready(function() {
         arrows: true
     });
 
+    $('a[data-imagelightbox="fullscreen"]').imageLightbox({
+        fullscreen: true
+    });
+
     $('a[data-imagelightbox="g"]').imageLightbox({
         activity: true,
         arrows: true,
@@ -40,18 +44,24 @@ $(document).ready(function() {
         selector: 'a[data-imagelightbox="f"]'
     });
 
+    /**
+     *
+     */
     var gallery = $('a[data-imagelightbox="h"]').imageLightbox({
         arrows: true
     });
-    $('.trigger-lightbox').on('click', function () {
+    $('.trigger_lightbox').on('click', function () {
         gallery.startImageLightbox();
     });
 
+    /**
+     * dynamically adding more images
+     */
     var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox({
         arrows: true
     });
-    $(".add-image").on('click', function(){
-        var adding_ul = $("#dynamically_adding");
+    $(".add_image").on('click', function () {
+        var adding_ul = $(".demo_dynamic");
         var li = $('<li></li>').appendTo( adding_ul );
         var a = $("<a></a>")
             .attr('data-imagelightbox',"i")
@@ -60,18 +70,31 @@ $(document).ready(function() {
         $("<img />")
             .attr("src", "images/thumb4.jpg")
             .appendTo( a );
-        // dynamically adding
         instanceI.addToImageLightbox( $("a[data-imagelightbox='i']") );
     });
 
     $('a[data-imagelightbox="j"]').imageLightbox({
-        lockBody: true
+        history: true
     });
 
-    $('a[data-imagelightbox="k"]').imageLightbox();
+    $('a[data-imagelightbox="k"]').imageLightbox({
+        history: true
+    });
+
+    $('a[data-imagelightbox="video"]').imageLightbox({
+        activity: true,
+        arrows: true,
+        overlay: true
+    });
+
+    /**
+     *
+     */
+    $('a[data-imagelightbox="events"]').imageLightbox();
     $(document)
-        .on("start.ilb2", function () {
+        .on("start.ilb2", function (_, e) {
             console.log("start.ilb2");
+            console.log(e);
         })
         .on("quit.ilb2", function () {
             console.log("quit.ilb2");
@@ -79,10 +102,12 @@ $(document).ready(function() {
         .on("loaded.ilb2", function () {
             console.log("loaded.ilb2");
         })
-        .on("previous.ilb2", function () {
+        .on("previous.ilb2", function (_, e) {
             console.log("previous.ilb2");
+            console.log(e);
         })
-        .on("next.ilb2", function () {
+        .on("next.ilb2", function (_, e) {
             console.log("next.ilb2");
+            console.log(e);
         });
 });
