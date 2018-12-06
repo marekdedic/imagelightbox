@@ -438,10 +438,6 @@
             },
 
             _loadImage = function (direction) {
-                if (inProgress) {
-                    return false;
-                }
-
                 if (image.length) {
                     var params = {'opacity': 0};
                     if (hasCssTransitionSupport) {
