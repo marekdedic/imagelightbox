@@ -1,22 +1,35 @@
 {
   "name": "imagelightbox",
-  "version": "0.6.0",
+  "version": "0.11.0",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
-  "repository": "https://github.com/rejas/imagelightbox.git",
+  "homepage": "https://rejas.github.io/imagelightbox",
   "license": "MIT",
-  "style": "./dist/imagelightbox.min.css",
+  "repository": "https://github.com/rejas/imagelightbox.git",
+  "main": "./src/imagelightbox.js",
+  "style": "./src/imagelightbox.css",
+  "dependencies": {
+    "jquery": ">=1.12.4 <4.0.0"
+  },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-clean-css": "^2.3.2",
-    "gulp-connect": "^5.0.0",
-    "gulp-csslint": "^1.0.0",
-    "gulp-jshint": "^2.0.4",
-    "gulp-lintspaces": "^0.5.0",
-    "gulp-nightwatch": "^0.3.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^2.0.0",
-    "jshint": "^2.9.4",
-    "jshint-stylish": "^2.2.1"
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-connect": "^5.6.1",
+    "gulp-csslint": "^1.0.1",
+    "gulp-eslint": "^5.0.0",
+    "gulp-lintspaces": "^1.0.0",
+    "gulp-nightwatch": "^1.0.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1"
+  },
+  "keywords": [
+    "jquery",
+    "lightbox"
+  ],
+  "scripts": {
+    "check": "eslint src/**/*.js",
+    "fix": "eslint src/**/*.js --fix",
+    "start": "gulp dev",
+    "test": "gulp test"
   }
 }

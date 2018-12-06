@@ -4,35 +4,35 @@
     cursor: pointer;
     position: fixed;
     z-index: 10000;
+    top: 50%;
     touch-action: none;
     box-shadow: 0 0 3.125em rgba(0, 0, 0, .75); /* 50 */
 }
 
-.imagelightbox-scroll-lock {
-    overflow:hidden;
+.imagelightbox-open {
+    user-select: none;
+    overflow: hidden;
 }
-
 
 /* WITH ACTIVITY INDICATION */
 
-#imagelightbox-loading,
-#imagelightbox-loading div {
+.imagelightbox-loading,
+.imagelightbox-loading div {
     border-radius: 9999px;
 }
 
-#imagelightbox-loading {
-    background-color: rgb(128, 128, 128);
-    background-color: rgba(0, 0, 0, .5);
+.imagelightbox-loading {
+    background-color: rgba(130, 130, 130, 0.8);
     position: fixed;
     z-index: 10003;
     top: 50%;
     left: 50%;
     padding: 0.65em;
     margin: -1.3em 0 0 -1.3em;
-    box-shadow: 0 0 2.5em rgba(0, 0, 0, .75); /* 40 */
+    box-shadow: 0 0 2.5em rgba(130, 130, 130, 0.6); /* 40 */
 }
 
-#imagelightbox-loading div {
+.imagelightbox-loading div {
     width: 1.3em;
     height: 1.3em;
     background-color: #fff;
@@ -56,9 +56,8 @@
 
 /* WITH OVERLAY */
 
-#imagelightbox-overlay {
-    background-color: #fff;
-    background-color: rgba(255, 255, 255, .9);
+.imagelightbox-overlay {
+    background-color: rgba(30, 30, 30, 0.9);
     position: fixed;
     z-index: 9998;
     top: 0;
@@ -69,11 +68,12 @@
 
 /* WITH "CLOSE" BUTTON */
 
-#imagelightbox-close {
+.imagelightbox-close {
+    border: none;
     cursor: pointer;
-    width: 2.5em; /* 40 */
-    height: 2.5em; /* 40 */
-    background-color: #666;
+    width: 3em; /* 40 */
+    height: 3em; /* 40 */
+    background-color: rgba(130, 130, 130, 0.8);
     position: fixed;
     z-index: 10002;
     top: 2.5em; /* 40 */
@@ -82,12 +82,12 @@
     transition: color .3s ease;
 }
 
-#imagelightbox-close:hover {
+.imagelightbox-close:hover {
     background-color: #111;
 }
 
-#imagelightbox-close:before,
-#imagelightbox-close:after {
+.imagelightbox-close:before,
+.imagelightbox-close:after {
     width: 2px;
     background-color: #fff;
     content: '';
@@ -98,17 +98,17 @@
     margin-left: -1px;
 }
 
-#imagelightbox-close:before {
+.imagelightbox-close:before {
     transform: rotate(45deg);
 }
 
-#imagelightbox-close:after {
+.imagelightbox-close:after {
     transform: rotate(-45deg);
 }
 
 /* WITH CAPTION */
 
-#imagelightbox-caption {
+.imagelightbox-caption {
     text-align: center;
     color: #fff;
     background-color: #666;
@@ -122,8 +122,7 @@
 
 /* WITH NAVIGATION */
 
-#imagelightbox-nav {
-    background-color: #444;
+.imagelightbox-nav {
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     z-index: 10001;
@@ -134,7 +133,7 @@
     border-radius: 20px;
 }
 
-#imagelightbox-nav a {
+.imagelightbox-nav a {
     position: relative;
     top: 0.2em;
     width: 1em; /* 20 */
@@ -145,29 +144,29 @@
     border-radius: 50%;
 }
 
-#imagelightbox-nav .active {
+.imagelightbox-nav .active {
     background-color: #fff;
 }
 
 /* WITH ARROWS */
 
 .imagelightbox-arrow {
+    border: none;
+    border-radius: 50%;
     cursor: pointer;
-    width: 3.75em; /* 60 */
-    height: 7.5em; /* 120 */
-    background-color: #444;
-    background-color: rgba( 0, 0, 0, .5 );
+    width: 4em; /* 53.3 */
+    height: 4em; /* 53.3 */
+    background-color: rgba(130, 130, 130, 0.8);
     vertical-align: middle;
     display: none;
     position: fixed;
     z-index: 10001;
     top: 50%;
+    padding: 0;
     margin-top: -3.75em; /* 60 */
 }
-.imagelightbox-arrow:hover,
-.imagelightbox-arrow:focus {
-    background-color: #666;
-    background-color: rgba( 0, 0, 0, .75 );
+.imagelightbox-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.75);
 }
 .imagelightbox-arrow:active {
     background-color: #111;
@@ -184,17 +183,17 @@
     border: 1em solid transparent;
     content: '';
     display: inline-block;
-    margin-bottom: -0.125em; /* 2 */
+    margin-bottom: -7%;
 }
 .imagelightbox-arrow-left:before {
     border-left: none;
     border-right-color: #fff;
-    margin-left: -0.313em; /* 5 */
+    margin-left: -0.35em;
 }
 .imagelightbox-arrow-right:before {
     border-right: none;
     border-left-color: #fff;
-    margin-right: -0.313em; /* 5 */
+    margin-left: 0.2em;
 }
 
 .imagelightbox-navitem:active {
@@ -204,10 +203,10 @@
   animation: fade-in 0.45s linear;
 }
 
-#imagelightbox-loading,
-#imagelightbox-overlay,
-#imagelightbox-close,
-#imagelightbox-nav,
+.imagelightbox-loading,
+.imagelightbox-overlay,
+.imagelightbox-close,
+.imagelightbox-nav,
 .imagelightbox-arrow {
     animation: fade-in 0.25s linear;
 }
@@ -221,7 +220,7 @@
     #container {
         width: 100%;
     }
-    #imagelightbox-close {
+    .imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
     }
