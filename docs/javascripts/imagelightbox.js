@@ -123,7 +123,7 @@
                 selector:       'a[data-imagelightbox]',
                 id:             'imagelightbox',
                 allowedTypes:   'png|jpg|jpeg|gif',
-                animationSpeed: 350,
+                animationSpeed: 250,
                 activity:       false,
                 arrows:         false,
                 button:         false,
@@ -438,7 +438,6 @@
             },
 
             _loadImage = function (direction) {
-                var $windowWidth = $(window).width();
                 if (inProgress) {
                     return false;
                 }
@@ -446,10 +445,10 @@
                 if (image.length) {
                     var params = {'opacity': 0};
                     if (hasCssTransitionSupport) {
-                        cssTransitionTranslateX(image, ( $windowWidth * direction /3) - swipeDiff + 'px', options.animationSpeed / 1000);
+                        cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
                     else {
-                        params.left = parseInt(image.css('left')) + ($windowWidth * direction / 3) + 'px';
+                        params.left = parseInt(image.css('left')) + (100 * direction) + 'px';
                     }
                     image.animate(params, options.animationSpeed, function () {
                         _removeImage();
@@ -498,7 +497,7 @@
                         _setImage();
                         image.css('opacity', 0);
                         if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, (-1 * $windowWidth * direction / 3) + 'px', 0);
+                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
                             setTimeout(function () {
                                 cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                             }, 50);
