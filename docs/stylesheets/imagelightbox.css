@@ -145,7 +145,12 @@
 }
 
 .imagelightbox-nav .active {
+    animation: fade-in 0.45s linear;
     background-color: #fff;
+}
+
+.imagelightbox-navitem:active {
+    background: grey;
 }
 
 /* WITH ARROWS */
@@ -194,13 +199,6 @@
     border-right: none;
     border-left-color: #fff;
     margin-left: 0.2em;
-}
-
-.imagelightbox-navitem:active {
-  background:grey;
-}
-.imagelightbox-navitem.active {
-  animation: fade-in 0.45s linear;
 }
 
 .imagelightbox-loading,
