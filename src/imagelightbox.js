@@ -116,7 +116,6 @@
             target = $(),
             videos = $([]),
             targetIndex = -1,
-            origTargets = $(this),
             image = $(),
             imageWidth = 0,
             imageHeight = 0,
@@ -248,7 +247,6 @@
                 if(!id) {
                     return;
                 }
-                targets = origTargets;
                 var element = targets.filter('[data-ilb2-id="' + id + '"]');
                 if(element.length > 0) {
                     targetIndex = targets.index(element);
@@ -273,18 +271,17 @@
                     _quitImageLightbox(true);
                     return;
                 }
-                var element = origTargets.filter('[data-ilb2-id="' + newId + '"]');
+                var element = targets.filter('[data-ilb2-id="' + newId + '"]');
                 if(element.length > 0) {
-                    var newIndex = origTargets.index(element);
+                    var newIndex = targets.index(element);
                 } else {
                     newIndex = newId;
-                    element = $(origTargets[newIndex]);
+                    element = $(targets[newIndex]);
                 }
                 if(!element[0] || (newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox)) {
                     return;
                 }
                 if(targetIndex < 0) {
-                    targets = origTargets;
                     _openImageLightbox(element, true);
                     return;
                 }
@@ -639,14 +636,13 @@
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
                     inProgress = false;
-                    targets = $([]);
                     $wrapper.remove().find('*').remove();
                 });
             },
 
             _addTargets = function (newTargets) {
                 newTargets.each(function() {
-                    origTargets = origTargets.add($(this));
+                    targets = newTargets.add($(this));
                 });
                 newTargets.on('click.ilb7', {set: targetSet}, function (e) {
                     e.preventDefault();
@@ -673,7 +669,7 @@
             },
 
             _preloadVideos = function () {
-                origTargets.each(function() {
+                targets.each(function() {
                     var videoOptions = $(this).data('ilb2Video');
                     if (videoOptions) {
                         var id = $(this).data('ilb2Id');
@@ -794,7 +790,7 @@
 
         $(document).off('click', options.selector);
 
-        _addTargets(origTargets);
+        _addTargets($(this));
 
         _openHistory();
 
