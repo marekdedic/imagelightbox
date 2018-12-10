@@ -30,7 +30,8 @@ $(document).ready(function() {
     });
 
     $('a[data-imagelightbox="fullscreen"]').imageLightbox({
-        fullscreen: true
+        fullscreen: true,
+        overlay: true
     });
 
     $('a[data-imagelightbox="g"]').imageLightbox({

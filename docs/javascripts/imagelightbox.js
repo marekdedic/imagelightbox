@@ -103,9 +103,9 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                document.webkitFullscreenEnabled ||
-                document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled);
+                      document.webkitFullscreenEnabled ||
+                      document.mozFullScreenEnabled ||
+                      document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
@@ -789,7 +789,7 @@
 
         function toggleFullScreen() {
             launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
-            exitFullscreen();
+                exitFullscreen();
         }
 
         $(document).off('click', options.selector);
