@@ -70,7 +70,7 @@
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
             options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
-            options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
+            options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
             element.css(options);
         },
 
