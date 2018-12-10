@@ -607,8 +607,8 @@
                     _pushToHistory();
                 }
                 _onStart();
-                $body.append($wrapper)
-                    .addClass('imagelightbox-open');
+                $body.append($wrapper);
+                $('html').addClass('imagelightbox-open');
                 $wrapper.trigger('start.ilb2', $target);
                 _loadImage(0);
             },
@@ -619,7 +619,7 @@
                     _pushQuitToHistory();
                 }
                 $wrapper.trigger('quit.ilb2');
-                $body.removeClass('imagelightbox-open');
+                $('html').removeClass('imagelightbox-open');
                 if (!image.length) {
                     return false;
                 }
