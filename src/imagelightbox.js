@@ -64,6 +64,7 @@
             }
             return false;
         },
+
         htmlPR = $('html').css('padding-right'),
         scrollbarWidth = function() {
             // https://codepen.io/sambible/post/browser-scrollbar-widths
@@ -79,7 +80,6 @@
             return htmlPR;
         },
         correctScrollbarShift = function(toggle) {
-            console.log(htmlPR);
             if (toggle) {
                 $('html').css({'padding-right': scrollbarWidth()});
             } else {
@@ -126,7 +126,7 @@
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
-    console.log(scrollbarWidth());
+
     $.fn.imageLightbox = function (opts) {
         var targetSet = '',
             targets = $([]),
@@ -627,7 +627,6 @@
                 if(!noHistory) {
                     _pushToHistory();
                 }
-
                 _onStart();
                 $body.append($wrapper);
                 $('html').addClass('imagelightbox-open');
@@ -803,7 +802,6 @@
         }
 
         $(document).off('click', options.selector);
-
 
         _addTargets($(this));
 
