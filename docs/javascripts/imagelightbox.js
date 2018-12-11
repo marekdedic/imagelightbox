@@ -64,7 +64,28 @@
             }
             return false;
         },
+        htmlPR = $('html').css('padding-right'),
+        scrollbarWidth = function() {
+            // https://codepen.io/sambible/post/browser-scrollbar-widths
+            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
+            // Firefox/Safari on Mac
+            if ([/(Firefox|Safari)\//, /(?!.*?Seamonkey)/,  /(?!.*?Chrom)/, /Mac/].every(function (rx) {
+                return rx.test(navigator.userAgent);
+            })) return '15px';
+            if ([/Windows/].every(function (rx) {
+                return rx.test(navigator.userAgent);
+            })) return '17px';
 
+            return htmlPR;
+        },
+        correctScrollbarShift = function(toggle) {
+            console.log(htmlPR);
+            if (toggle) {
+                $('html').css({'padding-right': scrollbarWidth()});
+            } else {
+                $('html').css({'padding-right': htmlPR});
+            }
+        },
         hasCssTransitionSupport = cssTransitionSupport() !== false,
 
         cssTransitionTranslateX = function (element, positionX, speed) {
@@ -99,13 +120,13 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                document.webkitFullscreenEnabled ||
-                document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled);
+                      document.webkitFullscreenEnabled ||
+                      document.mozFullScreenEnabled ||
+                      document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
-
+    console.log(scrollbarWidth());
     $.fn.imageLightbox = function (opts) {
         var targetSet = '',
             targets = $([]),
@@ -606,9 +627,11 @@
                 if(!noHistory) {
                     _pushToHistory();
                 }
+
                 _onStart();
                 $body.append($wrapper);
                 $('html').addClass('imagelightbox-open');
+                correctScrollbarShift(true);
                 $wrapper.trigger('start.ilb2', $target);
                 _loadImage(0);
             },
@@ -620,6 +643,7 @@
                 }
                 $wrapper.trigger('quit.ilb2');
                 $('html').removeClass('imagelightbox-open');
+                correctScrollbarShift(false);
                 if (!image.length) {
                     return false;
                 }
@@ -779,6 +803,7 @@
         }
 
         $(document).off('click', options.selector);
+
 
         _addTargets($(this));
 
