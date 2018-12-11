@@ -65,8 +65,6 @@
             return false;
         },
 
-        hasCssTransitionSupport = cssTransitionSupport() !== false,
-
         cssTransitionTranslateX = function (element, positionX, speed) {
             var options = {}, prefix = cssTransitionSupport();
             options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
@@ -99,9 +97,9 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                document.webkitFullscreenEnabled ||
-                document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled);
+                      document.webkitFullscreenEnabled ||
+                      document.mozFullScreenEnabled ||
+                      document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
@@ -441,12 +439,7 @@
 
                 if (image.length) {
                     var params = {'opacity': 0};
-                    if (hasCssTransitionSupport) {
-                        cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
-                    }
-                    else {
-                        params.left = parseInt(image.css('left')) + (100 * direction) + 'px';
-                    }
+                    cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                     image.animate(params, options.animationSpeed, function () {
                         _removeImage();
                     });
@@ -459,8 +452,7 @@
                 setTimeout(function () {
                     var imgPath = target.attr('href'),
                         swipeStart = 0,
-                        swipeEnd = 0,
-                        imagePosLeft = 0;
+                        swipeEnd = 0;
 
                     // if (imgPath === undefined) {
                     //     imgPath = target.attr('data-lightbox');
@@ -493,16 +485,10 @@
                         image.appendTo($wrapper);
                         _setImage();
                         image.css('opacity', 0);
-                        if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                            setTimeout(function () {
-                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                            }, 50);
-                        } else {
-                            var imagePosLeft = parseInt(image.css('left'));
-                            params.left = imagePosLeft + 'px';
-                            image.css('left', imagePosLeft - 100 * direction + 'px');
-                        }
+                        cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                        setTimeout(function () {
+                            cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                        }, 50);
 
                         image.animate(params, options.animationSpeed, function () {
                             inProgress = false;
@@ -542,9 +528,6 @@
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
                                 return true;
                             }
-                            if (hasCssTransitionSupport) {
-                                imagePosLeft = parseInt(image.css('left'));
-                            }
                             swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                         })
                         .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
@@ -554,11 +537,8 @@
                             e.preventDefault();
                             swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
                             swipeDiff = swipeStart - swipeEnd;
-                            if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
-                            } else {
-                                image.css('left', imagePosLeft - swipeDiff + 'px');
-                            }
+                            cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+
                         })
                         .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
@@ -571,11 +551,7 @@
                                     _nextTarget();
                                 }
                             } else {
-                                if (hasCssTransitionSupport) {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                                } else {
-                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
-                                }
+                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                             }
                         });
                     if(preloadedVideo === true) {
