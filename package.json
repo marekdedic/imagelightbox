@@ -11,6 +11,7 @@
     "jquery": ">=1.12.4 <4.0.0"
   },
   "devDependencies": {
+    "eslint-plugin-compat": "^2.6.3",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-clean-css": "^4.0.0",
@@ -20,7 +21,10 @@
     "gulp-lintspaces": "^1.0.0",
     "gulp-nightwatch": "^1.0.1",
     "gulp-rename": "^1.4.0",
-    "gulp-uglify": "^3.0.1"
+    "gulp-stylelint": "^8.0.0",
+    "gulp-uglify": "^3.0.1",
+    "stylelint": "^9.9.0",
+    "stylelint-no-unsupported-browser-features": "^3.0.2"
   },
   "keywords": [
     "jquery",
@@ -32,5 +36,9 @@
     "fix": "eslint src/**/*.js --fix",
     "start": "gulp dev",
     "test": "gulp test"
-  }
+  },
+  "browserslist": [
+    "cover 95%",
+    "not < 0.1%"
+  ]
 }
