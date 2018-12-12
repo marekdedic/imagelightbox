@@ -99,9 +99,9 @@
 
         fullscreenSupport = function () {
             return !!(document.fullscreenEnabled ||
-                document.webkitFullscreenEnabled ||
-                document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled);
+                      document.webkitFullscreenEnabled ||
+                      document.mozFullScreenEnabled ||
+                      document.msFullscreenEnabled);
         },
         hasFullscreenSupport = fullscreenSupport() !== false,
         hasHistorySupport = !!(window.history && history.pushState);
@@ -494,10 +494,12 @@
                         _setImage();
                         image.css('opacity', 0);
                         if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                            setTimeout(function () {
+                            cssTransitionTranslateX(image, -100 * direction + 'px', 0.001); // >0 is needed
+                            image.on('transitionend', function(e) {
+                                console.log('e:transitionend!');
+                                console.log(e);
                                 cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
-                            }, 50);
+                            });
                         } else {
                             var imagePosLeft = parseInt(image.css('left'));
                             params.left = imagePosLeft + 'px';
