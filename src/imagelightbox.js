@@ -495,9 +495,7 @@
                         image.css('opacity', 0);
                         if (hasCssTransitionSupport) {
                             cssTransitionTranslateX(image, -100 * direction + 'px', 0.001); // >0 is needed
-                            image.on('transitionend', function(e) {
-                                console.log('e:transitionend!');
-                                console.log(e);
+                            image.on('transitionend', function() {
                                 cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                             });
                         } else {
