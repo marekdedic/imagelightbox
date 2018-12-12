@@ -1,6 +1,6 @@
 {
   "name": "imagelightbox",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "homepage": "https://rejas.github.io/imagelightbox",
   "license": "MIT",
@@ -13,8 +13,8 @@
   "devDependencies": {
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
-    "gulp-clean-css": "^3.10.0",
-    "gulp-connect": "^5.6.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-connect": "^5.7.0",
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^5.0.0",
     "gulp-lintspaces": "^1.0.0",
