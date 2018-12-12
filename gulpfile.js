@@ -7,7 +7,8 @@ var gulp            = require('gulp'),
     lintspaces      = require('gulp-lintspaces'),
     nightwatch      = require('gulp-nightwatch'),
     rename          = require('gulp-rename'),
-    uglify          = require('gulp-uglify');
+    uglify          = require('gulp-uglify'),
+    stylelint       = require('gulp-stylelint');
 
 gulp.task('csslint', function() {
     return gulp.src('src/imagelightbox.css')
@@ -15,7 +16,17 @@ gulp.task('csslint', function() {
         .pipe(csslint.formatter());
 });
 
-gulp.task('copy:css', gulp.series('csslint', function() {
+gulp.task('stylelint', function() {
+    return gulp.src('src/imagelightbox.css')
+        .pipe(stylelint({
+            failAfterError: true,
+            reporters: [
+                {formatter: 'string', console: true}
+            ]
+        }));
+});
+
+gulp.task('copy:css', gulp.series('csslint', 'stylelint', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(gulp.dest('docs/stylesheets/'));
 }));
