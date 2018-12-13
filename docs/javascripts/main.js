@@ -44,12 +44,29 @@ $(document).ready(function() {
         selector: 'a[data-imagelightbox="f"]'
     });
 
-    $('a[data-imagelightbox="placeholder"]').imageLightbox({
-        allowedTypes: '',
+    // $('a[data-imagelightbox="placeholder"]').imageLightbox({
+    //     allowedTypes: '',
+    //     navigation: true,
+    //     overlay: true,
+    //     magnify: {w: 485, h: 300},
+    // });
+
+    $('a[data-imagelightbox="magnify"]').imageLightbox({
         navigation: true,
-        overlay: true,
-        magnify: {w: 485, h: 300},
+        overlay: false, // need to test with true
+        magnify:        {
+            focus: {
+                x: 0,
+                y: 0
+            }, // percent offset
+            scale: {
+                x: 2,
+                y: 2
+            }, // x,y multiples
+        },  //
+        //  magnify: {w: 485, h: 300},
     });
+
 
     /**
      *

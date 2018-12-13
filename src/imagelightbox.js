@@ -45,6 +45,9 @@
         $wrapper = $('<div/>', {
             class: 'imagelightbox-wrapper'
         }),
+        $magnifyContainer = $('<div/>', {
+            class: 'imagelightbox-magnifier',
+        }),
         $body = $('body');
 
     var cssTransitionSupport = function () {
@@ -73,7 +76,6 @@
             options[prefix + 'transition'] = prefix + 'transform ' + speed + 's linear';
             element.css(options);
         },
-
         hasTouch = ('ontouchstart' in window),
         hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
         wasTouched = function (event) {
@@ -132,7 +134,16 @@
                 fullscreen:     false,
                 gutter:         10,     // percentage of client height
                 offsetY:        0,      // percentage of gutter
-                magnify:        false,
+                magnify:        {
+                    focus: {
+                        x: 0,
+                        y: 0
+                    }, // percent offset
+                    scale: {
+                        x: 1,
+                        y: 1
+                    }, // x,y multiples
+                },  //
                 navigation:     false,
                 overlay:        false,
                 preloadNext:    true,
@@ -409,23 +420,45 @@
                         imageHeight /= ratio;
                     }
 
+
                     var cssHeight = imageHeight*gutterFactor,
                         cssWidth = imageWidth*gutterFactor;
 
-
-                    if (options.magnify) {
-                        cssHeight = options.magnify.h;
-                        cssWidth = options.magnify.w;
-                    }
-
                     var cssLeft = ($(window).width() - cssWidth ) / 2;
 
+                    //       if (options.magnify !== false) {
+                    $magnifyContainer.css({
+                        'width': cssWidth + 'px',
+                        'height': cssHeight + 'px',
+                        'left':  cssLeft + 'px',
+                        'top': 'calc(50% - ' + (cssHeight / 2) + 'px)',
+                        'position': 'fixed',
+                    });
 
                     image.css({
                         'width': cssWidth + 'px',
                         'height': cssHeight + 'px',
-                        'left':  cssLeft + 'px'
+                        'position': 'relative',
                     });
+
+                    $wrapper.append($magnifyContainer);
+                    image.appendTo($magnifyContainer);
+
+                    image.on('transitionend', function() {
+                        // i think 'zoom' is used on ie8
+                        image.css({
+                            transform: 'scale('+Number.parseInt(options.magnify.scale.x) + ','
+                                     + Number.parseInt(options.magnify.scale.y) + ')',
+                        });
+                    });
+
+                    // } else {
+                    //     image.css({
+                    //         'width': cssWidth + 'px',
+                    //         'height': cssHeight + 'px',
+                    //         'left':  cssLeft + 'px',
+                    //     });
+                    // }
                 }
 
                 if(image.get(0).videoWidth !== undefined) {
@@ -441,6 +474,7 @@
                     imageWidth = tmpImage.width;
                     imageHeight = tmpImage.height;
                     setSizes();
+
                 };
             },
 
