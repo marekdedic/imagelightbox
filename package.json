@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "start": "gulp dev",
-    "test": "gulp test && exit 0",
+    "test": "nightwatch",
     "check": "eslint src/**/*.js",
     "fix": "eslint --fix src/**/*.js"
   }
