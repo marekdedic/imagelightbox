@@ -28,9 +28,9 @@
     "lightbox"
   ],
   "scripts": {
-    "check": "eslint src/**/*.js",
-    "fix": "eslint src/**/*.js --fix",
     "start": "gulp dev",
-    "test": "gulp test"
+    "test": "gulp test && exit 0",
+    "check": "eslint src/**/*.js",
+    "fix": "eslint --fix src/**/*.js"
   }
 }
