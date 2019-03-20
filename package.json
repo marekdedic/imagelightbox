@@ -19,9 +19,9 @@
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^5.0.0",
     "gulp-lintspaces": "^1.0.0",
-    "gulp-nightwatch": "^1.1.0",
     "gulp-rename": "^1.4.0",
-    "gulp-uglify": "^3.0.1"
+    "gulp-uglify": "^3.0.1",
+    "nightwatch": "^1.0.19"
   },
   "keywords": [
     "jquery",
