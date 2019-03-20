@@ -34,10 +34,13 @@ describe('sample test', function () {
         expect(await page.title()).to.eql('Imagelightbox');
     });
 
-    it('should open and close lightbox page', async function () {
-        const cardInput = await page.$('.demo_activity li [src="images/thumb1.jpg"]');
-        await cardInput.click();
+    it('should open and close the lightbox', async function () {
+        await page.click('.demo_activity li [src="images/thumb1.jpg"]');
+
         await page.waitForSelector('#imagelightbox');
+
+        const lightbox = await page.$('#imagelightbox');
+        expect(lightbox).to.not.eql(null);
 
         const container = await page.$('#container');
         await container.click();
