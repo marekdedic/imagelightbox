@@ -34,53 +34,18 @@ describe('sample test', function () {
         expect(await page.title()).to.eql('Imagelightbox');
     });
 
+    it('should open and close lightbox page', async function () {
+        const cardInput = await page.$('.demo_activity li [src="images/thumb1.jpg"]');
+        await cardInput.click();
+        await page.waitForSelector('#imagelightbox');
+
+        const container = await page.$('#container');
+        await container.click();
+
+        //await page.waitForSelector('#imagelightbox');
+    });
+
     /*
-    it('should have a heading', async function () {
-        const HEADING_SELECTOR = 'h1';
-        let heading;
-
-        await page.waitFor(HEADING_SELECTOR);
-        heading = await page.$eval(HEADING_SELECTOR, heading => heading.innerText);
-
-        expect(heading).to.eql('Page Title');
-    });
-
-    it('should have a single content section', async function () {
-        const BODY_SELECTOR = '.main-content';
-
-        await page.waitFor(BODY_SELECTOR);
-
-        expect(await page.$$(BODY_SELECTOR)).to.have.lengthOf(1);
-    });
-    */
-});
-
-/*
-function openDemo (browser, hash) {
-    var url = 'http://localhost:8080/docs/index.html';
-    if (hash)
-        url += hash;
-    browser.url(url);
-    browser.expect.element('#main_content').to.be.present;
-}
-
-function closeDemo (browser) {
-    browser.end();
-}
-
-module.exports = {
-
-    'Open and Close lightbox page' : function (browser) {
-        openDemo(browser);
-        browser.click('.demo_activity li [src="images/thumb1.jpg"]')
-            .waitForElementPresent('#imagelightbox', 1000)
-            .execute(function() {
-                document.querySelector('#container').click();
-                browser.waitForElementNotPresent('#imagelightbox', 1000);
-                closeDemo(browser);
-            });
-    },
-
     'Caption' : function (browser) {
         openDemo(browser);
         browser.click('.demo_caption li [src="images/thumb1.jpg"]')
@@ -140,5 +105,5 @@ module.exports = {
             .assert.elementPresent('img[src$="images/demo2.jpg"]');
         closeDemo(browser);
     }
-};
-*/
+    */
+});
