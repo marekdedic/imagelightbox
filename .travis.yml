@@ -1,12 +1,11 @@
-dist: trusty
 language: node_js
+dist: trusty
+addons:
+  apt:
+    packages:
+      # This is required to run new chrome on old trusty
+      - libnss3
 node_js:
   - "node"
-
-addons:
-  chrome: stable
-before_install:
-  - # start your web application and listen on `localhost`
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 script: npm test
