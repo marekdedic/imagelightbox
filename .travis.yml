@@ -1,15 +1,12 @@
 language: node_js
-dist: trusty
-addons:
-  apt:
-    packages:
-    # This is required to run new chrome on old trusty
-  - libnss3
-
-before_install:
-  - "sysctl kernel.unprivileged_userns_clone=1"
-  
 node_js:
   - "8"
+
+dist: trusty
+sudo: false
+addons:
+  chrome: stable
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
 script: npm test

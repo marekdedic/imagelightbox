@@ -16,7 +16,8 @@ const stopServer = () => {
 // puppeteer options
 const opts = {
     headless: false,
-    timeout: 2000
+    timeout: 2000,
+    args: ['--no-sandbox']
 };
 
 const isElementVisible = async (page, cssSelector) => {
