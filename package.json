@@ -32,7 +32,7 @@
   "scripts": {
     "start": "gulp",
     "test": "npm run test:js && npm run test:html",
-    "test:html": "mocha test/bootstrap.js --recursive test/src",
+    "test:html": "mocha --recursive test/src",
     "test:js": "eslint src/**/*.js"
   }
 }
