@@ -15,7 +15,7 @@ const stopServer = () => {
 
 // puppeteer options
 const opts = {
-    headless: false,
+    headless: true,
     timeout: 2000
 };
 
