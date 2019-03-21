@@ -15,9 +15,26 @@ const stopServer = () => {
 
 // puppeteer options
 const opts = {
-    headless: true,
-    slowMo: 100,
-    timeout: 10000
+    headless: false,
+    timeout: 2000
+};
+
+const isElementVisible = async (page, cssSelector) => {
+    let visible = true;
+    await page.waitForSelector(cssSelector, { visible: true })
+        .catch(() => {
+            visible = false;
+        });
+    return visible;
+};
+
+const isElementNotVisible = async (page, cssSelector) => {
+    let visible = false;
+    await page.waitForSelector(cssSelector, { visible: false })
+        .catch(() => {
+            visible = true;
+        });
+    return visible;
 };
 
 describe('sample test', function () {
@@ -34,7 +51,7 @@ describe('sample test', function () {
 
     beforeEach(async function () {
         page = await browser.newPage();
-        await page.goto('http://localhost:8080');
+        await page.goto('http://localhost:8080',{ waitUntil: "load" });
     });
 
     afterEach(async function () {
@@ -50,21 +67,15 @@ describe('sample test', function () {
         expect(await page.title()).to.eql('Imagelightbox');
     });
 
-    /*
     it('should open and close the lightbox', async function () {
         await page.click('.demo_activity li [src="images/thumb1.jpg"]');
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
 
-        await page.waitForSelector('#imagelightbox');
-
-        const lightbox = await page.$('#imagelightbox');
-        expect(lightbox).to.not.eql(null);
-
-        const container = await page.$('#container');
-        await container.click();
-
-        //await page.waitForSelector('#imagelightbox');
+        await page.click('#container');
+        expect(await isElementNotVisible(page, '#imagelightbox')).to.equal(false);
     });
 
+    /*
     'Caption' : function (browser) {
         openDemo(browser);
         browser.click('.demo_caption li [src="images/thumb1.jpg"]')
