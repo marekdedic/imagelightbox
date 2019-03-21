@@ -1,11 +1,15 @@
 language: node_js
 node_js:
-  - "8"
-
+  - "9"
 dist: trusty
-sudo: false
+sudo: required
 addons:
   chrome: stable
+  apt:
+    packages:
+      # This is required to run new chrome on old trusty
+      - libnss3
+
 before_install:
   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
