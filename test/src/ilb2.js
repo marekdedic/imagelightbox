@@ -1,39 +1,56 @@
-const { expect } = require('chai');
-
+const puppeteer = require('puppeteer');
 const express = require('express');
+const expect = require('chai').expect;
 const app = express();
 
-// Some random port to use for testing
-const PORT = 8080;
-
-// Helper functions to start/stop app before/after tests
+// Helper functions to start/stop server before/after tests
 let server = null;
-const startApp = () => {
+const startServer = () => {
     app.use(express.static(__dirname + '/../../docs'));
-    server = app.listen(PORT);
+    server = app.listen(8080);
 };
-const stopApp = () => {
+const stopServer = () => {
     server.close();
 };
 
+// puppeteer options
+const opts = {
+    headless: true,
+    slowMo: 100,
+    timeout: 10000
+};
+
 describe('sample test', function () {
+
+    // Define global variables
+    let browser;
     let page;
 
-    before (async function () {
-        startApp();
+    before(async function () {
+        startServer();
+        browser = await puppeteer.launch(opts);
         page = await browser.newPage();
-        await page.goto('http://localhost:8080/');
     });
 
-    after (async function () {
+    beforeEach(async function () {
+        page = await browser.newPage();
+        await page.goto('http://localhost:8080');
+    });
+
+    afterEach(async function () {
         await page.close();
-        stopApp();
+    });
+
+    after(async function () {
+        await browser.close();
+        stopServer();
     });
 
     it('should have the correct page title', async function () {
         expect(await page.title()).to.eql('Imagelightbox');
     });
 
+    /*
     it('should open and close the lightbox', async function () {
         await page.click('.demo_activity li [src="images/thumb1.jpg"]');
 
@@ -48,7 +65,6 @@ describe('sample test', function () {
         //await page.waitForSelector('#imagelightbox');
     });
 
-    /*
     'Caption' : function (browser) {
         openDemo(browser);
         browser.click('.demo_caption li [src="images/thumb1.jpg"]')
