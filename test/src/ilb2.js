@@ -37,7 +37,7 @@ const isElementNotVisible = async (page, cssSelector) => {
     return visible;
 };
 
-describe('sample test', function () {
+describe('imagelightbox', function () {
 
     // Define global variables
     let browser;
@@ -75,17 +75,17 @@ describe('sample test', function () {
         expect(await isElementNotVisible(page, '#imagelightbox')).to.equal(false);
     });
 
-    /*
-    'Caption' : function (browser) {
-        openDemo(browser);
-        browser.click('.demo_caption li [src="images/thumb1.jpg"]')
-            .waitForElementVisible('#imagelightbox', 1000)
-            .assert.elementPresent('#imagelightbox')
-            .waitForElementVisible('.imagelightbox-caption', 1000)
-            .assert.containsText('.imagelightbox-caption', 'Sunset in Tanzania');
-        closeDemo(browser);
-    },
+    it('should show a caption', async function () {
+        await page.click('.demo_caption li [src="images/thumb1.jpg"]');
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
 
+        expect(await isElementVisible(page, '.imagelightbox-caption')).to.equal(true);
+
+        const caption = await page.$(".imagelightbox-caption");
+        expect(await (await caption.getProperty('textContent')).jsonValue()).to.equal('Sunset in Tanzania');
+    });
+
+    /*
     'Deep links' : function (browser) {
         openDemo(browser, '?imageLightboxIndex=2');
         browser
