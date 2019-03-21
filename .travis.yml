@@ -1,6 +1,8 @@
+sudo: required
 language: node_js
 dist: trusty
 addons:
+  chrome: stable
   apt:
     packages:
       # This is required to run new chrome on old trusty
