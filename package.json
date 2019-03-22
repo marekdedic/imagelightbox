@@ -11,6 +11,8 @@
     "jquery": ">=1.12.4 <4.0.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "express": "^4.16.4",
     "gulp": "^4.0.0",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-clean-css": "^4.0.0",
@@ -18,9 +20,10 @@
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^5.0.0",
     "gulp-lintspaces": "^1.0.0",
-    "gulp-nightwatch": "^1.0.1",
     "gulp-rename": "^1.4.0",
-    "gulp-uglify": "^3.0.1"
+    "gulp-uglify": "^3.0.1",
+    "mocha": "^6.0.2",
+    "puppeteer": "^1.13.0"
   },
   "keywords": [
     "jquery",
@@ -28,9 +31,9 @@
   ],
   "scripts": {
     "build": "gulp",
-    "check": "eslint src/**/*.js",
-    "fix": "eslint src/**/*.js --fix",
     "start": "gulp dev",
-    "test": "gulp test"
+    "test": "npm run test:js && npm run test:html",
+    "test:html": "mocha --recursive test/src",
+    "test:js": "eslint src/**/*.js"
   }
 }
