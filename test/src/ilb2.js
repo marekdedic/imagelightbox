@@ -3,7 +3,7 @@ const express = require('express');
 const expect = require('chai').expect;
 const app = express();
 
-// Helper functions to start/stop server before/after tests
+// helper functions to start/stop server before/after tests
 let server = null;
 const startServer = () => {
     app.use(express.static(__dirname + '/../../docs'));
@@ -19,6 +19,7 @@ const opts = {
     timeout: 2000
 };
 
+// helper functions for pupeteer
 const isElementVisible = async (page, cssSelector) => {
     let visible = true;
     await page.waitForSelector(cssSelector, { visible: true })
@@ -39,7 +40,6 @@ const isElementNotVisible = async (page, cssSelector) => {
 
 describe('imagelightbox', function () {
 
-    // Define global variables
     let browser;
     let page;
 
@@ -67,7 +67,7 @@ describe('imagelightbox', function () {
         expect(await page.title()).to.eql('Imagelightbox');
     });
 
-    it('should open and close the lightbox', async function () {
+    it('should open and close its lightbox', async function () {
         await page.click('.demo_activity li [src="images/thumb1.jpg"]');
         expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
 
@@ -85,55 +85,49 @@ describe('imagelightbox', function () {
         expect(await (await caption.getProperty('textContent')).jsonValue()).to.equal('Sunset in Tanzania');
     });
 
-    /*
-    'Deep links' : function (browser) {
-        openDemo(browser, '?imageLightboxIndex=2');
-        browser
-            .waitForElementVisible('#imagelightbox', 2000)
-            .assert.elementPresent('#imagelightbox')
-            .waitForElementVisible('img[src$="images/demo3.jpg"]', 1000)
-            .assert.elementPresent('img[src$="images/demo3.jpg"]');
-        closeDemo(browser);
-    },
+    it('should be able to be triggered manually', async function () {
+        await page.click('.trigger_lightbox');
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
+    });
 
-    'Dynamic add' : function (browser) {
-        openDemo(browser);
-        browser.click('.add_image')
-            .click('.demo_dynamic li [src="images/thumb4.jpg"]')
-            .waitForElementVisible('#imagelightbox', 1000)
-            .assert.elementPresent('#imagelightbox')
-            .waitForElementVisible('img[src$="images/demo4.jpg"]', 1000)
-            .assert.elementPresent('img[src$="images/demo4.jpg"]')
-            .click('.imagelightbox-arrow-right')
-            .waitForElementVisible('img[src$="images/demo1.jpg"]', 1000)
-            .assert.elementPresent('img[src$="images/demo1.jpg"]');
-        closeDemo(browser);
-    },
+    it('should be controllable with arrows', async function () {
+        await page.click('.demo_arrows li [src="images/thumb1.jpg"]');
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
 
-    'Manual trigger' : function (browser) {
-        openDemo(browser);
-        browser.click('.trigger_lightbox')
-            .waitForElementVisible('#imagelightbox', 1000)
-            .assert.elementPresent('#imagelightbox')
-            .waitForElementVisible('.imagelightbox-arrow-right', 1000)
-            .click('.imagelightbox-arrow-right')
-            .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
-            .assert.elementPresent('img[src$="images/demo2.jpg"]');
-        closeDemo(browser);
-    },
+        expect(await isElementVisible(page, '.imagelightbox-arrow-right')).to.equal(true);
+        await page.click('.imagelightbox-arrow-right');
 
-    'Navigation' : function (browser) {
-        openDemo(browser);
-        browser
-            .click('.demo_navigation li [src="images/thumb1.jpg"]')
-            .waitForElementVisible('#imagelightbox', 1000)
-            .assert.elementPresent('#imagelightbox')
-            .assert.elementPresent('.imagelightbox-nav')
-            .assert.elementPresent('.imagelightbox-navitem')
-            .click('.imagelightbox-navitem:nth-child(2)')
-            .waitForElementVisible('img[src$="images/demo2.jpg"]', 1000)
-            .assert.elementPresent('img[src$="images/demo2.jpg"]');
-        closeDemo(browser);
-    }
-    */
+        expect(await isElementVisible(page, 'img[src$="images/demo2.jpg"]')).to.equal(true);
+    });
+
+    it('should add images dynamically', async function () {
+        await page.click('.add_image');
+        expect(await isElementVisible(page, '.demo_dynamic li [src="images/thumb4.jpg"]')).to.equal(true);
+
+        await page.click('.demo_dynamic li [src="images/thumb4.jpg"]');
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
+
+        expect(await isElementVisible(page, 'img[src$="images/demo4.jpg"]')).to.equal(true);
+    });
+
+    it('should go to deep links', async function () {
+        await page.goto('http://localhost:8080?imageLightboxIndex=2',{ waitUntil: "load" });
+
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
+
+        expect(await isElementVisible(page, 'img[src$="images/demo3.jpg"]')).to.equal(true);
+    });
+
+    /**
+     * TODO fix that one by testing not only if the nav shows up but also if the nav works
+     */
+    it('should have a functionable navigation', async function () {
+        await page.click('.demo_navigation li [src="images/thumb2.jpg"]');
+        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
+
+        expect(await isElementVisible(page, '.imagelightbox-navitem')).to.equal(true);
+
+        //await page.click('a.imagelightbox-navitem');
+        //expect(await isElementVisible(page, 'img[src$="images/demo1.jpg"]')).to.equal(true);
+    });
 });
