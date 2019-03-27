@@ -736,33 +736,19 @@
             }
         });
 
-        function launchIntoFullscreen(element) {
-            if(element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if(element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if(element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } else if(element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-            return false;
-        }
-
-        function exitFullscreen() {
-            if(document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if(document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-            } else if(document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
-            return false;
-        }
-
         function toggleFullScreen() {
-            launchIntoFullscreen(document.getElementById(options.id).parentElement) ||
-            exitFullscreen();
+            var doc = window.document;
+            var docEl = document.getElementById(options.id).parentElement;
+
+            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+            var exitFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+            if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+                requestFullScreen.call(docEl);
+            }
+            else {
+                exitFullScreen.call(doc);
+            }
         }
 
         $(document).off('click', options.selector);
