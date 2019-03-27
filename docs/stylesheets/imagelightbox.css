@@ -118,6 +118,7 @@
     right: 0;
     bottom: 0;
     padding: 0.625em; /* 10 */
+    transition: opacity .25s ease;
 }
 
 /* WITH NAVIGATION */
