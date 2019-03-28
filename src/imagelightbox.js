@@ -324,10 +324,13 @@
                 });
             },
             captionReset = function () {
+                $captionObject.css('opacity', '0');
                 $captionObject.html('&nbsp;');
                 if ($(target).data('ilb2-caption')) {
+                    $captionObject.css('opacity', '1');
                     $captionObject.html($(target).data('ilb2-caption'));
-                } else if ($(target).find('img').length > 0) {
+                } else if ($(target).find('img').attr('alt')) {
+                    $captionObject.css('opacity', '1');
                     $captionObject.html($(target).find('img').attr('alt'));
                 }
             },
