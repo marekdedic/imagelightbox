@@ -517,7 +517,7 @@
                             return true;
                         }
                         var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
-                        if (e.target.width / 2 > posX) {
+                        if (e.target.width / 3 > posX) {
                             _previousTarget();
                         } else {
                             _nextTarget();
