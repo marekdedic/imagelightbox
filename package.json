@@ -23,7 +23,7 @@
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
     "mocha": "^6.0.2",
-    "puppeteer": "^1.13.0"
+    "puppeteer": "^1.14.0"
   },
   "keywords": [
     "jquery",
