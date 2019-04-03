@@ -507,26 +507,26 @@
                         }
                         $wrapper.trigger('loaded.ilb2');
                     }
+                    function onclick (e) {
+                        e.preventDefault();
+                        if (options.quitOnImgClick) {
+                            _quitImageLightbox();
+                            return false;
+                        }
+                        if (wasTouched(e.originalEvent)) {
+                            return true;
+                        }
+                        var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
+                        if (e.target.width / 2 > posX) {
+                            _previousTarget();
+                        } else {
+                            _nextTarget();
+                        }
+                    }
                     image = element
                         .on('load.ilb7', onload)
                         .on('error.ilb7', function () {
                             _onLoadEnd();
-                        })
-                        .on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', function (e) {
-                            e.preventDefault();
-                            if (options.quitOnImgClick) {
-                                _quitImageLightbox();
-                                return false;
-                            }
-                            if (wasTouched(e.originalEvent)) {
-                                return true;
-                            }
-                            var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
-                            if (e.target.width / 2 > posX) {
-                                _previousTarget();
-                            } else {
-                                _nextTarget();
-                            }
                         })
                         .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
@@ -573,6 +573,9 @@
                     }
                     if(preloadedVideo === false) {
                         image = image.on('loadedmetadata.ilb7', onload);
+                    }
+                    if(!videoOptions) {
+                        image = image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', onclick);
                     }
 
                 }, options.animationSpeed + 100);
