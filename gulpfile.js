@@ -5,7 +5,6 @@ var gulp            = require('gulp'),
     csslint         = require('gulp-csslint'),
     eslint          = require('gulp-eslint'),
     lintspaces      = require('gulp-lintspaces'),
-    nightwatch      = require('gulp-nightwatch'),
     rename          = require('gulp-rename'),
     uglify          = require('gulp-uglify'),
     stylelint       = require('gulp-stylelint');
@@ -74,22 +73,11 @@ gulp.task('watch', function(done) {
     done();
 });
 
-gulp.task('serve', gulp.parallel('build', 'watch', function(done) {
+gulp.task('dev', gulp.parallel('build', 'watch', function(done) {
     connect.server({
         livereload: true
     });
     done();
 }));
 
-gulp.task('night:js', gulp.series('serve', function() {
-    return gulp.src('./gulpfile.js')
-        .pipe(nightwatch({
-            configFile: './nightwatch.json'
-        }));
-}));
-
 gulp.task('default', gulp.series('build'));
-
-gulp.task('dev', gulp.series('serve'));
-
-gulp.task('test', gulp.series('night:js'));
