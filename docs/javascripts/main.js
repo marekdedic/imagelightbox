@@ -57,7 +57,7 @@ $(document).ready(function() {
     /**
      * dynamically adding more images
      */
-    var instanceI =  $('a[data-imagelightbox="i"]').imageLightbox({
+    var instanceI = $('a[data-imagelightbox="i"]').imageLightbox({
         arrows: true
     });
     $(".add_image").on('click', function () {

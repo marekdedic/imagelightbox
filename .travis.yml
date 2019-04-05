@@ -1,6 +1,13 @@
+dist: trusty
 language: node_js
 node_js:
   - "node"
-before_script:
-  - npm install -g gulp
-script: gulp test
+
+addons:
+  chrome: stable
+
+before_install:
+  - # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
+script: npm test
