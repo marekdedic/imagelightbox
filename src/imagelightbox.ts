@@ -6,7 +6,7 @@
     // Otherwise, we're working in a browser, so just pass in the global
     // jQuery object.
     factory((typeof module === 'object' && typeof module.exports === 'object') ? require('jquery') : jQuery, window, document );
-}(function ($, window, document) {
+}(function ($: JQueryStatic, window: Window, document: LegacyDocument) {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
@@ -43,12 +43,11 @@
         $body = $('body');
 
     var cssTransitionSupport = function () {
-            var s = document.body || document.documentElement;
-            s = s.style;
+            var s = (document.body || document.documentElement).style as LegacyCSSStyleDeclaration;
             if (s.transition === '') {
                 return '';
             }
-            if (s.WebkitTransition === '') {
+            if (s.webkitTransition === '') {
                 return '-webkit-';
             }
             if (s.MozTransition === '') {
@@ -62,8 +61,8 @@
 
         hasCssTransitionSupport = cssTransitionSupport() !== false,
 
-        cssTransitionTranslateX = function (element, positionX, speed) {
-            var options = {}, prefix = cssTransitionSupport();
+        cssTransitionTranslateX = function (element: JQuery, positionX: string, speed: number) {
+            var options: TransformCssProperties = {}, prefix = cssTransitionSupport();
             options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
             options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
             element.css(options);
@@ -71,7 +70,7 @@
 
         hasTouch = ('ontouchstart' in window),
         hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-        wasTouched = function (event) {
+        wasTouched = function (event: PointerEvent) {
             if (hasTouch) {
                 return true;
             }
@@ -80,8 +79,8 @@
                 return false;
             }
 
-            if (typeof event.MSPOINTER_TYPE_MOUSE !== 'undefined') {
-                if (event.MSPOINTER_TYPE_MOUSE !== event.pointerType) {
+            if (typeof (event as LegacyPointerEvent).MSPOINTER_TYPE_MOUSE !== 'undefined') {
+                if ((event as LegacyPointerEvent).MSPOINTER_TYPE_MOUSE !== event.pointerType) {
                     return true;
                 }
             }
@@ -98,11 +97,11 @@
                 document.msFullscreenEnabled),
         hasHistorySupport = !!(window.history && history.pushState);
 
-    $.fn.imageLightbox = function (opts) {
+    ($.fn as ExportedFunctions).imageLightbox = function (opts: ILBOptions) {
         var targetSet = '',
-            targets = $([]),
+            targets: JQuery = $([]),
             target = $(),
-            videos = $([]),
+            videos: Array<PreloadedVideo> = [],
             targetIndex = -1,
             image = $(),
             swipeDiff = 0,
@@ -164,7 +163,7 @@
                     $arrows.css('display', 'block');
                 }
             },
-            _addQueryField = function (query, key, value) {
+            _addQueryField = function (query: string, key: string, value: string) {
                 var newField = key + '=' + value;
                 var newQuery = '?' + newField;
 
@@ -184,7 +183,7 @@
                 }
                 var newIndex = targets[targetIndex].dataset.ilb2Id;
                 if(!newIndex) {
-                    newIndex = targetIndex;
+                    newIndex = targetIndex.toString();
                 }
                 var newState = {imageLightboxIndex: newIndex, imageLightboxSet: ''};
                 var set = targets[targetIndex].dataset.imagelightbox;
@@ -197,7 +196,7 @@
                 }
                 window.history.pushState(newState, '', document.location.pathname + newQuery);
             },
-            _removeQueryField = function(query, key) {
+            _removeQueryField = function(query: string, key: string) {
                 var newQuery = query;
                 if (newQuery) {
                     var keyRegex1 = new RegExp('\\?' + key + '=[^&]*');
@@ -215,7 +214,7 @@
                 newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
                 window.history.pushState({}, '', document.location.pathname + newQuery);
             },
-            _getQueryField = function(key) {
+            _getQueryField = function(key: string) {
                 var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
                 if(!keyValuePair || !keyValuePair[2]) {
                     return undefined;
@@ -243,8 +242,8 @@
                 }
                 _openImageLightbox(element, true);
             },
-            _popHistory = function (event) {
-                var newState = event.originalEvent.state;
+            _popHistory = function (event: BaseJQueryEventObject) {
+                var newState = (event.originalEvent as PopStateEvent).state;
                 if(!newState) {
                     _quitImageLightbox(true);
                     return;
@@ -331,7 +330,7 @@
                     $captionObject.html($(target).data('ilb2-caption'));
                 } else if ($(target).find('img').attr('alt')) {
                     $captionObject.css('opacity', '1');
-                    $captionObject.html($(target).find('img').attr('alt'));
+                    $captionObject.html($(target).find('img').attr('alt')!);
                 }
             },
             navigationOn = function () {
@@ -380,9 +379,9 @@
                 });
             },
 
-            isTargetValid = function (element) {
+            isTargetValid = function (element: JQuery) {
                 // eslint-disable-next-line
-                return $(element).prop('tagName').toLowerCase() === 'a' && ((new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href')) || $(element).data('ilb2Video'));
+                return $(element).prop('tagName').toLowerCase() === 'a' && ((new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href')!) || $(element).data('ilb2Video'));
             },
 
             _setImage = function () {
@@ -390,12 +389,12 @@
                     return true;
                 }
 
-                var captionHeight = options.caption ? $captionObject.outerHeight() : 0,
-                    screenWidth = $(window).width(),
-                    screenHeight = $(window).height() - captionHeight,
+                var captionHeight = options.caption ? $captionObject.outerHeight()! : 0,
+                    screenWidth = $(window).width()!,
+                    screenHeight = $(window).height()! - captionHeight,
                     gutterFactor = Math.abs(1 - options.gutter/100);
 
-                function setSizes (imageWidth, imageHeight) {
+                function setSizes (imageWidth: number, imageHeight: number) {
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
@@ -403,7 +402,7 @@
                     }
                     var cssHeight = imageHeight*gutterFactor,
                         cssWidth = imageWidth*gutterFactor,
-                        cssLeft = ($(window).width() - cssWidth ) / 2;
+                        cssLeft = ($(window).width()! - cssWidth ) / 2;
 
                     image.css({
                         'width': cssWidth + 'px',
@@ -412,19 +411,20 @@
                     });
                 }
 
-                if(image.get(0).videoWidth !== undefined) {
-                    setSizes(image.get(0).videoWidth, image.get(0).videoHeight);
+                var videoElement = image.get(0) as HTMLVideoElement;
+                if(videoElement.videoWidth !== undefined) {
+                    setSizes(videoElement.videoWidth, videoElement.videoHeight);
                     return;
                 }
 
                 var tmpImage = new Image();
-                tmpImage.src = image.attr('src');
+                tmpImage.src = image.attr('src')!;
                 tmpImage.onload = function() {
                     setSizes(tmpImage.width, tmpImage.height);
                 };
             },
 
-            _loadImage = function (direction) {
+            _loadImage = function (direction: number) {
                 if (inProgress) {
                     return false;
                 }
@@ -457,25 +457,26 @@
                     // }
 
                     var videoOptions = target.data('ilb2Video');
-                    var preloadedVideo, element;
+                    var element = $();
+                    var preloadedVideo;
                     if (videoOptions) {
-                        videos.each(function() {
-                            if(this.i === target.data('ilb2VideoId')) {
-                                preloadedVideo = this.l;
-                                element = this.e;
-                                if(this.a) {
+                        $.each(videos, function(_, video) {
+                            if(video.i === target.data('ilb2VideoId')) {
+                                preloadedVideo = video.l;
+                                element = video.e;
+                                if(video.a) {
                                     if(preloadedVideo === false) {
-                                        element.attr('autoplay', this.a);
+                                        element.attr('autoplay', video.a);
                                     }
                                     if(preloadedVideo === true) {
-                                        element.get(0).play();
+                                        (element.get(0) as HTMLVideoElement).play();
                                     }
                                 }
                             }
                         });
                     } else {
                         element = $('<img id=\'' + options.id + '\' />')
-                            .attr('src', imgPath);
+                            .attr('src', imgPath!);
                     }
                     function onload () {
                         var params = {'opacity': 1, 'left': ''};
@@ -503,21 +504,21 @@
                             if (!nextTarget.length) {
                                 nextTarget = targets.eq(0);
                             }
-                            $('<img />').attr('src', nextTarget.attr('href'));
+                            $('<img />').attr('src', nextTarget.attr('href')!);
                         }
                         $wrapper.trigger('loaded.ilb2');
                     }
-                    function onclick (e) {
+                    function onclick (e: BaseJQueryEventObject) {
                         e.preventDefault();
                         if (options.quitOnImgClick) {
                             _quitImageLightbox();
                             return false;
                         }
-                        if (wasTouched(e.originalEvent)) {
+                        if (wasTouched(e.originalEvent as PointerEvent)) {
                             return true;
                         }
-                        var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
-                        if (e.target.width / 2 > posX) {
+                        var posX = (e.pageX || (e.originalEvent as PointerEvent).pageX) - (e.target as HTMLImageElement).offsetLeft;
+                        if ((e.target as HTMLImageElement).width / 2 > posX) {
                             _previousTarget();
                         } else {
                             _nextTarget();
@@ -528,21 +529,21 @@
                         .on('error.ilb7', function () {
                             _onLoadEnd();
                         })
-                        .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                        .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e: BaseJQueryEventObject) {
+                            if (!wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
                                 return true;
                             }
                             if (hasCssTransitionSupport) {
                                 imagePosLeft = parseInt(image.css('left'));
                             }
-                            swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            swipeStart = (e.originalEvent as PointerEvent).pageX || (e.originalEvent as TouchEvent).touches[0].pageX;
                         })
-                        .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
-                            if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                        .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e: BaseJQueryEventObject) {
+                            if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
                                 return true;
                             }
                             e.preventDefault();
-                            swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                            swipeEnd = (e.originalEvent as PointerEvent).pageX || (e.originalEvent as TouchEvent).touches[0].pageX;
                             swipeDiff = swipeStart - swipeEnd;
                             if (hasCssTransitionSupport) {
                                 cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
@@ -551,7 +552,7 @@
                             }
                         })
                         .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
-                            if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                            if (!wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
                                 return true;
                             }
                             if (Math.abs(swipeDiff) > 50) {
@@ -589,7 +590,7 @@
                 image = $();
             },
 
-            _openImageLightbox = function ($target, noHistory = false) {
+            _openImageLightbox = function ($target: JQuery, noHistory = false) {
                 if (inProgress) {
                     return false;
                 }
@@ -623,7 +624,7 @@
                 });
             },
 
-            _addTargets = function (newTargets) {
+            _addTargets = function (newTargets: JQuery) {
                 newTargets.each(function() {
                     targets = newTargets.add($(this));
                 });
@@ -660,8 +661,8 @@
                             id = 'a' + (((1+Math.random())*0x10000)|0).toString(16); // Random id
                         }
                         $(this).data('ilb2VideoId', id);
-                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined}; // e = element, i = id, l = is metadata loaded, a = autoplay
-                        $.each(videoOptions, function(key, value) {
+                        var container: PreloadedVideo = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined};
+                        $.each(videoOptions, function(key: string, value) {
                             if(key === 'autoplay') {
                                 container.a = value;
                             } else if(key !== 'sources') {
@@ -671,7 +672,7 @@
                         if(videoOptions.sources) {
                             $.each(videoOptions.sources, function (_, source) {
                                 var sourceElement = $('<source>');
-                                $.each(source, function(key, value) {
+                                $.each(source, function(key: string, value) {
                                     sourceElement = sourceElement.attr(key, value);
                                 });
                                 container.e.append(sourceElement);
@@ -680,7 +681,7 @@
                         container.e.on('loadedmetadata.ilb7', function() {
                             container.l = true;
                         });
-                        videos = videos.add(container);
+                        videos.push(container);
                     }
                 });
             };
@@ -706,11 +707,11 @@
                     if (!image.length) {
                         return true;
                     }
-                    if([9,32,38,40].indexOf(e.which) > -1) {
+                    if([9,32,38,40].indexOf(e.which!) > -1) {
                         e.stopPropagation();
                         e.preventDefault();
                     }
-                    if ([13].indexOf(e.which) > -1) {
+                    if ([13].indexOf(e.which!) > -1) {
                         e.stopPropagation();
                         e.preventDefault();
                         toggleFullScreen();
@@ -723,17 +724,17 @@
                     if (!image.length) {
                         return true;
                     }
-                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                    if ([27].indexOf(e.which!) > -1 && options.quitOnEscKey) {
                         e.stopPropagation();
                         e.preventDefault();
                         _quitImageLightbox();
                     }
-                    if ([37].indexOf(e.which) > -1) {
+                    if ([37].indexOf(e.which!) > -1) {
                         e.stopPropagation();
                         e.preventDefault();
                         _previousTarget();
                     }
-                    if ([39].indexOf(e.which) > -1) {
+                    if ([39].indexOf(e.which!) > -1) {
                         e.stopPropagation();
                         e.preventDefault();
                         _nextTarget();
@@ -743,8 +744,8 @@
         });
 
         function toggleFullScreen() {
-            var doc = window.document;
-            var docEl = document.getElementById(options.id).parentElement;
+            var doc = window.document as LegacyDocument;
+            var docEl = document.getElementById(options.id)!.parentElement as LegacyHTMLElement;
 
             var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
             var exitFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
@@ -765,7 +766,7 @@
 
         _preloadVideos();
 
-        this.addToImageLightbox = function (elements)  {
+        this.addToImageLightbox = function (elements: JQuery)  {
             _addTargets(elements);
         };
 
@@ -786,7 +787,7 @@
             return this;
         };
 
-        this.startImageLightbox = function (element) {
+        this.startImageLightbox = function (element: JQuery) {
             if (element)
                 element.trigger('click.ilb7');
             else
