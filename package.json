@@ -11,6 +11,8 @@
     "jquery": ">=1.12.4 <4.0.0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.29",
+    "@types/node": "^12.0.3",
     "chai": "^4.2.0",
     "express": "^4.16.4",
     "gulp": "^4.0.2",
@@ -21,9 +23,11 @@
     "gulp-eslint": "^5.0.0",
     "gulp-lintspaces": "^1.0.1",
     "gulp-rename": "^1.4.0",
+    "gulp-typescript": "^5.0.1",
     "gulp-uglify": "^3.0.2",
     "mocha": "^6.0.2",
-    "puppeteer": "^1.14.0"
+    "puppeteer": "^1.14.0",
+    "typescript": "^3.5.1"
   },
   "keywords": [
     "jquery",
