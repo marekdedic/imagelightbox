@@ -133,7 +133,7 @@
 
             _onStart = function () {
                 if (options.arrows) {
-                    arrowsOn(this);
+                    arrowsOn();
                 }
                 if (options.navigation) {
                     navigationOn();
@@ -186,7 +186,7 @@
                 if(!newIndex) {
                     newIndex = targetIndex;
                 }
-                var newState = {imageLightboxIndex: newIndex};
+                var newState = {imageLightboxIndex: newIndex, imageLightboxSet: ''};
                 var set = targets[targetIndex].dataset.imagelightbox;
                 if(set) {
                     newState.imageLightboxSet = set;
@@ -234,7 +234,7 @@
                 if(element.length > 0) {
                     targetIndex = targets.index(element);
                 } else {
-                    targetIndex = id;
+                    targetIndex = parseInt(id);;
                     element = $(targets[targetIndex]);
                 }
                 var set = _getQueryField('imageLightboxSet');
@@ -430,7 +430,7 @@
                 }
 
                 if (image.length) {
-                    var params = {'opacity': 0};
+                    var params = {'opacity': 0, 'left': ''};
                     if (hasCssTransitionSupport) {
                         cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
@@ -478,7 +478,7 @@
                             .attr('src', imgPath);
                     }
                     function onload () {
-                        var params = {'opacity': 1};
+                        var params = {'opacity': 1, 'left': ''};
 
                         image.appendTo($wrapper);
                         _setImage();
@@ -589,7 +589,7 @@
                 image = $();
             },
 
-            _openImageLightbox = function ($target, noHistory) {
+            _openImageLightbox = function ($target, noHistory = false) {
                 if (inProgress) {
                     return false;
                 }
@@ -606,7 +606,7 @@
                 _loadImage(0);
             },
 
-            _quitImageLightbox = function (noHistory) {
+            _quitImageLightbox = function (noHistory = false) {
                 targetIndex = -1;
                 if(!noHistory) {
                     _pushQuitToHistory();
