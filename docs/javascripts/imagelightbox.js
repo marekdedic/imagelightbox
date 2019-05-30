@@ -332,7 +332,7 @@
             return $(element).prop('tagName').toLowerCase() === 'a' && ((new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href')) || $(element).data('ilb2Video'));
         }, _setImage = function () {
             if (!image.length) {
-                return true;
+                return;
             }
             var captionHeight = options.caption ? $captionObject.outerHeight() : 0, screenWidth = $(window).width(), screenHeight = $(window).height() - captionHeight, gutterFactor = Math.abs(1 - options.gutter / 100);
             function setSizes(imageWidth, imageHeight) {
@@ -360,7 +360,7 @@
             };
         }, _loadImage = function (direction) {
             if (inProgress) {
-                return false;
+                return;
             }
             if (image.length) {
                 var params = { 'opacity': 0, 'left': '' };
@@ -438,10 +438,10 @@
                     e.preventDefault();
                     if (options.quitOnImgClick) {
                         _quitImageLightbox();
-                        return false;
+                        return;
                     }
                     if (wasTouched(e.originalEvent)) {
-                        return true;
+                        return;
                     }
                     var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
                     if (e.target.width / 2 > posX) {
@@ -458,7 +458,7 @@
                 })
                     .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
                     if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                        return true;
+                        return;
                     }
                     if (hasCssTransitionSupport) {
                         imagePosLeft = parseInt(image.css('left'));
@@ -467,7 +467,7 @@
                 })
                     .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
                     if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                        return true;
+                        return;
                     }
                     e.preventDefault();
                     swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
@@ -481,7 +481,7 @@
                 })
                     .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
                     if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
-                        return true;
+                        return;
                     }
                     if (Math.abs(swipeDiff) > 50) {
                         if (swipeDiff < 0) {
@@ -512,14 +512,14 @@
             }, options.animationSpeed + 100);
         }, _removeImage = function () {
             if (!image.length) {
-                return false;
+                return;
             }
             image.remove();
             image = $();
         }, _openImageLightbox = function ($target, noHistory) {
             if (noHistory === void 0) { noHistory = false; }
             if (inProgress) {
-                return false;
+                return;
             }
             inProgress = false;
             target = $target;
@@ -541,7 +541,7 @@
             $wrapper.trigger('quit.ilb2');
             $body.removeClass('imagelightbox-open');
             if (!image.length) {
-                return false;
+                return;
             }
             image.animate({ 'opacity': 0 }, options.animationSpeed, function () {
                 _removeImage();
@@ -625,7 +625,7 @@
             if (options.fullscreen && hasFullscreenSupport) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
-                        return true;
+                        return;
                     }
                     if ([9, 32, 38, 40].indexOf(e.which) > -1) {
                         e.stopPropagation();
@@ -641,7 +641,7 @@
             if (options.enableKeyboard) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
-                        return true;
+                        return;
                     }
                     if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
                         e.stopPropagation();

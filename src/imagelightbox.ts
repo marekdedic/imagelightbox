@@ -386,7 +386,7 @@
 
             _setImage = function () {
                 if (!image.length) {
-                    return true;
+                    return;
                 }
 
                 var captionHeight = options.caption ? $captionObject.outerHeight()! : 0,
@@ -426,7 +426,7 @@
 
             _loadImage = function (direction: number) {
                 if (inProgress) {
-                    return false;
+                    return;
                 }
 
                 if (image.length) {
@@ -512,10 +512,10 @@
                         e.preventDefault();
                         if (options.quitOnImgClick) {
                             _quitImageLightbox();
-                            return false;
+                            return;
                         }
                         if (wasTouched(e.originalEvent as PointerEvent)) {
-                            return true;
+                            return;
                         }
                         var posX = (e.pageX || (e.originalEvent as PointerEvent).pageX) - (e.target as HTMLImageElement).offsetLeft;
                         if ((e.target as HTMLImageElement).width / 2 > posX) {
@@ -531,7 +531,7 @@
                         })
                         .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e: BaseJQueryEventObject) {
                             if (!wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
-                                return true;
+                                return;
                             }
                             if (hasCssTransitionSupport) {
                                 imagePosLeft = parseInt(image.css('left'));
@@ -540,7 +540,7 @@
                         })
                         .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e: BaseJQueryEventObject) {
                             if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
-                                return true;
+                                return;
                             }
                             e.preventDefault();
                             swipeEnd = (e.originalEvent as PointerEvent).pageX || (e.originalEvent as TouchEvent).touches[0].pageX;
@@ -553,7 +553,7 @@
                         })
                         .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
                             if (!wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
-                                return true;
+                                return;
                             }
                             if (Math.abs(swipeDiff) > 50) {
                                 if (swipeDiff < 0) {
@@ -584,7 +584,7 @@
 
             _removeImage = function () {
                 if (!image.length) {
-                    return false;
+                    return;
                 }
                 image.remove();
                 image = $();
@@ -592,7 +592,7 @@
 
             _openImageLightbox = function ($target: JQuery, noHistory = false) {
                 if (inProgress) {
-                    return false;
+                    return;
                 }
                 inProgress = false;
                 target = $target;
@@ -615,7 +615,7 @@
                 $wrapper.trigger('quit.ilb2');
                 $body.removeClass('imagelightbox-open');
                 if (!image.length) {
-                    return false;
+                    return;
                 }
                 image.animate({'opacity': 0}, options.animationSpeed, function () {
                     _removeImage();
@@ -705,7 +705,7 @@
             if (options.fullscreen && hasFullscreenSupport) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
-                        return true;
+                        return;
                     }
                     if([9,32,38,40].indexOf(e.which!) > -1) {
                         e.stopPropagation();
@@ -722,7 +722,7 @@
             if (options.enableKeyboard) {
                 $(document).on('keydown.ilb7', function (e) {
                     if (!image.length) {
-                        return true;
+                        return;
                     }
                     if ([27].indexOf(e.which!) > -1 && options.quitOnEscKey) {
                         e.stopPropagation();
