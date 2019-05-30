@@ -1,3 +1,4 @@
+"use strict";
 (function (factory) {
     // http://blog.npmjs.org/post/112712169830/making-your-jquery-plugin-work-better-with-npm
     // If there is a variable named module and it has an exports property,
@@ -34,12 +35,11 @@
         "class": 'imagelightbox-wrapper'
     }), $body = $('body');
     var cssTransitionSupport = function () {
-        var s = document.body || document.documentElement;
-        s = s.style;
+        var s = (document.body || document.documentElement).style;
         if (s.transition === '') {
             return '';
         }
-        if (s.WebkitTransition === '') {
+        if (s.webkitTransition === '') {
             return '-webkit-';
         }
         if (s.MozTransition === '') {
@@ -75,7 +75,7 @@
         document.mozFullScreenEnabled ||
         document.msFullscreenEnabled), hasHistorySupport = !!(window.history && history.pushState);
     $.fn.imageLightbox = function (opts) {
-        var targetSet = '', targets = $([]), target = $(), videos = $([]), targetIndex = -1, image = $(), swipeDiff = 0, inProgress = false, currentIndex = 0, options = $.extend({
+        var targetSet = '', targets = $([]), target = $(), videos = [], targetIndex = -1, image = $(), swipeDiff = 0, inProgress = false, currentIndex = 0, options = $.extend({
             selector: 'a[data-imagelightbox]',
             id: 'imagelightbox',
             allowedTypes: 'png|jpg|jpeg|gif',
@@ -145,7 +145,7 @@
             }
             var newIndex = targets[targetIndex].dataset.ilb2Id;
             if (!newIndex) {
-                newIndex = targetIndex;
+                newIndex = targetIndex.toString();
             }
             var newState = { imageLightboxIndex: newIndex, imageLightboxSet: '' };
             var set = targets[targetIndex].dataset.imagelightbox;
@@ -348,8 +348,9 @@
                     'left': cssLeft + 'px'
                 });
             }
-            if (image.get(0).videoWidth !== undefined) {
-                setSizes(image.get(0).videoWidth, image.get(0).videoHeight);
+            var videoElement = image.get(0);
+            if (videoElement.videoWidth !== undefined) {
+                setSizes(videoElement.videoWidth, videoElement.videoHeight);
                 return;
             }
             var tmpImage = new Image();
@@ -382,15 +383,16 @@
                 //     imgPath = target.attr('data-lightbox');
                 // }
                 var videoOptions = target.data('ilb2Video');
-                var preloadedVideo, element;
+                var element = $();
+                var preloadedVideo;
                 if (videoOptions) {
-                    videos.each(function () {
-                        if (this.i === target.data('ilb2VideoId')) {
-                            preloadedVideo = this.l;
-                            element = this.e;
-                            if (this.a) {
+                    $.each(videos, function (_, video) {
+                        if (video.i === target.data('ilb2VideoId')) {
+                            preloadedVideo = video.l;
+                            element = video.e;
+                            if (video.a) {
                                 if (preloadedVideo === false) {
-                                    element.attr('autoplay', this.a);
+                                    element.attr('autoplay', video.a);
                                 }
                                 if (preloadedVideo === true) {
                                     element.get(0).play();
@@ -582,7 +584,7 @@
                         id = 'a' + (((1 + Math.random()) * 0x10000) | 0).toString(16); // Random id
                     }
                     $(this).data('ilb2VideoId', id);
-                    var container = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined }; // e = element, i = id, l = is metadata loaded, a = autoplay
+                    var container = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined };
                     $.each(videoOptions, function (key, value) {
                         if (key === 'autoplay') {
                             container.a = value;
@@ -603,7 +605,7 @@
                     container.e.on('loadedmetadata.ilb7', function () {
                         container.l = true;
                     });
-                    videos = videos.add(container);
+                    videos.push(container);
                 }
             });
         };
@@ -700,3 +702,11 @@
         return this;
     };
 }));
+
+"use strict";
+
+"use strict";
+
+"use strict";
+
+"use strict";

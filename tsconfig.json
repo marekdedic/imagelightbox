@@ -5,10 +5,15 @@
     "noImplicitReturns": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": false,
+    "strict": true,
     "target": "ES3"
   },
   "files": [
-    "src/imagelightbox.ts"
+    "src/imagelightbox.d.ts",
+    "src/imagelightbox.ts",
+    "src/ExportedFunctions.ts",
+    "src/ILBOptions.ts",
+    "src/PreloadedVideo.ts",
+    "src/TransformCssProperties.ts"
   ]
 }
