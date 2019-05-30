@@ -234,7 +234,7 @@
                 if(element.length > 0) {
                     targetIndex = targets.index(element);
                 } else {
-                    targetIndex = parseInt(id);;
+                    targetIndex = parseInt(id);
                     element = $(targets[targetIndex]);
                 }
                 var set = _getQueryField('imageLightboxSet');
