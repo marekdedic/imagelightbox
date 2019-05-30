@@ -1,4 +1,4 @@
-(function (factory) {
+(function (factory): void {
     // http://blog.npmjs.org/post/112712169830/making-your-jquery-plugin-work-better-with-npm
     // If there is a variable named module and it has an exports property,
     // then we're working in a Node-like environment. Use require to load
@@ -6,7 +6,7 @@
     // Otherwise, we're working in a browser, so just pass in the global
     // jQuery object.
     factory((typeof module === 'object' && typeof module.exports === 'object') ? require('jquery') : jQuery, window, document );
-}(function ($: JQueryStatic, window: Window, document: LegacyDocument) {
+}(function ($: JQueryStatic, window: Window, document: LegacyDocument): void {
     'use strict';
     // COMPONENTS //
     var $activityObject = $('<div/>')
@@ -42,7 +42,7 @@
         }),
         $body = $('body');
 
-    var cssTransitionSupport = function () {
+    var cssTransitionSupport = function (): string|boolean {
             var s = (document.body || document.documentElement).style as LegacyCSSStyleDeclaration;
             if (s.transition === '') {
                 return '';
@@ -61,7 +61,7 @@
 
         hasCssTransitionSupport = cssTransitionSupport() !== false,
 
-        cssTransitionTranslateX = function (element: JQuery, positionX: string, speed: number) {
+        cssTransitionTranslateX = function (element: JQuery, positionX: string, speed: number): void {
             var options: TransformCssProperties = {}, prefix = cssTransitionSupport();
             options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
             options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
@@ -70,7 +70,7 @@
 
         hasTouch = ('ontouchstart' in window),
         hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
-        wasTouched = function (event: PointerEvent) {
+        wasTouched = function (event: PointerEvent): boolean {
             if (hasTouch) {
                 return true;
             }
@@ -97,7 +97,7 @@
                 document.msFullscreenEnabled),
         hasHistorySupport = !!(window.history && history.pushState);
 
-    ($.fn as ExportedFunctions).imageLightbox = function (opts: ILBOptions) {
+    ($.fn as ExportedFunctions).imageLightbox = function (opts: ILBOptions): ExportedFunctions {
         var targetSet = '',
             targets: JQuery = $([]),
             target = $(),
@@ -130,7 +130,7 @@
                 quitOnEscKey:   true
             }, opts),
 
-            _onStart = function () {
+            _onStart = function (): void {
                 if (options.arrows) {
                     arrowsOn();
                 }
@@ -147,7 +147,7 @@
                     $wrapper.append($captionObject);
                 }
             },
-            _onLoadStart = function () {
+            _onLoadStart = function (): void {
                 if (options.activity) {
                     activityIndicatorOn();
                 }
@@ -155,7 +155,7 @@
                     captionReset();
                 }
             },
-            _onLoadEnd = function () {
+            _onLoadEnd = function (): void {
                 if (options.activity) {
                     activityIndicatorOff();
                 }
@@ -163,7 +163,7 @@
                     $arrows.css('display', 'block');
                 }
             },
-            _addQueryField = function (query: string, key: string, value: string) {
+            _addQueryField = function (query: string, key: string, value: string): string {
                 var newField = key + '=' + value;
                 var newQuery = '?' + newField;
 
@@ -177,7 +177,7 @@
                 }
                 return newQuery;
             },
-            _pushToHistory = function () {
+            _pushToHistory = function (): void {
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
@@ -196,7 +196,7 @@
                 }
                 window.history.pushState(newState, '', document.location.pathname + newQuery);
             },
-            _removeQueryField = function(query: string, key: string) {
+            _removeQueryField = function(query: string, key: string): string {
                 var newQuery = query;
                 if (newQuery) {
                     var keyRegex1 = new RegExp('\\?' + key + '=[^&]*');
@@ -206,7 +206,7 @@
                 }
                 return newQuery;
             },
-            _pushQuitToHistory = function () {
+            _pushQuitToHistory = function (): void {
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
@@ -214,14 +214,14 @@
                 newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
                 window.history.pushState({}, '', document.location.pathname + newQuery);
             },
-            _getQueryField = function(key: string) {
+            _getQueryField = function(key: string): string|undefined {
                 var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
                 if(!keyValuePair || !keyValuePair[2]) {
                     return undefined;
                 }
                 return decodeURIComponent(keyValuePair[2].replace(/\+/g, ' '));
             },
-            _openHistory = function () {
+            _openHistory = function (): void {
                 if(!hasHistorySupport || !options.history) {
                     return;
                 }
@@ -242,7 +242,7 @@
                 }
                 _openImageLightbox(element, true);
             },
-            _popHistory = function (event: BaseJQueryEventObject) {
+            _popHistory = function (event: BaseJQueryEventObject): void {
                 var newState = (event.originalEvent as PopStateEvent).state;
                 if(!newState) {
                     _quitImageLightbox(true);
@@ -275,7 +275,7 @@
                 targetIndex = newIndex;
                 _loadImage(direction);
             },
-            _previousTarget = function () {
+            _previousTarget = function (): void {
                 targetIndex--;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -291,7 +291,7 @@
                 $wrapper.trigger('previous.ilb2', target);
                 _loadImage(+1);
             },
-            _nextTarget = function () {
+            _nextTarget = function (): void {
                 targetIndex++;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
@@ -307,22 +307,22 @@
                 $wrapper.trigger('next.ilb2', target);
                 _loadImage(-1);
             },
-            activityIndicatorOn = function () {
+            activityIndicatorOn = function (): void {
                 $wrapper.append($activityObject);
             },
-            activityIndicatorOff = function () {
+            activityIndicatorOff = function (): void {
                 $('.imagelightbox-loading').remove();
             },
-            overlayOn = function () {
+            overlayOn = function (): void {
                 $wrapper.append($overlayObject);
             },
-            closeButtonOn = function () {
-                $buttonObject.appendTo($wrapper).on('click.ilb7', function () {
+            closeButtonOn = function (): void {
+                $buttonObject.appendTo($wrapper).on('click.ilb7', function (): boolean {
                     _quitImageLightbox();
                     return false;
                 });
             },
-            captionReset = function () {
+            captionReset = function (): void {
                 $captionObject.css('opacity', '0');
                 $captionObject.html('&nbsp;');
                 if ($(target).data('ilb2-caption')) {
@@ -333,7 +333,7 @@
                     $captionObject.html($(target).find('img').attr('alt')!);
                 }
             },
-            navigationOn = function () {
+            navigationOn = function (): void {
                 if (!targets.length) {
                     return;
                 }
@@ -343,16 +343,16 @@
                 var $navItems = $navObject.children('a');
                 $navItems.eq(targets.index(target)).addClass('active');
 
-                $wrapper.on('previous.ilb2 next.ilb2', function () {
+                $wrapper.on('previous.ilb2 next.ilb2', function (): void {
                     $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
                 });
                 $wrapper.append($navObject);
 
                 $navObject
-                    .on('click.ilb7 touchend.ilb7', function () {
+                    .on('click.ilb7 touchend.ilb7', function (): boolean {
                         return false;
                     })
-                    .on('click.ilb7 touchend.ilb7', 'a', function () {
+                    .on('click.ilb7 touchend.ilb7', 'a', function (): void {
                         var $this = $(this);
                         if (targets.eq($this.index()).attr('href') !== $('.imagelightbox').attr('src')) {
                             var tmpTarget = targets.eq($this.index());
@@ -365,9 +365,9 @@
                         $this.addClass('active').siblings().removeClass('active');
                     });
             },
-            arrowsOn = function () {
+            arrowsOn = function (): void {
                 $wrapper.append($arrows);
-                $arrows.on('click.ilb7 touchend.ilb7', function (e) {
+                $arrows.on('click.ilb7 touchend.ilb7', function (e): void {
                     e.stopImmediatePropagation();
                     e.preventDefault();
                     if ($(this).hasClass('imagelightbox-arrow-left')) {
@@ -375,16 +375,15 @@
                     } else {
                         _nextTarget();
                     }
-                    return false;
                 });
             },
 
-            isTargetValid = function (element: JQuery) {
+            isTargetValid = function (element: JQuery): boolean {
                 // eslint-disable-next-line
                 return $(element).prop('tagName').toLowerCase() === 'a' && ((new RegExp('\.(' + options.allowedTypes + ')$', 'i')).test($(element).attr('href')!) || $(element).data('ilb2Video'));
             },
 
-            _setImage = function () {
+            _setImage = function (): void {
                 if (!image.length) {
                     return;
                 }
@@ -394,7 +393,7 @@
                     screenHeight = $(window).height()! - captionHeight,
                     gutterFactor = Math.abs(1 - options.gutter/100);
 
-                function setSizes (imageWidth: number, imageHeight: number) {
+                function setSizes (imageWidth: number, imageHeight: number): void {
                     if (imageWidth > screenWidth || imageHeight > screenHeight) {
                         var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
                         imageWidth /= ratio;
@@ -419,12 +418,12 @@
 
                 var tmpImage = new Image();
                 tmpImage.src = image.attr('src')!;
-                tmpImage.onload = function() {
+                tmpImage.onload = function (): void {
                     setSizes(tmpImage.width, tmpImage.height);
                 };
             },
 
-            _loadImage = function (direction: number) {
+            _loadImage = function (direction: number): void {
                 if (inProgress) {
                     return;
                 }
@@ -437,7 +436,7 @@
                     else {
                         params.left = parseInt(image.css('left')) + (100 * direction) + 'px';
                     }
-                    image.animate(params, options.animationSpeed, function () {
+                    image.animate(params, options.animationSpeed, function (): void {
                         _removeImage();
                     });
                     swipeDiff = 0;
@@ -446,7 +445,7 @@
                 inProgress = true;
                 _onLoadStart();
 
-                setTimeout(function () {
+                setTimeout(function (): void {
                     var imgPath = target.attr('href'),
                         swipeStart = 0,
                         swipeEnd = 0,
@@ -460,7 +459,7 @@
                     var element = $();
                     var preloadedVideo;
                     if (videoOptions) {
-                        $.each(videos, function(_, video) {
+                        $.each(videos, function(_, video): void {
                             if(video.i === target.data('ilb2VideoId')) {
                                 preloadedVideo = video.l;
                                 element = video.e;
@@ -478,7 +477,7 @@
                         element = $('<img id=\'' + options.id + '\' />')
                             .attr('src', imgPath!);
                     }
-                    function onload () {
+                    function onload (): void {
                         var params = {'opacity': 1, 'left': ''};
 
                         image.appendTo($wrapper);
@@ -486,7 +485,7 @@
                         image.css('opacity', 0);
                         if (hasCssTransitionSupport) {
                             cssTransitionTranslateX(image, -100 * direction + 'px', 0);
-                            setTimeout(function () {
+                            setTimeout(function (): void {
                                 cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
                             }, 50);
                         } else {
@@ -495,7 +494,7 @@
                             image.css('left', imagePosLeft - 100 * direction + 'px');
                         }
 
-                        image.animate(params, options.animationSpeed, function () {
+                        image.animate(params, options.animationSpeed, function (): void {
                             inProgress = false;
                             _onLoadEnd();
                         });
@@ -508,7 +507,7 @@
                         }
                         $wrapper.trigger('loaded.ilb2');
                     }
-                    function onclick (e: BaseJQueryEventObject) {
+                    function onclick (e: BaseJQueryEventObject): void {
                         e.preventDefault();
                         if (options.quitOnImgClick) {
                             _quitImageLightbox();
@@ -526,10 +525,10 @@
                     }
                     image = element
                         .on('load.ilb7', onload)
-                        .on('error.ilb7', function () {
+                        .on('error.ilb7', function (): void {
                             _onLoadEnd();
                         })
-                        .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e: BaseJQueryEventObject) {
+                        .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e: BaseJQueryEventObject): void {
                             if (!wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
                                 return;
                             }
@@ -538,7 +537,7 @@
                             }
                             swipeStart = (e.originalEvent as PointerEvent).pageX || (e.originalEvent as TouchEvent).touches[0].pageX;
                         })
-                        .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e: BaseJQueryEventObject) {
+                        .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e: BaseJQueryEventObject): void {
                             if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
                                 return;
                             }
@@ -551,7 +550,7 @@
                                 image.css('left', imagePosLeft - swipeDiff + 'px');
                             }
                         })
-                        .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
+                        .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e): void {
                             if (!wasTouched(e.originalEvent as PointerEvent) || options.quitOnImgClick) {
                                 return;
                             }
@@ -582,7 +581,7 @@
                 }, options.animationSpeed + 100);
             },
 
-            _removeImage = function () {
+            _removeImage = function (): void {
                 if (!image.length) {
                     return;
                 }
@@ -590,7 +589,7 @@
                 image = $();
             },
 
-            _openImageLightbox = function ($target: JQuery, noHistory = false) {
+            _openImageLightbox = function ($target: JQuery, noHistory = false): void {
                 if (inProgress) {
                     return;
                 }
@@ -607,7 +606,7 @@
                 _loadImage(0);
             },
 
-            _quitImageLightbox = function (noHistory = false) {
+            _quitImageLightbox = function (noHistory = false): void {
                 targetIndex = -1;
                 if(!noHistory) {
                     _pushQuitToHistory();
@@ -617,18 +616,18 @@
                 if (!image.length) {
                     return;
                 }
-                image.animate({'opacity': 0}, options.animationSpeed, function () {
+                image.animate({'opacity': 0}, options.animationSpeed, function (): void {
                     _removeImage();
                     inProgress = false;
                     $wrapper.remove().find('*').remove();
                 });
             },
 
-            _addTargets = function (newTargets: JQuery) {
-                newTargets.each(function() {
+            _addTargets = function (newTargets: JQuery): void {
+                newTargets.each(function (): void {
                     targets = newTargets.add($(this));
                 });
-                newTargets.on('click.ilb7', {set: targetSet}, function (e) {
+                newTargets.on('click.ilb7', {set: targetSet}, function (e): void {
                     e.preventDefault();
                     targetSet = $(e.currentTarget).data('imagelightbox');
                     filterTargets();
@@ -638,22 +637,22 @@
                         _openImageLightbox($(this));
                     }
                 });
-                function filterTargets () {
+                function filterTargets (): void {
                     newTargets
-                        .filter(function () {
+                        .filter(function (): boolean {
                             return $(this).data('imagelightbox') === targetSet;
                         })
-                        .filter(function () {
+                        .filter(function (): boolean {
                             return isTargetValid($(this));
                         })
-                        .each(function () {
+                        .each(function (): void {
                             targets = targets.add($(this));
                         });
                 }
             },
 
-            _preloadVideos = function () {
-                targets.each(function() {
+            _preloadVideos = function (): void {
+                targets.each(function (): void {
                     var videoOptions = $(this).data('ilb2Video');
                     if (videoOptions) {
                         var id = $(this).data('ilb2Id');
@@ -662,7 +661,7 @@
                         }
                         $(this).data('ilb2VideoId', id);
                         var container: PreloadedVideo = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined};
-                        $.each(videoOptions, function(key: string, value) {
+                        $.each(videoOptions, function(key: string, value): void {
                             if(key === 'autoplay') {
                                 container.a = value;
                             } else if(key !== 'sources') {
@@ -670,15 +669,15 @@
                             }
                         });
                         if(videoOptions.sources) {
-                            $.each(videoOptions.sources, function (_, source) {
+                            $.each(videoOptions.sources, function (_, source): void {
                                 var sourceElement = $('<source>');
-                                $.each(source, function(key: string, value) {
+                                $.each(source, function(key: string, value): void {
                                     sourceElement = sourceElement.attr(key, value);
                                 });
                                 container.e.append(sourceElement);
                             });
                         }
-                        container.e.on('loadedmetadata.ilb7', function() {
+                        container.e.on('loadedmetadata.ilb7', function(): void {
                             container.l = true;
                         });
                         videos.push(container);
@@ -691,10 +690,10 @@
             $(window).on('popstate', _popHistory);
         }
 
-        $(document).ready(function() {
+        $(document).ready(function(): void {
 
             if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
+                $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e): void {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
                         _quitImageLightbox();
@@ -703,7 +702,7 @@
             }
 
             if (options.fullscreen && hasFullscreenSupport) {
-                $(document).on('keydown.ilb7', function (e) {
+                $(document).on('keydown.ilb7', function (e): void {
                     if (!image.length) {
                         return;
                     }
@@ -720,7 +719,7 @@
             }
 
             if (options.enableKeyboard) {
-                $(document).on('keydown.ilb7', function (e) {
+                $(document).on('keydown.ilb7', function (e): void {
                     if (!image.length) {
                         return;
                     }
@@ -743,7 +742,7 @@
             }
         });
 
-        function toggleFullScreen() {
+        function toggleFullScreen(): void {
             var doc = window.document as LegacyDocument;
             var docEl = document.getElementById(options.id)!.parentElement as LegacyHTMLElement;
 
@@ -766,28 +765,28 @@
 
         _preloadVideos();
 
-        this.addToImageLightbox = function (elements: JQuery)  {
+        this.addToImageLightbox = function (elements: JQuery): void  {
             _addTargets(elements);
         };
 
-        this.openHistory = function() {
+        this.openHistory = function (): void {
             _openHistory();
         };
 
-        this.loadPreviousImage = function () {
+        this.loadPreviousImage = function (): void {
             _previousTarget();
         };
 
-        this.loadNextImage = function () {
+        this.loadNextImage = function (): void {
             _nextTarget();
         };
 
-        this.quitImageLightbox = function () {
+        this.quitImageLightbox = function (): ExportedFunctions {
             _quitImageLightbox();
             return this;
         };
 
-        this.startImageLightbox = function (element: JQuery) {
+        this.startImageLightbox = function (element: JQuery): void {
             if (element)
                 element.trigger('click.ilb7');
             else
