@@ -1,6 +1,7 @@
 var gulp            = require('gulp'),
     autoprefixer    = require('gulp-autoprefixer'),
     cleanCSS        = require('gulp-clean-css'),
+    concat          = require('gulp-concat'),
     connect         = require('gulp-connect'),
     csslint         = require('gulp-csslint'),
     eslint          = require('gulp-eslint'),
@@ -48,6 +49,7 @@ gulp.task('copy:js',  gulp.series('editorconfig', 'eslint', function() {
     var tsProject = ts.createProject('tsconfig.json');
     return tsProject.src()
         .pipe(tsProject())
+        .pipe(concat('imagelightbox.js'))
         .pipe(gulp.dest('docs/javascripts/'));
 }));
 
@@ -55,8 +57,8 @@ gulp.task('minify:js', gulp.series('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
     return tsProject.src()
         .pipe(tsProject())
+        .pipe(concat('imagelightbox.min.js'))
         .pipe(uglify())
-        .pipe(rename('imagelightbox.min.js'))
         .pipe(gulp.dest('dist/'));
 }));
 
