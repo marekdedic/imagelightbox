@@ -325,7 +325,6 @@
                 else {
                     _nextTarget();
                 }
-                return false;
             });
         }, isTargetValid = function (element) {
             // eslint-disable-next-line
