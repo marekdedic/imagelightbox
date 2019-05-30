@@ -43,6 +43,8 @@
   },
   "browserslist": [
     "cover 95%",
-    "not < 0.1%"
+    "not < 0.1%",
+    "not IE 8",
+    "not OperaMini all"
   ]
 }
