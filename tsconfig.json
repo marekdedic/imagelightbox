@@ -11,9 +11,9 @@
   "files": [
     "src/imagelightbox.d.ts",
     "src/imagelightbox.ts",
-    "src/ExportedFunctions.ts",
-    "src/ILBOptions.ts",
-    "src/PreloadedVideo.ts",
-    "src/TransformCssProperties.ts"
+    "src/interfaces/ExportedFunctions.ts",
+    "src/interfaces/ILBOptions.ts",
+    "src/interfaces/PreloadedVideo.ts",
+    "src/interfaces/TransformCssProperties.ts"
   ]
 }
