@@ -1,6 +1,6 @@
-interface ExportedFunctions extends JQuery
+interface JQuery
 {
-    imageLightbox(opts: ILBOptions): ExportedFunctions;
+    imageLightbox(opts: ILBOptions): JQuery;
     addToImageLightbox(elements: JQuery): void;
     openHistory(): void;
     loadPreviousImage(): void;
