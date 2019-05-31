@@ -97,7 +97,7 @@
                 document.msFullscreenEnabled),
         hasHistorySupport = !!(window.history && history.pushState);
 
-    ($.fn as ExportedFunctions).imageLightbox = function (opts: ILBOptions): ExportedFunctions {
+    $.fn.imageLightbox = function (opts: ILBOptions): JQuery {
         var targetSet = '',
             targets: JQuery = $([]),
             target = $(),
@@ -781,7 +781,7 @@
             _nextTarget();
         };
 
-        this.quitImageLightbox = function (): ExportedFunctions {
+        this.quitImageLightbox = function (): JQuery {
             _quitImageLightbox();
             return this;
         };
