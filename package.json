@@ -1,6 +1,6 @@
 {
   "name": "imagelightbox",
-  "version": "0.14.0",
+  "version": "1.0.0",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
   "homepage": "https://rejas.github.io/imagelightbox",
   "license": "MIT",
@@ -12,18 +12,18 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-clean-css": "^4.0.0",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-clean-css": "^4.2.0",
     "gulp-connect": "^5.7.0",
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^5.0.0",
     "gulp-lintspaces": "^1.0.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
-    "mocha": "^6.0.2",
-    "puppeteer": "^1.14.0"
+    "mocha": "^6.1.4",
+    "puppeteer": "^1.17.0"
   },
   "keywords": [
     "jquery",

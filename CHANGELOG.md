@@ -7,45 +7,60 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0] - 2019-05-31
+
+### Changed
+
+- Don't display caption "bar" if there is no caption for the image #191 (@marekdedic)
+- Do no use real image size to determine if prev or next #194 (@marekdedic)
+- Adding onclick swipe to next only if not a video #195 (@marekdedic)
+- Moved to pupeteer for testing (@rejas)
+
+### Updated
+
+- Update fullscreen code #190 (@rejas)
+- Update dependencies
+ 
+
 ## [0.14.0] - 2018-12-19
 
 ### Changed
 
-- Removed origTargets #175 (@genabitu)
+- Removed origTargets #175 (@marekdedic)
 
 ## [0.13.0] - 2018-11-27
 
 ### Added
 
-- Expose openHistory function #170 (@genabitu)
+- Expose openHistory function #170 (@marekdedic)
 
 ### Fixed
 
-- Fixed #167 History and dynamic adding don't work together (@genabitu)
+- Fixed #167 History and dynamic adding don't work together (@marekdedic)
 
 ## [0.12.0] - 2018-10-12
 
 ### Fixed
 
-- Fixed #161 All videos playing simultaneously (@genabitu)
-- Fixed error with history sometimes deleting path (@genabitu)
+- Fixed #161 All videos playing simultaneously (@marekdedic)
+- Fixed error with history sometimes deleting path (@marekdedic)
 
 ### Changed
 
-- Use correct html element for close-button (@genabitu)
-- Updated style (@genabitu)
+- Use correct html element for close-button (@marekdedic)
+- Updated style (@marekdedic)
 
 ## [0.11.0] - 2018-09-15
 
 ### Added
 
-- Added video functionality (@genabitu)
+- Added video functionality (@marekdedic)
 
 ## [0.10.0] - 2018-06-29
 
 ### Added
 
-- Added history functionality (@genabitu & @paxperscientiam)
+- Added history functionality (@marekdedic & @paxperscientiam)
 
 ### Changed
 
@@ -204,7 +219,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/rejas/imagelightbox/compare/0.14.0...HEAD
+[Unreleased]: https://github.com/rejas/imagelightbox/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/rejas/imagelightbox/compare/0.14.0...1.0.0
 [0.14.0]: https://github.com/rejas/imagelightbox/compare/0.13.0...0.14.0
 [0.13.0]: https://github.com/rejas/imagelightbox/compare/0.12.0...0.13.0
 [0.12.0]: https://github.com/rejas/imagelightbox/compare/0.11.0...0.12.0
