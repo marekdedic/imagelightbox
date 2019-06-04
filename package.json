@@ -2,9 +2,9 @@
   "name": "imagelightbox",
   "version": "1.0.0",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
-  "homepage": "https://rejas.github.io/imagelightbox",
+  "homepage": "https://marekdedic.github.io/imagelightbox",
   "license": "MIT",
-  "repository": "https://github.com/rejas/imagelightbox.git",
+  "repository": "https://github.com/marekdedic/imagelightbox.git",
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
   "dependencies": {
