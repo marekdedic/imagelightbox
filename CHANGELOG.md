@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.1] - 2019-06-19
+
+### Changed
+
+- Redirected everything from rejas to marekdedic
+
+### Fixed
+
+- Fixed #201, a bug with videos not being preloaded if they were added to an already initialized lightbox (@marekdedic)
+
 ## [1.0.0] - 2019-05-31
 
 ### Changed
@@ -219,7 +229,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.0] - 2014-04-24
 
-[Unreleased]: https://github.com/marekdedic/imagelightbox/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/marekdedic/imagelightbox/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/marekdedic/imagelightbox/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/marekdedic/imagelightbox/compare/0.14.0...1.0.0
 [0.14.0]: https://github.com/marekdedic/imagelightbox/compare/0.13.0...0.14.0
 [0.13.0]: https://github.com/marekdedic/imagelightbox/compare/0.12.0...0.13.0
