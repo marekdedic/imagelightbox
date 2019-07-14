@@ -18,7 +18,7 @@
     "gulp-clean-css": "^4.2.0",
     "gulp-connect": "^5.7.0",
     "gulp-csslint": "^1.0.1",
-    "gulp-eslint": "^5.0.0",
+    "gulp-eslint": "^6.0.0",
     "gulp-lintspaces": "^1.0.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
