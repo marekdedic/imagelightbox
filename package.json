@@ -8,7 +8,8 @@
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
   "dependencies": {
-    "jquery": ">=1.12.4 <4.0.0"
+    "jquery": ">=1.12.4 <4.0.0",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -35,6 +36,9 @@
     "fix:js": "eslint --fix src/**/*.js",
     "test": "npm run test:js && npm run test:html",
     "test:html": "mocha --recursive test/src",
-    "test:js": "eslint src/**/*.js"
-  }
+    "test:js": "eslint src/**/*.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
