@@ -75,7 +75,15 @@
         document.mozFullScreenEnabled ||
         document.msFullscreenEnabled), hasHistorySupport = !!(window.history && history.pushState);
     $.fn.imageLightbox = function (opts) {
-        var targetSet = '', targets = $([]), target = $(), videos = [], targetIndex = -1, image = $(), swipeDiff = 0, inProgress = false, currentIndex = 0, options = $.extend({
+        var currentIndex = 0;
+        var image = $();
+        var inProgress = false;
+        var swipeDiff = 0;
+        var target = $();
+        var targetIndex = -1;
+        var targets = $([]);
+        var targetSet = '';
+        var videos = [], options = $.extend({
             selector: 'a[data-imagelightbox]',
             id: 'imagelightbox',
             allowedTypes: 'png|jpg|jpeg|gif',
@@ -131,7 +139,7 @@
             var newQuery = '?' + newField;
             if (query) {
                 var keyRegex = new RegExp('([?&])' + key + '=[^&]*');
-                if (query.match(keyRegex) !== null) {
+                if (keyRegex.exec(query) !== null) {
                     newQuery = query.replace(keyRegex, '$1' + newField);
                 }
                 else {
@@ -212,11 +220,11 @@
                 return;
             }
             var element = targets.filter('[data-ilb2-id="' + newId + '"]');
+            var newIndex = newId;
             if (element.length > 0) {
-                var newIndex = targets.index(element);
+                newIndex = targets.index(element);
             }
             else {
-                newIndex = newId;
                 element = $(targets[newIndex]);
             }
             if (!element[0] || (newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox)) {
@@ -377,7 +385,10 @@
             inProgress = true;
             _onLoadStart();
             setTimeout(function () {
-                var imgPath = target.attr('href'), swipeStart = 0, swipeEnd = 0, imagePosLeft = 0;
+                var swipeStart = 0;
+                var swipeEnd = 0;
+                var imagePosLeft = 0;
+                var imgPath = target.attr('href');
                 // if (imgPath === undefined) {
                 //     imgPath = target.attr('data-lightbox');
                 // }
@@ -416,7 +427,7 @@
                         }, 50);
                     }
                     else {
-                        var imagePosLeft = parseInt(image.css('left'));
+                        imagePosLeft = parseInt(image.css('left'));
                         params.left = imagePosLeft + 'px';
                         image.css('left', imagePosLeft - 100 * direction + 'px');
                     }
@@ -583,13 +594,13 @@
                         id = 'a' + (((1 + Math.random()) * 0x10000) | 0).toString(16); // Random id
                     }
                     $(this).data('ilb2VideoId', id);
-                    var container = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined };
+                    var container_1 = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined };
                     $.each(videoOptions, function (key, value) {
                         if (key === 'autoplay') {
-                            container.a = value;
+                            container_1.a = value;
                         }
                         else if (key !== 'sources') {
-                            container.e = container.e.attr(key, value);
+                            container_1.e = container_1.e.attr(key, value);
                         }
                     });
                     if (videoOptions.sources) {
@@ -598,13 +609,13 @@
                             $.each(source, function (key, value) {
                                 sourceElement = sourceElement.attr(key, value);
                             });
-                            container.e.append(sourceElement);
+                            container_1.e.append(sourceElement);
                         });
                     }
-                    container.e.on('loadedmetadata.ilb7', function () {
-                        container.l = true;
+                    container_1.e.on('loadedmetadata.ilb7', function () {
+                        container_1.l = true;
                     });
-                    videos.push(container);
+                    videos.push(container_1);
                 }
             });
         };
@@ -626,11 +637,11 @@
                     if (!image.length) {
                         return;
                     }
-                    if ([9, 32, 38, 40].indexOf(e.which) > -1) {
+                    if ([9, 32, 38, 40].includes(e.which)) {
                         e.stopPropagation();
                         e.preventDefault();
                     }
-                    if ([13].indexOf(e.which) > -1) {
+                    if ([13].includes(e.which)) {
                         e.stopPropagation();
                         e.preventDefault();
                         toggleFullScreen();
@@ -642,17 +653,17 @@
                     if (!image.length) {
                         return;
                     }
-                    if ([27].indexOf(e.which) > -1 && options.quitOnEscKey) {
+                    if ([27].includes(e.which) && options.quitOnEscKey) {
                         e.stopPropagation();
                         e.preventDefault();
                         _quitImageLightbox();
                     }
-                    if ([37].indexOf(e.which) > -1) {
+                    if ([37].includes(e.which)) {
                         e.stopPropagation();
                         e.preventDefault();
                         _previousTarget();
                     }
-                    if ([39].indexOf(e.which) > -1) {
+                    if ([39].includes(e.which)) {
                         e.stopPropagation();
                         e.preventDefault();
                         _nextTarget();

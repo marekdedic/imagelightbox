@@ -44,6 +44,7 @@
         "@typescript-eslint/no-extraneous-class": "error",
         "@typescript-eslint/no-namespace": ["error", {"allowDeclarations": true}],
         "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-use-before-define": "off"
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/unbound-method": "off"
     }
 }
