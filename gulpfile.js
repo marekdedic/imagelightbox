@@ -38,7 +38,7 @@ gulp.task('editorconfig', function() {
 });
 
 gulp.task('eslint', function() {
-    return gulp.src('src/imagelightbox.ts')
+    return gulp.src('src/**/*.ts')
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
