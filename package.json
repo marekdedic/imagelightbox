@@ -36,5 +36,11 @@
     "test": "npm run test:js && npm run test:html",
     "test:html": "mocha --recursive test/src",
     "test:js": "eslint src/**/*.js"
-  }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "IE >= 9",
+    "Firefox ESR",
+    "Android >= 2.3"
+  ]
 }

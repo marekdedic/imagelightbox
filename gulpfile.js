@@ -22,7 +22,6 @@ gulp.task('copy:css', gulp.series('csslint', function() {
 gulp.task('minify:css', gulp.series('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(autoprefixer({
-            browsers: ['last 2 versions', 'ie >= 9', 'Firefox ESR', 'Android >= 2.3'],
             cascade: false
         }))
         .pipe(cleanCSS())
