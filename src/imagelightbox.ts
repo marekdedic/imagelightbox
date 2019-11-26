@@ -97,7 +97,7 @@
                 document.msFullscreenEnabled),
         hasHistorySupport = !!(window.history && history.pushState);
 
-    $.fn.imageLightbox = function (opts: ILBOptions): JQuery {
+    $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         let currentIndex = 0;
         let image = $();
         let inProgress = false;
