@@ -2,14 +2,13 @@ imagelightbox
 =============
 
 [![npm version](https://badge.fury.io/js/imagelightbox.svg)](https://badge.fury.io/js/imagelightbox)
-[![Build Status](https://secure.travis-ci.org/rejas/imagelightbox.png?branch=master)](http://travis-ci.org/rejas/imagelightbox)
-[![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
+[![Build Status](https://secure.travis-ci.org/marekdedic/imagelightbox.png?branch=master)](http://travis-ci.org/marekdedic/imagelightbox)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
 This is a fork of the lightbox plugin created by [Osvaldas Valutis](http://osvaldas.info/image-lightbox-responsive-touch-friendly/).
 
-See most of the available options at the [Demo Page](http://rejas.github.io/imagelightbox/)
+See most of the available options at the [Demo Page](http://marekdedic.github.io/imagelightbox/)
 
 ## Requirements and Browser support
 

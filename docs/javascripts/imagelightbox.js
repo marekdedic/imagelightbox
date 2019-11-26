@@ -574,8 +574,8 @@
                     targets = targets.add($(this));
                 });
             }
-        }, _preloadVideos = function () {
-            targets.each(function () {
+        }, _preloadVideos = function (elements) {
+            elements.each(function () {
                 var videoOptions = $(this).data('ilb2Video');
                 if (videoOptions) {
                     var id = $(this).data('ilb2Id');
@@ -675,9 +675,10 @@
         $(document).off('click', options.selector);
         _addTargets($(this));
         _openHistory();
-        _preloadVideos();
+        _preloadVideos(targets);
         this.addToImageLightbox = function (elements) {
             _addTargets(elements);
+            _preloadVideos(elements);
         };
         this.openHistory = function () {
             _openHistory();
