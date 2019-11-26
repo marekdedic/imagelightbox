@@ -1,4 +1,8 @@
 {
+    "parserOptions": {
+        "project": "./tsconfig.json",
+        "sourceType": "script"
+    },
     "env": {
         "browser": true,
         "node": false
@@ -12,7 +16,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "rules": {
         "indent": [
