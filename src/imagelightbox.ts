@@ -62,7 +62,7 @@
         hasCssTransitionSupport = cssTransitionSupport() !== false,
 
         cssTransitionTranslateX = function (element: JQuery, positionX: string, speed: number): void {
-            const options: TransformCssProperties = {}, prefix = cssTransitionSupport();
+            const options: Record<string, string> = {}, prefix = cssTransitionSupport();
             options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
             options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
             element.css(options);
