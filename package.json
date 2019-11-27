@@ -19,7 +19,6 @@
     "gulp-connect": "^5.7.0",
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^6.0.0",
-    "gulp-lintspaces": "^1.0.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
     "mocha": "^6.1.4",
