@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 interface ILBOptions {
     selector: string;
     id: string;

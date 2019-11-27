@@ -1,29 +1,29 @@
 declare class LegacyCSSStyleDeclaration extends CSSStyleDeclaration
 {
-    public MozTransition?: any;
-    public OTransition?: any;
+    public MozTransition: string;
+    public OTransition: string;
 }
 declare class LegacyDocument extends Document
 {
-    public webkitFullscreenEnabled?: any;
-    public mozFullScreenEnabled?: any;
-    public msFullscreenEnabled?: any;
+    public webkitFullscreenEnabled?: boolean;
+    public mozFullScreenEnabled?: boolean;
+    public msFullscreenEnabled?: boolean;
 
-    public mozCancelFullScreen?: any;
-    public webkitExitFullscreen?: any;
-    public msExitFullscreen?: any;
+    public mozFullScreenElement?: Element;
+    public webkitFullscreenElement?: Element;
+    public msFullscreenElement?: Element;
 
-    public mozFullScreenElement?: any;
-    public webkitFullscreenElement?: any;
-    public msFullscreenElement?: any;
+    public mozCancelFullScreen?: () => Promise<undefined>;
+    public webkitExitFullscreen?: () => Promise<undefined>;
+    public msExitFullscreen?: () => Promise<undefined>;
 }
 declare class LegacyHTMLElement extends HTMLElement
 {
-    public mozRequestFullScreen?: any;
-    public webkitRequestFullScreen?: any;
-    public msRequestFullscreen?: any;
+    public mozRequestFullScreen(options: FullscreenOptions): Promise<undefined>;
+    public webkitRequestFullScreen(options: FullscreenOptions): Promise<undefined>;
+    public msRequestFullscreen(options: FullscreenOptions): Promise<undefined>;
 }
 declare class LegacyPointerEvent extends PointerEvent
 {
-    public MSPOINTER_TYPE_MOUSE?: string;
+    public MSPOINTER_TYPE_MOUSE: string;
 }
