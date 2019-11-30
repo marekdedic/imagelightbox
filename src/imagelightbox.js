@@ -796,4 +796,6 @@
 
         return this;
     };
+    // alias
+    $.fn.imagelightbox = $.fn.imageLightbox;
 }));
