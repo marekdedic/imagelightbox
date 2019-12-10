@@ -93,9 +93,9 @@
         },
 
         hasFullscreenSupport = !!(document.fullscreenEnabled ||
-                document.webkitFullscreenEnabled ||
-                document.mozFullScreenEnabled ||
-                document.msFullscreenEnabled),
+                                  document.webkitFullscreenEnabled ||
+                                  document.mozFullScreenEnabled ||
+                                  document.msFullscreenEnabled),
         hasHistorySupport = !!(window.history && history.pushState);
 
     $.fn.imageLightbox = function (opts) {
@@ -589,7 +589,17 @@
                 image = $();
             },
 
+            _toggleInactiveState = function (state) {
+                $('[data-imagelightbox]').data('imagelightbox-inactive', state);
+            },
+
             _openImageLightbox = function ($target, noHistory) {
+                var isInactive = $target.data('imagelightbox-inactive') === true;
+
+                if (isInactive) {
+                    return false;
+                }
+
                 if (inProgress) {
                     return false;
                 }
@@ -603,6 +613,7 @@
                 $body.append($wrapper)
                     .addClass('imagelightbox-open');
                 $wrapper.trigger('start.ilb2', $target);
+                _toggleInactiveState(true);
                 _loadImage(0);
             },
 
@@ -621,6 +632,8 @@
                     inProgress = false;
                     $wrapper.remove().find('*').remove();
                 });
+
+                _toggleInactiveState(false);
             },
 
             _addTargets = function (newTargets) {
