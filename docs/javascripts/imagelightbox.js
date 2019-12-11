@@ -683,7 +683,7 @@
                 exitFullScreen.call(doc);
             }
         }
-        $(document).off('click', options.selector);
+        $(document).off('.ilb7 .ilb2', options.selector);
         _addTargets($(this));
         _openHistory();
         _preloadVideos(targets);
