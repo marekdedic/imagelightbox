@@ -429,7 +429,7 @@
                 }
 
                 if (image.length) {
-                    const params = {'opacity': 0, 'left': ''};
+                    const params: AnimationParams = {opacity: 0};
                     if (hasCssTransitionSupport) {
                         cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
@@ -478,7 +478,7 @@
                             .attr('src', imgPath!);
                     }
                     function onload (): void {
-                        const params = {'opacity': 1, 'left': ''};
+                        const params: AnimationParams = {opacity: 1};
 
                         image.appendTo($wrapper);
                         _setImage();

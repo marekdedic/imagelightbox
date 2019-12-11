@@ -370,7 +370,7 @@
                 return;
             }
             if (image.length) {
-                var params = { 'opacity': 0, 'left': '' };
+                var params = { opacity: 0 };
                 if (hasCssTransitionSupport) {
                     cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                 }
@@ -416,7 +416,7 @@
                         .attr('src', imgPath);
                 }
                 function onload() {
-                    var params = { 'opacity': 1, 'left': '' };
+                    var params = { opacity: 1 };
                     image.appendTo($wrapper);
                     _setImage();
                     image.css('opacity', 0);
@@ -713,6 +713,8 @@
         return this;
     };
 }));
+
+"use strict";
 
 "use strict";
 
