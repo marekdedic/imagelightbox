@@ -11,6 +11,7 @@
   "files": [
     "src/imagelightbox.d.ts",
     "src/imagelightbox.ts",
+    "src/interfaces/AnimationParams.ts",
     "src/interfaces/ILBOptions.ts",
     "src/interfaces/JQuery.ts",
     "src/interfaces/PreloadedVideo.ts",
