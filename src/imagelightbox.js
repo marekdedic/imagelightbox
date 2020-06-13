@@ -412,6 +412,17 @@
                     });
                 }
 
+                var videoId = image.data('ilb2VideoId');
+                var videoHasDimensions = false;
+                videos.each(function() {
+                    if( videoId === this.i ) {
+                        setSizes(this.w, this.h);
+                        videoHasDimensions = true;
+                    }
+                });
+                if (videoHasDimensions) {
+                    return;
+                }
                 if(image.get(0).videoWidth !== undefined) {
                     setSizes(image.get(0).videoWidth, image.get(0).videoHeight);
                     return;
@@ -660,11 +671,21 @@
                             id = 'a' + (((1+Math.random())*0x10000)|0).toString(16); // Random id
                         }
                         $(this).data('ilb2VideoId', id);
-                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined}; // e = element, i = id, l = is metadata loaded, a = autoplay
+                        var container = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\' data-ilb2-video-id=\'' + id + '\'>'), i: id, l: false, a: undefined, h: undefined, w: undefined}; // e = element, i = id, l = is metadata loaded, a = autoplay, h = height, w = width
                         $.each(videoOptions, function(key, value) {
-                            if(key === 'autoplay') {
+                            switch(key) {
+                            case 'autoplay':
                                 container.a = value;
-                            } else if(key !== 'sources') {
+                                break;
+                            case 'height':
+                                container.h = value;
+                                break;
+                            case 'sources':
+                                break;
+                            case 'width':
+                                container.w = value;
+                                break;
+                            default:
                                 container.e = container.e.attr(key, value);
                             }
                         });
