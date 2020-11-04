@@ -45,7 +45,7 @@ $( selector ).imageLightbox({
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
     history:        false,                   // bool;            enable image permalinks and history
-    fullscreen:     false                    // bool;            enable fullscreen (enter/return key)
+    fullscreen:     false,                    // bool;            enable fullscreen (enter/return key)
     gutter:         10,                      // integer;         window height less height of image as a percentage
     offsetY:        0,                       // integer;         vertical offset in terms of gutter
     navigation:     false,                   // bool;            show navigation
