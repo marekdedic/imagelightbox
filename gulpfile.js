@@ -4,7 +4,6 @@ var gulp            = require('gulp'),
     connect         = require('gulp-connect'),
     csslint         = require('gulp-csslint'),
     eslint          = require('gulp-eslint'),
-    lintspaces      = require('gulp-lintspaces'),
     rename          = require('gulp-rename'),
     uglify          = require('gulp-uglify'),
     stylelint       = require('gulp-stylelint');
@@ -33,19 +32,12 @@ gulp.task('copy:css', gulp.series('csslint', 'stylelint', function() {
 gulp.task('minify:css', gulp.series('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(autoprefixer({
-            browsers: ['last 2 versions', 'ie >= 9', 'Firefox ESR', 'Android >= 2.3'],
             cascade: false
         }))
         .pipe(cleanCSS())
         .pipe(rename('imagelightbox.min.css'))
         .pipe(gulp.dest('dist/'));
 }));
-
-gulp.task('editorconfig', function() {
-    return gulp.src('src/imagelightbox.js')
-        .pipe(lintspaces({editorconfig: './.editorconfig'}))
-        .pipe(lintspaces.reporter());
-});
 
 gulp.task('eslint', function() {
     return gulp.src('src/imagelightbox.js')
@@ -54,7 +46,7 @@ gulp.task('eslint', function() {
         .pipe(eslint.failAfterError());
 });
 
-gulp.task('copy:js',  gulp.series('editorconfig', 'eslint', function() {
+gulp.task('copy:js',  gulp.series('eslint', function() {
     return gulp.src('src/imagelightbox.js')
         .pipe(gulp.dest('docs/javascripts/'));
 }));
