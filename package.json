@@ -31,10 +31,8 @@
   "scripts": {
     "build": "gulp",
     "start": "gulp dev",
-    "fix:js": "eslint --fix src/**/*.js",
-    "test": "npm run test:js && npm run test:html",
-    "test:html": "mocha --recursive test/src",
-    "test:js": "eslint src/**/*.js"
+    "test": "mocha --recursive test/src",
+    "lint": "eslint src/**/*.js"
   },
   "browserslist": [
     "last 2 versions",
