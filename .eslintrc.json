@@ -6,8 +6,10 @@
     "globals": {
         "jQuery": true
     },
+    "plugins": ["compat"],
     "extends": "eslint:recommended",
     "rules": {
+        "compat/compat": "warn",
         "indent": [
             "error",
             4
