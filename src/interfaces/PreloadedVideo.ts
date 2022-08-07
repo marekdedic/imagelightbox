@@ -4,4 +4,6 @@ interface PreloadedVideo
     i: string; // id
     l: boolean; // is metadata loaded
     a?: string; // autoplay
+    h?: number; // height
+    w?: number; // width
 }
