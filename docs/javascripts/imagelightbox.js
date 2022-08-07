@@ -355,6 +355,17 @@
                     'left': cssLeft + 'px'
                 });
             }
+            var videoId = image.data('ilb2VideoId');
+            var videoHasDimensions = false;
+            $.each(videos, function (_, video) {
+                if (videoId === this.i) {
+                    setSizes(video.w, video.h);
+                    videoHasDimensions = true;
+                }
+            });
+            if (videoHasDimensions) {
+                return;
+            }
             var videoElement = image.get(0);
             if (videoElement.videoWidth !== undefined) {
                 setSizes(videoElement.videoWidth, videoElement.videoHeight);
@@ -594,13 +605,22 @@
                         id = 'a' + (((1 + Math.random()) * 0x10000) | 0).toString(16); // Random id
                     }
                     $(this).data('ilb2VideoId', id);
-                    var container_1 = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined };
+                    var container_1 = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\' data-ilb2-video-id=\'' + id + '\'>'), i: id, l: false, a: undefined, h: undefined, w: undefined };
                     $.each(videoOptions, function (key, value) {
-                        if (key === 'autoplay') {
-                            container_1.a = value;
-                        }
-                        else if (key !== 'sources') {
-                            container_1.e = container_1.e.attr(key, value);
+                        switch (key) {
+                            case 'autoplay':
+                                container_1.a = value;
+                                break;
+                            case 'height':
+                                container_1.h = value;
+                                break;
+                            case 'sources':
+                                break;
+                            case 'width':
+                                container_1.w = value;
+                                break;
+                            default:
+                                container_1.e = container_1.e.attr(key, value);
                         }
                     });
                     if (videoOptions.sources) {

@@ -410,6 +410,17 @@
                     });
                 }
 
+                const videoId = image.data('ilb2VideoId');
+                let videoHasDimensions = false;
+                $.each(videos, function(_, video) {
+                    if( videoId === this.i ) {
+                        setSizes(video.w!, video.h!);
+                        videoHasDimensions = true;
+                    }
+                });
+                if (videoHasDimensions) {
+                    return;
+                }
                 const videoElement = image.get(0) as HTMLVideoElement;
                 if(videoElement.videoWidth !== undefined) {
                     setSizes(videoElement.videoWidth, videoElement.videoHeight);
@@ -660,11 +671,21 @@
                             id = 'a' + (((1+Math.random())*0x10000)|0).toString(16); // Random id
                         }
                         $(this).data('ilb2VideoId', id);
-                        const container: PreloadedVideo = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\'>'), i: id, l: false, a: undefined};
+                        const container: PreloadedVideo = {e: $('<video id=\'' + options.id + '\' preload=\'metadata\' data-ilb2-video-id=\'' + id + '\'>'), i: id, l: false, a: undefined, h: undefined, w: undefined};
                         $.each(videoOptions, function(key: string, value): void {
-                            if(key === 'autoplay') {
+                            switch(key) {
+                            case 'autoplay':
                                 container.a = value;
-                            } else if(key !== 'sources') {
+                                break;
+                            case 'height':
+                                container.h = value;
+                                break;
+                            case 'sources':
+                                break;
+                            case 'width':
+                                container.w = value;
+                                break;
+                            default:
                                 container.e = container.e.attr(key, value);
                             }
                         });
