@@ -2,14 +2,13 @@ imagelightbox
 =============
 
 [![npm version](https://badge.fury.io/js/imagelightbox.svg)](https://badge.fury.io/js/imagelightbox)
-[![Build Status](https://secure.travis-ci.org/rejas/imagelightbox.png?branch=master)](http://travis-ci.org/rejas/imagelightbox)
-[![Greenkeeper badge](https://badges.greenkeeper.io/rejas/imagelightbox.svg)](https://greenkeeper.io/)
+[![Build Status](https://secure.travis-ci.org/marekdedic/imagelightbox.png?branch=master)](http://travis-ci.org/marekdedic/imagelightbox)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
 This is a fork of the lightbox plugin created by [Osvaldas Valutis](http://osvaldas.info/image-lightbox-responsive-touch-friendly/).
 
-See most of the available options at the [Demo Page](http://rejas.github.io/imagelightbox/)
+See most of the available options at the [Demo Page](http://marekdedic.github.io/imagelightbox/)
 
 ## Requirements and Browser support
 
@@ -46,7 +45,7 @@ $( selector ).imageLightbox({
     caption:        false,                   // bool;            show captions
     enableKeyboard: true,                    // bool;            enable keyboard shortcuts (arrows Left/Right and Esc)
     history:        false,                   // bool;            enable image permalinks and history
-    fullscreen:     false                    // bool;            enable fullscreen (enter/return key)
+    fullscreen:     false,                   // bool;            enable fullscreen (enter/return key)
     gutter:         10,                      // integer;         window height less height of image as a percentage
     offsetY:        0,                       // integer;         vertical offset in terms of gutter
     navigation:     false,                   // bool;            show navigation
@@ -113,7 +112,7 @@ they can switch to fullscreen mode by pressing enter.
 Video can be displayed in imagelightbox, by including a `data-ilb2-video` attribute in the link. This attribute should contain a JSON-encoded list of parameters as they would be in an HTML5 video tag. For multiple video sources, the `sources` field can be added, containing a list of similarily encoded HTML5 source tags.
 
 ````html
-    <a data-ilb2-video='{"controls":"controls", "autoplay":"autoplay", "sources":[{"src":"images/video.m4v", "type":"video/mp4"}]}' data-imagelightbox="x">
+    <a data-ilb2-video='{"controls":"controls", "autoplay":"autoplay", "sources":[{"src":"images/video.m4v", "type":"video/mp4"}], "width": 1920, "height": 1080}' data-imagelightbox="x">
 	    <img src="images/video-thumb.jpg">
     </a>
 ````
