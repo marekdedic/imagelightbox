@@ -1,35 +1,18 @@
+/* eslint-env node */
+
 var gulp            = require('gulp'),
     autoprefixer    = require('gulp-autoprefixer'),
     cleanCSS        = require('gulp-clean-css'),
     concat          = require('gulp-concat'),
     connect         = require('gulp-connect'),
-    csslint         = require('gulp-csslint'),
-    eslint          = require('gulp-eslint'),
     rename          = require('gulp-rename'),
     ts              = require('gulp-typescript'),
-    uglify          = require('gulp-uglify'),
-    stylelint       = require('gulp-stylelint');
+    uglify          = require('gulp-uglify');
 
-gulp.task('csslint', function() {
-    return gulp.src('src/imagelightbox.css')
-        .pipe(csslint('.csslintrc'))
-        .pipe(csslint.formatter());
-});
-
-gulp.task('stylelint', function() {
-    return gulp.src('src/imagelightbox.css')
-        .pipe(stylelint({
-            failAfterError: true,
-            reporters: [
-                {formatter: 'string', console: true}
-            ]
-        }));
-});
-
-gulp.task('copy:css', gulp.series('csslint', 'stylelint', function() {
+gulp.task('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(gulp.dest('docs/stylesheets/'));
-}));
+});
 
 gulp.task('minify:css', gulp.series('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
@@ -41,25 +24,18 @@ gulp.task('minify:css', gulp.series('copy:css', function() {
         .pipe(gulp.dest('dist/'));
 }));
 
-gulp.task('eslint', function() {
-    return gulp.src('src/**/*.ts')
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-});
-
-gulp.task('copy:js',  gulp.series('eslint', function() {
+gulp.task('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
-    return tsProject.src()
-        .pipe(tsProject())
+    return gulp.src(['src/**/*.ts'])
+        .pipe(tsProject()).js
         .pipe(concat('imagelightbox.js'))
         .pipe(gulp.dest('docs/javascripts/'));
-}));
+});
 
 gulp.task('minify:js', gulp.series('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
-    return tsProject.src()
-        .pipe(tsProject())
+    return gulp.src(['src/**/*.ts'])
+        .pipe(tsProject()).js
         .pipe(concat('imagelightbox.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
