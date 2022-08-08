@@ -11,22 +11,29 @@
     "jquery": ">=1.12.4 <4.0.0"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.31",
+    "@types/node": "^12.12.14",
+    "@typescript-eslint/eslint-plugin": "^2.9.0",
+    "@typescript-eslint/parser": "^2.9.0",
     "chai": "^4.2.0",
-    "eslint-plugin-compat": "^3.1.0",
+    "eslint-plugin-compat": "^4.0.2",
     "express": "^4.17.1",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.2.0",
+    "gulp-concat": "^2.6.1",
     "gulp-connect": "^5.7.0",
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^6.0.0",
     "gulp-rename": "^2.0.0",
+    "gulp-typescript": "^5.0.1",
     "gulp-stylelint": "^8.0.0",
     "gulp-uglify": "^3.0.2",
     "mocha": "^10.0.0",
     "puppeteer": "^16.0.0",
     "stylelint": "^9.9.0",
-    "stylelint-no-unsupported-browser-features": "^3.0.2"
+    "stylelint-no-unsupported-browser-features": "^3.0.2",
+    "typescript": "^3.7.2"
   },
   "keywords": [
     "jquery",
@@ -36,7 +43,7 @@
     "build": "gulp",
     "start": "gulp dev",
     "test": "mocha --recursive test/src",
-    "lint": "eslint src/**/*.js"
+    "lint": "gulp eslint"
   },
   "browserslist": [
     "cover 95%",
