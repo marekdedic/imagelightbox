@@ -24,16 +24,16 @@ gulp.task('minify:css', gulp.series('copy:css', function() {
 
 gulp.task('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
-    return tsProject.src()
-        .pipe(tsProject())
+    return gulp.src(['src/**/*.ts'])
+        .pipe(tsProject()).js
         .pipe(concat('imagelightbox.js'))
         .pipe(gulp.dest('docs/javascripts/'));
 });
 
 gulp.task('minify:js', gulp.series('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
-    return tsProject.src()
-        .pipe(tsProject())
+    return gulp.src(['src/**/*.ts'])
+        .pipe(tsProject()).js
         .pipe(concat('imagelightbox.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/'));
