@@ -1,10 +1,12 @@
 var gulp            = require('gulp'),
     autoprefixer    = require('gulp-autoprefixer'),
     cleanCSS        = require('gulp-clean-css'),
+    concat          = require('gulp-concat'),
     connect         = require('gulp-connect'),
     csslint         = require('gulp-csslint'),
     eslint          = require('gulp-eslint'),
     rename          = require('gulp-rename'),
+    ts              = require('gulp-typescript'),
     uglify          = require('gulp-uglify'),
     stylelint       = require('gulp-stylelint');
 
@@ -40,21 +42,26 @@ gulp.task('minify:css', gulp.series('copy:css', function() {
 }));
 
 gulp.task('eslint', function() {
-    return gulp.src('src/imagelightbox.js')
+    return gulp.src('src/**/*.ts')
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
 });
 
 gulp.task('copy:js',  gulp.series('eslint', function() {
-    return gulp.src('src/imagelightbox.js')
+    var tsProject = ts.createProject('tsconfig.json');
+    return tsProject.src()
+        .pipe(tsProject())
+        .pipe(concat('imagelightbox.js'))
         .pipe(gulp.dest('docs/javascripts/'));
 }));
 
 gulp.task('minify:js', gulp.series('copy:js', function() {
-    return gulp.src('src/imagelightbox.js')
+    var tsProject = ts.createProject('tsconfig.json');
+    return tsProject.src()
+        .pipe(tsProject())
+        .pipe(concat('imagelightbox.min.js'))
         .pipe(uglify())
-        .pipe(rename('imagelightbox.min.js'))
         .pipe(gulp.dest('dist/'));
 }));
 
