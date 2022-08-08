@@ -3,12 +3,9 @@ var gulp            = require('gulp'),
     cleanCSS        = require('gulp-clean-css'),
     concat          = require('gulp-concat'),
     connect         = require('gulp-connect'),
-    csslint         = require('gulp-csslint'),
-    eslint          = require('gulp-eslint'),
     rename          = require('gulp-rename'),
     ts              = require('gulp-typescript'),
     uglify          = require('gulp-uglify'),
-    stylelint       = require('gulp-stylelint');
 
 gulp.task('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
