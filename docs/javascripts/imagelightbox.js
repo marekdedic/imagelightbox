@@ -239,6 +239,9 @@
             targetIndex = newIndex;
             _loadImage(direction);
         }, _previousTarget = function () {
+            if (inProgress) {
+                return;
+            }
             targetIndex--;
             if (targetIndex < 0) {
                 if (options.quitOnEnd === true) {
@@ -254,6 +257,9 @@
             $wrapper.trigger('previous.ilb2', target);
             _loadImage(+1);
         }, _nextTarget = function () {
+            if (inProgress) {
+                return;
+            }
             targetIndex++;
             if (targetIndex >= targets.length) {
                 if (options.quitOnEnd === true) {
