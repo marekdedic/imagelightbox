@@ -1,6 +1,8 @@
 {
-    "box-model":            false,
-    "ids":                  false,
-    "order-alphabetical":   false,
-    "fallback-colors":      false
+    "ignore": [
+        "box-model",
+        "ids",
+        "order-alphabetical",
+        "fallback-colors"
+    ]
 }
