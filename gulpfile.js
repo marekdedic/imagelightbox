@@ -41,20 +41,13 @@ gulp.task('minify:css', gulp.series('copy:css', function() {
         .pipe(gulp.dest('dist/'));
 }));
 
-gulp.task('eslint', function() {
-    return gulp.src('src/**/*.ts')
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-});
-
-gulp.task('copy:js',  gulp.series('eslint', function() {
+gulp.task('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
     return tsProject.src()
         .pipe(tsProject())
         .pipe(concat('imagelightbox.js'))
         .pipe(gulp.dest('docs/javascripts/'));
-}));
+});
 
 gulp.task('minify:js', gulp.series('copy:js', function() {
     var tsProject = ts.createProject('tsconfig.json');
