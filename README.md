@@ -51,7 +51,6 @@ $( selector ).imageLightbox({
     navigation:     false,                   // bool;            show navigation
     overlay:        false,                   // bool;            display the lightbox as an overlay
     preloadNext:    true,                    // bool;            silently preload the next image
-    splitClickNav:  true,                    // bool;            If true, clicking right side of image goes to next, left side to previous. If false, clicking anywhere in image goes to next
     quitOnEnd:      false,                   // bool;            quit after viewing the last image
     quitOnImgClick: false,                   // bool;            quit when the viewed image is clicked
     quitOnDocClick: true,                    // bool;            quit when anything but the viewed image is clicked
