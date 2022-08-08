@@ -1,3 +1,5 @@
+/* exported PreloadedVideo */
+
 interface PreloadedVideo
 {
     e: JQuery; // element
