@@ -1,5 +1,4 @@
-interface JQuery
-{
+interface JQuery {
     imageLightbox(opts: Partial<ILBOptions>): JQuery;
     addToImageLightbox(elements: JQuery): void;
     openHistory(): void;
