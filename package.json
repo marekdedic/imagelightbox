@@ -12,9 +12,10 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.31",
-    "@typescript-eslint/eslint-plugin": "^2.9.0",
-    "@typescript-eslint/parser": "^2.9.0",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
     "chai": "^4.2.0",
+    "eslint": "^8.21.0",
     "eslint-plugin-compat": "^4.0.2",
     "express": "^4.17.1",
     "gulp": "^4.0.2",
