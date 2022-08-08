@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.31",
-    "@types/node": "^12.12.14",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "chai": "^4.2.0",
@@ -26,8 +25,8 @@
     "gulp-csslint": "^1.0.1",
     "gulp-eslint": "^6.0.0",
     "gulp-rename": "^2.0.0",
-    "gulp-typescript": "^5.0.1",
     "gulp-stylelint": "^8.0.0",
+    "gulp-typescript": "^5.0.1",
     "gulp-uglify": "^3.0.2",
     "mocha": "^10.0.0",
     "puppeteer": "^16.0.0",
