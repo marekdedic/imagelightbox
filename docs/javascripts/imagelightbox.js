@@ -125,7 +125,6 @@
                 navigation:     false,
                 overlay:        false,
                 preloadNext:    true,
-                splitClickNav:  true,
                 quitOnEnd:      false,
                 quitOnImgClick: false,
                 quitOnDocClick: true,
@@ -529,7 +528,7 @@
                             return true;
                         }
                         var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
-                        if (options.splitClickNav && e.target.width / 3 > posX) {
+                        if (e.target.width / 3 > posX) {
                             _previousTarget();
                         } else {
                             _nextTarget();
