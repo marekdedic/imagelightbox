@@ -275,6 +275,10 @@
                 _loadImage(direction);
             },
             _previousTarget = function (): void {
+                if (inProgress) {
+                    return;
+                }
+
                 targetIndex--;
                 if (targetIndex < 0) {
                     if (options.quitOnEnd === true) {
@@ -291,6 +295,10 @@
                 _loadImage(+1);
             },
             _nextTarget = function (): void {
+                if (inProgress) {
+                    return;
+                }
+
                 targetIndex++;
                 if (targetIndex >= targets.length) {
                     if (options.quitOnEnd === true) {
