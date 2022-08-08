@@ -5,7 +5,7 @@
     // the jQuery object that the module system is using and pass it in.
     // Otherwise, we're working in a browser, so just pass in the global
     // jQuery object.
-    factory((typeof module === 'object' && typeof module.exports === 'object') ? require('jquery') : jQuery, window, document );
+    factory((typeof module === 'object' && typeof module.exports === 'object') ? require('jquery') as JQueryStatic : jQuery, window, document );
 }(function ($: JQueryStatic, window: Window, document: LegacyDocument): void {
     'use strict';
     // COMPONENTS //
@@ -42,7 +42,7 @@
         }),
         $body = $('body');
 
-    const cssTransitionSupport = function (): string|boolean {
+    const cssTransitionSupport = function (): string|false {
             const s = (document.body || document.documentElement).style as LegacyCSSStyleDeclaration;
             if (s.transition === '') {
                 return '';
@@ -62,14 +62,15 @@
         hasCssTransitionSupport = cssTransitionSupport() !== false,
 
         cssTransitionTranslateX = function (element: JQuery, positionX: string, speed: number): void {
-            const options: Record<string, string> = {}, prefix = cssTransitionSupport();
+            const options: Record<string, string> = {}, prefix = cssTransitionSupport() || '';
             options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
-            options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
+            options[prefix + 'transition'] = prefix + 'transform ' + speed.toString() + 's ease-in';
             element.css(options);
         },
 
         hasTouch = ('ontouchstart' in window),
-        hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+        navigator = window.navigator as LegacyNavigator,
+        hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled,
         wasTouched = function (event: PointerEvent): boolean {
             if (hasTouch) {
                 return true;
@@ -104,7 +105,7 @@
         let swipeDiff = 0;
         let target = $();
         let targetIndex = -1;
-        let targets: JQuery = $([]);
+        let targets: JQuery<HTMLElement> = $([]);
         let targetSet = '';
         const videos: Array<PreloadedVideo> = [],
             options = $.extend({
@@ -243,7 +244,7 @@
                 _openImageLightbox(element, true);
             },
             _popHistory = function (event: BaseJQueryEventObject): void {
-                const newState = (event.originalEvent as PopStateEvent).state;
+                const newState = (event.originalEvent as PopStateEvent).state as {imageLightboxIndex: string, imageLightboxSet: string}|undefined;
                 if(!newState) {
                     _quitImageLightbox(true);
                     return;
@@ -253,13 +254,11 @@
                     _quitImageLightbox(true);
                     return;
                 }
-                let element = targets.filter('[data-ilb2-id="' + newId + '"]');
-                let newIndex = newId;
-                if(element.length > 0) {
-                    newIndex = targets.index(element);
-                } else {
-                    element = $(targets[newIndex]);
+                const element = targets.filter('[data-ilb2-id="' + newId + '"]');
+                if(element.length === 0) {
+                    return;
                 }
+                const newIndex = targets.index(element);
                 if(!element[0] || (newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox)) {
                     return;
                 }
@@ -327,7 +326,7 @@
                 $captionObject.html('&nbsp;');
                 if ($(target).data('ilb2-caption')) {
                     $captionObject.css('opacity', '1');
-                    $captionObject.html($(target).data('ilb2-caption'));
+                    $captionObject.html($(target).data('ilb2-caption') as string);
                 } else if ($(target).find('img').attr('alt')) {
                     $captionObject.css('opacity', '1');
                     $captionObject.html($(target).find('img').attr('alt')!);
@@ -404,13 +403,13 @@
                         cssLeft = ($(window).width()! - cssWidth ) / 2;
 
                     image.css({
-                        'width': cssWidth + 'px',
-                        'height': cssHeight + 'px',
-                        'left':  cssLeft + 'px'
+                        'width': cssWidth.toString() + 'px',
+                        'height': cssHeight.toString() + 'px',
+                        'left':  cssLeft.toString() + 'px'
                     });
                 }
 
-                const videoId = image.data('ilb2VideoId');
+                const videoId = image.data('ilb2VideoId') as string;
                 let videoHasDimensions = false;
                 $.each(videos, function(_, video) {
                     if( videoId === this.i ) {
@@ -442,10 +441,10 @@
                 if (image.length) {
                     const params: JQuery.PlainObject= {opacity: 0};
                     if (hasCssTransitionSupport) {
-                        cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
+                        cssTransitionTranslateX(image, ((100 * direction) - swipeDiff).toString() + 'px', options.animationSpeed / 1000);
                     }
                     else {
-                        params.left = parseInt(image.css('left')) + (100 * direction) + 'px';
+                        params.left = (parseInt(image.css('left')) + (100 * direction)).toString() + 'px';
                     }
                     image.animate(params, options.animationSpeed, function (): void {
                         _removeImage();
@@ -466,7 +465,7 @@
                     //     imgPath = target.attr('data-lightbox');
                     // }
 
-                    const videoOptions = target.data('ilb2Video');
+                    const videoOptions = target.data('ilb2Video') as VideoOptions;
                     let element = $();
                     let preloadedVideo;
                     if (videoOptions) {
@@ -479,7 +478,7 @@
                                         element.attr('autoplay', video.a);
                                     }
                                     if(preloadedVideo === true) {
-                                        (element.get(0) as HTMLVideoElement).play();
+                                        void (element.get(0) as HTMLVideoElement).play();
                                     }
                                 }
                             }
@@ -495,14 +494,14 @@
                         _setImage();
                         image.css('opacity', 0);
                         if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, -100 * direction + 'px', 0);
+                            cssTransitionTranslateX(image, (-100 * direction).toString() + 'px', 0);
                             setTimeout(function (): void {
-                                cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                cssTransitionTranslateX(image, '0px', options.animationSpeed / 1000);
                             }, 50);
                         } else {
                             imagePosLeft = parseInt(image.css('left'));
-                            params.left = imagePosLeft + 'px';
-                            image.css('left', imagePosLeft - 100 * direction + 'px');
+                            params.left = imagePosLeft.toString() + 'px';
+                            image.css('left', (imagePosLeft - 100 * direction).toString() + 'px');
                         }
 
                         image.animate(params, options.animationSpeed, function (): void {
@@ -556,9 +555,9 @@
                             swipeEnd = (e.originalEvent as PointerEvent).pageX || (e.originalEvent as TouchEvent).touches[0].pageX;
                             swipeDiff = swipeStart - swipeEnd;
                             if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(image, -swipeDiff + 'px', 0);
+                                cssTransitionTranslateX(image, (-swipeDiff).toString() + 'px', 0);
                             } else {
-                                image.css('left', imagePosLeft - swipeDiff + 'px');
+                                image.css('left', (imagePosLeft - swipeDiff).toString() + 'px');
                             }
                         })
                         .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e): void {
@@ -573,9 +572,9 @@
                                 }
                             } else {
                                 if (hasCssTransitionSupport) {
-                                    cssTransitionTranslateX(image, 0 + 'px', options.animationSpeed / 1000);
+                                    cssTransitionTranslateX(image, '0px', options.animationSpeed / 1000);
                                 } else {
-                                    image.animate({'left': imagePosLeft + 'px'}, options.animationSpeed / 2);
+                                    image.animate({'left': imagePosLeft.toString() + 'px'}, options.animationSpeed / 2);
                                 }
                             }
                         });
@@ -640,7 +639,7 @@
                 });
                 newTargets.on('click.ilb7', {set: targetSet}, function (e): void {
                     e.preventDefault();
-                    targetSet = $(e.currentTarget).data('imagelightbox');
+                    targetSet = $(e.currentTarget).data('imagelightbox') as string;
                     filterTargets();
                     if (targets.length < 1) {
                         _quitImageLightbox();
@@ -664,9 +663,9 @@
 
             _preloadVideos = function (elements: JQuery): void {
                 elements.each(function() {
-                    const videoOptions = $(this).data('ilb2Video');
+                    const videoOptions = $(this).data('ilb2Video') as VideoOptions;
                     if (videoOptions) {
-                        let id = $(this).data('ilb2Id');
+                        let id = $(this).data('ilb2Id') as string;
                         if(!id) {
                             id = 'a' + (((1+Math.random())*0x10000)|0).toString(16); // Random id
                         }
@@ -675,25 +674,27 @@
                         $.each(videoOptions, function(key: string, value): void {
                             switch(key) {
                             case 'autoplay':
-                                container.a = value;
+                                container.a = value as string;
                                 break;
                             case 'height':
-                                container.h = value;
+                                container.h = value as number;
                                 break;
                             case 'sources':
                                 break;
                             case 'width':
-                                container.w = value;
+                                container.w = value as number;
                                 break;
                             default:
-                                container.e = container.e.attr(key, value);
+                                // TODO: Remove this general behaviour
+                                container.e = container.e.attr(key, value as string|number);
                             }
                         });
                         if(videoOptions.sources) {
                             $.each(videoOptions.sources, function (_, source): void {
                                 let sourceElement = $('<source>');
                                 $.each(source, function(key: string, value): void {
-                                    sourceElement = sourceElement.attr(key, value);
+                                    // TODO: Remove this general behaviour
+                                    sourceElement = sourceElement.attr(key, value as string);
                                 });
                                 container.e.append(sourceElement);
                             });
@@ -771,10 +772,10 @@
             const exitFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
             if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-                requestFullScreen.call(docEl);
+                void requestFullScreen.call(docEl);
             }
             else {
-                exitFullScreen.call(doc);
+                void exitFullScreen.call(doc);
             }
         }
 

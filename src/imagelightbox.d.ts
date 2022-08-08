@@ -23,6 +23,11 @@ declare class LegacyHTMLElement extends HTMLElement
     public webkitRequestFullScreen(options: FullscreenOptions): Promise<undefined>;
     public msRequestFullscreen(options: FullscreenOptions): Promise<undefined>;
 }
+declare class LegacyNavigator extends Navigator
+{
+    public pointerEnabled: boolean;
+    public msPointerEnabled: boolean;
+}
 declare class LegacyPointerEvent extends PointerEvent
 {
     public MSPOINTER_TYPE_MOUSE: string;
