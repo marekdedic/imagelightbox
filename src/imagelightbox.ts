@@ -528,7 +528,7 @@
                             return;
                         }
                         const posX = (e.pageX || (e.originalEvent as PointerEvent).pageX) - (e.target as HTMLImageElement).offsetLeft;
-                        if ((e.target as HTMLImageElement).width / 2 > posX) {
+                        if ((e.target as HTMLImageElement).width / 3 > posX) {
                             _previousTarget();
                         } else {
                             _nextTarget();
