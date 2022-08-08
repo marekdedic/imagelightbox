@@ -33,7 +33,7 @@
     "puppeteer": "^16.0.0",
     "stylelint": "^9.9.0",
     "stylelint-no-unsupported-browser-features": "^3.0.2",
-    "typescript": "^3.7.2"
+    "typescript": "^4.7.4"
   },
   "keywords": [
     "jquery",

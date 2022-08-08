@@ -54,7 +54,7 @@
         options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
         options[prefix + 'transition'] = prefix + 'transform ' + speed + 's ease-in';
         element.css(options);
-    }, hasTouch = ('ontouchstart' in window), hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled, wasTouched = function (event) {
+    }, hasTouch = ('ontouchstart' in window), navigator = window.navigator, hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled, wasTouched = function (event) {
         if (hasTouch) {
             return true;
         }

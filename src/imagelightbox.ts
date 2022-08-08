@@ -69,7 +69,8 @@
         },
 
         hasTouch = ('ontouchstart' in window),
-        hasPointers = window.navigator.pointerEnabled || window.navigator.msPointerEnabled,
+        navigator = window.navigator as LegacyNavigator,
+        hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled,
         wasTouched = function (event: PointerEvent): boolean {
             if (hasTouch) {
                 return true;
