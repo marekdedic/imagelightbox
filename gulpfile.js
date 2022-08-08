@@ -5,7 +5,7 @@ var gulp            = require('gulp'),
     connect         = require('gulp-connect'),
     rename          = require('gulp-rename'),
     ts              = require('gulp-typescript'),
-    uglify          = require('gulp-uglify'),
+    uglify          = require('gulp-uglify');
 
 gulp.task('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
