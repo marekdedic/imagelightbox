@@ -440,7 +440,7 @@
                 }
 
                 if (image.length) {
-                    const params: AnimationParams = {opacity: 0};
+                    const params: JQuery.PlainObject= {opacity: 0};
                     if (hasCssTransitionSupport) {
                         cssTransitionTranslateX(image, (100 * direction) - swipeDiff + 'px', options.animationSpeed / 1000);
                     }
@@ -489,7 +489,7 @@
                             .attr('src', imgPath!);
                     }
                     function onload (): void {
-                        const params: AnimationParams = {opacity: 1};
+                        const params: JQuery.PlainObject = {opacity: 1};
 
                         image.appendTo($wrapper);
                         _setImage();
@@ -600,7 +600,7 @@
                 image = $();
             },
 
-            _openImageLightbox = function ($target: JQuery, noHistory = false): void {
+            _openImageLightbox = function ($target: JQuery, noHistory: boolean): void {
                 if (inProgress) {
                     return;
                 }
@@ -645,7 +645,7 @@
                     if (targets.length < 1) {
                         _quitImageLightbox();
                     } else {
-                        _openImageLightbox($(this));
+                        _openImageLightbox($(this), false);
                     }
                 });
                 function filterTargets (): void {

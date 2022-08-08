@@ -538,7 +538,6 @@
             image.remove();
             image = $();
         }, _openImageLightbox = function ($target, noHistory) {
-            if (noHistory === void 0) { noHistory = false; }
             if (inProgress) {
                 return;
             }
@@ -581,7 +580,7 @@
                     _quitImageLightbox();
                 }
                 else {
-                    _openImageLightbox($(this));
+                    _openImageLightbox($(this), false);
                 }
             });
             function filterTargets() {
@@ -733,8 +732,6 @@
         return this;
     };
 }));
-
-"use strict";
 
 "use strict";
 
