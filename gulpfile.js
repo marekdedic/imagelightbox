@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 var gulp            = require('gulp'),
     autoprefixer    = require('gulp-autoprefixer'),
     cleanCSS        = require('gulp-clean-css'),
