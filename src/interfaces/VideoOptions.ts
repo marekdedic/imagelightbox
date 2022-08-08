@@ -1,13 +1,13 @@
 /* exported VideoOptions */
 
 interface VideoOptions {
-    autoplay?: 'autoplay';
-    controls?: 'controls';
+    autoplay?: "autoplay";
+    controls?: "controls";
     height?: number;
-    loop?: 'loop';
-    muted?: 'muted';
+    loop?: "loop";
+    muted?: "muted";
     poster?: string;
-    preload?: 'auto'|'metadata'|'none';
+    preload?: "auto" | "metadata" | "none";
     sources?: Array<VideoSourceOptions>;
     src?: string;
     width?: number;

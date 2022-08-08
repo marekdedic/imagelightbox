@@ -15,30 +15,12 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:prettier/recommended"
     ],
     "rules": {
         "compat/compat": "warn",
         "deprecation/deprecation": "warn",
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "no-console": [
-            "warn"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
         "@typescript-eslint/array-type": ["error", {"default": "generic"}],
         "@typescript-eslint/member-ordering": "error",
         "@typescript-eslint/no-extraneous-class": "error",
