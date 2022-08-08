@@ -9,6 +9,7 @@
     },
     "plugins": [
         "compat",
+        "deprecation",
         "@typescript-eslint"
     ],
     "extends": [
@@ -18,6 +19,7 @@
     ],
     "rules": {
         "compat/compat": "warn",
+        "deprecation/deprecation": "warn",
         "indent": [
             "error",
             4
