@@ -14,6 +14,8 @@
     "src/interfaces/ILBOptions.ts",
     "src/interfaces/JQuery.ts",
     "src/interfaces/PreloadedVideo.ts",
-    "src/interfaces/TransformCssProperties.ts"
+    "src/interfaces/TransformCssProperties.ts",
+    "src/interfaces/VideoOptions.ts",
+    "src/interfaces/VideoSourceOptions.ts"
   ]
 }
