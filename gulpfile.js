@@ -10,16 +10,10 @@ var gulp            = require('gulp'),
     uglify          = require('gulp-uglify'),
     stylelint       = require('gulp-stylelint');
 
-gulp.task('csslint', function() {
-    return gulp.src('src/imagelightbox.css')
-        .pipe(csslint('.csslintrc'))
-        .pipe(csslint.formatter());
-});
-
-gulp.task('copy:css', gulp.series('csslint', function() {
+gulp.task('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
         .pipe(gulp.dest('docs/stylesheets/'));
-}));
+});
 
 gulp.task('minify:css', gulp.series('copy:css', function() {
     return gulp.src('src/imagelightbox.css')
