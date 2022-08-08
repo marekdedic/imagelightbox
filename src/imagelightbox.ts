@@ -12,7 +12,7 @@
         window,
         document
     );
-}(function ($: JQueryStatic, window: Window, document: LegacyDocument): void {
+})(function ($: JQueryStatic, window: Window, document: LegacyDocument): void {
     "use strict";
     // COMPONENTS //
     const $activityObject = $("<div/>")
@@ -1068,4 +1068,4 @@
 
         return this;
     };
-}));
+});
