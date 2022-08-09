@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Added TypeScript type declarations for imagelightbox (@marekdedic)
+- Added unminified output to `dist` in addition to the minified files (@marekdedic)
+
 ### Changed
 
 - Clicking in the center of the image navigates to the next one (@marekdedic)
