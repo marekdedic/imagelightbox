@@ -18,12 +18,10 @@
     const $activityObject = $("<div/>")
             .attr("class", "imagelightbox-loading")
             .append($("<div/>")),
-        $arrowLeftObject = $("<button/>", {
-            type: "button",
+        $arrowLeftObject = $("<div/>", {
             class: "imagelightbox-arrow imagelightbox-arrow-left",
         }),
-        $arrowRightObject = $("<button/>", {
-            type: "button",
+        $arrowRightObject = $("<div/>", {
             class: "imagelightbox-arrow imagelightbox-arrow-right",
         }),
         $arrows = $arrowLeftObject.add($arrowRightObject),
@@ -31,8 +29,7 @@
             class: "imagelightbox-caption",
             html: "&nbsp;",
         }),
-        $buttonObject = $("<button/>", {
-            type: "button",
+        $buttonObject = $("<div/>", {
             class: "imagelightbox-close",
         }),
         $overlayObject = $("<div/>", {
