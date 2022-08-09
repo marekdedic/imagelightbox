@@ -6,67 +6,76 @@
     // the jQuery object that the module system is using and pass it in.
     // Otherwise, we're working in a browser, so just pass in the global
     // jQuery object.
-    factory((typeof module === 'object' && typeof module.exports === 'object') ? require('jquery') : jQuery, window, document);
-}(function ($, window, document) {
-    'use strict';
+    factory(typeof module === "object" && typeof module.exports === "object"
+        ? require("jquery")
+        : jQuery, window, document);
+})(function ($, window, document) {
+    "use strict";
     // COMPONENTS //
-    var $activityObject = $('<div/>')
-        .attr('class', 'imagelightbox-loading')
-        .append($('<div/>')), $arrowLeftObject = $('<button/>', {
-        type: 'button',
-        "class": 'imagelightbox-arrow imagelightbox-arrow-left'
-    }), $arrowRightObject = $('<button/>', {
-        type: 'button',
-        "class": 'imagelightbox-arrow imagelightbox-arrow-right'
-    }), $arrows = $arrowLeftObject.add($arrowRightObject), $captionObject = $('<div/>', {
-        "class": 'imagelightbox-caption',
-        html: '&nbsp;'
-    }), $buttonObject = $('<button/>', {
-        type: 'button',
-        "class": 'imagelightbox-close'
-    }), $overlayObject = $('<div/>', {
-        "class": 'imagelightbox-overlay'
-    }), $navItem = $('<a/>', {
-        href: '#',
-        "class": 'imagelightbox-navitem'
-    }), $navObject = $('<div/>', {
-        "class": 'imagelightbox-nav'
-    }), $wrapper = $('<div/>', {
-        "class": 'imagelightbox-wrapper'
-    }), $body = $('body');
+    var $activityObject = $("<div/>")
+        .attr("class", "imagelightbox-loading")
+        .append($("<div/>")), $arrowLeftObject = $("<button/>", {
+        type: "button",
+        "class": "imagelightbox-arrow imagelightbox-arrow-left"
+    }), $arrowRightObject = $("<button/>", {
+        type: "button",
+        "class": "imagelightbox-arrow imagelightbox-arrow-right"
+    }), $arrows = $arrowLeftObject.add($arrowRightObject), $captionObject = $("<div/>", {
+        "class": "imagelightbox-caption",
+        html: "&nbsp;"
+    }), $buttonObject = $("<button/>", {
+        type: "button",
+        "class": "imagelightbox-close"
+    }), $overlayObject = $("<div/>", {
+        "class": "imagelightbox-overlay"
+    }), $navItem = $("<a/>", {
+        href: "#",
+        "class": "imagelightbox-navitem"
+    }), $navObject = $("<div/>", {
+        "class": "imagelightbox-nav"
+    }), $wrapper = $("<div/>", {
+        "class": "imagelightbox-wrapper"
+    }), $body = $("body");
     var cssTransitionSupport = function () {
-        var s = (document.body || document.documentElement).style;
-        if (s.transition === '') {
-            return '';
+        var s = (document.body || document.documentElement)
+            .style;
+        if (s.transition === "") {
+            return "";
         }
-        if (s.webkitTransition === '') {
-            return '-webkit-';
+        if (s.webkitTransition === "") {
+            return "-webkit-";
         }
-        if (s.MozTransition === '') {
-            return '-moz-';
+        if (s.MozTransition === "") {
+            return "-moz-";
         }
-        if (s.OTransition === '') {
-            return '-o-';
+        if (s.OTransition === "") {
+            return "-o-";
         }
         return false;
     }, hasCssTransitionSupport = cssTransitionSupport() !== false, cssTransitionTranslateX = function (element, positionX, speed) {
-        var options = {}, prefix = cssTransitionSupport() || '';
-        options[prefix + 'transform'] = 'translateX(' + positionX + ') translateY(-50%)';
-        options[prefix + 'transition'] = prefix + 'transform ' + speed.toString() + 's ease-in';
+        var options = {}, prefix = cssTransitionSupport() || "";
+        options[prefix + "transform"] =
+            "translateX(" + positionX + ") translateY(-50%)";
+        options[prefix + "transition"] =
+            prefix + "transform " + speed.toString() + "s ease-in";
         element.css(options);
-    }, hasTouch = ('ontouchstart' in window), navigator = window.navigator, hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled, wasTouched = function (event) {
+    }, hasTouch = "ontouchstart" in window, navigator = window.navigator, hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled, wasTouched = function (event) {
         if (hasTouch) {
             return true;
         }
-        if (!hasPointers || typeof event === 'undefined' || typeof event.pointerType === 'undefined') {
+        if (!hasPointers ||
+            typeof event === "undefined" ||
+            typeof event.pointerType === "undefined") {
             return false;
         }
-        if (typeof event.MSPOINTER_TYPE_MOUSE !== 'undefined') {
-            if (event.MSPOINTER_TYPE_MOUSE !== event.pointerType) {
+        if (typeof event.MSPOINTER_TYPE_MOUSE !==
+            "undefined") {
+            if (event.MSPOINTER_TYPE_MOUSE !==
+                event.pointerType) {
                 return true;
             }
         }
-        else if (event.pointerType !== 'mouse') {
+        else if (event.pointerType !== "mouse") {
             return true;
         }
         return false;
@@ -82,11 +91,11 @@
         var target = $();
         var targetIndex = -1;
         var targets = $([]);
-        var targetSet = '';
+        var targetSet = "";
         var videos = [], options = $.extend({
-            selector: 'a[data-imagelightbox]',
-            id: 'imagelightbox',
-            allowedTypes: 'png|jpg|jpeg|gif',
+            selector: "a[data-imagelightbox]",
+            id: "imagelightbox",
+            allowedTypes: "png|jpg|jpeg|gif",
             animationSpeed: 250,
             activity: false,
             arrows: false,
@@ -132,18 +141,18 @@
                 activityIndicatorOff();
             }
             if (options.arrows) {
-                $arrows.css('display', 'block');
+                $arrows.css("display", "block");
             }
         }, _addQueryField = function (query, key, value) {
-            var newField = key + '=' + value;
-            var newQuery = '?' + newField;
+            var newField = key + "=" + value;
+            var newQuery = "?" + newField;
             if (query) {
-                var keyRegex = new RegExp('([?&])' + key + '=[^&]*');
+                var keyRegex = new RegExp("([?&])" + key + "=[^&]*");
                 if (keyRegex.exec(query) !== null) {
-                    newQuery = query.replace(keyRegex, '$1' + newField);
+                    newQuery = query.replace(keyRegex, "$1" + newField);
                 }
                 else {
-                    newQuery = query + '&' + newField;
+                    newQuery = query + "&" + newField;
                 }
             }
             return newQuery;
@@ -155,43 +164,46 @@
             if (!newIndex) {
                 newIndex = targetIndex.toString();
             }
-            var newState = { imageLightboxIndex: newIndex, imageLightboxSet: '' };
+            var newState = {
+                imageLightboxIndex: newIndex,
+                imageLightboxSet: ""
+            };
             var set = targets[targetIndex].dataset.imagelightbox;
             if (set) {
                 newState.imageLightboxSet = set;
             }
-            var newQuery = _addQueryField(document.location.search, 'imageLightboxIndex', newIndex);
+            var newQuery = _addQueryField(document.location.search, "imageLightboxIndex", newIndex);
             if (set) {
-                newQuery = _addQueryField(newQuery, 'imageLightboxSet', set);
+                newQuery = _addQueryField(newQuery, "imageLightboxSet", set);
             }
-            window.history.pushState(newState, '', document.location.pathname + newQuery);
+            window.history.pushState(newState, "", document.location.pathname + newQuery);
         }, _removeQueryField = function (query, key) {
             var newQuery = query;
             if (newQuery) {
-                var keyRegex1 = new RegExp('\\?' + key + '=[^&]*');
-                var keyRegex2 = new RegExp('&' + key + '=[^&]*');
-                newQuery = newQuery.replace(keyRegex1, '?');
-                newQuery = newQuery.replace(keyRegex2, '');
+                var keyRegex1 = new RegExp("\\?" + key + "=[^&]*");
+                var keyRegex2 = new RegExp("&" + key + "=[^&]*");
+                newQuery = newQuery.replace(keyRegex1, "?");
+                newQuery = newQuery.replace(keyRegex2, "");
             }
             return newQuery;
         }, _pushQuitToHistory = function () {
             if (!hasHistorySupport || !options.history) {
                 return;
             }
-            var newQuery = _removeQueryField(document.location.search, 'imageLightboxIndex');
-            newQuery = _removeQueryField(newQuery, 'imageLightboxSet');
-            window.history.pushState({}, '', document.location.pathname + newQuery);
+            var newQuery = _removeQueryField(document.location.search, "imageLightboxIndex");
+            newQuery = _removeQueryField(newQuery, "imageLightboxSet");
+            window.history.pushState({}, "", document.location.pathname + newQuery);
         }, _getQueryField = function (key) {
-            var keyValuePair = new RegExp('[?&]' + key + '(=([^&#]*)|&|#|$)').exec(document.location.search);
+            var keyValuePair = new RegExp("[?&]" + key + "(=([^&#]*)|&|#|$)").exec(document.location.search);
             if (!keyValuePair || !keyValuePair[2]) {
                 return undefined;
             }
-            return decodeURIComponent(keyValuePair[2].replace(/\+/g, ' '));
+            return decodeURIComponent(keyValuePair[2].replace(/\+/g, " "));
         }, _openHistory = function () {
             if (!hasHistorySupport || !options.history) {
                 return;
             }
-            var id = _getQueryField('imageLightboxIndex');
+            var id = _getQueryField("imageLightboxIndex");
             if (!id) {
                 return;
             }
@@ -203,13 +215,15 @@
                 targetIndex = parseInt(id);
                 element = $(targets[targetIndex]);
             }
-            var set = _getQueryField('imageLightboxSet');
-            if (!element[0] || (!!set && set !== element[0].dataset.imagelightbox)) {
+            var set = _getQueryField("imageLightboxSet");
+            if (!element[0] ||
+                (!!set && set !== element[0].dataset.imagelightbox)) {
                 return;
             }
             _openImageLightbox(element, true);
         }, _popHistory = function (event) {
-            var newState = event.originalEvent.state;
+            var newState = event.originalEvent
+                .state;
             if (!newState) {
                 _quitImageLightbox(true);
                 return;
@@ -224,7 +238,10 @@
                 return;
             }
             var newIndex = targets.index(element);
-            if (!element[0] || (newState.imageLightboxSet && newState.imageLightboxSet !== element[0].dataset.imagelightbox)) {
+            if (!element[0] ||
+                (newState.imageLightboxSet &&
+                    newState.imageLightboxSet !==
+                        element[0].dataset.imagelightbox)) {
                 return;
             }
             if (targetIndex < 0) {
@@ -254,7 +271,7 @@
             }
             target = targets.eq(targetIndex);
             _pushToHistory();
-            $wrapper.trigger('previous.ilb2', target);
+            $wrapper.trigger("previous.ilb2", target);
             _loadImage(+1);
         }, _nextTarget = function () {
             if (inProgress) {
@@ -272,29 +289,31 @@
             }
             _pushToHistory();
             target = targets.eq(targetIndex);
-            $wrapper.trigger('next.ilb2', target);
+            $wrapper.trigger("next.ilb2", target);
             _loadImage(-1);
         }, activityIndicatorOn = function () {
             $wrapper.append($activityObject);
         }, activityIndicatorOff = function () {
-            $('.imagelightbox-loading').remove();
+            $(".imagelightbox-loading").remove();
         }, overlayOn = function () {
             $wrapper.append($overlayObject);
         }, closeButtonOn = function () {
-            $buttonObject.appendTo($wrapper).on('click.ilb7', function () {
+            $buttonObject
+                .appendTo($wrapper)
+                .on("click.ilb7", function () {
                 _quitImageLightbox();
                 return false;
             });
         }, captionReset = function () {
-            $captionObject.css('opacity', '0');
-            $captionObject.html('&nbsp;');
-            if ($(target).data('ilb2-caption')) {
-                $captionObject.css('opacity', '1');
-                $captionObject.html($(target).data('ilb2-caption'));
+            $captionObject.css("opacity", "0");
+            $captionObject.html("&nbsp;");
+            if ($(target).data("ilb2-caption")) {
+                $captionObject.css("opacity", "1");
+                $captionObject.html($(target).data("ilb2-caption"));
             }
-            else if ($(target).find('img').attr('alt')) {
-                $captionObject.css('opacity', '1');
-                $captionObject.html($(target).find('img').attr('alt'));
+            else if ($(target).find("img").attr("alt")) {
+                $captionObject.css("opacity", "1");
+                $captionObject.html($(target).find("img").attr("alt"));
             }
         }, navigationOn = function () {
             if (!targets.length) {
@@ -303,19 +322,23 @@
             for (var i = 0; i < targets.length; i++) {
                 $navObject.append($navItem.clone());
             }
-            var $navItems = $navObject.children('a');
-            $navItems.eq(targets.index(target)).addClass('active');
-            $wrapper.on('previous.ilb2 next.ilb2', function () {
-                $navItems.removeClass('active').eq(targets.index(target)).addClass('active');
+            var $navItems = $navObject.children("a");
+            $navItems.eq(targets.index(target)).addClass("active");
+            $wrapper.on("previous.ilb2 next.ilb2", function () {
+                $navItems
+                    .removeClass("active")
+                    .eq(targets.index(target))
+                    .addClass("active");
             });
             $wrapper.append($navObject);
             $navObject
-                .on('click.ilb7 touchend.ilb7', function () {
+                .on("click.ilb7 touchend.ilb7", function () {
                 return false;
             })
-                .on('click.ilb7 touchend.ilb7', 'a', function () {
+                .on("click.ilb7 touchend.ilb7", "a", function () {
                 var $this = $(this);
-                if (targets.eq($this.index()).attr('href') !== $('.imagelightbox').attr('src')) {
+                if (targets.eq($this.index()).attr("href") !==
+                    $(".imagelightbox").attr("src")) {
                     var tmpTarget = targets.eq($this.index());
                     if (tmpTarget.length) {
                         currentIndex = targets.index(target);
@@ -323,14 +346,17 @@
                         _loadImage($this.index() < currentIndex ? -1 : 1);
                     }
                 }
-                $this.addClass('active').siblings().removeClass('active');
+                $this
+                    .addClass("active")
+                    .siblings()
+                    .removeClass("active");
             });
         }, arrowsOn = function () {
             $wrapper.append($arrows);
-            $arrows.on('click.ilb7 touchend.ilb7', function (e) {
+            $arrows.on("click.ilb7 touchend.ilb7", function (e) {
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                if ($(this).hasClass('imagelightbox-arrow-left')) {
+                if ($(this).hasClass("imagelightbox-arrow-left")) {
                     _previousTarget();
                 }
                 else {
@@ -344,21 +370,27 @@
             if (!image.length) {
                 return;
             }
-            var captionHeight = options.caption ? $captionObject.outerHeight() : 0, screenWidth = $(window).width(), screenHeight = $(window).height() - captionHeight, gutterFactor = Math.abs(1 - options.gutter / 100);
+            var captionHeight = options.caption
+                ? $captionObject.outerHeight()
+                : 0, screenWidth = $(window).width(), screenHeight = $(window).height() - captionHeight, gutterFactor = Math.abs(1 - options.gutter / 100);
             function setSizes(imageWidth, imageHeight) {
-                if (imageWidth > screenWidth || imageHeight > screenHeight) {
-                    var ratio = imageWidth / imageHeight > screenWidth / screenHeight ? imageWidth / screenWidth : imageHeight / screenHeight;
+                if (imageWidth > screenWidth ||
+                    imageHeight > screenHeight) {
+                    var ratio = imageWidth / imageHeight >
+                        screenWidth / screenHeight
+                        ? imageWidth / screenWidth
+                        : imageHeight / screenHeight;
                     imageWidth /= ratio;
                     imageHeight /= ratio;
                 }
                 var cssHeight = imageHeight * gutterFactor, cssWidth = imageWidth * gutterFactor, cssLeft = ($(window).width() - cssWidth) / 2;
                 image.css({
-                    'width': cssWidth.toString() + 'px',
-                    'height': cssHeight.toString() + 'px',
-                    'left': cssLeft.toString() + 'px'
+                    width: cssWidth.toString() + "px",
+                    height: cssHeight.toString() + "px",
+                    left: cssLeft.toString() + "px"
                 });
             }
-            var videoId = image.data('ilb2VideoId');
+            var videoId = image.data("ilb2VideoId");
             var videoHasDimensions = false;
             $.each(videos, function (_, video) {
                 if (videoId === this.i) {
@@ -375,7 +407,7 @@
                 return;
             }
             var tmpImage = new Image();
-            tmpImage.src = image.attr('src');
+            tmpImage.src = image.attr("src");
             tmpImage.onload = function () {
                 setSizes(tmpImage.width, tmpImage.height);
             };
@@ -386,10 +418,12 @@
             if (image.length) {
                 var params = { opacity: 0 };
                 if (hasCssTransitionSupport) {
-                    cssTransitionTranslateX(image, ((100 * direction) - swipeDiff).toString() + 'px', options.animationSpeed / 1000);
+                    cssTransitionTranslateX(image, (100 * direction - swipeDiff).toString() + "px", options.animationSpeed / 1000);
                 }
                 else {
-                    params.left = (parseInt(image.css('left')) + (100 * direction)).toString() + 'px';
+                    params.left =
+                        (parseInt(image.css("left")) +
+                            100 * direction).toString() + "px";
                 }
                 image.animate(params, options.animationSpeed, function () {
                     _removeImage();
@@ -402,21 +436,21 @@
                 var swipeStart = 0;
                 var swipeEnd = 0;
                 var imagePosLeft = 0;
-                var imgPath = target.attr('href');
+                var imgPath = target.attr("href");
                 // if (imgPath === undefined) {
                 //     imgPath = target.attr('data-lightbox');
                 // }
-                var videoOptions = target.data('ilb2Video');
+                var videoOptions = target.data("ilb2Video");
                 var element = $();
                 var preloadedVideo;
                 if (videoOptions) {
                     $.each(videos, function (_, video) {
-                        if (video.i === target.data('ilb2VideoId')) {
+                        if (video.i === target.data("ilb2VideoId")) {
                             preloadedVideo = video.l;
                             element = video.e;
                             if (video.a) {
                                 if (preloadedVideo === false) {
-                                    element.attr('autoplay', video.a);
+                                    element.attr("autoplay", video.a);
                                 }
                                 if (preloadedVideo === true) {
                                     void element.get(0).play();
@@ -426,24 +460,24 @@
                     });
                 }
                 else {
-                    element = $('<img id=\'' + options.id + '\' />')
-                        .attr('src', imgPath);
+                    element = $("<img id='" + options.id + "' />").attr("src", imgPath);
                 }
                 function onload() {
                     var params = { opacity: 1 };
                     image.appendTo($wrapper);
                     _setImage();
-                    image.css('opacity', 0);
+                    image.css("opacity", 0);
                     if (hasCssTransitionSupport) {
-                        cssTransitionTranslateX(image, (-100 * direction).toString() + 'px', 0);
+                        cssTransitionTranslateX(image, (-100 * direction).toString() + "px", 0);
                         setTimeout(function () {
-                            cssTransitionTranslateX(image, '0px', options.animationSpeed / 1000);
+                            cssTransitionTranslateX(image, "0px", options.animationSpeed / 1000);
                         }, 50);
                     }
                     else {
-                        imagePosLeft = parseInt(image.css('left'));
-                        params.left = imagePosLeft.toString() + 'px';
-                        image.css('left', (imagePosLeft - 100 * direction).toString() + 'px');
+                        imagePosLeft = parseInt(image.css("left"));
+                        params.left = imagePosLeft.toString() + "px";
+                        image.css("left", (imagePosLeft - 100 * direction).toString() +
+                            "px");
                     }
                     image.animate(params, options.animationSpeed, function () {
                         inProgress = false;
@@ -454,9 +488,9 @@
                         if (!nextTarget.length) {
                             nextTarget = targets.eq(0);
                         }
-                        $('<img />').attr('src', nextTarget.attr('href'));
+                        $("<img />").attr("src", nextTarget.attr("href"));
                     }
-                    $wrapper.trigger('loaded.ilb2');
+                    $wrapper.trigger("loaded.ilb2");
                 }
                 function onclick(e) {
                     e.preventDefault();
@@ -467,7 +501,9 @@
                     if (wasTouched(e.originalEvent)) {
                         return;
                     }
-                    var posX = (e.pageX || e.originalEvent.pageX) - e.target.offsetLeft;
+                    var posX = (e.pageX ||
+                        e.originalEvent.pageX) -
+                        e.target.offsetLeft;
                     if (e.target.width / 3 > posX) {
                         _previousTarget();
                     }
@@ -476,35 +512,47 @@
                     }
                 }
                 image = element
-                    .on('load.ilb7', onload)
-                    .on('error.ilb7', function () {
+                    .on("load.ilb7", onload)
+                    .on("error.ilb7", function () {
                     _onLoadEnd();
                 })
-                    .on('touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7', function (e) {
-                    if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                    .on("touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7", function (e) {
+                    if (!wasTouched(e.originalEvent) ||
+                        options.quitOnImgClick) {
                         return;
                     }
                     if (hasCssTransitionSupport) {
-                        imagePosLeft = parseInt(image.css('left'));
+                        imagePosLeft = parseInt(image.css("left"));
                     }
-                    swipeStart = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                    swipeStart =
+                        e.originalEvent.pageX ||
+                            e.originalEvent.touches[0]
+                                .pageX;
                 })
-                    .on('touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7', function (e) {
-                    if ((!hasPointers && e.type === 'pointermove') || !wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                    .on("touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7", function (e) {
+                    if ((!hasPointers &&
+                        e.type === "pointermove") ||
+                        !wasTouched(e.originalEvent) ||
+                        options.quitOnImgClick) {
                         return;
                     }
                     e.preventDefault();
-                    swipeEnd = e.originalEvent.pageX || e.originalEvent.touches[0].pageX;
+                    swipeEnd =
+                        e.originalEvent.pageX ||
+                            e.originalEvent.touches[0]
+                                .pageX;
                     swipeDiff = swipeStart - swipeEnd;
                     if (hasCssTransitionSupport) {
-                        cssTransitionTranslateX(image, (-swipeDiff).toString() + 'px', 0);
+                        cssTransitionTranslateX(image, (-swipeDiff).toString() + "px", 0);
                     }
                     else {
-                        image.css('left', (imagePosLeft - swipeDiff).toString() + 'px');
+                        image.css("left", (imagePosLeft - swipeDiff).toString() +
+                            "px");
                     }
                 })
-                    .on('touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7', function (e) {
-                    if (!wasTouched(e.originalEvent) || options.quitOnImgClick) {
+                    .on("touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7", function (e) {
+                    if (!wasTouched(e.originalEvent) ||
+                        options.quitOnImgClick) {
                         return;
                     }
                     if (Math.abs(swipeDiff) > 50) {
@@ -517,10 +565,13 @@
                     }
                     else {
                         if (hasCssTransitionSupport) {
-                            cssTransitionTranslateX(image, '0px', options.animationSpeed / 1000);
+                            cssTransitionTranslateX(image, "0px", options.animationSpeed / 1000);
                         }
                         else {
-                            image.animate({ 'left': imagePosLeft.toString() + 'px' }, options.animationSpeed / 2);
+                            image.animate({
+                                left: imagePosLeft.toString() +
+                                    "px"
+                            }, options.animationSpeed / 2);
                         }
                     }
                 });
@@ -528,10 +579,12 @@
                     onload();
                 }
                 if (preloadedVideo === false) {
-                    image = image.on('loadedmetadata.ilb7', onload);
+                    image = image.on("loadedmetadata.ilb7", onload);
                 }
                 if (!videoOptions) {
-                    image = image.on(hasPointers ? 'pointerup.ilb7 MSPointerUp.ilb7' : 'click.ilb7', onclick);
+                    image = image.on(hasPointers
+                        ? "pointerup.ilb7 MSPointerUp.ilb7"
+                        : "click.ilb7", onclick);
                 }
             }, options.animationSpeed + 100);
         }, _removeImage = function () {
@@ -551,9 +604,8 @@
                 _pushToHistory();
             }
             _onStart();
-            $body.append($wrapper)
-                .addClass('imagelightbox-open');
-            $wrapper.trigger('start.ilb2', $target);
+            $body.append($wrapper).addClass("imagelightbox-open");
+            $wrapper.trigger("start.ilb2", $target);
             _loadImage(0);
         }, _quitImageLightbox = function (noHistory) {
             if (noHistory === void 0) { noHistory = false; }
@@ -561,23 +613,23 @@
             if (!noHistory) {
                 _pushQuitToHistory();
             }
-            $wrapper.trigger('quit.ilb2');
-            $body.removeClass('imagelightbox-open');
+            $wrapper.trigger("quit.ilb2");
+            $body.removeClass("imagelightbox-open");
             if (!image.length) {
                 return;
             }
-            image.animate({ 'opacity': 0 }, options.animationSpeed, function () {
+            image.animate({ opacity: 0 }, options.animationSpeed, function () {
                 _removeImage();
                 inProgress = false;
-                $wrapper.remove().find('*').remove();
+                $wrapper.remove().find("*").remove();
             });
         }, _addTargets = function (newTargets) {
             newTargets.each(function () {
                 targets = newTargets.add($(this));
             });
-            newTargets.on('click.ilb7', { set: targetSet }, function (e) {
+            newTargets.on("click.ilb7", { set: targetSet }, function (e) {
                 e.preventDefault();
-                targetSet = $(e.currentTarget).data('imagelightbox');
+                targetSet = $(e.currentTarget).data("imagelightbox");
                 filterTargets();
                 if (targets.length < 1) {
                     _quitImageLightbox();
@@ -589,7 +641,7 @@
             function filterTargets() {
                 newTargets
                     .filter(function () {
-                    return $(this).data('imagelightbox') === targetSet;
+                    return $(this).data("imagelightbox") === targetSet;
                 })
                     .filter(function () {
                     return isTargetValid($(this));
@@ -600,25 +652,39 @@
             }
         }, _preloadVideos = function (elements) {
             elements.each(function () {
-                var videoOptions = $(this).data('ilb2Video');
+                var videoOptions = $(this).data("ilb2Video");
                 if (videoOptions) {
-                    var id = $(this).data('ilb2Id');
+                    var id = $(this).data("ilb2Id");
                     if (!id) {
-                        id = 'a' + (((1 + Math.random()) * 0x10000) | 0).toString(16); // Random id
+                        // Random id
+                        id =
+                            "a" +
+                                (((1 + Math.random()) * 0x10000) | 0).toString(16);
                     }
-                    $(this).data('ilb2VideoId', id);
-                    var container_1 = { e: $('<video id=\'' + options.id + '\' preload=\'metadata\' data-ilb2-video-id=\'' + id + '\'>'), i: id, l: false, a: undefined, h: undefined, w: undefined };
+                    $(this).data("ilb2VideoId", id);
+                    var container_1 = {
+                        e: $("<video id='" +
+                            options.id +
+                            "' preload='metadata' data-ilb2-video-id='" +
+                            id +
+                            "'>"),
+                        i: id,
+                        l: false,
+                        a: undefined,
+                        h: undefined,
+                        w: undefined
+                    };
                     $.each(videoOptions, function (key, value) {
                         switch (key) {
-                            case 'autoplay':
+                            case "autoplay":
                                 container_1.a = value;
                                 break;
-                            case 'height':
+                            case "height":
                                 container_1.h = value;
                                 break;
-                            case 'sources':
+                            case "sources":
                                 break;
-                            case 'width':
+                            case "width":
                                 container_1.w = value;
                                 break;
                             default:
@@ -628,7 +694,7 @@
                     });
                     if (videoOptions.sources) {
                         $.each(videoOptions.sources, function (_, source) {
-                            var sourceElement = $('<source>');
+                            var sourceElement = $("<source>");
                             $.each(source, function (key, value) {
                                 // TODO: Remove this general behaviour
                                 sourceElement = sourceElement.attr(key, value);
@@ -636,20 +702,20 @@
                             container_1.e.append(sourceElement);
                         });
                     }
-                    container_1.e.on('loadedmetadata.ilb7', function () {
+                    container_1.e.on("loadedmetadata.ilb7", function () {
                         container_1.l = true;
                     });
                     videos.push(container_1);
                 }
             });
         };
-        $(window).on('resize.ilb7', _setImage);
+        $(window).on("resize.ilb7", _setImage);
         if (hasHistorySupport && options.history) {
-            $(window).on('popstate', _popHistory);
+            $(window).on("popstate", _popHistory);
         }
         $(document).ready(function () {
             if (options.quitOnDocClick) {
-                $(document).on(hasTouch ? 'touchend.ilb7' : 'click.ilb7', function (e) {
+                $(document).on(hasTouch ? "touchend.ilb7" : "click.ilb7", function (e) {
                     if (image.length && !$(e.target).is(image)) {
                         e.preventDefault();
                         _quitImageLightbox();
@@ -657,7 +723,7 @@
                 });
             }
             if (options.fullscreen && hasFullscreenSupport) {
-                $(document).on('keydown.ilb7', function (e) {
+                $(document).on("keydown.ilb7", function (e) {
                     if (!image.length) {
                         return;
                     }
@@ -673,7 +739,7 @@
                 });
             }
             if (options.enableKeyboard) {
-                $(document).on('keydown.ilb7', function (e) {
+                $(document).on("keydown.ilb7", function (e) {
                     if (!image.length) {
                         return;
                     }
@@ -697,17 +763,27 @@
         });
         function toggleFullScreen() {
             var doc = window.document;
-            var docEl = document.getElementById(options.id).parentElement;
-            var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-            var exitFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
-            if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+            var docEl = document.getElementById(options.id)
+                .parentElement;
+            var requestFullScreen = docEl.requestFullscreen ||
+                docEl.mozRequestFullScreen ||
+                docEl.webkitRequestFullScreen ||
+                docEl.msRequestFullscreen;
+            var exitFullScreen = doc.exitFullscreen ||
+                doc.mozCancelFullScreen ||
+                doc.webkitExitFullscreen ||
+                doc.msExitFullscreen;
+            if (!doc.fullscreenElement &&
+                !doc.mozFullScreenElement &&
+                !doc.webkitFullscreenElement &&
+                !doc.msFullscreenElement) {
                 void requestFullScreen.call(docEl);
             }
             else {
                 void exitFullScreen.call(doc);
             }
         }
-        $(document).off('.ilb7 .ilb2', options.selector);
+        $(document).off(".ilb7 .ilb2", options.selector);
         _addTargets($(this));
         _openHistory();
         _preloadVideos(targets);
@@ -729,19 +805,16 @@
             return this;
         };
         this.startImageLightbox = function (element) {
-            if (element)
-                element.trigger('click.ilb7');
-            else
-                $(this).trigger('click.ilb7');
+            if (element) {
+                element.trigger("click.ilb7");
+            }
+            else {
+                $(this).trigger("click.ilb7");
+            }
         };
         return this;
     };
-}));
-
-"use strict";
-/* exported ILBOptions */
-
-"use strict";
+});
 
 "use strict";
 /* exported PreloadedVideo */
