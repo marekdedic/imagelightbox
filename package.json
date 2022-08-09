@@ -8,6 +8,12 @@
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
   "types": "./types/imagelightbox.d.ts",
+  "files": [
+    "dist",
+    "docs",
+    "types",
+    "CHANGELOG.md"
+  ],
   "dependencies": {
     "jquery": ">=1.12.4 <4.0.0"
   },
@@ -51,7 +57,8 @@
     "lint:css": "run-p -c --aggregate-output lint:css:*",
     "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.js'",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
-    "lint": "run-p -c --aggregate-output lint:*"
+    "lint": "run-p -c --aggregate-output lint:*",
+    "prepack": "npm run build"
   },
   "browserslist": [
     "cover 95%",

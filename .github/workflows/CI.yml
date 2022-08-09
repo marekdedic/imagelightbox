@@ -67,6 +67,11 @@ jobs:
           name: "build-artifact"
           path: dist
 
+      - name: "Copy over build artifacts"
+        run: |
+          cp dist/imagelightbox.css docs/stylesheets/
+          cp dist/imagelightbox.js docs/javascripts/
+
       - name: "Test"
         run: |
           npm run test
