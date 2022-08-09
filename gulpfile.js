@@ -34,7 +34,7 @@ gulp.task(
 gulp.task("copy:js", function () {
     var tsProject = ts.createProject("tsconfig.json");
     return gulp
-        .src(["src/**/*.ts"])
+        .src(["src/**/*.ts", "types/**/*.ts"])
         .pipe(tsProject())
         .js.pipe(concat("imagelightbox.js"))
         .pipe(gulp.dest("docs/javascripts/"));
@@ -45,7 +45,7 @@ gulp.task(
     gulp.series("copy:js", function () {
         var tsProject = ts.createProject("tsconfig.json");
         return gulp
-            .src(["src/**/*.ts"])
+            .src(["src/**/*.ts", "types/**/*.ts"])
             .pipe(tsProject())
             .js.pipe(concat("imagelightbox.min.js"))
             .pipe(uglify())
