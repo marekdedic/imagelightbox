@@ -57,7 +57,8 @@
     "lint:css": "run-p -c --aggregate-output lint:css:*",
     "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.js'",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
-    "lint": "run-p -c --aggregate-output lint:*"
+    "lint": "run-p -c --aggregate-output lint:*",
+    "prepack": "npm run build"
   },
   "browserslist": [
     "cover 95%",
