@@ -7,6 +7,7 @@
   "repository": "https://github.com/marekdedic/imagelightbox.git",
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
+  "types": "./types/imagelightbox.d.ts",
   "dependencies": {
     "jquery": ">=1.12.4 <4.0.0"
   },

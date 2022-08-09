@@ -1,5 +1,3 @@
-/* exported ILBOptions */
-
 interface ILBOptions {
     selector: string;
     id: string;
@@ -21,4 +19,14 @@ interface ILBOptions {
     quitOnImgClick: boolean;
     quitOnDocClick: boolean;
     quitOnEscKey: boolean;
+}
+
+interface JQuery {
+    imageLightbox(opts: Partial<ILBOptions>): JQuery;
+    addToImageLightbox(elements: JQuery): void;
+    openHistory(): void;
+    loadPreviousImage(): void;
+    loadNextImage(): void;
+    quitImageLightbox(): void;
+    startImageLightbox(element: JQuery): void;
 }
