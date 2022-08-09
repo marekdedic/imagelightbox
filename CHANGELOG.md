@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.0] - 2022-08-09
+
 ### Added
 
 - Added TypeScript type declarations for imagelightbox (@marekdedic)
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Clicking in the center of the image navigates to the next one (@marekdedic)
+- The lightbox buttons are plain `<div>`s now (@marekdedic)
 
 ### Fixed
 
