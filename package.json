@@ -8,6 +8,12 @@
   "main": "./src/imagelightbox.js",
   "style": "./src/imagelightbox.css",
   "types": "./types/imagelightbox.d.ts",
+  "files": [
+    "dist",
+    "docs",
+    "types",
+    "CHANGELOG.md"
+  ],
   "dependencies": {
     "jquery": ">=1.12.4 <4.0.0"
   },
