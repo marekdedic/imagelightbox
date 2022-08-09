@@ -17,7 +17,7 @@ gulp.task("build:css:copy", function () {
                 cascade: false,
             })
         )
-        .pipe(gulp.dest("dist"))
+        .pipe(gulp.dest("dist/"))
         .pipe(gulp.dest("docs/stylesheets/"));
 });
 
@@ -31,29 +31,27 @@ gulp.task("build:css:minify", function () {
 
 gulp.task("build:css", gulp.series("build:css:copy", "build:css:minify"));
 
-gulp.task("copy:js", function () {
-    var tsProject = ts.createProject("tsconfig.json");
+gulp.task("build:js:copy", function () {
+    const tsProject = ts.createProject("tsconfig.json");
     return gulp
         .src(["src/**/*.ts", "types/**/*.ts"])
         .pipe(tsProject())
         .js.pipe(concat("imagelightbox.js"))
+        .pipe(gulp.dest("dist/"))
         .pipe(gulp.dest("docs/javascripts/"));
 });
 
-gulp.task(
-    "minify:js",
-    gulp.series("copy:js", function () {
-        var tsProject = ts.createProject("tsconfig.json");
-        return gulp
-            .src(["src/**/*.ts", "types/**/*.ts"])
-            .pipe(tsProject())
-            .js.pipe(concat("imagelightbox.min.js"))
-            .pipe(uglify())
-            .pipe(gulp.dest("dist/"));
-    })
-);
+gulp.task("build:js:minify", function () {
+    return gulp
+        .src("dist/imagelightbox.js")
+        .pipe(uglify())
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(gulp.dest("dist/"));
+});
 
-gulp.task("build", gulp.parallel("build:css", "minify:js"));
+gulp.task("build:js", gulp.series("build:js:copy", "build:js:minify"));
+
+gulp.task("build", gulp.parallel("build:css", "build:js"));
 
 gulp.task("watch", function (done) {
     gulp.watch(["docs/*.html", "src/**/*"], gulp.series("build"));
