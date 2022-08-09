@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Clicking in the center of the image navigates to the next one (@marekdedic)
+
+### Fixed
+
+- Fixed an issue where rapidly navigating would get the lightbox in a broken state (@marekdedic)
+
 ## [1.1.0] - 2020-06-13
 
 ### Added
