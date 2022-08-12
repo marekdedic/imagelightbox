@@ -1,8 +1,0 @@
-{
-    "ignore": [
-        "box-model",
-        "ids",
-        "order-alphabetical",
-        "fallback-colors"
-    ]
-}
