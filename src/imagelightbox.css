@@ -69,6 +69,7 @@
 /* WITH "CLOSE" BUTTON */
 
 .imagelightbox-close {
+    animation: fade-in 0.25s linear;
     border: none;
     cursor: pointer;
     width: 3em; /* 40 */
@@ -157,6 +158,7 @@
 /* WITH ARROWS */
 
 .imagelightbox-arrow {
+    animation: fade-in 0.25s linear;
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -199,9 +201,7 @@
 
 .imagelightbox-loading,
 .imagelightbox-overlay,
-.imagelightbox-close,
-.imagelightbox-nav,
-.imagelightbox-arrow {
+.imagelightbox-nav {
     animation: fade-in 0.25s linear;
 }
 
