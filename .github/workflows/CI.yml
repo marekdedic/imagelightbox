@@ -76,6 +76,9 @@ jobs:
         run: |
           npm run test
 
+      - name: "Upload coverage results"
+        uses: codecov/codecov-action@v3.1.0
+
   lint:
     name: "Lint"
     runs-on: ubuntu-latest
