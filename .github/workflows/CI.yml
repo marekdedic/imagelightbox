@@ -17,7 +17,9 @@ jobs:
       - name: "Cache NPM dependencies"
         uses: actions/cache@v3
         with:
-          path: "~/.npm"
+          path: |
+            "~/.npm"
+            "~/.cache/puppeteer"
           key: npm-dependencies-${{ runner.os }}-${{ hashFiles('package.json') }}
           restore-keys: |
             npm-dependencies-${{ runner.os }}-${{ hashFiles('package.json') }}
@@ -51,7 +53,9 @@ jobs:
       - name: "Cache NPM dependencies"
         uses: actions/cache@v3
         with:
-          path: "~/.npm"
+          path: |
+            "~/.npm"
+            "~/.cache/puppeteer"
           key: npm-dependencies-${{ runner.os }}-${{ hashFiles('package.json') }}
           restore-keys: |
             npm-dependencies-${{ runner.os }}-${{ hashFiles('package.json') }}
@@ -89,7 +93,9 @@ jobs:
       - name: "Cache NPM dependencies"
         uses: actions/cache@v3
         with:
-          path: "~/.npm"
+          path: |
+            "~/.npm"
+            "~/.cache/puppeteer"
           key: npm-dependencies-${{ runner.os }}-${{ hashFiles('package.json') }}
           restore-keys: |
             npm-dependencies-${{ runner.os }}-${{ hashFiles('package.json') }}
