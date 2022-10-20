@@ -214,11 +214,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 newIndex
             );
             if (set) {
-                newQuery = _addQueryField(
-                    newQuery,
-                    "imageLightboxSet",
-                    set
-                );
+                newQuery = _addQueryField(newQuery, "imageLightboxSet", set);
             }
             window.history.pushState(
                 newState,
@@ -285,8 +281,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             _openImageLightbox(element, true);
         },
         _popHistory = function (event: BaseJQueryEventObject): void {
-            const newState = (event.originalEvent as PopStateEvent)
-                .state as
+            const newState = (event.originalEvent as PopStateEvent).state as
                 | { imageLightboxIndex: string; imageLightboxSet: string }
                 | undefined;
             if (!newState) {
@@ -298,9 +293,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 _quitImageLightbox(true);
                 return;
             }
-            const element = targets.filter(
-                '[data-ilb2-id="' + newId + '"]'
-            );
+            const element = targets.filter('[data-ilb2-id="' + newId + '"]');
             if (element.length === 0) {
                 return;
             }
@@ -385,9 +378,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             $captionObject.html("&nbsp;");
             if ($(target).data("ilb2-caption")) {
                 $captionObject.css("opacity", "1");
-                $captionObject.html(
-                    $(target).data("ilb2-caption") as string
-                );
+                $captionObject.html($(target).data("ilb2-caption") as string);
             } else if ($(target).find("img").attr("alt")) {
                 $captionObject.css("opacity", "1");
                 $captionObject.html($(target).find("img").attr("alt")!);
@@ -425,15 +416,10 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         if (tmpTarget.length) {
                             currentIndex = targets.index(target);
                             target = tmpTarget;
-                            _loadImage(
-                                $this.index() < currentIndex ? -1 : 1
-                            );
+                            _loadImage($this.index() < currentIndex ? -1 : 1);
                         }
                     }
-                    $this
-                        .addClass("active")
-                        .siblings()
-                        .removeClass("active");
+                    $this.addClass("active").siblings().removeClass("active");
                 });
         },
         arrowsOn = function (): void {
@@ -464,17 +450,10 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 screenHeight = $(window).height()! - captionHeight,
                 gutterFactor = Math.abs(1 - options.gutter / 100);
 
-            function setSizes(
-                imageWidth: number,
-                imageHeight: number
-            ): void {
-                if (
-                    imageWidth > screenWidth ||
-                    imageHeight > screenHeight
-                ) {
+            function setSizes(imageWidth: number, imageHeight: number): void {
+                if (imageWidth > screenWidth || imageHeight > screenHeight) {
                     const ratio =
-                        imageWidth / imageHeight >
-                        screenWidth / screenHeight
+                        imageWidth / imageHeight > screenWidth / screenHeight
                             ? imageWidth / screenWidth
                             : imageHeight / screenHeight;
                     imageWidth /= ratio;
@@ -557,9 +536,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 //     imgPath = target.attr('data-lightbox');
                 // }
 
-                const videoOptions = target.data(
-                    "ilb2Video"
-                ) as VideoOptions;
+                const videoOptions = target.data("ilb2Video") as VideoOptions;
                 let element = $();
                 let preloadedVideo;
                 if (videoOptions) {
@@ -609,8 +586,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         params.left = imagePosLeft.toString() + "px";
                         image.css(
                             "left",
-                            (imagePosLeft - 100 * direction).toString() +
-                                "px"
+                            (imagePosLeft - 100 * direction).toString() + "px"
                         );
                     }
 
@@ -623,9 +599,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         }
                     );
                     if (options.preloadNext) {
-                        let nextTarget = targets.eq(
-                            targets.index(target) + 1
-                        );
+                        let nextTarget = targets.eq(targets.index(target) + 1);
                         if (!nextTarget.length) {
                             nextTarget = targets.eq(0);
                         }
@@ -643,8 +617,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         return;
                     }
                     const posX =
-                        (e.pageX ||
-                            (e.originalEvent as PointerEvent).pageX) -
+                        (e.pageX || (e.originalEvent as PointerEvent).pageX) -
                         (e.target as HTMLImageElement).offsetLeft;
                     if ((e.target as HTMLImageElement).width / 3 > posX) {
                         _previousTarget();
@@ -661,9 +634,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         "touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7",
                         function (e: BaseJQueryEventObject): void {
                             if (
-                                !wasTouched(
-                                    e.originalEvent as PointerEvent
-                                ) ||
+                                !wasTouched(e.originalEvent as PointerEvent) ||
                                 options.quitOnImgClick
                             ) {
                                 return;
@@ -681,11 +652,8 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         "touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7",
                         function (e: BaseJQueryEventObject): void {
                             if (
-                                (!hasPointers &&
-                                    e.type === "pointermove") ||
-                                !wasTouched(
-                                    e.originalEvent as PointerEvent
-                                ) ||
+                                (!hasPointers && e.type === "pointermove") ||
+                                !wasTouched(e.originalEvent as PointerEvent) ||
                                 options.quitOnImgClick
                             ) {
                                 return;
@@ -705,8 +673,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             } else {
                                 image.css(
                                     "left",
-                                    (imagePosLeft - swipeDiff).toString() +
-                                        "px"
+                                    (imagePosLeft - swipeDiff).toString() + "px"
                                 );
                             }
                         }
@@ -715,9 +682,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
                         function (e): void {
                             if (
-                                !wasTouched(
-                                    e.originalEvent as PointerEvent
-                                ) ||
+                                !wasTouched(e.originalEvent as PointerEvent) ||
                                 options.quitOnImgClick
                             ) {
                                 return;
@@ -739,8 +704,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                     image.animate(
                                         {
                                             left:
-                                                imagePosLeft.toString() +
-                                                "px",
+                                                imagePosLeft.toString() + "px",
                                         },
                                         options.animationSpeed / 2
                                     );
@@ -813,22 +777,16 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             newTargets.each(function (): void {
                 targets = newTargets.add($(this));
             });
-            newTargets.on(
-                "click.ilb7",
-                { set: targetSet },
-                function (e): void {
-                    e.preventDefault();
-                    targetSet = $(e.currentTarget).data(
-                        "imagelightbox"
-                    ) as string;
-                    filterTargets();
-                    if (targets.length < 1) {
-                        _quitImageLightbox();
-                    } else {
-                        _openImageLightbox($(this), false);
-                    }
+            newTargets.on("click.ilb7", { set: targetSet }, function (e): void {
+                e.preventDefault();
+                targetSet = $(e.currentTarget).data("imagelightbox") as string;
+                filterTargets();
+                if (targets.length < 1) {
+                    _quitImageLightbox();
+                } else {
+                    _openImageLightbox($(this), false);
                 }
-            );
+            });
             function filterTargets(): void {
                 newTargets
                     .filter(function (): boolean {
@@ -844,18 +802,14 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         },
         _preloadVideos = function (elements: JQuery): void {
             elements.each(function () {
-                const videoOptions = $(this).data(
-                    "ilb2Video"
-                ) as VideoOptions;
+                const videoOptions = $(this).data("ilb2Video") as VideoOptions;
                 if (videoOptions) {
                     let id = $(this).data("ilb2Id") as string;
                     if (!id) {
                         // Random id
                         id =
                             "a" +
-                            (((1 + Math.random()) * 0x10000) | 0).toString(
-                                16
-                            );
+                            (((1 + Math.random()) * 0x10000) | 0).toString(16);
                     }
                     $(this).data("ilb2VideoId", id);
                     const container: PreloadedVideo = {
@@ -872,30 +826,27 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         h: undefined,
                         w: undefined,
                     };
-                    $.each(
-                        videoOptions,
-                        function (key: string, value): void {
-                            switch (key) {
-                                case "autoplay":
-                                    container.a = value as string;
-                                    break;
-                                case "height":
-                                    container.h = value as number;
-                                    break;
-                                case "sources":
-                                    break;
-                                case "width":
-                                    container.w = value as number;
-                                    break;
-                                default:
-                                    // TODO: Remove this general behaviour
-                                    container.e = container.e.attr(
-                                        key,
-                                        value as string | number
-                                    );
-                            }
+                    $.each(videoOptions, function (key: string, value): void {
+                        switch (key) {
+                            case "autoplay":
+                                container.a = value as string;
+                                break;
+                            case "height":
+                                container.h = value as number;
+                                break;
+                            case "sources":
+                                break;
+                            case "width":
+                                container.w = value as number;
+                                break;
+                            default:
+                                // TODO: Remove this general behaviour
+                                container.e = container.e.attr(
+                                    key,
+                                    value as string | number
+                                );
                         }
-                    );
+                    });
                     if (videoOptions.sources) {
                         $.each(
                             videoOptions.sources,
@@ -915,12 +866,9 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             }
                         );
                     }
-                    container.e.on(
-                        "loadedmetadata.ilb7",
-                        function (): void {
-                            container.l = true;
-                        }
-                    );
+                    container.e.on("loadedmetadata.ilb7", function (): void {
+                        container.l = true;
+                    });
                     videos.push(container);
                 }
             });
