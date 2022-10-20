@@ -97,11 +97,12 @@ const cssTransitionSupport = function (): string | false {
 
         return false;
     },
+    legacyDocument = document as LegacyDocument,
     hasFullscreenSupport = !!(
-        document.fullscreenEnabled// ||
-        //document.webkitFullscreenEnabled ||
-        //document.mozFullScreenEnabled ||
-        //document.msFullscreenEnabled
+        legacyDocument.fullscreenEnabled ||
+        legacyDocument.webkitFullscreenEnabled ||
+        legacyDocument.mozFullScreenEnabled ||
+        legacyDocument.msFullscreenEnabled
     ),
     hasHistorySupport = !!(window.history && history.pushState);
 
