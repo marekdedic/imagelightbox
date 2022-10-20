@@ -4,6 +4,7 @@ const gulp = require("gulp");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
 const connect = require("gulp-connect");
+const named = require("vinyl-named");
 const rename = require("gulp-rename");
 const webpack = require("webpack-stream");
 
@@ -32,8 +33,8 @@ gulp.task("build:css", gulp.series("build:css:copy", "build:css:minify"));
 gulp.task("build:js", function () {
     return gulp
         .src("src/imagelightbox.ts")
+        .pipe(named((file) => file.stem + ".min"))
         .pipe(webpack(require("./webpack.config.js")))
-        .pipe(rename({ basename: "imagelightbox", suffix: ".min" }))
         .pipe(gulp.dest("dist/"))
         .pipe(gulp.dest("docs/javascripts/"));
 });
