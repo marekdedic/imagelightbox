@@ -1,6 +1,6 @@
-/* exported VideoOptions */
+import { VideoSourceOptions } from "./VideoSourceOptions";
 
-interface VideoOptions {
+export interface VideoOptions {
     autoplay?: "autoplay";
     controls?: "controls";
     height?: number;
