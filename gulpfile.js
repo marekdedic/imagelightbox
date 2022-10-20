@@ -56,8 +56,9 @@ gulp.task("build:js", function () {
     return gulp
         .src("src/imagelightbox.ts")
         .pipe(webpack(require("./webpack.config.js")))
-        .pipe(rename({ basename: "imagelightbox" }))
-        .pipe(gulp.dest("dist/"));
+        .pipe(rename({ basename: "imagelightbox", suffix: ".min" }))
+        .pipe(gulp.dest("dist/"))
+        .pipe(gulp.dest("docs/javascripts/"));
 });
 
 gulp.task("build", gulp.parallel("build:css", "build:js"));
