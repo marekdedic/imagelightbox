@@ -42,7 +42,9 @@
     "stylelint": "^14.9.1",
     "stylelint-config-recommended": "^9.0.0",
     "stylelint-no-unsupported-browser-features": "^6.0.1",
-    "typescript": "^4.7.4"
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.7.4",
+    "webpack-stream": "^7.0.0"
   },
   "keywords": [
     "jquery",

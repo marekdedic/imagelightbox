@@ -8,6 +8,7 @@ const connect = require("gulp-connect");
 const rename = require("gulp-rename");
 const ts = require("gulp-typescript");
 const uglify = require("gulp-uglify");
+const webpack = require("webpack-stream");
 
 gulp.task("build:css:copy", function () {
     return gulp
@@ -49,7 +50,15 @@ gulp.task("build:js:minify", function () {
         .pipe(gulp.dest("dist/"));
 });
 
-gulp.task("build:js", gulp.series("build:js:copy", "build:js:minify"));
+//gulp.task("build:js", gulp.series("build:js:copy", "build:js:minify"));
+
+gulp.task("build:js", function () {
+    return gulp
+        .src("src/imagelightbox.ts")
+        .pipe(webpack(require("./webpack.config.js")))
+        .pipe(rename({ basename: "imagelightbox" }))
+        .pipe(gulp.dest("dist/"));
+});
 
 gulp.task("build", gulp.parallel("build:css", "build:js"));
 
