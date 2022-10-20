@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
+    "module": "es6",
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true,
-    "target": "ES3"
+    "strict": true
   }
 }

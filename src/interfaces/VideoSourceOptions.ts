@@ -1,6 +1,4 @@
-/* exported VideoSourceOptions */
-
-interface VideoSourceOptions {
+export interface VideoSourceOptions {
     media?: string;
     sizes?: string;
     src?: string;
