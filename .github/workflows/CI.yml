@@ -74,7 +74,7 @@ jobs:
       - name: "Copy over build artifacts"
         run: |
           cp dist/imagelightbox.css docs/stylesheets/
-          cp dist/imagelightbox.js docs/javascripts/
+          cp dist/imagelightbox.min.js docs/javascripts/
 
       - name: "Test"
         run: |
