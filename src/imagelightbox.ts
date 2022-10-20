@@ -1,3 +1,6 @@
+import { PreloadedVideo } from "./interfaces/PreloadedVideo";
+import { VideoOptions } from "./interfaces/VideoOptions";
+
 (function (factory): void {
     // http://blog.npmjs.org/post/112712169830/making-your-jquery-plugin-work-better-with-npm
     // If there is a variable named module and it has an exports property,
