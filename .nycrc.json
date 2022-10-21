@@ -1,0 +1,6 @@
+{
+    "all": true,
+    "exclude-after-remap": false,
+    "extends": "@istanbuljs/nyc-config-typescript",
+    "sourceMap": true
+}
