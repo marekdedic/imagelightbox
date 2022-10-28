@@ -41,8 +41,5 @@
                 "@typescript-eslint/restrict-plus-operands": "off"
             }
         }
-    ],
-    "globals": {
-        "jQuery": "readonly"
-    }
+    ]
 }
