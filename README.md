@@ -16,15 +16,35 @@ See most of the available options at the [Demo Page](http://marekdedic.github.io
 * All major desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
 * IE8 is NOT supported
 
+### Install
+```sh
+// YARN
+yarn add jquery imagelightbox
+
+// NPM
+npm install jquery imagelightbox
+```
+
+After that include imagelightbox.css and imagelightbox(.min).js to your page.
+
 ## How to use
 
-````javascript
-<script src="jquery.js"></script>
-<script src="imagelightbox.js"></script>
+````html
+<link rel="stylesheet" href="path/to/dist/imagelightbox.css">
+...
+<a data-imagelightbox="a" href="image_1.jpg">
+    <img src="thumbnail_1.jpg" alt="caption 1"/>
+</a>
+<a data-imagelightbox="a" href="image_2.jpg">
+    <img src="thumbnail_2.jpg" alt="caption 2"/>
+</a>
+...
+<script src="path/to/jquery.js"></script>
+<script src="path/to/dist/imagelightbox.js"></script>
 <script>
     $( function()
     {
-        $( selector ).imageLightbox();
+        $('a[data-imagelightbox="a"]').imageLightbox();
     });
 </script>
 ````
@@ -57,6 +77,29 @@ $( selector ).imageLightbox({
     quitOnEscKey:   true                     // bool;            quit when Esc key is pressed
 });
 ````
+
+| Property | Default | Type | Description |
+| -------- | ------- | ---- | ----------- |
+|selector|'a[data-imagelightbox]'|string||
+|id|'imagelightbox'|string|The id of the preview image/video element|
+|allowTypes|'png&#124;jpg&#124;jpeg&#124;gif'|string|use empty string to allow any file type|
+|animationSpeed|250|integer||
+|activity|false|bool|show activity indicator|
+|arrows|false|bool|show left/right arrows|
+|button|false|bool|show close button|
+|caption|false|bool|show captions|
+|enableKeyboard|true|bool|enable keyboard shortcuts (arrows Left/Right and Esc)|
+|history|false|bool|enable image permalinks and history|
+|fullscreen|false|bool|enable fullscreen (enter/return key)|
+|gutter|10|integer|window height less height of image as a percentage|
+|offsetY|0|integer|vertical offset in terms of gutter|
+|navigation|false|bool|show navigation|
+|overlay|false|bool|display the lightbox as an overlay|
+|preloadNext|true|bool|silently preload the next image|
+|quitOnEnd|false|bool|quit after viewing the last image|
+|quitOnImgClick|false|bool|quit when the viewed image is clicked|
+|quitOnDocClick|true|bool|quit when anything but the viewed image is clicked|
+|quitOnEscKey|true|bool|quit when Esc key is pressed|
 
 ## Starting lightbox with JavaScript call
 
