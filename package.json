@@ -5,8 +5,8 @@
   "homepage": "https://marekdedic.github.io/imagelightbox",
   "license": "MIT",
   "repository": "https://github.com/marekdedic/imagelightbox.git",
-  "main": "./src/imagelightbox.js",
-  "style": "./src/imagelightbox.css",
+  "main": "./dist/imagelightbox.min.js",
+  "style": "./dist/imagelightbox.min.css",
   "types": "./types/imagelightbox.d.ts",
   "files": [
     "dist",
