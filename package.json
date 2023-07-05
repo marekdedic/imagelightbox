@@ -39,7 +39,7 @@
     "puppeteer": "^20.0.0",
     "rimraf": "^5.0.1",
     "stylelint": "^15.1.0",
-    "stylelint-config-recommended": "^12.0.0",
+    "stylelint-config-recommended": "^13.0.0",
     "stylelint-no-unsupported-browser-features": "^6.0.1",
     "ts-loader": "^9.4.1",
     "typescript": "^5.0.3",
