@@ -55,7 +55,7 @@ const cssTransitionSupport = function (): string | false {
     cssTransitionTranslateX = function (
         element: JQuery,
         positionX: string,
-        speed: number
+        speed: number,
     ): void {
         const options: Record<string, string> = {},
             prefix = cssTransitionSupport() || "";
@@ -139,7 +139,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 quitOnDocClick: true,
                 quitOnEscKey: true,
             },
-            opts
+            opts,
         ),
         _onStart = function (): void {
             if (options.arrows) {
@@ -177,7 +177,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         _addQueryField = function (
             query: string,
             key: string,
-            value: string
+            value: string,
         ): string {
             const newField = key + "=" + value;
             let newQuery = "?" + newField;
@@ -211,7 +211,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             let newQuery = _addQueryField(
                 document.location.search,
                 "imageLightboxIndex",
-                newIndex
+                newIndex,
             );
             if (set) {
                 newQuery = _addQueryField(newQuery, "imageLightboxSet", set);
@@ -219,7 +219,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             window.history.pushState(
                 newState,
                 "",
-                document.location.pathname + newQuery
+                document.location.pathname + newQuery,
             );
         },
         _removeQueryField = function (query: string, key: string): string {
@@ -238,18 +238,18 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             }
             let newQuery = _removeQueryField(
                 document.location.search,
-                "imageLightboxIndex"
+                "imageLightboxIndex",
             );
             newQuery = _removeQueryField(newQuery, "imageLightboxSet");
             window.history.pushState(
                 {},
                 "",
-                document.location.pathname + newQuery
+                document.location.pathname + newQuery,
             );
         },
         _getQueryField = function (key: string): string | undefined {
             const keyValuePair = new RegExp(
-                "[?&]" + key + "(=([^&#]*)|&|#|$)"
+                "[?&]" + key + "(=([^&#]*)|&|#|$)",
             ).exec(document.location.search);
             if (!keyValuePair || !keyValuePair[2]) {
                 return undefined;
@@ -504,7 +504,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     cssTransitionTranslateX(
                         image,
                         (100 * direction - swipeDiff).toString() + "px",
-                        options.animationSpeed / 1000
+                        options.animationSpeed / 1000,
                     );
                 } else {
                     params.left =
@@ -518,7 +518,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     options.animationSpeed,
                     function (): void {
                         _removeImage();
-                    }
+                    },
                 );
                 swipeDiff = 0;
             }
@@ -559,7 +559,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 } else {
                     element = $("<img id='" + options.id + "' />").attr(
                         "src",
-                        imgPath!
+                        imgPath!,
                     );
                 }
                 function onload(): void {
@@ -572,13 +572,13 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         cssTransitionTranslateX(
                             image,
                             (-100 * direction).toString() + "px",
-                            0
+                            0,
                         );
                         setTimeout(function (): void {
                             cssTransitionTranslateX(
                                 image,
                                 "0px",
-                                options.animationSpeed / 1000
+                                options.animationSpeed / 1000,
                             );
                         }, 50);
                     } else {
@@ -586,7 +586,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         params.left = imagePosLeft.toString() + "px";
                         image.css(
                             "left",
-                            (imagePosLeft - 100 * direction).toString() + "px"
+                            (imagePosLeft - 100 * direction).toString() + "px",
                         );
                     }
 
@@ -596,7 +596,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         function (): void {
                             inProgress = false;
                             _onLoadEnd();
-                        }
+                        },
                     );
                     if (options.preloadNext) {
                         let nextTarget = targets.eq(targets.index(target) + 1);
@@ -646,7 +646,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                 (e.originalEvent as PointerEvent).pageX ||
                                 (e.originalEvent as TouchEvent).touches[0]
                                     .pageX;
-                        }
+                        },
                     )
                     .on(
                         "touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7",
@@ -668,15 +668,16 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                 cssTransitionTranslateX(
                                     image,
                                     (-swipeDiff).toString() + "px",
-                                    0
+                                    0,
                                 );
                             } else {
                                 image.css(
                                     "left",
-                                    (imagePosLeft - swipeDiff).toString() + "px"
+                                    (imagePosLeft - swipeDiff).toString() +
+                                        "px",
                                 );
                             }
-                        }
+                        },
                     )
                     .on(
                         "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
@@ -698,7 +699,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                     cssTransitionTranslateX(
                                         image,
                                         "0px",
-                                        options.animationSpeed / 1000
+                                        options.animationSpeed / 1000,
                                     );
                                 } else {
                                     image.animate(
@@ -706,11 +707,11 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                             left:
                                                 imagePosLeft.toString() + "px",
                                         },
-                                        options.animationSpeed / 2
+                                        options.animationSpeed / 2,
                                     );
                                 }
                             }
-                        }
+                        },
                     );
                 if (preloadedVideo === true) {
                     onload();
@@ -723,7 +724,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         hasPointers
                             ? "pointerup.ilb7 MSPointerUp.ilb7"
                             : "click.ilb7",
-                        onclick
+                        onclick,
                     );
                 }
             }, options.animationSpeed + 100);
@@ -737,7 +738,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         },
         _openImageLightbox = function (
             $target: JQuery,
-            noHistory: boolean
+            noHistory: boolean,
         ): void {
             if (inProgress) {
                 return;
@@ -770,7 +771,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     _removeImage();
                     inProgress = false;
                     $wrapper.remove().find("*").remove();
-                }
+                },
             );
         },
         _addTargets = function (newTargets: JQuery): void {
@@ -818,7 +819,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                 options.id +
                                 "' preload='metadata' data-ilb2-video-id='" +
                                 id +
-                                "'>"
+                                "'>",
                         ),
                         i: id,
                         l: false,
@@ -843,7 +844,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                 // TODO: Remove this general behaviour
                                 container.e = container.e.attr(
                                     key,
-                                    value as string | number
+                                    value as string | number,
                                 );
                         }
                     });
@@ -858,12 +859,12 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                         // TODO: Remove this general behaviour
                                         sourceElement = sourceElement.attr(
                                             key,
-                                            value as string
+                                            value as string,
                                         );
-                                    }
+                                    },
                                 );
                                 container.e.append(sourceElement);
-                            }
+                            },
                         );
                     }
                     container.e.on("loadedmetadata.ilb7", function (): void {
@@ -888,7 +889,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         e.preventDefault();
                         _quitImageLightbox();
                     }
-                }
+                },
             );
         }
 
