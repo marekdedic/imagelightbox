@@ -20,7 +20,7 @@ declare class LegacyDocument extends Document {
 declare class LegacyHTMLElement extends HTMLElement {
     public mozRequestFullScreen(options: FullscreenOptions): Promise<undefined>;
     public webkitRequestFullScreen(
-        options: FullscreenOptions
+        options: FullscreenOptions,
     ): Promise<undefined>;
     public msRequestFullscreen(options: FullscreenOptions): Promise<undefined>;
 }
