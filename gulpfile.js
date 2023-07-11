@@ -14,7 +14,7 @@ gulp.task("build:css:copy", function () {
         .pipe(
             autoprefixer({
                 cascade: false,
-            })
+            }),
         )
         .pipe(gulp.dest("dist/"))
         .pipe(gulp.dest("docs/stylesheets/"));
@@ -53,7 +53,7 @@ gulp.task(
             livereload: true,
         });
         done();
-    })
+    }),
 );
 
 gulp.task("default", gulp.series("build"));
