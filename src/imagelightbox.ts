@@ -73,11 +73,7 @@ const cssTransitionSupport = function (): string | false {
             return true;
         }
 
-        if (
-            !hasPointers ||
-            typeof event === "undefined" ||
-            typeof event.pointerType === "undefined"
-        ) {
+        if (!hasPointers || typeof event?.pointerType === "undefined") {
             return false;
         }
 
@@ -251,7 +247,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             const keyValuePair = new RegExp(
                 "[?&]" + key + "(=([^&#]*)|&|#|$)",
             ).exec(document.location.search);
-            if (!keyValuePair || !keyValuePair[2]) {
+            if (!keyValuePair?.[2]) {
                 return undefined;
             }
             return decodeURIComponent(keyValuePair[2].replace(/\+/g, " "));

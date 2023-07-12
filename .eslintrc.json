@@ -48,7 +48,6 @@
     "@typescript-eslint/prefer-enum-initializers": "error",
     "@typescript-eslint/prefer-for-of": "off", // TODO
     "@typescript-eslint/prefer-nullish-coalescing": "off", // TODO
-    "@typescript-eslint/prefer-optional-chain": "off", // TODO
     "@typescript-eslint/prefer-readonly": "error",
     "@typescript-eslint/prefer-readonly-parameter-types": "off", // TODO
     "@typescript-eslint/prefer-regexp-exec": "error",
