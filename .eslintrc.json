@@ -48,7 +48,7 @@
     "@typescript-eslint/promise-function-async": "error",
     "@typescript-eslint/require-array-sort-compare": "error",
     "@typescript-eslint/sort-type-constituents": "error",
-    "@typescript-eslint/strict-boolean-expressions": "off", // TODO
+    "@typescript-eslint/strict-boolean-expressions": "error",
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/typedef": "error",
     "@typescript-eslint/no-non-null-assertion": "off"
