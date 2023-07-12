@@ -844,7 +844,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                 // TODO: Remove this general behaviour
                                 container.e = container.e.attr(
                                     key,
-                                    value as string | number,
+                                    value as number | string,
                                 );
                         }
                     });
