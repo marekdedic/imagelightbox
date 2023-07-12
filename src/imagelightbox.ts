@@ -35,6 +35,7 @@ const $activityObject = $("<div/>")
     $body = $("body");
 
 const cssTransitionSupport = function (): string | null {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         const s = (document.body ?? document.documentElement)
             .style as LegacyCSSStyleDeclaration;
         if (s.transition === "") {
@@ -73,7 +74,7 @@ const cssTransitionSupport = function (): string | null {
             return true;
         }
 
-        if (!hasPointers || typeof event?.pointerType === "undefined") {
+        if (!hasPointers || typeof event.pointerType === "undefined") {
             return false;
         }
 
@@ -101,6 +102,7 @@ const cssTransitionSupport = function (): string | null {
             legacyDocument.msFullscreenEnabled ??
             false),
     hasHistorySupport: boolean =
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         window.history !== undefined && history.pushState !== undefined;
 
 $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
@@ -275,7 +277,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         },
         _popHistory = function (event: BaseJQueryEventObject): void {
             const newState = (event.originalEvent as PopStateEvent).state as
-                | { imageLightboxIndex: string; imageLightboxSet: string }
+                | { imageLightboxIndex?: string; imageLightboxSet?: string }
                 | undefined;
             if (!newState) {
                 _quitImageLightbox(true);
@@ -289,7 +291,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             const element = targets.filter('[data-ilb2-id="' + newId + '"]');
             if (
                 element.length === 0 ||
-                (newState.imageLightboxSet &&
+                (newState.imageLightboxSet !== undefined &&
                     newState.imageLightboxSet !==
                         element[0].dataset.imagelightbox)
             ) {
@@ -469,11 +471,12 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     videoHasDimensions = true;
                 }
             });
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (videoHasDimensions) {
                 return;
             }
             const videoElement = image.get(0) as HTMLVideoElement;
-            if (videoElement.videoWidth !== undefined) {
+            if ((videoElement.videoWidth as number | undefined) !== undefined) {
                 setSizes(videoElement.videoWidth, videoElement.videoHeight);
                 return;
             }
@@ -531,7 +534,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     | VideoOptions
                     | undefined;
                 let element = $();
-                let preloadedVideo;
+                let preloadedVideo: boolean;
                 if (videoOptions) {
                     $.each(videos, function (_, video): void {
                         if (video.i === target.data("ilb2VideoId")) {
@@ -705,10 +708,9 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             }
                         },
                     );
-                if (preloadedVideo === true) {
+                if (preloadedVideo) {
                     onload();
-                }
-                if (preloadedVideo === false) {
+                } else {
                     image = image.on("loadedmetadata.ilb7", onload);
                 }
                 if (!videoOptions) {
@@ -933,7 +935,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         const docEl = document.getElementById(options.id)!
             .parentElement as LegacyHTMLElement;
 
-        /* eslint-disable @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method */
+        /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method */
         const requestFullScreen =
             docEl.requestFullscreen ||
             docEl.mozRequestFullScreen ||
