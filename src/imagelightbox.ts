@@ -1,5 +1,5 @@
-import { PreloadedVideo } from "./interfaces/PreloadedVideo";
-import { VideoOptions } from "./interfaces/VideoOptions";
+import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
+import type { VideoOptions } from "./interfaces/VideoOptions";
 
 // COMPONENTS //
 const $activityObject = $("<div/>")
