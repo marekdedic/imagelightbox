@@ -934,6 +934,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         const docEl = document.getElementById(options.id)!
             .parentElement as LegacyHTMLElement;
 
+        /* eslint-disable @typescript-eslint/unbound-method */
         const requestFullScreen =
             docEl.requestFullscreen ||
             docEl.mozRequestFullScreen ||
@@ -944,6 +945,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             doc.mozCancelFullScreen ||
             doc.webkitExitFullscreen ||
             doc.msExitFullscreen;
+        /* eslint-enable */
 
         if (
             !doc.fullscreenElement &&
