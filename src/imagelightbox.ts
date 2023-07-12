@@ -94,12 +94,11 @@ const cssTransitionSupport = function (): string | false {
         return false;
     },
     legacyDocument = document as LegacyDocument,
-    hasFullscreenSupport = !!(
+    hasFullscreenSupport =
         legacyDocument.fullscreenEnabled ||
-        legacyDocument.webkitFullscreenEnabled ||
-        legacyDocument.mozFullScreenEnabled ||
-        legacyDocument.msFullscreenEnabled
-    ),
+        (legacyDocument.webkitFullscreenEnabled ??
+            legacyDocument.mozFullScreenEnabled ??
+            legacyDocument.msFullscreenEnabled),
     hasHistorySupport = !!(window.history && history.pushState);
 
 $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
