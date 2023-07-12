@@ -15,33 +15,100 @@
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:prettier/recommended"
   ],
   "rules": {
     "compat/compat": "warn",
     "deprecation/deprecation": "warn",
+    "no-warning-comments": "warn",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "@typescript-eslint/array-type": ["error", {"default": "generic"}],
+    "strict": ["error", "never"],
+    "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+    "@typescript-eslint/consistent-type-exports": "error",
+    "@typescript-eslint/consistent-type-imports": "off", // TODO
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-member-accessibility": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "error",
     "@typescript-eslint/member-ordering": "error",
-    "@typescript-eslint/no-extraneous-class": "error",
-    "@typescript-eslint/no-namespace": ["error", {"allowDeclarations": true}],
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/unbound-method": "off"
+    "@typescript-eslint/method-signature-style": ["error", "method"],
+    "@typescript-eslint/no-base-to-string": ["error", { "ignoredTypeNames": ["FormData", "Payload"] }],
+    "@typescript-eslint/no-dynamic-delete": "off", // TODO
+    "@typescript-eslint/no-import-type-side-effects": "error",
+    "@typescript-eslint/no-require-imports": "error",
+    "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off", // TODO
+    "@typescript-eslint/no-unnecessary-condition": "off", // TODO
+    "@typescript-eslint/no-unnecessary-qualifier": "error",
+    "@typescript-eslint/no-unnecessary-type-arguments": "off", // TODO
+    "@typescript-eslint/no-useless-empty-export": "error",
+    "@typescript-eslint/non-nullable-type-assertion-style": "off", // TODO
+    "@typescript-eslint/parameter-properties": "error",
+    "@typescript-eslint/prefer-enum-initializers": "error",
+    "@typescript-eslint/prefer-for-of": "off", // TODO
+    "@typescript-eslint/prefer-nullish-coalescing": "off", // TODO
+    "@typescript-eslint/prefer-optional-chain": "off", // TODO
+    "@typescript-eslint/prefer-readonly": "error",
+    "@typescript-eslint/prefer-readonly-parameter-types": "off", // TODO
+    "@typescript-eslint/prefer-regexp-exec": "error",
+    "@typescript-eslint/promise-function-async": "error",
+    "@typescript-eslint/require-array-sort-compare": "error",
+    "@typescript-eslint/sort-type-constituents": "off", // TODO
+    "@typescript-eslint/strict-boolean-expressions": "off", // TODO
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
+    "@typescript-eslint/typedef": "error",
+    "@typescript-eslint/unbound-method": "off", // TODO
+    "@typescript-eslint/no-non-null-assertion": "off"
   },
   "overrides": [
     {
       "files": ["gulpfile.js"],
       "rules": {
+        "@typescript-eslint/await-thenable": "off",
+        "@typescript-eslint/consistent-type-exports": "off",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-base-to-string": "off",
+        "@typescript-eslint/no-confusing-void-expression": "off",
+        "@typescript-eslint/no-duplicate-type-constituents": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-implied-eval": "off",
+        "@typescript-eslint/no-meaningless-void-operator": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-mixed-enums": "off",
+        "@typescript-eslint/no-redundant-type-constituents": "off",
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-throw-literal": "off",
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
+        "@typescript-eslint/no-unnecessary-condition": "off",
+        "@typescript-eslint/no-unnecessary-qualifier": "off",
+        "@typescript-eslint/no-unnecessary-type-arguments": "off",
+        "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-enum-comparison": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-return": "off",
-        "@typescript-eslint/restrict-plus-operands": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/non-nullable-type-assertion-style": "off",
+        "@typescript-eslint/prefer-includes": "off",
+        "@typescript-eslint/prefer-nullish-coalescing": "off",
+        "@typescript-eslint/prefer-optional-chain": "off",
+        "@typescript-eslint/prefer-readonly": "off",
+        "@typescript-eslint/prefer-reduce-type-parameter": "off",
+        "@typescript-eslint/prefer-regexp-exec": "off",
+        "@typescript-eslint/prefer-return-this-type": "off",
+        "@typescript-eslint/prefer-string-starts-ends-with": "off",
+        "@typescript-eslint/promise-function-async": "off",
+        "@typescript-eslint/require-array-sort-compare": "off",
+        "@typescript-eslint/require-await": "off",
+        "@typescript-eslint/restrict-plus-operands": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/switch-exhaustiveness-check": "off",
+        "@typescript-eslint/unbound-method": "off"
       }
     }
   ]
