@@ -383,6 +383,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             if (!targets.length) {
                 return;
             }
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let i = 0; i < targets.length; i++) {
                 $navObject.append($navItem.clone());
             }
