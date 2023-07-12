@@ -35,7 +35,6 @@
     "@typescript-eslint/member-ordering": "error",
     "@typescript-eslint/method-signature-style": ["error", "method"],
     "@typescript-eslint/no-base-to-string": ["error", { "ignoredTypeNames": ["FormData", "Payload"] }],
-    "@typescript-eslint/no-dynamic-delete": "off", // TODO
     "@typescript-eslint/no-import-type-side-effects": "error",
     "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-unnecessary-condition": "off", // TODO
