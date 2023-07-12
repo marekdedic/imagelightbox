@@ -51,7 +51,6 @@
     "@typescript-eslint/strict-boolean-expressions": "off", // TODO
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/typedef": "error",
-    "@typescript-eslint/unbound-method": "off", // TODO
     "@typescript-eslint/no-non-null-assertion": "off"
   },
   "overrides": [
