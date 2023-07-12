@@ -18,11 +18,15 @@ declare class LegacyDocument extends Document {
 }
 
 declare class LegacyHTMLElement extends HTMLElement {
-    public mozRequestFullScreen(options: FullscreenOptions): Promise<undefined>;
-    public webkitRequestFullScreen(
+    public mozRequestFullScreen?: (
         options: FullscreenOptions,
-    ): Promise<undefined>;
-    public msRequestFullscreen(options: FullscreenOptions): Promise<undefined>;
+    ) => Promise<undefined>;
+    public webkitRequestFullScreen?: (
+        options: FullscreenOptions,
+    ) => Promise<undefined>;
+    public msRequestFullscreen?: (
+        options: FullscreenOptions,
+    ) => Promise<undefined>;
 }
 
 declare class LegacyNavigator extends Navigator {

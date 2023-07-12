@@ -34,8 +34,8 @@ const $activityObject = $("<div/>")
     }),
     $body = $("body");
 
-const cssTransitionSupport = function (): string | false {
-        const s = (document.body || document.documentElement)
+const cssTransitionSupport = function (): string | null {
+        const s = (document.body ?? document.documentElement)
             .style as LegacyCSSStyleDeclaration;
         if (s.transition === "") {
             return "";
@@ -49,16 +49,16 @@ const cssTransitionSupport = function (): string | false {
         if (s.OTransition === "") {
             return "-o-";
         }
-        return false;
+        return null;
     },
-    hasCssTransitionSupport = cssTransitionSupport() !== false,
+    hasCssTransitionSupport = cssTransitionSupport() !== null,
     cssTransitionTranslateX = function (
         element: JQuery,
         positionX: string,
         speed: number,
     ): void {
         const options: Record<string, string> = {},
-            prefix = cssTransitionSupport() || "";
+            prefix = cssTransitionSupport() ?? "";
         options[prefix + "transform"] =
             "translateX(" + positionX + ") translateY(-50%)";
         options[prefix + "transition"] =
@@ -94,12 +94,14 @@ const cssTransitionSupport = function (): string | false {
         return false;
     },
     legacyDocument = document as LegacyDocument,
-    hasFullscreenSupport =
+    hasFullscreenSupport: boolean =
         legacyDocument.fullscreenEnabled ||
         (legacyDocument.webkitFullscreenEnabled ??
             legacyDocument.mozFullScreenEnabled ??
-            legacyDocument.msFullscreenEnabled),
-    hasHistorySupport = !!(window.history && history.pushState);
+            legacyDocument.msFullscreenEnabled ??
+            false),
+    hasHistorySupport: boolean =
+        window.history !== undefined && history.pushState !== undefined;
 
 $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
     let currentIndex = 0;
@@ -191,24 +193,20 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             if (!hasHistorySupport || !options.history) {
                 return;
             }
-            let newIndex = targets[targetIndex].dataset.ilb2Id;
-            if (!newIndex) {
-                newIndex = targetIndex.toString();
-            }
+            const newIndex =
+                targets[targetIndex].dataset.ilb2Id ?? targetIndex.toString();
             const newState = {
                 imageLightboxIndex: newIndex,
                 imageLightboxSet: "",
             };
             const set = targets[targetIndex].dataset.imagelightbox;
-            if (set) {
-                newState.imageLightboxSet = set;
-            }
             let newQuery = _addQueryField(
                 document.location.search,
                 "imageLightboxIndex",
                 newIndex,
             );
-            if (set) {
+            if (set !== undefined) {
+                newState.imageLightboxSet = set;
                 newQuery = _addQueryField(newQuery, "imageLightboxSet", set);
             }
             window.history.pushState(
@@ -246,7 +244,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             const keyValuePair = new RegExp(
                 "[?&]" + key + "(=([^&#]*)|&|#|$)",
             ).exec(document.location.search);
-            if (!keyValuePair?.[2]) {
+            if (keyValuePair?.[2] === undefined) {
                 return undefined;
             }
             return decodeURIComponent(keyValuePair[2].replace(/\+/g, " "));
@@ -256,7 +254,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 return;
             }
             const id = _getQueryField("imageLightboxIndex");
-            if (!id) {
+            if (id === undefined) {
                 return;
             }
             let element = targets.filter('[data-ilb2-id="' + id + '"]');
@@ -268,8 +266,8 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             }
             const set = _getQueryField("imageLightboxSet");
             if (
-                !element[0] ||
-                (!!set && set !== element[0].dataset.imagelightbox)
+                element.length === 0 ||
+                (set !== undefined && set !== element[0].dataset.imagelightbox)
             ) {
                 return;
             }
@@ -289,12 +287,8 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 return;
             }
             const element = targets.filter('[data-ilb2-id="' + newId + '"]');
-            if (element.length === 0) {
-                return;
-            }
-            const newIndex = targets.index(element);
             if (
-                !element[0] ||
+                element.length === 0 ||
                 (newState.imageLightboxSet &&
                     newState.imageLightboxSet !==
                         element[0].dataset.imagelightbox)
@@ -305,6 +299,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 _openImageLightbox(element, true);
                 return;
             }
+            const newIndex = targets.index(element);
             let direction = +1;
             if (newIndex > targetIndex) {
                 direction = -1;
@@ -371,10 +366,10 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         captionReset = function (): void {
             $captionObject.css("opacity", "0");
             $captionObject.html("&nbsp;");
-            if ($(target).data("ilb2-caption")) {
+            if ($(target).data("ilb2-caption") !== undefined) {
                 $captionObject.css("opacity", "1");
                 $captionObject.html($(target).data("ilb2-caption") as string);
-            } else if ($(target).find("img").attr("alt")) {
+            } else if ($(target).find("img").attr("alt") !== undefined) {
                 $captionObject.css("opacity", "1");
                 $captionObject.html($(target).find("img").attr("alt")!);
             }
@@ -532,7 +527,9 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 //     imgPath = target.attr('data-lightbox');
                 // }
 
-                const videoOptions = target.data("ilb2Video") as VideoOptions;
+                const videoOptions = target.data("ilb2Video") as
+                    | VideoOptions
+                    | undefined;
                 let element = $();
                 let preloadedVideo;
                 if (videoOptions) {
@@ -540,7 +537,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                         if (video.i === target.data("ilb2VideoId")) {
                             preloadedVideo = video.l;
                             element = video.e;
-                            if (video.a) {
+                            if (video.a !== undefined) {
                                 if (preloadedVideo) {
                                     void (
                                         element.get(0) as HTMLVideoElement
@@ -798,7 +795,9 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         },
         _preloadVideos = function (elements: JQuery): void {
             elements.each(function () {
-                const videoOptions = $(this).data("ilb2Video") as VideoOptions;
+                const videoOptions = $(this).data("ilb2Video") as
+                    | VideoOptions
+                    | undefined;
                 if (videoOptions) {
                     let id = $(this).data("ilb2Id") as string;
                     if (!id) {
@@ -934,7 +933,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         const docEl = document.getElementById(options.id)!
             .parentElement as LegacyHTMLElement;
 
-        /* eslint-disable @typescript-eslint/unbound-method */
+        /* eslint-disable @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method */
         const requestFullScreen =
             docEl.requestFullscreen ||
             docEl.mozRequestFullScreen ||
@@ -990,11 +989,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
     };
 
     this.startImageLightbox = function (element: JQuery): void {
-        if (element) {
-            element.trigger("click.ilb7");
-        } else {
-            $(this).trigger("click.ilb7");
-        }
+        element.trigger("click.ilb7");
     };
 
     return this;
