@@ -320,7 +320,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
 
             targetIndex--;
             if (targetIndex < 0) {
-                if (options.quitOnEnd === true) {
+                if (options.quitOnEnd) {
                     _quitImageLightbox();
                     return;
                 } else {
@@ -339,7 +339,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
 
             targetIndex++;
             if (targetIndex >= targets.length) {
-                if (options.quitOnEnd === true) {
+                if (options.quitOnEnd) {
                     _quitImageLightbox();
                     return;
                 } else {
@@ -540,13 +540,12 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             preloadedVideo = video.l;
                             element = video.e;
                             if (video.a) {
-                                if (preloadedVideo === false) {
-                                    element.attr("autoplay", video.a);
-                                }
-                                if (preloadedVideo === true) {
+                                if (preloadedVideo) {
                                     void (
                                         element.get(0) as HTMLVideoElement
                                     ).play();
+                                } else {
+                                    element.attr("autoplay", video.a);
                                 }
                             }
                         }
