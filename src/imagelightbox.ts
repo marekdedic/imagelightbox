@@ -990,8 +990,12 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         return this;
     };
 
-    this.startImageLightbox = function (element: JQuery): void {
-        element.trigger("click.ilb7");
+    this.startImageLightbox = function (element?: JQuery): void {
+        if (element) {
+            element.trigger("click.ilb7");
+        } else {
+            $(this).trigger("click.ilb7");
+        }
     };
 
     return this;
