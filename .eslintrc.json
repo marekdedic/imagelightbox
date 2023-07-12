@@ -41,7 +41,6 @@
     "@typescript-eslint/no-unnecessary-condition": "off", // TODO
     "@typescript-eslint/no-unnecessary-qualifier": "error",
     "@typescript-eslint/no-useless-empty-export": "error",
-    "@typescript-eslint/non-nullable-type-assertion-style": "off", // TODO
     "@typescript-eslint/parameter-properties": "error",
     "@typescript-eslint/prefer-enum-initializers": "error",
     "@typescript-eslint/prefer-for-of": "off", // TODO

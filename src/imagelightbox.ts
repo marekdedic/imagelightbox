@@ -853,7 +853,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                                         // TODO: Remove this general behaviour
                                         sourceElement = sourceElement.attr(
                                             key,
-                                            value as string,
+                                            value!,
                                         );
                                     },
                                 );
