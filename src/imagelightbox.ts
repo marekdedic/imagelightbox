@@ -534,7 +534,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     | VideoOptions
                     | undefined;
                 let element = $();
-                let preloadedVideo: boolean;
+                let preloadedVideo: boolean | undefined;
                 if (videoOptions) {
                     $.each(videos, function (_, video): void {
                         if (video.i === target.data("ilb2VideoId")) {
@@ -708,9 +708,9 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             }
                         },
                     );
-                if (preloadedVideo) {
+                if (preloadedVideo === true) {
                     onload();
-                } else {
+                } else if (preloadedVideo === false) {
                     image = image.on("loadedmetadata.ilb7", onload);
                 }
                 if (!videoOptions) {
