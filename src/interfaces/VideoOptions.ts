@@ -1,4 +1,4 @@
-import { VideoSourceOptions } from "./VideoSourceOptions";
+import type { VideoSourceOptions } from "./VideoSourceOptions";
 
 export interface VideoOptions {
     autoplay?: "autoplay";
