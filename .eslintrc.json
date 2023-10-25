@@ -10,6 +10,7 @@
   "plugins": [
     "compat",
     "deprecation",
+    "prefer-arrow-functions",
     "simple-import-sort",
     "@typescript-eslint"
   ],
@@ -20,12 +21,20 @@
     "plugin:prettier/recommended"
   ],
   "rules": {
+    "arrow-body-style": ["error", "as-needed"],
+    "camelcase": "error",
+    "no-warning-comments": "warn",
+    "strict": ["error", "never"],
     "compat/compat": "warn",
     "deprecation/deprecation": "warn",
-    "no-warning-comments": "warn",
+    "prefer-arrow-functions/prefer-arrow-functions": [
+      "error",
+      {
+        "allowNamedFunctions": true
+      }
+    ],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "strict": ["error", "never"],
     "@typescript-eslint/array-type": ["error", { "default": "generic" }],
     "@typescript-eslint/consistent-type-exports": "error",
     "@typescript-eslint/consistent-type-imports": "error",
