@@ -60,7 +60,7 @@
     "test": "mocha --recursive test/src",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.js'",
+    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.mjs'",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
     "prepack": "npm run build"
