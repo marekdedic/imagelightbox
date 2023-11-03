@@ -1,12 +1,14 @@
 /* eslint-env node */
 
-const gulp = require("gulp");
-const autoprefixer = require("gulp-autoprefixer");
-const cleanCSS = require("gulp-clean-css");
-const connect = require("gulp-connect");
-const named = require("vinyl-named");
-const rename = require("gulp-rename");
-const webpack = require("webpack-stream");
+import gulp from "gulp";
+import autoprefixer from "gulp-autoprefixer";
+import cleanCSS from "gulp-clean-css";
+import connect from "gulp-connect";
+import rename from "gulp-rename";
+import named from "vinyl-named";
+import webpack from "webpack-stream";
+
+import webpackConfig from "./webpack.config.js";
 
 gulp.task("build:css:copy", () =>
     gulp
@@ -34,7 +36,7 @@ gulp.task("build:js", () =>
     gulp
         .src("src/imagelightbox.ts")
         .pipe(named((file) => file.stem + ".min"))
-        .pipe(webpack(require("./webpack.config.js")))
+        .pipe(webpack(webpackConfig))
         .pipe(gulp.dest("dist/"))
         .pipe(gulp.dest("docs/javascripts/")),
 );

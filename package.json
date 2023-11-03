@@ -31,7 +31,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "express": "^4.17.1",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
+    "gulp-autoprefixer": "^9.0.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-connect": "^5.7.0",
     "gulp-rename": "^2.0.0",
@@ -60,7 +60,7 @@
     "test": "mocha --recursive test/src",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.js'",
+    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'gulpfile.mjs'",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
     "prepack": "npm run build"
