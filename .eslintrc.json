@@ -63,7 +63,7 @@
   },
   "overrides": [
     {
-      "files": ["gulpfile.js"],
+      "files": ["gulpfile.mjs"],
       "rules": {
         "@typescript-eslint/await-thenable": "off",
         "@typescript-eslint/consistent-type-exports": "off",
