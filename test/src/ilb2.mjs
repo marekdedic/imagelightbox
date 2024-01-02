@@ -1,11 +1,13 @@
-const puppeteer = require('puppeteer');
-const express = require('express');
-const expect = require('chai').expect;
+import puppeteer from "puppeteer";
+import express from "express";
+import { expect } from "chai";
+import { URL } from 'url';
 const app = express();
 
 // helper functions to start/stop server before/after tests
 let server = null;
 const startServer = () => {
+    const __dirname = new URL('.', import.meta.url).pathname;
     app.use(express.static(__dirname + '/../../docs'));
     server = app.listen(8080);
 };
