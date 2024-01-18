@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v4.0.1
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             "~/.npm"
@@ -53,7 +53,7 @@ jobs:
         uses: actions/setup-node@v4.0.1
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             "~/.npm"
@@ -93,7 +93,7 @@ jobs:
         uses: actions/setup-node@v4.0.1
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             "~/.npm"
