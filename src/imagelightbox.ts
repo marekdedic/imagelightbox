@@ -404,7 +404,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     | VideoOptions
                     | undefined;
                 let element = $();
-                let preloadedVideo: boolean | undefined;
+                let preloadedVideo: boolean | undefined = undefined;
                 if (videoOptions) {
                     $.each(videos, (_, video): void => {
                         if (video.i === target.data("ilb2VideoId")) {
@@ -574,8 +574,10 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             }
                         },
                     );
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
                 if (preloadedVideo === true) {
                     onload();
+                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
                 } else if (preloadedVideo === false) {
                     image = image.on("loadedmetadata.ilb7", onload);
                 }
