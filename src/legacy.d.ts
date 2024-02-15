@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 declare class LegacyCSSStyleDeclaration extends CSSStyleDeclaration {
     public MozTransition: string;
     public OTransition: string;
@@ -37,3 +38,4 @@ declare class LegacyNavigator extends Navigator {
 declare class LegacyPointerEvent extends PointerEvent {
     public MSPOINTER_TYPE_MOUSE: string;
 }
+/* eslint-enable */

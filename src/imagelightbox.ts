@@ -140,38 +140,53 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             },
             opts,
         ),
-        _onStart = (): void => {
-            if (options.arrows) {
-                arrowsOn();
+        _removeQueryField = (query: string, key: string): string => {
+            let newQuery = query;
+            if (newQuery) {
+                const keyRegex1 = new RegExp("\\?" + key + "=[^&]*");
+                const keyRegex2 = new RegExp("&" + key + "=[^&]*");
+                newQuery = newQuery.replace(keyRegex1, "?");
+                newQuery = newQuery.replace(keyRegex2, "");
             }
-            if (options.navigation) {
-                navigationOn();
-            }
-            if (options.overlay) {
-                overlayOn();
-            }
-            if (options.button) {
-                closeButtonOn();
-            }
-            if (options.caption) {
-                $wrapper.append($captionObject);
-            }
+            return newQuery;
         },
-        _onLoadStart = (): void => {
-            if (options.activity) {
-                activityIndicatorOn();
+        _pushQuitToHistory = (): void => {
+            if (!hasHistorySupport || !options.history) {
+                return;
             }
-            if (options.caption) {
-                captionReset();
-            }
+            let newQuery = _removeQueryField(
+                document.location.search,
+                "imageLightboxIndex",
+            );
+            newQuery = _removeQueryField(newQuery, "imageLightboxSet");
+            window.history.pushState(
+                {},
+                "",
+                document.location.pathname + newQuery,
+            );
         },
-        _onLoadEnd = (): void => {
-            if (options.activity) {
-                activityIndicatorOff();
+        _removeImage = (): void => {
+            if (!image.length) {
+                return;
             }
-            if (options.arrows) {
-                $arrows.css("display", "block");
+            image.remove();
+            image = $();
+        },
+        _quitImageLightbox = (noHistory = false): void => {
+            targetIndex = -1;
+            if (!noHistory) {
+                _pushQuitToHistory();
             }
+            $wrapper.trigger("quit.ilb2");
+            $body.removeClass("imagelightbox-open");
+            if (!image.length) {
+                return;
+            }
+            image.animate({ opacity: 0 }, options.animationSpeed, (): void => {
+                _removeImage();
+                inProgress = false;
+                $wrapper.remove().find("*").remove();
+            });
         },
         _addQueryField = (
             query: string,
@@ -217,151 +232,8 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 document.location.pathname + newQuery,
             );
         },
-        _removeQueryField = (query: string, key: string): string => {
-            let newQuery = query;
-            if (newQuery) {
-                const keyRegex1 = new RegExp("\\?" + key + "=[^&]*");
-                const keyRegex2 = new RegExp("&" + key + "=[^&]*");
-                newQuery = newQuery.replace(keyRegex1, "?");
-                newQuery = newQuery.replace(keyRegex2, "");
-            }
-            return newQuery;
-        },
-        _pushQuitToHistory = (): void => {
-            if (!hasHistorySupport || !options.history) {
-                return;
-            }
-            let newQuery = _removeQueryField(
-                document.location.search,
-                "imageLightboxIndex",
-            );
-            newQuery = _removeQueryField(newQuery, "imageLightboxSet");
-            window.history.pushState(
-                {},
-                "",
-                document.location.pathname + newQuery,
-            );
-        },
-        _getQueryField = (key: string): string | undefined => {
-            const keyValuePair = new RegExp(
-                "[?&]" + key + "(=([^&#]*)|&|#|$)",
-            ).exec(document.location.search);
-            if (keyValuePair?.[2] === undefined) {
-                return undefined;
-            }
-            return decodeURIComponent(keyValuePair[2].replace(/\+/g, " "));
-        },
-        _openHistory = (): void => {
-            if (!hasHistorySupport || !options.history) {
-                return;
-            }
-            const id = _getQueryField("imageLightboxIndex");
-            if (id === undefined) {
-                return;
-            }
-            let element = targets.filter('[data-ilb2-id="' + id + '"]');
-            if (element.length > 0) {
-                targetIndex = targets.index(element);
-            } else {
-                targetIndex = parseInt(id);
-                element = $(targets[targetIndex]);
-            }
-            const set = _getQueryField("imageLightboxSet");
-            if (
-                element.length === 0 ||
-                (set !== undefined && set !== element[0].dataset.imagelightbox)
-            ) {
-                return;
-            }
-            _openImageLightbox(element, true);
-        },
-        _popHistory = (event: BaseJQueryEventObject): void => {
-            const newState = (event.originalEvent as PopStateEvent).state as
-                | { imageLightboxIndex?: string; imageLightboxSet?: string }
-                | undefined;
-            if (!newState) {
-                _quitImageLightbox(true);
-                return;
-            }
-            const newId = newState.imageLightboxIndex;
-            if (newId === undefined) {
-                _quitImageLightbox(true);
-                return;
-            }
-            const element = targets.filter('[data-ilb2-id="' + newId + '"]');
-            if (
-                element.length === 0 ||
-                (newState.imageLightboxSet !== undefined &&
-                    newState.imageLightboxSet !==
-                        element[0].dataset.imagelightbox)
-            ) {
-                return;
-            }
-            if (targetIndex < 0) {
-                _openImageLightbox(element, true);
-                return;
-            }
-            const newIndex = targets.index(element);
-            let direction = +1;
-            if (newIndex > targetIndex) {
-                direction = -1;
-            }
-            target = element;
-            targetIndex = newIndex;
-            _loadImage(direction);
-        },
-        _previousTarget = (): void => {
-            if (inProgress) {
-                return;
-            }
-
-            targetIndex--;
-            if (targetIndex < 0) {
-                if (options.quitOnEnd) {
-                    _quitImageLightbox();
-                    return;
-                } else {
-                    targetIndex = targets.length - 1;
-                }
-            }
-            target = targets.eq(targetIndex);
-            _pushToHistory();
-            $wrapper.trigger("previous.ilb2", target);
-            _loadImage(+1);
-        },
-        _nextTarget = (): void => {
-            if (inProgress) {
-                return;
-            }
-
-            targetIndex++;
-            if (targetIndex >= targets.length) {
-                if (options.quitOnEnd) {
-                    _quitImageLightbox();
-                    return;
-                } else {
-                    targetIndex = 0;
-                }
-            }
-            _pushToHistory();
-            target = targets.eq(targetIndex);
-            $wrapper.trigger("next.ilb2", target);
-            _loadImage(-1);
-        },
         activityIndicatorOn = (): void => {
             $wrapper.append($activityObject);
-        },
-        activityIndicatorOff = (): void => {
-            $(".imagelightbox-loading").remove();
-        },
-        overlayOn = (): void => {
-            $wrapper.append($overlayObject);
-        },
-        closeButtonOn = (): void => {
-            $buttonObject.appendTo($wrapper).on("click.ilb7", (): boolean => {
-                _quitImageLightbox();
-                return false;
-            });
         },
         captionReset = (): void => {
             $captionObject.css("opacity", "0");
@@ -374,62 +246,14 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 $captionObject.html($(target).find("img").attr("alt")!);
             }
         },
-        navigationOn = function (): void {
-            if (!targets.length) {
-                return;
+        _onLoadStart = (): void => {
+            if (options.activity) {
+                activityIndicatorOn();
             }
-            // eslint-disable-next-line @typescript-eslint/prefer-for-of
-            for (let i = 0; i < targets.length; i++) {
-                $navObject.append($navItem.clone());
+            if (options.caption) {
+                captionReset();
             }
-            const $navItems = $navObject.children("a");
-            $navItems.eq(targets.index(target)).addClass("active");
-
-            $wrapper.on("previous.ilb2 next.ilb2", (): void => {
-                $navItems
-                    .removeClass("active")
-                    .eq(targets.index(target))
-                    .addClass("active");
-            });
-            $wrapper.append($navObject);
-
-            $navObject
-                .on("click.ilb7 touchend.ilb7", (): boolean => false)
-                .on("click.ilb7 touchend.ilb7", "a", function (): void {
-                    const $this = $(this);
-                    if (
-                        targets.eq($this.index()).attr("href") !==
-                        $(".imagelightbox").attr("src")
-                    ) {
-                        const tmpTarget = targets.eq($this.index());
-                        if (tmpTarget.length) {
-                            currentIndex = targets.index(target);
-                            target = tmpTarget;
-                            _loadImage($this.index() < currentIndex ? -1 : 1);
-                        }
-                    }
-                    $this.addClass("active").siblings().removeClass("active");
-                });
         },
-        arrowsOn = function (): void {
-            $wrapper.append($arrows);
-            $arrows.on("click.ilb7 touchend.ilb7", function (e): void {
-                e.stopImmediatePropagation();
-                e.preventDefault();
-                if ($(this).hasClass("imagelightbox-arrow-left")) {
-                    _previousTarget();
-                } else {
-                    _nextTarget();
-                }
-            });
-        },
-        isTargetValid = (element: JQuery): boolean =>
-            // eslint-disable-next-line
-            ($(element).prop("tagName").toLowerCase() === "a" &&
-                new RegExp(".(" + options.allowedTypes + ")$", "i").test(
-                    $(element).attr("href")!,
-                )) ||
-            $(element).data("ilb2Video"),
         _setImage = function (): void {
             if (!image.length) {
                 return;
@@ -486,6 +310,57 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 setSizes(tmpImage.width, tmpImage.height);
             };
         },
+        activityIndicatorOff = (): void => {
+            $(".imagelightbox-loading").remove();
+        },
+        _onLoadEnd = (): void => {
+            if (options.activity) {
+                activityIndicatorOff();
+            }
+            if (options.arrows) {
+                $arrows.css("display", "block");
+            }
+        },
+        _previousTarget = (): void => {
+            if (inProgress) {
+                return;
+            }
+
+            targetIndex--;
+            if (targetIndex < 0) {
+                if (options.quitOnEnd) {
+                    _quitImageLightbox();
+                    return;
+                } else {
+                    targetIndex = targets.length - 1;
+                }
+            }
+            target = targets.eq(targetIndex);
+            _pushToHistory();
+            $wrapper.trigger("previous.ilb2", target);
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
+            _loadImage(+1);
+        },
+        _nextTarget = (): void => {
+            if (inProgress) {
+                return;
+            }
+
+            targetIndex++;
+            if (targetIndex >= targets.length) {
+                if (options.quitOnEnd) {
+                    _quitImageLightbox();
+                    return;
+                } else {
+                    targetIndex = 0;
+                }
+            }
+            _pushToHistory();
+            target = targets.eq(targetIndex);
+            $wrapper.trigger("next.ilb2", target);
+            // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
+            _loadImage(-1);
+        },
         _loadImage = (direction: number): void => {
             if (inProgress) {
                 return;
@@ -529,7 +404,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     | VideoOptions
                     | undefined;
                 let element = $();
-                let preloadedVideo: boolean | undefined;
+                let preloadedVideo: boolean | undefined = undefined;
                 if (videoOptions) {
                     $.each(videos, (_, video): void => {
                         if (video.i === target.data("ilb2VideoId")) {
@@ -699,8 +574,10 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                             }
                         },
                     );
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
                 if (preloadedVideo === true) {
                     onload();
+                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
                 } else if (preloadedVideo === false) {
                     image = image.on("loadedmetadata.ilb7", onload);
                 }
@@ -714,12 +591,89 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                 }
             }, options.animationSpeed + 100);
         },
-        _removeImage = (): void => {
-            if (!image.length) {
+        arrowsOn = function (): void {
+            $wrapper.append($arrows);
+            $arrows.on("click.ilb7 touchend.ilb7", function (e): void {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                if ($(this).hasClass("imagelightbox-arrow-left")) {
+                    _previousTarget();
+                } else {
+                    _nextTarget();
+                }
+            });
+        },
+        navigationOn = function (): void {
+            if (!targets.length) {
                 return;
             }
-            image.remove();
-            image = $();
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+            for (let i = 0; i < targets.length; i++) {
+                $navObject.append($navItem.clone());
+            }
+            const $navItems = $navObject.children("a");
+            $navItems.eq(targets.index(target)).addClass("active");
+
+            $wrapper.on("previous.ilb2 next.ilb2", (): void => {
+                $navItems
+                    .removeClass("active")
+                    .eq(targets.index(target))
+                    .addClass("active");
+            });
+            $wrapper.append($navObject);
+
+            $navObject
+                .on("click.ilb7 touchend.ilb7", (): boolean => false)
+                .on("click.ilb7 touchend.ilb7", "a", function (): void {
+                    const $this = $(this);
+                    if (
+                        targets.eq($this.index()).attr("href") !==
+                        $(".imagelightbox").attr("src")
+                    ) {
+                        const tmpTarget = targets.eq($this.index());
+                        if (tmpTarget.length) {
+                            currentIndex = targets.index(target);
+                            target = tmpTarget;
+                            _loadImage($this.index() < currentIndex ? -1 : 1);
+                        }
+                    }
+                    $this.addClass("active").siblings().removeClass("active");
+                });
+        },
+        overlayOn = (): void => {
+            $wrapper.append($overlayObject);
+        },
+        closeButtonOn = (): void => {
+            $buttonObject.appendTo($wrapper).on("click.ilb7", (): boolean => {
+                _quitImageLightbox();
+                return false;
+            });
+        },
+        _onStart = (): void => {
+            if (options.arrows) {
+                arrowsOn();
+            }
+            if (options.navigation) {
+                navigationOn();
+            }
+            if (options.overlay) {
+                overlayOn();
+            }
+            if (options.button) {
+                closeButtonOn();
+            }
+            if (options.caption) {
+                $wrapper.append($captionObject);
+            }
+        },
+        _getQueryField = (key: string): string | undefined => {
+            const keyValuePair = new RegExp(
+                "[?&]" + key + "(=([^&#]*)|&|#|$)",
+            ).exec(document.location.search);
+            if (keyValuePair?.[2] === undefined) {
+                return undefined;
+            }
+            return decodeURIComponent(keyValuePair[2].replace(/\+/g, " "));
         },
         _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
             if (inProgress) {
@@ -736,23 +690,85 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             $wrapper.trigger("start.ilb2", $target);
             _loadImage(0);
         },
-        _quitImageLightbox = (noHistory = false): void => {
-            targetIndex = -1;
-            if (!noHistory) {
-                _pushQuitToHistory();
-            }
-            $wrapper.trigger("quit.ilb2");
-            $body.removeClass("imagelightbox-open");
-            if (!image.length) {
+        _openHistory = (): void => {
+            if (!hasHistorySupport || !options.history) {
                 return;
             }
-            image.animate({ opacity: 0 }, options.animationSpeed, (): void => {
-                _removeImage();
-                inProgress = false;
-                $wrapper.remove().find("*").remove();
-            });
+            const id = _getQueryField("imageLightboxIndex");
+            if (id === undefined) {
+                return;
+            }
+            let element = targets.filter('[data-ilb2-id="' + id + '"]');
+            if (element.length > 0) {
+                targetIndex = targets.index(element);
+            } else {
+                targetIndex = parseInt(id);
+                element = $(targets[targetIndex]);
+            }
+            const set = _getQueryField("imageLightboxSet");
+            if (
+                element.length === 0 ||
+                (set !== undefined && set !== element[0].dataset.imagelightbox)
+            ) {
+                return;
+            }
+            _openImageLightbox(element, true);
         },
+        _popHistory = (event: BaseJQueryEventObject): void => {
+            const newState = (event.originalEvent as PopStateEvent).state as
+                | { imageLightboxIndex?: string; imageLightboxSet?: string }
+                | undefined;
+            if (!newState) {
+                _quitImageLightbox(true);
+                return;
+            }
+            const newId = newState.imageLightboxIndex;
+            if (newId === undefined) {
+                _quitImageLightbox(true);
+                return;
+            }
+            const element = targets.filter('[data-ilb2-id="' + newId + '"]');
+            if (
+                element.length === 0 ||
+                (newState.imageLightboxSet !== undefined &&
+                    newState.imageLightboxSet !==
+                        element[0].dataset.imagelightbox)
+            ) {
+                return;
+            }
+            if (targetIndex < 0) {
+                _openImageLightbox(element, true);
+                return;
+            }
+            const newIndex = targets.index(element);
+            let direction = +1;
+            if (newIndex > targetIndex) {
+                direction = -1;
+            }
+            target = element;
+            targetIndex = newIndex;
+            _loadImage(direction);
+        },
+        isTargetValid = (element: JQuery): boolean =>
+            // eslint-disable-next-line
+            ($(element).prop("tagName").toLowerCase() === "a" &&
+                new RegExp(".(" + options.allowedTypes + ")$", "i").test(
+                    $(element).attr("href")!,
+                )) ||
+            $(element).data("ilb2Video"),
         _addTargets = function (newTargets: JQuery): void {
+            function filterTargets(): void {
+                newTargets
+                    .filter(function (): boolean {
+                        return $(this).data("imagelightbox") === targetSet;
+                    })
+                    .filter(function (): boolean {
+                        return isTargetValid($(this));
+                    })
+                    .each(function (): void {
+                        targets = targets.add($(this));
+                    });
+            }
             newTargets.each(function (): void {
                 targets = newTargets.add($(this));
             });
@@ -766,18 +782,6 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     _openImageLightbox($(this), false);
                 }
             });
-            function filterTargets(): void {
-                newTargets
-                    .filter(function (): boolean {
-                        return $(this).data("imagelightbox") === targetSet;
-                    })
-                    .filter(function (): boolean {
-                        return isTargetValid($(this));
-                    })
-                    .each(function (): void {
-                        targets = targets.add($(this));
-                    });
-            }
         },
         _preloadVideos = function (elements: JQuery): void {
             elements.each(function () {
@@ -851,6 +855,36 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         $(window).on("popstate", _popHistory);
     }
 
+    function toggleFullScreen(): void {
+        const doc = window.document as LegacyDocument;
+        const docEl = document.getElementById(options.id)!
+            .parentElement as LegacyHTMLElement;
+
+        /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method */
+        const requestFullScreen =
+            docEl.requestFullscreen ||
+            docEl.mozRequestFullScreen ||
+            docEl.webkitRequestFullScreen ||
+            docEl.msRequestFullscreen;
+        const exitFullScreen =
+            doc.exitFullscreen ||
+            doc.mozCancelFullScreen ||
+            doc.webkitExitFullscreen ||
+            doc.msExitFullscreen;
+        /* eslint-enable */
+
+        if (
+            !doc.fullscreenElement &&
+            !doc.mozFullScreenElement &&
+            !doc.webkitFullscreenElement &&
+            !doc.msFullscreenElement
+        ) {
+            void requestFullScreen.call(docEl);
+        } else {
+            void exitFullScreen.call(doc);
+        }
+    }
+
     $(document).ready((): void => {
         if (options.quitOnDocClick) {
             $(document).on(
@@ -904,36 +938,6 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             });
         }
     });
-
-    function toggleFullScreen(): void {
-        const doc = window.document as LegacyDocument;
-        const docEl = document.getElementById(options.id)!
-            .parentElement as LegacyHTMLElement;
-
-        /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method */
-        const requestFullScreen =
-            docEl.requestFullscreen ||
-            docEl.mozRequestFullScreen ||
-            docEl.webkitRequestFullScreen ||
-            docEl.msRequestFullscreen;
-        const exitFullScreen =
-            doc.exitFullscreen ||
-            doc.mozCancelFullScreen ||
-            doc.webkitExitFullscreen ||
-            doc.msExitFullscreen;
-        /* eslint-enable */
-
-        if (
-            !doc.fullscreenElement &&
-            !doc.mozFullScreenElement &&
-            !doc.webkitFullscreenElement &&
-            !doc.msFullscreenElement
-        ) {
-            void requestFullScreen.call(docEl);
-        } else {
-            void exitFullScreen.call(doc);
-        }
-    }
 
     $(document).off(".ilb7 .ilb2", options.selector);
 
