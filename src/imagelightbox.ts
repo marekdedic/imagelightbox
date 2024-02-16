@@ -35,7 +35,7 @@ const $activityObject = $("<div/>")
     $body = $("body");
 
 const cssTransitionSupport = (): string | null => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO: Is this really necessary
         const s = (document.body ?? document.documentElement)
             .style as LegacyCSSStyleDeclaration;
         if (s.transition === "") {
@@ -102,7 +102,7 @@ const cssTransitionSupport = (): string | null => {
             legacyDocument.msFullscreenEnabled ??
             false),
     hasHistorySupport: boolean =
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Both can be undefined in very old browsers
         window.history !== undefined && history.pushState !== undefined;
 
 $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
@@ -294,7 +294,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
                     videoHasDimensions = true;
                 }
             });
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TypeScript can't detect possible overwrite in a loop
             if (videoHasDimensions) {
                 return;
             }
@@ -607,7 +607,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             if (!targets.length) {
                 return;
             }
-            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of -- targets cannot be iterated in old jQuery and the result wouldn't be used anyway
             for (let i = 0; i < targets.length; i++) {
                 $navObject.append($navItem.clone());
             }
@@ -750,12 +750,11 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
             _loadImage(direction);
         },
         isTargetValid = (element: JQuery): boolean =>
-            // eslint-disable-next-line
-            ($(element).prop("tagName").toLowerCase() === "a" &&
+            (($(element).prop("tagName") as string).toLowerCase() === "a" &&
                 new RegExp(".(" + options.allowedTypes + ")$", "i").test(
                     $(element).attr("href")!,
                 )) ||
-            $(element).data("ilb2Video"),
+            $(element).data("ilb2Video") !== undefined,
         _addTargets = function (newTargets: JQuery): void {
             function filterTargets(): void {
                 newTargets
@@ -860,7 +859,7 @@ $.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
         const docEl = document.getElementById(options.id)!
             .parentElement as LegacyHTMLElement;
 
-        /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method */
+        /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method -- Polyfills for very old browsers */
         const requestFullScreen =
             docEl.requestFullscreen ||
             docEl.mozRequestFullScreen ||

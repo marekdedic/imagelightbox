@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention -- These are polyfills with predetermined names */
 declare class LegacyCSSStyleDeclaration extends CSSStyleDeclaration {
     public MozTransition: string;
     public OTransition: string;
