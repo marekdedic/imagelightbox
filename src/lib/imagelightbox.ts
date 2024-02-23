@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 

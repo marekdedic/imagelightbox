@@ -1,0 +1,280 @@
+/* IMAGE LIGHTBOX SELECTOR */
+
+#imagelightbox {
+    cursor: pointer;
+    position: fixed;
+    z-index: 10000;
+    top: 50%;
+    -ms-touch-action: none;
+    touch-action: none;
+    -webkit-box-shadow: 0 0 3.125em rgba(0, 0, 0, .75);
+    box-shadow: 0 0 3.125em rgba(0, 0, 0, .75); /* 50 */
+}
+
+.imagelightbox-open {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+/* WITH ACTIVITY INDICATION */
+
+.imagelightbox-loading,
+.imagelightbox-loading div {
+    border-radius: 9999px;
+}
+
+.imagelightbox-loading {
+    background-color: rgba(130, 130, 130, 0.8);
+    position: fixed;
+    z-index: 10003;
+    top: 50%;
+    left: 50%;
+    padding: 0.65em;
+    margin: -1.3em 0 0 -1.3em;
+    -webkit-box-shadow: 0 0 2.5em rgba(130, 130, 130, 0.6);
+    box-shadow: 0 0 2.5em rgba(130, 130, 130, 0.6); /* 40 */
+}
+
+.imagelightbox-loading div {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: #fff;
+    -webkit-animation: imagelightbox-loading .5s ease infinite;
+    animation: imagelightbox-loading .5s ease infinite;
+}
+
+@-webkit-keyframes imagelightbox-loading {
+    from {
+        opacity: .5;
+        -webkit-transform: scale(.75);
+        transform: scale(.75);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    to {
+        opacity: .5;
+        -webkit-transform: scale(.75);
+        transform: scale(.75);
+    }
+}
+
+@keyframes imagelightbox-loading {
+    from {
+        opacity: .5;
+        -webkit-transform: scale(.75);
+        transform: scale(.75);
+    }
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+    to {
+        opacity: .5;
+        -webkit-transform: scale(.75);
+        transform: scale(.75);
+    }
+}
+
+/* WITH OVERLAY */
+
+.imagelightbox-overlay {
+    background-color: rgba(30, 30, 30, 0.9);
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+/* WITH "CLOSE" BUTTON */
+
+.imagelightbox-close {
+    -webkit-animation: fade-in 0.25s linear;
+    animation: fade-in 0.25s linear;
+    border: none;
+    cursor: pointer;
+    width: 3em; /* 40 */
+    height: 3em; /* 40 */
+    background-color: rgba(130, 130, 130, 0.8);
+    position: fixed;
+    z-index: 10002;
+    top: 2.5em; /* 40 */
+    right: 2.5em; /* 40 */
+    border-radius: 50%;
+    -webkit-transition: color .3s ease;
+    transition: color .3s ease;
+}
+
+.imagelightbox-close:hover {
+    background-color: #111;
+}
+
+.imagelightbox-close:before,
+.imagelightbox-close:after {
+    width: 2px;
+    background-color: #fff;
+    content: '';
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 50%;
+    margin-left: -1px;
+}
+
+.imagelightbox-close:before {
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.imagelightbox-close:after {
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+/* WITH CAPTION */
+
+.imagelightbox-caption {
+    text-align: center;
+    color: #fff;
+    background-color: #666;
+    position: fixed;
+    z-index: 10001;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.625em; /* 10 */
+    -webkit-transition: opacity .25s ease;
+    transition: opacity .25s ease;
+}
+
+/* WITH NAVIGATION */
+
+.imagelightbox-nav {
+    background-color: rgba(0, 0, 0, .5);
+    position: fixed;
+    z-index: 10001;
+    left: 50%;
+    bottom: 3.75em; /* 60 */
+    padding: 0.313em; /* 5 */
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    border-radius: 20px;
+}
+
+.imagelightbox-nav a {
+    position: relative;
+    top: 0.2em;
+    width: 1em; /* 20 */
+    height: 1em; /* 20 */
+    border: 1px solid #fff;
+    display: inline-block;
+    margin: 0 0.313em; /* 5 */
+    border-radius: 50%;
+}
+
+.imagelightbox-nav .active {
+    -webkit-animation: fade-in 0.45s linear;
+    animation: fade-in 0.45s linear;
+    background-color: #fff;
+}
+
+.imagelightbox-navitem:active {
+    background: #808080;
+}
+
+/* WITH ARROWS */
+
+.imagelightbox-arrow {
+    -webkit-animation: fade-in 0.25s linear;
+    animation: fade-in 0.25s linear;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 4em; /* 53.3 */
+    height: 4em; /* 53.3 */
+    background-color: rgba(130, 130, 130, 0.8);
+    display: none;
+    position: fixed;
+    z-index: 10001;
+    top: 50%;
+    margin-top: -3.75em; /* 60 */
+}
+.imagelightbox-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+.imagelightbox-arrow:active {
+    background-color: #111;
+}
+.imagelightbox-arrow-left {
+    left: 2.5em; /* 40 */
+}
+.imagelightbox-arrow-right {
+    right: 2.5em; /* 40 */
+}
+.imagelightbox-arrow:before {
+    border: 1em solid transparent;
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 50%;
+}
+.imagelightbox-arrow-left:before {
+    border-right-color: #fff;
+    margin-left: -1.7em;
+}
+.imagelightbox-arrow-right:before {
+    border-left-color: #fff;
+    margin-left: -0.3em;
+}
+
+.imagelightbox-loading,
+.imagelightbox-overlay,
+.imagelightbox-nav {
+    -webkit-animation: fade-in 0.25s linear;
+    animation: fade-in 0.25s linear;
+}
+
+@-webkit-keyframes fade-in {
+    from	{ opacity: 0; }
+    to		{ opacity: 1; }
+}
+
+@keyframes fade-in {
+    from	{ opacity: 0; }
+    to		{ opacity: 1; }
+}
+
+@media only screen and (max-width: 41.250em) { /* 660 */
+    #container {
+        width: 100%;
+    }
+    .imagelightbox-close {
+        top: 1.25em; /* 20 */
+        right: 1.25em; /* 20 */
+    }
+    .imagelightbox-arrow-left {
+        left: 1.25em; /* 20 */
+    }
+    .imagelightbox-arrow-right {
+        right: 1.25em; /* 20 */
+    }
+}
+
+@media only screen and (max-width: 20em) { /* 320 */
+    .imagelightbox-arrow-left {
+        left: 0;
+    }
+    .imagelightbox-arrow-right {
+        right: 0;
+    }
+}

@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 $(document).ready(function() {
     $('a[data-imagelightbox="a"]').imageLightbox({
         activity: true
