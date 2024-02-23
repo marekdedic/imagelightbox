@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "es6",
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
