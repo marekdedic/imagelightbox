@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
     build: {
         lib: {
-            entry: resolve(__dirname, "src/imagelightbox.ts"),
+            entry: resolve(__dirname, "src/lib/imagelightbox.ts"),
             name: "imagelightbox",
         },
         outDir: "../dist",
@@ -16,6 +16,7 @@ export default defineConfig({
                 globals: {
                     jquery: "$",
                 },
+                assetFileNames: "imagelightbox.[ext]",
             },
         },
     },

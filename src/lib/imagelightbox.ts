@@ -1,5 +1,7 @@
 import $ from "jquery";
 
+import "./imagelightbox.css";
+
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 
