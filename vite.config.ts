@@ -21,4 +21,5 @@ export default defineConfig({
         },
     },
     root: "src",
+    publicDir: false,
 });
