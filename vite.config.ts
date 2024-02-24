@@ -14,7 +14,7 @@ export default defineConfig({
             external: ["jquery"],
             output: {
                 globals: {
-                    jquery: "$",
+                    jquery: "jQuery",
                 },
                 assetFileNames: "imagelightbox.[ext]",
             },
