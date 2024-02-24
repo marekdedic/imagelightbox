@@ -38,8 +38,8 @@ jobs:
       - name: "Upload artifact"
         uses: actions/upload-artifact@v4
         with:
-          name: "build-artifact"
-          path: dist
+          name: "docs"
+          path: docs
 
   test:
     name: "Test"
@@ -70,13 +70,8 @@ jobs:
       - name: "Download build artifact"
         uses: actions/download-artifact@v4
         with:
-          name: "build-artifact"
-          path: dist
-
-      - name: "Copy over build artifacts"
-        run: |
-          cp dist/imagelightbox.css docs/stylesheets/
-          cp dist/imagelightbox.min.js docs/javascripts/
+          name: "docs"
+          path: docs
 
       - name: "Test"
         run: |
