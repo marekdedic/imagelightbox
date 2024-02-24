@@ -29,9 +29,9 @@ jobs:
         run: |
           npm ci
 
-      - name: "Build"
+      - name: "Build docs"
         run: |
-          npm run build
+            npm run build:docs
 
       - name: "Upload artifact"
         uses: actions/upload-artifact@v4
