@@ -63,7 +63,7 @@
     "build:docs": "vite build --config docs.vite.config.ts",
     "build:lib": "vite build",
     "build": "run-p -c --aggregate-output build:*",
-    "start": "vite",
+    "start": "vite --config docs.vite.config.ts",
     "test": "mocha --recursive test/src",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
