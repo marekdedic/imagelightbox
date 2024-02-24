@@ -50,14 +50,16 @@
     "lightbox"
   ],
   "scripts": {
-    "clean": "rimraf dist/*",
+    "clean": "rimraf dist/* docs/*",
     "prebuild": "npm run clean",
-    "build": "vite build",
+    "build:docs": "vite build --config docs.vite.config.ts",
+    "build:lib": "vite build",
+    "build": "run-p -c --aggregate-output build:*",
     "start": "vite",
     "test": "mocha --recursive test/src",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'vite.config.ts'",
+    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'docs.vite.config.ts' 'vite.config.ts'",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
     "prepack": "npm run build"
