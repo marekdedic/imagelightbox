@@ -7,4 +7,5 @@ export default defineConfig({
         outDir: "../docs",
     },
     root: "src",
+    base: "./",
 });
