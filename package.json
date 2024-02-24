@@ -6,9 +6,17 @@
   "license": "MIT",
   "repository": "https://github.com/marekdedic/imagelightbox.git",
   "type": "module",
-  "main": "./dist/imagelightbox.min.js",
+  "main": "./dist/imagelightbox.umd.cjs",
+  "module": "./dist/imagelightbox.js",
   "style": "./dist/imagelightbox.min.css",
   "types": "./types/imagelightbox.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/imagelightbox.js",
+      "require": "./dist/imagelightbox.umd.cjs",
+      "style": "./dist/imagelightbox.min.css"
+    }
+  },
   "files": [
     "dist",
     "docs",
