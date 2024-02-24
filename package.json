@@ -67,7 +67,7 @@
     "test": "mocha --recursive test/src",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'docs.vite.config.ts' 'vite.config.ts'",
+    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'docs.vite.config.ts' 'postcss.config.js' 'vite.config.ts'",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
     "prepack": "npm run build"
