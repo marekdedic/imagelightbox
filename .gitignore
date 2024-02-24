@@ -190,7 +190,5 @@ tags
 
 # End of https://www.gitignore.io/api/vim,node,intellij
 
-docs/javascripts/imagelightbox.min.js
-docs/javascripts/imagelightbox.min.js.map
-docs/stylesheets/imagelightbox.css
 dist/
+docs/

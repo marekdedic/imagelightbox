@@ -1,36 +1,38 @@
-$(document).ready(function() {
+import $ from "jquery";
+
+$(document).ready(() => {
     $('a[data-imagelightbox="a"]').imageLightbox({
-        activity: true
+        activity: true,
     });
 
     $('a[data-imagelightbox="allowedtypes"]').imageLightbox({
-        allowedTypes: "gif"
+        allowedTypes: "gif",
     });
 
     $('a[data-imagelightbox="b"]').imageLightbox({
-        overlay: true
+        overlay: true,
     });
 
     $('a[data-imagelightbox="c"]').imageLightbox({
         button: true,
-        quitOnDocClick: false
+        quitOnDocClick: false,
     });
 
     $('a[data-imagelightbox="d"]').imageLightbox({
-        caption: true
+        caption: true,
     });
 
     $('a[data-imagelightbox="e"]').imageLightbox({
         navigation: true,
-        selector: 'a[data-imagelightbox="e"]'
+        selector: 'a[data-imagelightbox="e"]',
     });
 
     $('a[data-imagelightbox="f"]').imageLightbox({
-        arrows: true
+        arrows: true,
     });
 
     $('a[data-imagelightbox="fullscreen"]').imageLightbox({
-        fullscreen: true
+        fullscreen: true,
     });
 
     $('a[data-imagelightbox="g"]').imageLightbox({
@@ -41,50 +43,48 @@ $(document).ready(function() {
         navigation: true,
         overlay: true,
         quitOnDocClick: false,
-        selector: 'a[data-imagelightbox="f"]'
+        selector: 'a[data-imagelightbox="f"]',
     });
 
     /**
      *
      */
-    var gallery = $('a[data-imagelightbox="h"]').imageLightbox({
-        arrows: true
+    const gallery = $('a[data-imagelightbox="h"]').imageLightbox({
+        arrows: true,
     });
-    $('.trigger_lightbox').on('click', function () {
+    $(".trigger_lightbox").on("click", () => {
         gallery.startImageLightbox();
     });
 
     /**
      * dynamically adding more images
      */
-    var instanceI = $('a[data-imagelightbox="i"]').imageLightbox({
-        arrows: true
+    const instanceI = $('a[data-imagelightbox="i"]').imageLightbox({
+        arrows: true,
     });
-    $(".add_image").on('click', function () {
-        var adding_ul = $(".demo_dynamic");
-        var li = $('<li></li>').appendTo( adding_ul );
-        var a = $("<a></a>")
-            .attr('data-imagelightbox',"i")
-            .attr('href', "images/demo4.jpg")
-            .appendTo( li );
-        $("<img />")
-            .attr("src", "images/thumb4.jpg")
-            .appendTo( a );
-        instanceI.addToImageLightbox( $("a[data-imagelightbox='i']") );
+    $(".add_image").on("click", () => {
+        const addingUl = $(".demo_dynamic");
+        const li = $("<li></li>").appendTo(addingUl);
+        const a = $("<a></a>")
+            .attr("data-imagelightbox", "i")
+            .attr("href", "images/demo4.jpg")
+            .appendTo(li);
+        $("<img />").attr("src", "images/thumb4.jpg").appendTo(a);
+        instanceI.addToImageLightbox($("a[data-imagelightbox='i']"));
     });
 
     $('a[data-imagelightbox="j"]').imageLightbox({
-        history: true
+        history: true,
     });
 
     $('a[data-imagelightbox="k"]').imageLightbox({
-        history: true
+        history: true,
     });
 
     $('a[data-imagelightbox="video"]').imageLightbox({
         activity: true,
         arrows: true,
-        overlay: true
+        overlay: true,
     });
 
     /**
@@ -92,21 +92,21 @@ $(document).ready(function() {
      */
     $('a[data-imagelightbox="events"]').imageLightbox();
     $(document)
-        .on("start.ilb2", function (_, e) {
+        .on("start.ilb2", (_, e) => {
             console.log("start.ilb2");
             console.log(e);
         })
-        .on("quit.ilb2", function () {
+        .on("quit.ilb2", () => {
             console.log("quit.ilb2");
         })
-        .on("loaded.ilb2", function () {
+        .on("loaded.ilb2", () => {
             console.log("loaded.ilb2");
         })
-        .on("previous.ilb2", function (_, e) {
+        .on("previous.ilb2", (_, e) => {
             console.log("previous.ilb2");
             console.log(e);
         })
-        .on("next.ilb2", function (_, e) {
+        .on("next.ilb2", (_, e) => {
             console.log("next.ilb2");
             console.log(e);
         });

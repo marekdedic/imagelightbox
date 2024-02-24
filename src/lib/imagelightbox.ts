@@ -1,5 +1,11 @@
+import "./imagelightbox.css";
+
+import jQuery from "jquery";
+
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
+
+const $ = jQuery;
 
 // COMPONENTS //
 const $activityObject = $("<div/>")
