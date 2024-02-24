@@ -36,7 +36,7 @@ jobs:
       - name: "Upload artifact"
         uses: actions/upload-artifact@v4
         with:
-          name: "demo-page"
+          name: "docs"
           path: docs
 
   deploy:
@@ -50,7 +50,7 @@ jobs:
       - name: "Download artifact"
         uses: actions/download-artifact@v4
         with:
-          name: "demo-page"
+          name: "docs"
           path: docs
 
       - name: Deploy
