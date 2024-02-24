@@ -65,10 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should have the correct page title', async function () {
-        expect(await page.title()).to.eql('Imagelightbox');
-    });
-
     it('should open and close its lightbox', async function () {
         await page.click('.demo_activity li [src="images/thumb1.jpg"]');
         expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);

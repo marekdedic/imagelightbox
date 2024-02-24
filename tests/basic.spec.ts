@@ -1,5 +1,8 @@
 import { expect, test } from "playwright-test-coverage";
 
-test("works with basic configuration", async ({ page }) => {
-  await page.goto("/");
+test("has correct title", async ({ page }) => {
+    await page.goto("/");
+    await expect(
+        page.getByRole("heading").getByText("Imagelightbox"),
+    ).toBeVisible();
 });
