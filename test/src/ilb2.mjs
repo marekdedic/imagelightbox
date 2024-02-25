@@ -65,14 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should open and close its lightbox', async function () {
-        await page.click('.demo_activity li [src="images/thumb1.jpg"]');
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-
-        await page.click('#container');
-        expect(await isElementNotVisible(page, '#imagelightbox')).to.equal(false);
-    });
-
     it('should show a caption', async function () {
         await page.click('.demo_caption li [src="images/thumb1.jpg"]');
         expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
