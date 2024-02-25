@@ -65,16 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should show a caption', async function () {
-        await page.click('.demo_caption li [src="images/thumb1.jpg"]');
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-
-        expect(await isElementVisible(page, '.imagelightbox-caption')).to.equal(true);
-
-        const caption = await page.$(".imagelightbox-caption");
-        expect(await (await caption.getProperty('textContent')).jsonValue()).to.equal('Sunset in Tanzania');
-    });
-
     it('should be able to be triggered manually', async function () {
         await page.click('.trigger_lightbox');
         expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);

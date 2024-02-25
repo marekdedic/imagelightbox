@@ -14,3 +14,10 @@ test("opens and closes the lightbox", async ({ page }) => {
     await page.locator("#container").dispatchEvent("click");
     await expect(page.locator("#imagelightbox")).not.toBeVisible();
 });
+
+test("shows a caption", async ({ page }) => {
+    await page.goto("/");
+    await page.getByTestId("caption").getByRole("link").first().click();
+    await expect(page.locator("#imagelightbox")).toBeVisible();
+    await expect(page.getByText("Sunset in Tanzania")).toHaveClass("imagelightbox-caption");
+});
