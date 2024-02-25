@@ -6,3 +6,11 @@ test("has correct title", async ({ page }) => {
         page.getByRole("heading").getByText("Imagelightbox"),
     ).toBeVisible();
 });
+
+test("opens and closes the lightbox", async ({ page }) => {
+    await page.goto("/");
+    await page.getByTestId("activity").getByRole("link").first().click();
+    await expect(page.locator("#imagelightbox")).toBeVisible();
+    await page.locator("#container").dispatchEvent("click");
+    await expect(page.locator("#imagelightbox")).not.toBeVisible();
+});
