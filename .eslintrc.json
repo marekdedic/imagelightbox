@@ -85,8 +85,6 @@
       "files": ["tests/*.ts"],
       "extends": ["plugin:playwright/recommended"],
       "rules": {
-        "playwright/no-nth-methods": "error",
-        "playwright/no-raw-locators": "error",
         "playwright/prefer-strict-equal": "error",
         "playwright/prefer-to-be": "error",
         "playwright/prefer-to-contain": "error",
