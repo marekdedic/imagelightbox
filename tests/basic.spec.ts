@@ -21,3 +21,9 @@ test("shows a caption", async ({ page }) => {
     await expect(page.locator("#imagelightbox")).toBeVisible();
     await expect(page.getByText("Sunset in Tanzania")).toHaveClass("imagelightbox-caption");
 });
+
+test("can be triggered manually", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", {name: "Click me!"}).click();
+    await expect(page.locator("#imagelightbox")).toBeVisible();
+});

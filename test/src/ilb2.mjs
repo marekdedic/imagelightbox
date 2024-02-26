@@ -65,11 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should be able to be triggered manually', async function () {
-        await page.click('.trigger_lightbox');
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-    });
-
     it('should be controllable with arrows', async function () {
         await page.click('.demo_arrows li [src="images/thumb1.jpg"]');
         expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
