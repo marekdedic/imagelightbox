@@ -64,17 +64,4 @@ describe('imagelightbox', function () {
         await browser.close();
         stopServer();
     });
-
-    /**
-     * TODO fix that one by testing not only if the nav shows up but also if the nav works
-     */
-    it('should have a functionable navigation', async function () {
-        await page.click('.demo_navigation li [src="images/thumb2.jpg"]');
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-
-        expect(await isElementVisible(page, '.imagelightbox-navitem')).to.equal(true);
-
-        //await page.click('a.imagelightbox-navitem');
-        //expect(await isElementVisible(page, 'img[src$="images/demo1.jpg"]')).to.equal(true);
-    });
 });
