@@ -79,5 +79,18 @@
     "@typescript-eslint/switch-exhaustiveness-check": "error",
     "@typescript-eslint/typedef": "error",
     "@typescript-eslint/no-non-null-assertion": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["tests/*.ts"],
+      "extends": ["plugin:playwright/recommended"],
+      "rules": {
+        "playwright/prefer-strict-equal": "error",
+        "playwright/prefer-to-be": "error",
+        "playwright/prefer-to-contain": "error",
+        "playwright/prefer-to-have-count": "error",
+        "playwright/prefer-to-have-length": "error"
+      }
+    }
+  ]
 }

@@ -190,5 +190,9 @@ tags
 
 # End of https://www.gitignore.io/api/vim,node,intellij
 
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
 dist/
 docs/
