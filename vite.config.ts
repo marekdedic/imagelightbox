@@ -10,6 +10,7 @@ export default defineConfig({
             name: "imagelightbox",
         },
         outDir: "../dist",
+        sourcemap: true,
         rollupOptions: {
             external: ["jquery"],
             output: {
