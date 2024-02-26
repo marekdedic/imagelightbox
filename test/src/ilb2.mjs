@@ -65,14 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should go to deep links', async function () {
-        await page.goto('http://localhost:8080?imageLightboxIndex=2',{ waitUntil: "load" });
-
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-
-        expect(await isElementVisible(page, 'img[src$="images/demo3.jpg"]')).to.equal(true);
-    });
-
     /**
      * TODO fix that one by testing not only if the nav shows up but also if the nav works
      */
