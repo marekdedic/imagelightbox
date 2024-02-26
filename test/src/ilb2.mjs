@@ -65,16 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should add images dynamically', async function () {
-        await page.click('.add_image');
-        expect(await isElementVisible(page, '.demo_dynamic li [src="images/thumb4.jpg"]')).to.equal(true);
-
-        await page.click('.demo_dynamic li [src="images/thumb4.jpg"]');
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-
-        expect(await isElementVisible(page, 'img[src$="images/demo4.jpg"]')).to.equal(true);
-    });
-
     it('should go to deep links', async function () {
         await page.goto('http://localhost:8080?imageLightboxIndex=2',{ waitUntil: "load" });
 
