@@ -85,11 +85,18 @@
       "files": ["tests/*.ts"],
       "extends": ["plugin:playwright/recommended"],
       "rules": {
+        "playwright/no-commented-out-tests": "error",
+        "playwright/no-duplicate-hooks": "error",
+        "playwright/prefer-comparison-matcher": "error",
+        "playwright/prefer-equality-matcher": "error",
+        "playwright/prefer-hooks-in-order": "error",
+        "playwright/prefer-hooks-on-top": "error",
         "playwright/prefer-strict-equal": "error",
         "playwright/prefer-to-be": "error",
         "playwright/prefer-to-contain": "error",
         "playwright/prefer-to-have-count": "error",
-        "playwright/prefer-to-have-length": "error"
+        "playwright/prefer-to-have-length": "error",
+        "playwright/require-hook": "error"
       }
     }
   ]
