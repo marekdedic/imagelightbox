@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.0] - 2024-02-26
+
+### Changed
+
+- **BREAKING** Providing ESM and UMD bundles together with source maps. This may be a breaking change as the output bundles are renamed. (@marekdedic)
+- Fixed `package.json` exports (@marekdedic)
+
 ## [1.2.0] - 2022-08-09
 
 ### Added
