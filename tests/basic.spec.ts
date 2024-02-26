@@ -29,3 +29,14 @@ test("can be triggered manually", async ({ page }) => {
     await page.getByRole("button", { name: "Click me!" }).click();
     await expect(page.locator("#imagelightbox")).toBeVisible();
 });
+
+test("can be controlled with arrows", async ({ page }) => {
+    await page.goto("/");
+    await page.getByTestId("arrows").getByRole("link").first().click();
+    await expect(page.locator("#imagelightbox")).toBeVisible();
+    await page.locator(".imagelightbox-arrow-right").click();
+    await expect(page.locator("#imagelightbox")).toHaveAttribute(
+        "src",
+        "images/demo2.jpg",
+    );
+});

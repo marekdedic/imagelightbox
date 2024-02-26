@@ -65,16 +65,6 @@ describe('imagelightbox', function () {
         stopServer();
     });
 
-    it('should be controllable with arrows', async function () {
-        await page.click('.demo_arrows li [src="images/thumb1.jpg"]');
-        expect(await isElementVisible(page, '#imagelightbox')).to.equal(true);
-
-        expect(await isElementVisible(page, '.imagelightbox-arrow-right')).to.equal(true);
-        await page.click('.imagelightbox-arrow-right');
-
-        expect(await isElementVisible(page, 'img[src$="images/demo2.jpg"]')).to.equal(true);
-    });
-
     it('should add images dynamically', async function () {
         await page.click('.add_image');
         expect(await isElementVisible(page, '.demo_dynamic li [src="images/thumb4.jpg"]')).to.equal(true);
