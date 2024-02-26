@@ -69,7 +69,7 @@
     "build:lib": "vite build",
     "build": "run-p -c --aggregate-output build:*",
     "start": "vite --config docs.vite.config.ts",
-    "test": "mocha --recursive test/src",
+    "test": "nyc --reporter=lcov playwright test",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
     "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'tests/**/*.ts' 'docs.vite.config.ts' 'playwright.config.js' 'postcss.config.js' 'vite.config.ts'",
