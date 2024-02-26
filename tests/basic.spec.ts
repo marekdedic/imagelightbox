@@ -56,10 +56,9 @@ test("can add images dynamically", async ({ page }) => {
 });
 
 test("can open history links", async ({ page }) => {
-    await page.goto("/?imageLightboxIndex=2");
-    // TODO: Fix issue with double imagelightbox being opened (remove .first() to see it)
-    await expect(page.locator("#imagelightbox").first()).toBeVisible();
-    await expect(page.locator("#imagelightbox").first()).toHaveAttribute(
+    await page.goto("/?imageLightboxIndex=2&imageLightboxSet=j");
+    await expect(page.locator("#imagelightbox")).toBeVisible();
+    await expect(page.locator("#imagelightbox")).toHaveAttribute(
         "src",
         "images/demo3.jpg",
     );
