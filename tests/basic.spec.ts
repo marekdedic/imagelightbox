@@ -40,3 +40,17 @@ test("can be controlled with arrows", async ({ page }) => {
         "images/demo2.jpg",
     );
 });
+
+test("can add images dynamically", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Add another image" }).click();
+    await expect(
+        page.getByTestId("dynamic").getByRole("link").nth(3),
+    ).toBeVisible();
+    await page.getByTestId("dynamic").getByRole("link").nth(3).click();
+    await expect(page.locator("#imagelightbox")).toBeVisible();
+    await expect(page.locator("#imagelightbox")).toHaveAttribute(
+        "src",
+        "images/demo4.jpg",
+    );
+});
