@@ -44,20 +44,16 @@ jobs:
   test:
     name: "Test"
     runs-on: ubuntu-latest
-    needs: build
+    container:
+      image: mcr.microsoft.com/playwright:latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v4
-
-      - name: "Setup node"
-        uses: actions/setup-node@v4.0.2
+        uses: actions/checkout@v4.1.1
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v4
+        uses: actions/cache@v4.0.0
         with:
-          path: |
-            "~/.npm"
-            "~/.cache/puppeteer"
+          path: "~/.npm"
           key: npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
           restore-keys: |
             npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
@@ -67,15 +63,21 @@ jobs:
         run: |
           npm ci
 
-      - name: "Download build artifact"
-        uses: actions/download-artifact@v4
-        with:
-          name: "docs"
-          path: docs
-
-      - name: "Test"
+      - name: "Run tests"
         run: |
           npm run test
+        env:
+          HOME: /root
+
+      - name: "Upload coverage results"
+        uses: codecov/codecov-action@v3.1.5
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   lint:
     name: "Lint"
