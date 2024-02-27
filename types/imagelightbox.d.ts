@@ -22,11 +22,11 @@ interface ILBOptions {
 }
 
 interface JQuery {
-    imageLightbox(opts: Partial<ILBOptions>): JQuery;
+    imageLightbox(opts?: Partial<ILBOptions>): JQuery;
     addToImageLightbox(elements: JQuery): void;
     openHistory(): void;
     loadPreviousImage(): void;
     loadNextImage(): void;
     quitImageLightbox(): void;
-    startImageLightbox(element: JQuery): void;
+    startImageLightbox(element?: JQuery): void;
 }
