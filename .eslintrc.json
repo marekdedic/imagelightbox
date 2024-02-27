@@ -96,7 +96,8 @@
         "playwright/prefer-to-contain": "error",
         "playwright/prefer-to-have-count": "error",
         "playwright/prefer-to-have-length": "error",
-        "playwright/require-hook": "error"
+        "playwright/require-hook": "error",
+        "playwright/require-to-throw-message": "error"
       }
     }
   ]
