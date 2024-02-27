@@ -41,6 +41,11 @@ jobs:
           name: "docs"
           path: docs
 
+      - name: Upload webpack stats artifact
+        uses: relative-ci/agent-upload-artifact-action@v1.0.3
+        with:
+          webpackStatsFile: dist/webpack-stats.json
+
   test:
     name: "Test"
     runs-on: ubuntu-latest
