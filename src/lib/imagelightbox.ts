@@ -111,7 +111,7 @@ const cssTransitionSupport = (): string | null => {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Both can be undefined in very old browsers
         window.history !== undefined && history.pushState !== undefined;
 
-$.fn.imageLightbox = function (opts: Partial<ILBOptions>): JQuery {
+$.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     let currentIndex = 0;
     let image = $();
     let inProgress = false;
