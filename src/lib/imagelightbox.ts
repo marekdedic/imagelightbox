@@ -4,6 +4,7 @@ import $ from "jquery";
 
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
+import { addQueryField, getQueryField, removeQueryField } from "./query";
 
 // COMPONENTS //
 const $activityObject = $("<div/>")
@@ -106,25 +107,15 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       },
       opts,
     ),
-    _removeQueryField = (query: string, key: string): string => {
-      let newQuery = query;
-      if (newQuery) {
-        const keyRegex1 = new RegExp("\\?" + key + "=[^&]*");
-        const keyRegex2 = new RegExp("&" + key + "=[^&]*");
-        newQuery = newQuery.replace(keyRegex1, "?");
-        newQuery = newQuery.replace(keyRegex2, "");
-      }
-      return newQuery;
-    },
     _pushQuitToHistory = (): void => {
       if (!options.history) {
         return;
       }
-      let newQuery = _removeQueryField(
+      let newQuery = removeQueryField(
         document.location.search,
         "imageLightboxIndex",
       );
-      newQuery = _removeQueryField(newQuery, "imageLightboxSet");
+      newQuery = removeQueryField(newQuery, "imageLightboxSet");
       window.history.pushState({}, "", document.location.pathname + newQuery);
     },
     _removeImage = (): void => {
@@ -150,20 +141,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         $wrapper.remove().find("*").remove();
       });
     },
-    _addQueryField = (query: string, key: string, value: string): string => {
-      const newField = key + "=" + value;
-      let newQuery = "?" + newField;
-
-      if (query) {
-        const keyRegex = new RegExp("([?&])" + key + "=[^&]*");
-        if (keyRegex.exec(query) !== null) {
-          newQuery = query.replace(keyRegex, "$1" + newField);
-        } else {
-          newQuery = query + "&" + newField;
-        }
-      }
-      return newQuery;
-    },
     _pushToHistory = (): void => {
       if (!options.history) {
         return;
@@ -175,14 +152,14 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         imageLightboxSet: "",
       };
       const set = targets[targetIndex].dataset.imagelightbox;
-      let newQuery = _addQueryField(
+      let newQuery = addQueryField(
         document.location.search,
         "imageLightboxIndex",
         newIndex,
       );
       if (set !== undefined) {
         newState.imageLightboxSet = set;
-        newQuery = _addQueryField(newQuery, "imageLightboxSet", set);
+        newQuery = addQueryField(newQuery, "imageLightboxSet", set);
       }
       window.history.pushState(
         newState,
@@ -576,15 +553,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         $wrapper.append($captionObject);
       }
     },
-    _getQueryField = (key: string): string | undefined => {
-      const keyValuePair = new RegExp("[?&]" + key + "(=([^&#]*)|&|#|$)").exec(
-        document.location.search,
-      );
-      if (keyValuePair?.[2] === undefined) {
-        return undefined;
-      }
-      return decodeURIComponent(keyValuePair[2].replace(/\+/g, " "));
-    },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
       if (inProgress) {
         return;
@@ -604,7 +572,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (!options.history) {
         return;
       }
-      const id = _getQueryField("imageLightboxIndex");
+      const id = getQueryField("imageLightboxIndex");
       if (id === undefined) {
         return;
       }
@@ -615,7 +583,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         targetIndex = parseInt(id);
         element = $(targets[targetIndex]);
       }
-      const set = _getQueryField("imageLightboxSet");
+      const set = getQueryField("imageLightboxSet");
       if (
         element.length === 0 ||
         (set !== undefined && set !== element[0].dataset.imagelightbox)
