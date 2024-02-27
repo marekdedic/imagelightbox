@@ -54,7 +54,7 @@
     "stylelint": "^16.1.0",
     "stylelint-config-recommended": "^14.0.0",
     "stylelint-no-unsupported-browser-features": "^8.0.0",
-    "typescript": "^5.0.3",
+    "typescript": "^5.3.3",
     "vite": "^5.1.4",
     "vite-plugin-istanbul": "^5.0.0"
   },
@@ -73,6 +73,7 @@
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
     "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'tests/**/*.ts' 'docs.vite.config.ts' 'playwright.config.js' 'postcss.config.js' 'vite.config.ts'",
+    "lint:ts:typecheck": "tsc --noEmit",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
     "prepack": "npm run build",
