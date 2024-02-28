@@ -1,6 +1,6 @@
-import $ from "jquery";
+import jQuery from "jquery";
 
-$(document).ready(() => {
+jQuery(($) => {
     $('a[data-imagelightbox="a"]').imageLightbox({
         activity: true,
     });

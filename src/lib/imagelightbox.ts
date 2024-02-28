@@ -890,7 +890,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         }
     }
 
-    $(document).ready((): void => {
+    $((): void => {
         if (options.quitOnDocClick) {
             $(document).on(
                 hasTouch ? "touchend.ilb7" : "click.ilb7",
