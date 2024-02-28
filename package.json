@@ -81,10 +81,6 @@
   },
   "browserslist": [
     "cover 95%",
-    "not < 0.1%",
-    "Firefox ESR",
-    "IE >= 9",
-    "Android >= 2.3",
-    "not OperaMini all"
+    "not < 0.1%"
   ]
 }
