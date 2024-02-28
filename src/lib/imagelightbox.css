@@ -56,7 +56,7 @@
 
 /* WITH OVERLAY */
 
-.imagelightbox-overlay {
+#ilb-overlay {
     background-color: rgba(30, 30, 30, 0.9);
     position: fixed;
     z-index: 9998;
@@ -200,7 +200,7 @@
 }
 
 #ilb-activity-indicator,
-.imagelightbox-overlay,
+#ilb-overlay,
 .imagelightbox-nav {
     animation: fade-in 0.25s linear;
 }
