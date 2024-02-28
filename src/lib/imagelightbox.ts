@@ -86,7 +86,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         options = $.extend(
             {
                 selector: "a[data-imagelightbox]",
-                id: "imagelightbox",
                 allowedTypes: "png|jpg|jpeg|gif",
                 animationSpeed: 250,
                 activity: false,
@@ -381,10 +380,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                         }
                     });
                 } else {
-                    element = $("<img id='" + options.id + "' />").attr(
-                        "src",
-                        imgPath!,
-                    );
+                    element = $('<img id="ilb-image" />').attr("src", imgPath!);
                 }
                 function onload(): void {
                     const params: JQuery.PlainObject = { opacity: 1 };
@@ -727,9 +723,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                     $(this).data("ilb2VideoId", id);
                     const container: PreloadedVideo = {
                         e: $(
-                            "<video id='" +
-                                options.id +
-                                "' preload='metadata' data-ilb2-video-id='" +
+                            "<video id='ilb-image' preload='metadata' data-ilb2-video-id='" +
                                 id +
                                 "'>",
                         ),
@@ -785,7 +779,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
     function toggleFullScreen(): void {
         const doc = window.document as LegacyDocument;
-        const docEl = document.getElementById(options.id)!
+        const docEl = document.getElementById("ilb-image")!
             .parentElement as LegacyHTMLElement;
 
         /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method -- Polyfills for very old browsers */
