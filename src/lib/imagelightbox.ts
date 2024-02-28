@@ -9,7 +9,7 @@ const $ = jQuery;
 
 // COMPONENTS //
 const $activityObject = $("<div/>")
-        .attr("class", "imagelightbox-loading")
+        .attr("id", "ilb-activity-indicator")
         .append($("<div/>")),
     $arrowLeftObject = $("<div/>", {
         class: "imagelightbox-arrow imagelightbox-arrow-left",
@@ -278,7 +278,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             };
         },
         activityIndicatorOff = (): void => {
-            $(".imagelightbox-loading").remove();
+            $("#ilb-loading-indicator").remove();
         },
         _onLoadEnd = (): void => {
             if (options.activity) {
