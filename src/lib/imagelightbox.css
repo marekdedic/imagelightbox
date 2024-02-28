@@ -134,13 +134,11 @@
 }
 
 .imagelightbox-nav a {
-    position: relative;
-    top: 0.2em;
     width: 1em; /* 20 */
     height: 1em; /* 20 */
     border: 1px solid #fff;
     display: inline-block;
-    margin: 0 0.313em; /* 5 */
+    margin: 0.2em 0.313em 0 0.313em; /* 5 */
     border-radius: 50%;
 }
 
@@ -149,7 +147,7 @@
     background-color: #fff;
 }
 
-.imagelightbox-navitem:active {
+.imagelightbox-nav a:active {
     background: #808080;
 }
 
