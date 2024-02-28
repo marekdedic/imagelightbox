@@ -4,8 +4,12 @@
         "stylelint-no-unsupported-browser-features"
     ],
     "rules": {
-        "plugin/no-unsupported-browser-features": [true, {
-            "severity": "warning"
-        }]
+        "selector-max-id": 0,
+        "plugin/no-unsupported-browser-features": [
+            true,
+            {
+                "severity": "warning"
+            }
+        ]
     }
 }
