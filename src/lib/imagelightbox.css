@@ -68,9 +68,7 @@
 
 /* WITH "CLOSE" BUTTON */
 
-.imagelightbox-close {
-    animation: fade-in 0.25s linear;
-    border: none;
+#ilb-close-button {
     cursor: pointer;
     width: 3em; /* 40 */
     height: 3em; /* 40 */
@@ -80,15 +78,15 @@
     top: 2.5em; /* 40 */
     right: 2.5em; /* 40 */
     border-radius: 50%;
-    transition: color .3s ease;
+    transition: background-color .3s ease;
 }
 
-.imagelightbox-close:hover {
+#ilb-close-button:hover {
     background-color: #111;
 }
 
-.imagelightbox-close:before,
-.imagelightbox-close:after {
+#ilb-close-button:before,
+#ilb-close-button:after {
     width: 2px;
     background-color: #fff;
     content: '';
@@ -99,11 +97,11 @@
     margin-left: -1px;
 }
 
-.imagelightbox-close:before {
+#ilb-close-button:before {
     transform: rotate(45deg);
 }
 
-.imagelightbox-close:after {
+#ilb-close-button:after {
     transform: rotate(-45deg);
 }
 
@@ -200,6 +198,7 @@
 }
 
 #ilb-activity-indicator,
+#ilb-close-button
 #ilb-overlay,
 .imagelightbox-nav {
     animation: fade-in 0.25s linear;
@@ -211,7 +210,7 @@
 }
 
 @media only screen and (max-width: 41.250em) { /* 660 */
-    .imagelightbox-close {
+    #ilb-close-button {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
     }
