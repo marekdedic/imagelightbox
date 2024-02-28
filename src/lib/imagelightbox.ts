@@ -2,15 +2,16 @@ import "./imagelightbox.css";
 
 import $ from "jquery";
 
+import {
+  addActivityIndicatorToDOM,
+  removeActivityIndicatorFromDOM,
+} from "./activity-indicator";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 
 // COMPONENTS //
-const $activityObject = $("<div/>")
-    .attr("id", "ilb-activity-indicator")
-    .append($("<div/>")),
-  $arrowLeftObject = $("<div/>", {
+const $arrowLeftObject = $("<div/>", {
     class: "ilb-arrow",
     id: "ilb-arrow-left",
   }),
@@ -167,9 +168,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         document.location.pathname + newQuery,
       );
     },
-    activityIndicatorOn = (): void => {
-      $wrapper.append($activityObject);
-    },
     captionReset = (): void => {
       $captionObject.css("display", "none");
       if ($(target).data("ilb2-caption") !== undefined) {
@@ -182,7 +180,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     },
     _onLoadStart = (): void => {
       if (options.activity) {
-        activityIndicatorOn();
+        addActivityIndicatorToDOM($wrapper);
       }
       if (options.caption) {
         captionReset();
@@ -242,12 +240,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         setSizes(tmpImage.width, tmpImage.height);
       };
     },
-    activityIndicatorOff = (): void => {
-      $("#ilb-activity-indicator").remove();
-    },
     _onLoadEnd = (): void => {
       if (options.activity) {
-        activityIndicatorOff();
+        removeActivityIndicatorFromDOM();
       }
       if (options.arrows) {
         $arrows.css("display", "block");
