@@ -23,7 +23,7 @@ const $activityObject = $("<div/>")
         html: "&nbsp;",
     }),
     $buttonObject = $("<div/>", {
-        class: "imagelightbox-close",
+        id: "ilb-close-button",
     }),
     $overlayObject = $("<div/>", {
         id: "ilb-overlay",
