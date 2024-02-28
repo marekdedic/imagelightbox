@@ -107,7 +107,7 @@
 
 /* WITH CAPTION */
 
-.imagelightbox-caption {
+#ilb-caption {
     text-align: center;
     color: #fff;
     background-color: #666;
