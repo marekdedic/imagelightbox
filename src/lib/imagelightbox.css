@@ -211,9 +211,6 @@
 }
 
 @media only screen and (max-width: 41.250em) { /* 660 */
-    #container {
-        width: 100%;
-    }
     .imagelightbox-close {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
