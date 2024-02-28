@@ -145,7 +145,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 _pushQuitToHistory();
             }
             $wrapper.trigger("quit.ilb2");
-            $body.removeClass("imagelightbox-open");
+            $body.removeClass("ilb-open");
             if (!image.length) {
                 return;
             }
@@ -611,7 +611,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 _pushToHistory();
             }
             _onStart();
-            $body.append($wrapper).addClass("imagelightbox-open");
+            $body.append($wrapper).addClass("ilb-open");
             $wrapper.trigger("start.ilb2", $target);
             _loadImage(0);
         },
