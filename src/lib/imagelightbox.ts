@@ -83,7 +83,6 @@ const hasTouch = "ontouchstart" in window,
     hasFullscreenSupport: boolean =
         legacyDocument.fullscreenEnabled ||
         (legacyDocument.webkitFullscreenEnabled ??
-            legacyDocument.mozFullScreenEnabled ??
             legacyDocument.msFullscreenEnabled ??
             false),
     hasHistorySupport: boolean =
@@ -808,19 +807,16 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method -- Polyfills for very old browsers */
         const requestFullScreen =
             docEl.requestFullscreen ||
-            docEl.mozRequestFullScreen ||
             docEl.webkitRequestFullScreen ||
             docEl.msRequestFullscreen;
         const exitFullScreen =
             doc.exitFullscreen ||
-            doc.mozCancelFullScreen ||
             doc.webkitExitFullscreen ||
             doc.msExitFullscreen;
         /* eslint-enable */
 
         if (
             !doc.fullscreenElement &&
-            !doc.mozFullScreenElement &&
             !doc.webkitFullscreenElement &&
             !doc.msFullscreenElement
         ) {
