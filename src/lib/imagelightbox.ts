@@ -73,10 +73,7 @@ const hasTouch = "ontouchstart" in window,
         legacyDocument.fullscreenEnabled ||
         (legacyDocument.webkitFullscreenEnabled ??
             legacyDocument.msFullscreenEnabled ??
-            false),
-    hasHistorySupport: boolean =
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Both can be undefined in very old browsers
-        window.history !== undefined && history.pushState !== undefined;
+            false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     let currentIndex = 0;
@@ -124,7 +121,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             return newQuery;
         },
         _pushQuitToHistory = (): void => {
-            if (!hasHistorySupport || !options.history) {
+            if (!options.history) {
                 return;
             }
             let newQuery = _removeQueryField(
@@ -180,7 +177,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             return newQuery;
         },
         _pushToHistory = (): void => {
-            if (!hasHistorySupport || !options.history) {
+            if (!options.history) {
                 return;
             }
             const newIndex =
@@ -625,7 +622,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             _loadImage(0);
         },
         _openHistory = (): void => {
-            if (!hasHistorySupport || !options.history) {
+            if (!options.history) {
                 return;
             }
             const id = _getQueryField("imageLightboxIndex");
@@ -784,7 +781,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         };
 
     $(window).on("resize.ilb7", _setImage);
-    if (hasHistorySupport && options.history) {
+    if (options.history) {
         $(window).on("popstate", _popHistory);
     }
 
