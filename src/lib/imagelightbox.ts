@@ -26,7 +26,7 @@ const $activityObject = $("<div/>")
         class: "imagelightbox-close",
     }),
     $overlayObject = $("<div/>", {
-        class: "imagelightbox-overlay",
+        id: "ilb-overlay",
     }),
     $navItem = $("<a/>", {
         href: "#",
