@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention -- These are polyfills with predetermined names */
 declare class LegacyDocument extends Document {
     public webkitFullscreenEnabled?: boolean;
     public msFullscreenEnabled?: boolean;
@@ -18,13 +17,3 @@ declare class LegacyHTMLElement extends HTMLElement {
         options: FullscreenOptions,
     ) => Promise<undefined>;
 }
-
-declare class LegacyNavigator extends Navigator {
-    public pointerEnabled: boolean;
-    public msPointerEnabled: boolean;
-}
-
-declare class LegacyPointerEvent extends PointerEvent {
-    public MSPOINTER_TYPE_MOUSE: string;
-}
-/* eslint-enable */

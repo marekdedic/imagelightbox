@@ -52,8 +52,7 @@ function cssTransitionTranslateX(
 }
 
 const hasTouch = "ontouchstart" in window,
-    navigator = window.navigator as LegacyNavigator,
-    hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled,
+    hasPointers = "PointerEvent" in window,
     wasTouched = (event: PointerEvent): boolean => {
         if (hasTouch) {
             return true;
@@ -63,17 +62,7 @@ const hasTouch = "ontouchstart" in window,
             return false;
         }
 
-        if (
-            typeof (event as LegacyPointerEvent).MSPOINTER_TYPE_MOUSE !==
-            "undefined"
-        ) {
-            if (
-                (event as LegacyPointerEvent).MSPOINTER_TYPE_MOUSE !==
-                event.pointerType
-            ) {
-                return true;
-            }
-        } else if (event.pointerType !== "mouse") {
+        if (event.pointerType !== "mouse") {
             return true;
         }
 
