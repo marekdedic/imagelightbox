@@ -122,7 +122,7 @@
 
 /* WITH NAVIGATION */
 
-.imagelightbox-nav {
+.ilb-navigation {
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     z-index: 10001;
@@ -133,7 +133,7 @@
     border-radius: 20px;
 }
 
-.imagelightbox-nav a {
+.ilb-navigation a {
     width: 1em; /* 20 */
     height: 1em; /* 20 */
     border: 1px solid #fff;
@@ -142,12 +142,7 @@
     border-radius: 50%;
 }
 
-.imagelightbox-nav .active {
-    animation: fade-in 0.45s linear;
-    background-color: #fff;
-}
-
-.imagelightbox-nav a:active {
+.ilb-navigation a:active {
     background: #808080;
 }
 
@@ -198,7 +193,7 @@
 #ilb-activity-indicator,
 #ilb-close-button
 #ilb-overlay,
-.imagelightbox-nav {
+.ilb-navigation {
     animation: fade-in 0.25s linear;
 }
 

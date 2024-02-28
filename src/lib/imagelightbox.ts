@@ -32,7 +32,7 @@ const $activityObject = $("<div/>")
         href: "#",
     }),
     $navObject = $("<div/>", {
-        class: "imagelightbox-nav",
+        class: "ilb-navigation",
     }),
     $wrapper = $("<div/>", {
         class: "imagelightbox-wrapper",

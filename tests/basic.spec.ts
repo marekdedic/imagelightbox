@@ -66,12 +66,12 @@ test("has a working navigation", async ({ page }) => {
     await page.goto("/");
     await page.getByTestId("navigation").getByRole("link").first().click();
     await expect(page.locator("#ilb-image")).toBeVisible();
-    await expect(page.locator(".imagelightbox-nav a").first()).toBeVisible();
-    await expect(page.locator(".imagelightbox-nav a").nth(1)).toBeVisible();
-    await expect(page.locator(".imagelightbox-nav a").nth(2)).toBeVisible();
+    await expect(page.locator(".ilb-navigation a").first()).toBeVisible();
+    await expect(page.locator(".ilb-navigation a").nth(1)).toBeVisible();
+    await expect(page.locator(".ilb-navigation a").nth(2)).toBeVisible();
     // TODO: Fix issue where too quick navigation breaks the lightbox
     /*
-    await page.locator(".imagelightbox-nav a").nth(2).click();
+    await page.locator(".ilb-navigation a").nth(2).click();
     await expect(page.locator("#ilb-image")).toHaveAttribute(
         "src",
         "images/demo3.jpg",
