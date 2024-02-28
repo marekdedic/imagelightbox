@@ -19,9 +19,7 @@ test("shows a caption", async ({ page }) => {
     await page.goto("/");
     await page.getByTestId("caption").getByRole("link").first().click();
     await expect(page.locator("#ilb-image")).toBeVisible();
-    await expect(page.getByText("Sunset in Tanzania")).toHaveClass(
-        "imagelightbox-caption",
-    );
+    await expect(page.getByText("Sunset in Tanzania")).toHaveId("ilb-caption");
 });
 
 test("can be triggered manually", async ({ page }) => {

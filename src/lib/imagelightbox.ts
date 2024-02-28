@@ -19,7 +19,7 @@ const $activityObject = $("<div/>")
     }),
     $arrows = $arrowLeftObject.add($arrowRightObject),
     $captionObject = $("<div/>", {
-        class: "imagelightbox-caption",
+        id: "ilb-caption",
         html: "&nbsp;",
     }),
     $buttonObject = $("<div/>", {
