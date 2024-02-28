@@ -1,9 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention -- These are polyfills with predetermined names */
-declare class LegacyCSSStyleDeclaration extends CSSStyleDeclaration {
-    public MozTransition: string;
-    public OTransition: string;
-}
-
 declare class LegacyDocument extends Document {
     public webkitFullscreenEnabled?: boolean;
     public mozFullScreenEnabled?: boolean;
