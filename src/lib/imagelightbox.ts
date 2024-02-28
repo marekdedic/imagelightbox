@@ -71,9 +71,7 @@ const hasTouch = "ontouchstart" in window,
     legacyDocument = document as LegacyDocument,
     hasFullscreenSupport: boolean =
         legacyDocument.fullscreenEnabled ||
-        (legacyDocument.webkitFullscreenEnabled ??
-            legacyDocument.msFullscreenEnabled ??
-            false);
+        (legacyDocument.webkitFullscreenEnabled ?? false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     let currentIndex = 0;
@@ -792,20 +790,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
         /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method -- Polyfills for very old browsers */
         const requestFullScreen =
-            docEl.requestFullscreen ||
-            docEl.webkitRequestFullScreen ||
-            docEl.msRequestFullscreen;
-        const exitFullScreen =
-            doc.exitFullscreen ||
-            doc.webkitExitFullscreen ||
-            doc.msExitFullscreen;
+            docEl.requestFullscreen || docEl.webkitRequestFullScreen;
+        const exitFullScreen = doc.exitFullscreen || doc.webkitExitFullscreen;
         /* eslint-enable */
 
-        if (
-            !doc.fullscreenElement &&
-            !doc.webkitFullscreenElement &&
-            !doc.msFullscreenElement
-        ) {
+        if (!doc.fullscreenElement && !doc.webkitFullscreenElement) {
             void requestFullScreen.call(docEl);
         } else {
             void exitFullScreen.call(doc);
