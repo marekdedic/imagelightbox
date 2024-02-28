@@ -9,7 +9,7 @@
     box-shadow: 0 0 3.125em rgba(0, 0, 0, .75); /* 50 */
 }
 
-.imagelightbox-open {
+.ilb-open {
     user-select: none;
     overflow: hidden;
 }
