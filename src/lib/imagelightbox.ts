@@ -40,39 +40,18 @@ const $activityObject = $("<div/>")
     }),
     $body = $("body");
 
-const cssTransitionSupport = (): string | null => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TODO: Is this really necessary
-        const s = (document.body ?? document.documentElement)
-            .style as LegacyCSSStyleDeclaration;
-        if (s.transition === "") {
-            return "";
-        }
-        if (s.webkitTransition === "") {
-            return "-webkit-";
-        }
-        if (s.MozTransition === "") {
-            return "-moz-";
-        }
-        if (s.OTransition === "") {
-            return "-o-";
-        }
-        return null;
-    },
-    hasCssTransitionSupport = cssTransitionSupport() !== null,
-    cssTransitionTranslateX = (
-        element: JQuery,
-        positionX: string,
-        speed: number,
-    ): void => {
-        const options: Record<string, string> = {},
-            prefix = cssTransitionSupport() ?? "";
-        options[prefix + "transform"] =
-            "translateX(" + positionX + ") translateY(-50%)";
-        options[prefix + "transition"] =
-            prefix + "transform " + speed.toString() + "s ease-in";
-        element.css(options);
-    },
-    hasTouch = "ontouchstart" in window,
+function cssTransitionTranslateX(
+    element: JQuery,
+    positionX: string,
+    speed: number,
+): void {
+    element.css({
+        transform: "translateX(" + positionX + ") translateY(-50%)",
+        transition: "transform " + speed.toString() + "s ease-in",
+    });
+}
+
+const hasTouch = "ontouchstart" in window,
     navigator = window.navigator as LegacyNavigator,
     hasPointers = navigator.pointerEnabled || navigator.msPointerEnabled,
     wasTouched = (event: PointerEvent): boolean => {
@@ -374,19 +353,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
             if (image.length) {
                 const params: JQuery.PlainObject = { opacity: 0 };
-                if (hasCssTransitionSupport) {
-                    cssTransitionTranslateX(
-                        image,
-                        (100 * direction - swipeDiff).toString() + "px",
-                        options.animationSpeed / 1000,
-                    );
-                } else {
-                    params.left =
-                        (
-                            parseInt(image.css("left")) +
-                            100 * direction
-                        ).toString() + "px";
-                }
+                cssTransitionTranslateX(
+                    image,
+                    (100 * direction - swipeDiff).toString() + "px",
+                    options.animationSpeed / 1000,
+                );
                 image.animate(params, options.animationSpeed, (): void => {
                     _removeImage();
                 });
@@ -399,7 +370,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             setTimeout((): void => {
                 let swipeStart = 0;
                 let swipeEnd = 0;
-                let imagePosLeft = 0;
                 const imgPath = target.attr("href");
 
                 // if (imgPath === undefined) {
@@ -439,27 +409,18 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                     image.appendTo($wrapper);
                     _setImage();
                     image.css("opacity", 0);
-                    if (hasCssTransitionSupport) {
+                    cssTransitionTranslateX(
+                        image,
+                        (-100 * direction).toString() + "px",
+                        0,
+                    );
+                    setTimeout((): void => {
                         cssTransitionTranslateX(
                             image,
-                            (-100 * direction).toString() + "px",
-                            0,
+                            "0px",
+                            options.animationSpeed / 1000,
                         );
-                        setTimeout((): void => {
-                            cssTransitionTranslateX(
-                                image,
-                                "0px",
-                                options.animationSpeed / 1000,
-                            );
-                        }, 50);
-                    } else {
-                        imagePosLeft = parseInt(image.css("left"));
-                        params.left = imagePosLeft.toString() + "px";
-                        image.css(
-                            "left",
-                            (imagePosLeft - 100 * direction).toString() + "px",
-                        );
-                    }
+                    }, 50);
 
                     image.animate(params, options.animationSpeed, (): void => {
                         inProgress = false;
@@ -506,9 +467,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                             ) {
                                 return;
                             }
-                            if (hasCssTransitionSupport) {
-                                imagePosLeft = parseInt(image.css("left"));
-                            }
                             swipeStart =
                                 (e.originalEvent as PointerEvent).pageX ||
                                 (e.originalEvent as TouchEvent).touches[0]
@@ -531,19 +489,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                                 (e.originalEvent as TouchEvent).touches[0]
                                     .pageX;
                             swipeDiff = swipeStart - swipeEnd;
-                            if (hasCssTransitionSupport) {
-                                cssTransitionTranslateX(
-                                    image,
-                                    (-swipeDiff).toString() + "px",
-                                    0,
-                                );
-                            } else {
-                                image.css(
-                                    "left",
-                                    (imagePosLeft - swipeDiff).toString() +
-                                        "px",
-                                );
-                            }
+                            cssTransitionTranslateX(
+                                image,
+                                (-swipeDiff).toString() + "px",
+                                0,
+                            );
                         },
                     )
                     .on(
@@ -562,21 +512,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                                     _nextTarget();
                                 }
                             } else {
-                                if (hasCssTransitionSupport) {
-                                    cssTransitionTranslateX(
-                                        image,
-                                        "0px",
-                                        options.animationSpeed / 1000,
-                                    );
-                                } else {
-                                    image.animate(
-                                        {
-                                            left:
-                                                imagePosLeft.toString() + "px",
-                                        },
-                                        options.animationSpeed / 2,
-                                    );
-                                }
+                                cssTransitionTranslateX(
+                                    image,
+                                    "0px",
+                                    options.animationSpeed / 1000,
+                                );
                             }
                         },
                     );
