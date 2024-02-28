@@ -553,7 +553,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                     const $this = $(this);
                     if (
                         targets.eq($this.index()).attr("href") !==
-                        $(".imagelightbox").attr("src")
+                        $("#ilb-image").attr("src")
                     ) {
                         const tmpTarget = targets.eq($this.index());
                         if (tmpTarget.length) {
