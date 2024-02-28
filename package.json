@@ -81,6 +81,10 @@
   },
   "browserslist": [
     "cover 95%",
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
     "not < 0.1%"
   ]
 }
