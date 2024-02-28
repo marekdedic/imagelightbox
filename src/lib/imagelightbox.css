@@ -1,6 +1,6 @@
 /* IMAGE LIGHTBOX SELECTOR */
 
-#imagelightbox {
+#ilb-image {
     cursor: pointer;
     position: fixed;
     z-index: 10000;

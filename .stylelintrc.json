@@ -4,7 +4,7 @@
         "stylelint-no-unsupported-browser-features"
     ],
     "rules": {
-        "selector-max-id": 0,
+        "selector-id-pattern": "ilb-image",
         "plugin/no-unsupported-browser-features": [
             true,
             {
