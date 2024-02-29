@@ -22,6 +22,7 @@
 }
 
 #ilb-activity-indicator {
+  animation: fade-in 0.25s linear;
   background-color: rgba(130, 130, 130, 80%);
   position: fixed;
   z-index: 10003;
@@ -59,6 +60,7 @@
 /* WITH OVERLAY */
 
 #ilb-overlay {
+  animation: fade-in 0.25s linear;
   background-color: rgba(30, 30, 30, 90%);
   position: fixed;
   z-index: 9998;
@@ -69,16 +71,10 @@
   left: 0;
 }
 
-#ilb-activity-indicator,
-#ilb-close-button,
-#ilb-overlay,
-.ilb-navigation {
-  animation: fade-in 0.25s linear;
-}
-
 /* WITH "CLOSE" BUTTON */
 
 #ilb-close-button {
+  animation: fade-in 0.25s linear;
   cursor: pointer;
   width: 3em;
   height: 3em;
@@ -133,6 +129,7 @@
 /* WITH NAVIGATION */
 
 .ilb-navigation {
+  animation: fade-in 0.25s linear;
   background-color: rgba(0, 0, 0, 50%);
   position: fixed;
   z-index: 10001;
