@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern, selector-id-pattern */
+
 @import url('https://fonts.googleapis.com/css?family=Cabin+Condensed:400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext');
 
 html, body, div, span, applet, object, iframe,
@@ -39,6 +41,22 @@ header {
   margin: 0 auto;
 }
 
+.download-zip span {
+  background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
+}
+
+.download-tar-gz span {
+  background: transparent url(../images/tar-gz-icon.png) 12px 50% no-repeat;
+}
+
+.view-on-github span {
+  background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
+}
+
+.button.view-on-github {
+  margin-right: 0;
+}
+
 a.button {
   float: left;
   width: 179px;
@@ -67,19 +85,6 @@ a.button span {
   display: block;
   height: 50px;
   padding-left: 50px;
-}
-
-#download-zip span {
-  background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
-}
-#download-tar-gz span {
-  background: transparent url(../images/tar-gz-icon.png) 12px 50% no-repeat;
-}
-#view-on-github span {
-  background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
-}
-#view-on-github {
-  margin-right: 0;
 }
 
 #main_content {
@@ -187,7 +192,7 @@ footer a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  #download-zip, #download-tar-gz {
+  .download-zip, .download-tar-gz {
     display: none;
   }
   .inner {
