@@ -47,6 +47,9 @@ jobs:
           webpackStatsFile: dist/webpack-stats.json
 
   test:
+    strategy:
+      matrix:
+        jquery-version: [1, 2, 3]
     name: "Test"
     runs-on: ubuntu-latest
     container:
@@ -68,6 +71,10 @@ jobs:
         run: |
           npm ci
 
+      - name: "Install jQuery version ${{ matrix.jquery-version }}"
+        run: |
+          npm install jquery@${{ matrix.jquery-version }}
+
       - name: "Run tests"
         run: |
           npm run test
@@ -83,7 +90,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-jquery-${{ matrix.jquery-version }}
           path: playwright-report/
           retention-days: 30
 
