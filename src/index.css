@@ -92,7 +92,7 @@ body {
   font-size: 1em;
   font-family: "Fjalla One", sans-serif;
   line-height: 1.5;
-  background: #e7e7e7 url(../images/body-bg.png) 0 0 repeat;
+  background: #e7e7e7 url("../images/body-bg.png") 0 0 repeat;
 }
 
 header {
@@ -101,7 +101,7 @@ header {
 }
 
 #container {
-  background: transparent url(../images/highlight-bg.jpg) 50% 0 no-repeat;
+  background: transparent url("../images/highlight-bg.jpg") 50% 0 no-repeat;
 }
 
 .inner {
@@ -110,15 +110,15 @@ header {
 }
 
 .download-zip span {
-  background: transparent url(../images/zip-icon.png) 12px 50% no-repeat;
+  background: transparent url("../images/zip-icon.png") 12px 50% no-repeat;
 }
 
 .download-tar-gz span {
-  background: transparent url(../images/tar-gz-icon.png) 12px 50% no-repeat;
+  background: transparent url("../images/tar-gz-icon.png") 12px 50% no-repeat;
 }
 
 .view-on-github span {
-  background: transparent url(../images/octocat-icon.png) 12px 50% no-repeat;
+  background: transparent url("../images/octocat-icon.png") 12px 50% no-repeat;
 }
 
 .button.view-on-github {
@@ -128,7 +128,7 @@ header {
 a.button {
   float: left;
   width: 179px;
-  padding: 12px 8px 12px 8px;
+  padding: 12px 8px;
   margin-right: 14px;
   font-size: 15px;
   font-weight: bold;
@@ -139,8 +139,9 @@ a.button {
   border-bottom: solid 1px #b3b3b3;
   border-left: solid 1px #b7b7b7;
   border-radius: 30px;
-  box-shadow: 0px 1px 5px #e8e8e8;
+  box-shadow: 0 1px 5px #e8e8e8;
 }
+
 a.button:hover {
   background: #fafafa;
   border-top: solid 1px #b7b7b7;
@@ -165,15 +166,15 @@ a.button span {
 #main_content img {
   width: 8.75em;
   height: 8.75em;
-  border: 0.625em solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 0.313em rgba(0, 0, 0, 0.05);
+  border: 0.625em solid rgba(255 255 255 50%);
+  box-shadow: 0 0 0.313em rgba(0 0 0 5%);
   transition:
     box-shadow 0.3s ease,
     border-color 0.3s ease;
 }
 
 #main_content img:hover {
-  box-shadow: 0 0 0.938em rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 0.938em rgba(0 0 0 25%);
 }
 
 code,
@@ -199,7 +200,7 @@ h3 {
 }
 
 header h1 {
-  font-family: "Chivo", "Helvetica Neue", Helvetica, Arial, serif;
+  font-family: Chivo, "Helvetica Neue", Helvetica, Arial, serif;
   font-size: 48px;
   line-height: 1.2;
   color: #303030;
@@ -250,7 +251,7 @@ footer a:hover {
   color: #444;
 }
 
-.clearfix:after {
+.clearfix::after {
   display: block;
   height: 0;
   clear: both;
@@ -266,10 +267,12 @@ footer a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+
   .download-zip,
   .download-tar-gz {
     display: none;
   }
+
   .inner {
     width: 94%;
     margin: 0 auto;
