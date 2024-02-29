@@ -166,15 +166,15 @@ a.button span {
 #main_content img {
   width: 8.75em;
   height: 8.75em;
-  border: 0.625em solid rgba(255 255 255 50%);
-  box-shadow: 0 0 0.313em rgba(0 0 0 5%);
+  border: 0.625em solid rgb(255, 255, 255, 50%);
+  box-shadow: 0 0 0.313em rgba(0, 0, 0, 5%);
   transition:
     box-shadow 0.3s ease,
     border-color 0.3s ease;
 }
 
 #main_content img:hover {
-  box-shadow: 0 0 0.938em rgba(0 0 0 25%);
+  box-shadow: 0 0 0.938em rgba(0, 0, 0, 25%);
 }
 
 code,
@@ -255,7 +255,7 @@ footer a:hover {
   display: block;
   height: 0;
   clear: both;
-  content: ".";
+  content: "";
 }
 
 .clearfix {
