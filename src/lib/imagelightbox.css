@@ -148,7 +148,7 @@
 
 /* WITH ARROWS */
 
-.imagelightbox-arrow {
+.ilb-arrow {
     animation: fade-in 0.25s linear;
     border: none;
     border-radius: 50%;
@@ -160,12 +160,12 @@
     position: fixed;
     z-index: 10001;
     top: 50%;
-    margin-top: -3.75em; /* 60 */
+    transform: translateY(-50%);
 }
-.imagelightbox-arrow:hover {
+.ilb-arrow:hover {
     background-color: rgba(0, 0, 0, 0.75);
 }
-.imagelightbox-arrow:active {
+.ilb-arrow:active {
     background-color: #111;
 }
 #ilb-arrow-left {
@@ -174,7 +174,7 @@
 #ilb-arrow-right {
     right: 2.5em; /* 40 */
 }
-.imagelightbox-arrow:before {
+.ilb-arrow:before {
     border: 1em solid transparent;
     content: '';
     position: absolute;

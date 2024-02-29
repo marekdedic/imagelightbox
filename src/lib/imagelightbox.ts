@@ -12,11 +12,11 @@ const $activityObject = $("<div/>")
         .attr("id", "ilb-activity-indicator")
         .append($("<div/>")),
     $arrowLeftObject = $("<div/>", {
-        class: "imagelightbox-arrow",
+        class: "ilb-arrow",
         id: "ilb-arrow-left",
     }),
     $arrowRightObject = $("<div/>", {
-        class: "imagelightbox-arrow",
+        class: "ilb-arrow",
         id: "ilb-arrow-right",
     }),
     $arrows = $arrowLeftObject.add($arrowRightObject),
