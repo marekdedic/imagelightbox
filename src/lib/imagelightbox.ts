@@ -8,6 +8,7 @@ import {
 } from "./activity-indicator";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
+import { addOverlayToDOM } from "./overlay";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 
 // COMPONENTS //
@@ -26,9 +27,6 @@ const $arrowLeftObject = $("<div/>", {
   }),
   $buttonObject = $("<div/>", {
     id: "ilb-close-button",
-  }),
-  $overlayObject = $("<div/>", {
-    id: "ilb-overlay",
   }),
   $navItem = $("<a/>", {
     href: "#",
@@ -522,9 +520,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             .removeClass("ilb-navigation-active");
         });
     },
-    overlayOn = (): void => {
-      $wrapper.append($overlayObject);
-    },
     closeButtonOn = (): void => {
       $buttonObject.appendTo($wrapper).on("click.ilb7", (): boolean => {
         _quitImageLightbox();
@@ -539,7 +534,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         navigationOn();
       }
       if (options.overlay) {
-        overlayOn();
+        addOverlayToDOM($wrapper);
       }
       if (options.button) {
         closeButtonOn();
