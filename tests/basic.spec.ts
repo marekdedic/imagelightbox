@@ -32,7 +32,7 @@ test("can be controlled with arrows", async ({ page }) => {
     await page.goto("/");
     await page.getByTestId("arrows").getByRole("link").first().click();
     await expect(page.locator("#ilb-image")).toBeVisible();
-    await page.locator(".imagelightbox-arrow-right").click();
+    await page.locator("#ilb-arrow-right").click();
     await expect(page.locator("#ilb-image")).toHaveAttribute(
         "src",
         "images/demo2.jpg",
