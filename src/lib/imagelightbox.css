@@ -6,7 +6,7 @@
     z-index: 10000;
     top: 50%;
     touch-action: none;
-    box-shadow: 0 0 3.125em rgba(0, 0, 0, .75);
+    box-shadow: 0 0 3.125em rgba(0, 0, 0, 0.75);
 }
 
 .ilb-open {
@@ -36,21 +36,21 @@
     width: 1.3em;
     height: 1.3em;
     background-color: #fff;
-    animation: ilb-activity-indicator .5s ease-in-out infinite;
+    animation: ilb-activity-indicator 0.5s ease-in-out infinite;
 }
 
 @keyframes ilb-activity-indicator {
     from {
-        opacity: .5;
-        transform: scale(.75);
+        opacity: 0.5;
+        transform: scale(0.75);
     }
     50% {
         opacity: 1;
         transform: scale(1);
     }
     to {
-        opacity: .5;
-        transform: scale(.75);
+        opacity: 0.5;
+        transform: scale(0.75);
     }
 }
 
@@ -66,6 +66,13 @@
     left: 0;
 }
 
+#ilb-activity-indicator,
+#ilb-close-button,
+#ilb-overlay,
+.ilb-navigation {
+    animation: fade-in 0.25s linear;
+}
+
 /* WITH "CLOSE" BUTTON */
 
 #ilb-close-button {
@@ -78,7 +85,7 @@
     top: 2.5em;
     right: 2.5em;
     border-radius: 50%;
-    transition: background-color .3s ease;
+    transition: background-color 0.3s ease;
 }
 
 #ilb-close-button:hover {
@@ -89,7 +96,7 @@
 #ilb-close-button:after {
     width: 2px;
     background-color: #fff;
-    content: '';
+    content: "";
     position: absolute;
     top: 20%;
     bottom: 20%;
@@ -117,13 +124,13 @@
     right: 0;
     bottom: 0;
     padding: 0.625em;
-    transition: opacity .25s ease;
+    transition: opacity 0.25s ease;
 }
 
 /* WITH NAVIGATION */
 
 .ilb-navigation {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
     position: fixed;
     z-index: 10001;
     left: 50%;
@@ -176,7 +183,7 @@
 }
 .ilb-arrow:before {
     border: 1em solid transparent;
-    content: '';
+    content: "";
     position: absolute;
     top: 25%;
     left: 50%;
@@ -190,19 +197,16 @@
     margin-left: -0.3em;
 }
 
-#ilb-activity-indicator,
-#ilb-close-button
-#ilb-overlay,
-.ilb-navigation {
-    animation: fade-in 0.25s linear;
-}
-
 @keyframes fade-in {
-    from	{ opacity: 0; }
-    to		{ opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-@media only screen and (max-width: 41.250em) {
+@media only screen and (max-width: 41.25em) {
     #ilb-close-button {
         top: 1.25em;
         right: 1.25em;
