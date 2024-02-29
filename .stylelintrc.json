@@ -1,16 +1,19 @@
 {
-    "extends": "stylelint-config-recommended",
-    "plugins": [
-        "stylelint-no-unsupported-browser-features"
-    ],
-    "rules": {
-        "selector-class-pattern": "ilb-.*",
-        "selector-id-pattern": "ilb-.*",
-        "plugin/no-unsupported-browser-features": [
-            true,
-            {
-                "severity": "warning"
-            }
-        ]
-    }
+  "extends": [
+    "stylelint-config-recommended",
+    "stylelint-prettier/recommended"
+  ],
+  "plugins": [
+    "stylelint-no-unsupported-browser-features"
+  ],
+  "rules": {
+    "selector-class-pattern": "ilb-.*",
+    "selector-id-pattern": "ilb-.*",
+    "plugin/no-unsupported-browser-features": [
+      true,
+      {
+        "severity": "warning"
+      }
+    ]
+  }
 }

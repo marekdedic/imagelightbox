@@ -1,28 +1,96 @@
 /* stylelint-disable selector-class-pattern, selector-id-pattern */
 
-@import url('https://fonts.googleapis.com/css?family=Cabin+Condensed:400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext');
+@import url("https://fonts.googleapis.com/css?family=Cabin+Condensed:400,700|Noticia+Text:400,400italic,700,700italic&subset=latin,latin-ext");
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	padding: 0;
-	margin: 0;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  padding: 0;
+  margin: 0;
 }
 
 /* LAYOUT STYLES */
 body {
   font-size: 1em;
-  font-family: 'Fjalla One', sans-serif;
+  font-family: "Fjalla One", sans-serif;
   line-height: 1.5;
   background: #e7e7e7 url(../images/body-bg.png) 0 0 repeat;
 }
@@ -74,7 +142,7 @@ a.button {
   box-shadow: 0px 1px 5px #e8e8e8;
 }
 a.button:hover {
-  background: #fafafa; /* Old browsers */
+  background: #fafafa;
   border-top: solid 1px #b7b7b7;
   border-right: solid 1px #b3b3b3;
   border-bottom: solid 1px #b3b3b3;
@@ -88,30 +156,36 @@ a.button span {
 }
 
 #main_content {
-  width: 41.25em; /* 660 */
+  width: 41.25em;
   text-align: center;
   padding: 0 20px;
-  margin: 3.125em auto 6.25em; /* 50 100 */
+  margin: 3.125em auto 6.25em;
 }
 
 #main_content img {
-  width: 8.75em; /* 140 */
-  height: 8.75em; /* 140 */
-  border: 0.625em solid rgba(255, 255, 255, .5); /* 10 */
-  box-shadow: 0 0 0.313em rgba(0, 0, 0, .05); /* 5 */
-  transition: box-shadow .3s ease, border-color .3s ease;
+  width: 8.75em;
+  height: 8.75em;
+  border: 0.625em solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 0.313em rgba(0, 0, 0, 0.05);
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 #main_content img:hover {
-  box-shadow: 0 0 0.938em rgba(0, 0, 0, .25); /* 15 */
+  box-shadow: 0 0 0.938em rgba(0, 0, 0, 0.25);
 }
 
-code, pre {
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+code,
+pre {
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal,
+    monospace;
   font-size: 14px;
 }
 
-ul, ol, dl {
+ul,
+ol,
+dl {
   margin-bottom: 20px;
 }
 
@@ -125,7 +199,7 @@ h3 {
 }
 
 header h1 {
-  font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: "Chivo", "Helvetica Neue", Helvetica, Arial, serif;
   font-size: 48px;
   line-height: 1.2;
   color: #303030;
@@ -142,9 +216,9 @@ header h2 {
 
 #main_content h2 {
   border-top: 1px solid #ddd;
-  padding-top: 1.875em; /* 30 */
-  margin-top: 1.875em; /* 30 */
-  margin-bottom: 0.625em; /* 10 */
+  padding-top: 1.875em;
+  margin-top: 1.875em;
+  margin-bottom: 0.625em;
 }
 
 p {
@@ -161,15 +235,15 @@ ul li {
 
 #main_content li {
   display: inline-block;
-  margin: 0.625em; /* 10 */
+  margin: 0.625em;
 }
 
 footer {
   padding-bottom: 30px;
-  background: transparent url('../images/hr.png') 0 0 no-repeat;
-  font-size: 0.875em; /* 14 */
+  background: transparent url("../images/hr.png") 0 0 no-repeat;
+  font-size: 0.875em;
   border-top: 1px solid #ddd;
-  padding-top: 2.143em; /* 30 (14) */
+  padding-top: 2.143em;
 }
 
 footer a:hover {
@@ -180,7 +254,7 @@ footer a:hover {
   display: block;
   height: 0;
   clear: both;
-  content: '.';
+  content: ".";
 }
 
 .clearfix {
@@ -192,7 +266,8 @@ footer a:hover {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  .download-zip, .download-tar-gz {
+  .download-zip,
+  .download-tar-gz {
     display: none;
   }
   .inner {
