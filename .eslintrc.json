@@ -30,10 +30,10 @@
     "deprecation/deprecation": "warn",
     "eslint-comments/no-unused-disable": "error",
     "eslint-comments/require-description": [
-        "error",
-        {
-            "ignore": ["eslint-enable", "eslint-env"]
-        }
+      "error",
+      {
+        "ignore": ["eslint-enable", "eslint-env"]
+      }
     ],
     "prefer-arrow-functions/prefer-arrow-functions": [
       "error",
