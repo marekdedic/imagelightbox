@@ -12,7 +12,8 @@ const $activityObject = $("<div/>")
         .attr("id", "ilb-activity-indicator")
         .append($("<div/>")),
     $arrowLeftObject = $("<div/>", {
-        class: "imagelightbox-arrow imagelightbox-arrow-left",
+        class: "imagelightbox-arrow",
+        id: "ilb-arrow-left",
     }),
     $arrowRightObject = $("<div/>", {
         class: "imagelightbox-arrow imagelightbox-arrow-right",
@@ -515,16 +516,17 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 }
             }, options.animationSpeed + 100);
         },
-        arrowsOn = function (): void {
+        arrowsOn = (): void => {
             $wrapper.append($arrows);
-            $arrows.on("click.ilb7 touchend.ilb7", function (e): void {
+            $arrowLeftObject.on("click.ilb7 touchend.ilb7", (e): void => {
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                if ($(this).hasClass("imagelightbox-arrow-left")) {
-                    _previousTarget();
-                } else {
-                    _nextTarget();
-                }
+                _previousTarget();
+            });
+            $arrowRightObject.on("click.ilb7 touchend.ilb7", (e): void => {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                _nextTarget();
             });
         },
         navigationOn = function (): void {
