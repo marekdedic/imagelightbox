@@ -168,7 +168,7 @@
 .imagelightbox-arrow:active {
     background-color: #111;
 }
-.imagelightbox-arrow-left {
+#ilb-arrow-left {
     left: 2.5em; /* 40 */
 }
 .imagelightbox-arrow-right {
@@ -181,7 +181,7 @@
     top: 25%;
     left: 50%;
 }
-.imagelightbox-arrow-left:before {
+#ilb-arrow-left:before {
     border-right-color: #fff;
     margin-left: -1.7em;
 }
@@ -207,7 +207,7 @@
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
     }
-    .imagelightbox-arrow-left {
+    #ilb-arrow-left {
         left: 1.25em; /* 20 */
     }
     .imagelightbox-arrow-right {
@@ -216,7 +216,7 @@
 }
 
 @media only screen and (max-width: 20em) { /* 320 */
-    .imagelightbox-arrow-left {
+    #ilb-arrow-left {
         left: 0;
     }
     .imagelightbox-arrow-right {
