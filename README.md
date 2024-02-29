@@ -1,8 +1,12 @@
 imagelightbox
 =============
 
-[![npm version](https://badge.fury.io/js/imagelightbox.svg)](https://badge.fury.io/js/imagelightbox)
-[![Build Status](https://secure.travis-ci.org/marekdedic/imagelightbox.png?branch=master)](http://travis-ci.org/marekdedic/imagelightbox)
+![NPM Version](https://img.shields.io/npm/v/imagelightbox)
+![GitHub](https://img.shields.io/github/license/marekdedic/imagelightbox)
+![GitHub CI](https://img.shields.io/github/actions/workflow/status/marekdedic/imagelightbox/CI.yml?logo=github)
+![Codecov](https://img.shields.io/codecov/c/github/marekdedic/imagelightbox/master?logo=codecov)
+![NPM downloads](https://img.shields.io/npm/dm/imagelightbox?logo=npm)
+![RelativeCI](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
@@ -14,7 +18,6 @@ See most of the available options at the [Demo Page](http://marekdedic.github.io
 
 * jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
 * All major desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
-* IE8 is NOT supported
 
 ## How to use
 
