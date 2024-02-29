@@ -1,6 +1,6 @@
 /* IMAGE LIGHTBOX SELECTOR */
 
-#imagelightbox {
+#ilb-image {
     cursor: pointer;
     position: fixed;
     z-index: 10000;
@@ -9,37 +9,37 @@
     box-shadow: 0 0 3.125em rgba(0, 0, 0, .75); /* 50 */
 }
 
-.imagelightbox-open {
+.ilb-open {
     user-select: none;
     overflow: hidden;
 }
 
 /* WITH ACTIVITY INDICATION */
 
-.imagelightbox-loading,
-.imagelightbox-loading div {
+#ilb-activity-indicator,
+#ilb-activity-indicator div {
     border-radius: 9999px;
 }
 
-.imagelightbox-loading {
+#ilb-activity-indicator {
     background-color: rgba(130, 130, 130, 0.8);
     position: fixed;
     z-index: 10003;
     top: 50%;
     left: 50%;
     padding: 0.65em;
-    margin: -1.3em 0 0 -1.3em;
+    transform: translate(-50%, -50%);
     box-shadow: 0 0 2.5em rgba(130, 130, 130, 0.6); /* 40 */
 }
 
-.imagelightbox-loading div {
+#ilb-activity-indicator div {
     width: 1.3em;
     height: 1.3em;
     background-color: #fff;
-    animation: imagelightbox-loading .5s ease infinite;
+    animation: ilb-activity-indicator .5s ease-in-out infinite;
 }
 
-@keyframes imagelightbox-loading {
+@keyframes ilb-activity-indicator {
     from {
         opacity: .5;
         transform: scale(.75);
@@ -56,7 +56,7 @@
 
 /* WITH OVERLAY */
 
-.imagelightbox-overlay {
+#ilb-overlay {
     background-color: rgba(30, 30, 30, 0.9);
     position: fixed;
     z-index: 9998;
@@ -68,9 +68,7 @@
 
 /* WITH "CLOSE" BUTTON */
 
-.imagelightbox-close {
-    animation: fade-in 0.25s linear;
-    border: none;
+#ilb-close-button {
     cursor: pointer;
     width: 3em; /* 40 */
     height: 3em; /* 40 */
@@ -80,15 +78,15 @@
     top: 2.5em; /* 40 */
     right: 2.5em; /* 40 */
     border-radius: 50%;
-    transition: color .3s ease;
+    transition: background-color .3s ease;
 }
 
-.imagelightbox-close:hover {
+#ilb-close-button:hover {
     background-color: #111;
 }
 
-.imagelightbox-close:before,
-.imagelightbox-close:after {
+#ilb-close-button:before,
+#ilb-close-button:after {
     width: 2px;
     background-color: #fff;
     content: '';
@@ -99,17 +97,17 @@
     margin-left: -1px;
 }
 
-.imagelightbox-close:before {
+#ilb-close-button:before {
     transform: rotate(45deg);
 }
 
-.imagelightbox-close:after {
+#ilb-close-button:after {
     transform: rotate(-45deg);
 }
 
 /* WITH CAPTION */
 
-.imagelightbox-caption {
+#ilb-caption {
     text-align: center;
     color: #fff;
     background-color: #666;
@@ -124,7 +122,7 @@
 
 /* WITH NAVIGATION */
 
-.imagelightbox-nav {
+.ilb-navigation {
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     z-index: 10001;
@@ -135,29 +133,22 @@
     border-radius: 20px;
 }
 
-.imagelightbox-nav a {
-    position: relative;
-    top: 0.2em;
+.ilb-navigation a {
     width: 1em; /* 20 */
     height: 1em; /* 20 */
     border: 1px solid #fff;
     display: inline-block;
-    margin: 0 0.313em; /* 5 */
+    margin: 0.2em 0.313em 0 0.313em; /* 5 */
     border-radius: 50%;
 }
 
-.imagelightbox-nav .active {
-    animation: fade-in 0.45s linear;
-    background-color: #fff;
-}
-
-.imagelightbox-navitem:active {
+.ilb-navigation a:active {
     background: #808080;
 }
 
 /* WITH ARROWS */
 
-.imagelightbox-arrow {
+.ilb-arrow {
     animation: fade-in 0.25s linear;
     border: none;
     border-radius: 50%;
@@ -169,39 +160,40 @@
     position: fixed;
     z-index: 10001;
     top: 50%;
-    margin-top: -3.75em; /* 60 */
+    transform: translateY(-50%);
 }
-.imagelightbox-arrow:hover {
+.ilb-arrow:hover {
     background-color: rgba(0, 0, 0, 0.75);
 }
-.imagelightbox-arrow:active {
+.ilb-arrow:active {
     background-color: #111;
 }
-.imagelightbox-arrow-left {
+#ilb-arrow-left {
     left: 2.5em; /* 40 */
 }
-.imagelightbox-arrow-right {
+#ilb-arrow-right {
     right: 2.5em; /* 40 */
 }
-.imagelightbox-arrow:before {
+.ilb-arrow:before {
     border: 1em solid transparent;
     content: '';
     position: absolute;
     top: 25%;
     left: 50%;
 }
-.imagelightbox-arrow-left:before {
+#ilb-arrow-left:before {
     border-right-color: #fff;
     margin-left: -1.7em;
 }
-.imagelightbox-arrow-right:before {
+#ilb-arrow-right:before {
     border-left-color: #fff;
     margin-left: -0.3em;
 }
 
-.imagelightbox-loading,
-.imagelightbox-overlay,
-.imagelightbox-nav {
+#ilb-activity-indicator,
+#ilb-close-button
+#ilb-overlay,
+.ilb-navigation {
     animation: fade-in 0.25s linear;
 }
 
@@ -211,26 +203,23 @@
 }
 
 @media only screen and (max-width: 41.250em) { /* 660 */
-    #container {
-        width: 100%;
-    }
-    .imagelightbox-close {
+    #ilb-close-button {
         top: 1.25em; /* 20 */
         right: 1.25em; /* 20 */
     }
-    .imagelightbox-arrow-left {
+    #ilb-arrow-left {
         left: 1.25em; /* 20 */
     }
-    .imagelightbox-arrow-right {
+    #ilb-arrow-right {
         right: 1.25em; /* 20 */
     }
 }
 
 @media only screen and (max-width: 20em) { /* 320 */
-    .imagelightbox-arrow-left {
+    #ilb-arrow-left {
         left: 0;
     }
-    .imagelightbox-arrow-right {
+    #ilb-arrow-right {
         right: 0;
     }
 }

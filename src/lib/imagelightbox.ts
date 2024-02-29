@@ -9,31 +9,32 @@ const $ = jQuery;
 
 // COMPONENTS //
 const $activityObject = $("<div/>")
-        .attr("class", "imagelightbox-loading")
+        .attr("id", "ilb-activity-indicator")
         .append($("<div/>")),
     $arrowLeftObject = $("<div/>", {
-        class: "imagelightbox-arrow imagelightbox-arrow-left",
+        class: "ilb-arrow",
+        id: "ilb-arrow-left",
     }),
     $arrowRightObject = $("<div/>", {
-        class: "imagelightbox-arrow imagelightbox-arrow-right",
+        class: "ilb-arrow",
+        id: "ilb-arrow-right",
     }),
     $arrows = $arrowLeftObject.add($arrowRightObject),
     $captionObject = $("<div/>", {
-        class: "imagelightbox-caption",
+        id: "ilb-caption",
         html: "&nbsp;",
     }),
     $buttonObject = $("<div/>", {
-        class: "imagelightbox-close",
+        id: "ilb-close-button",
     }),
     $overlayObject = $("<div/>", {
-        class: "imagelightbox-overlay",
+        id: "ilb-overlay",
     }),
     $navItem = $("<a/>", {
         href: "#",
-        class: "imagelightbox-navitem",
     }),
     $navObject = $("<div/>", {
-        class: "imagelightbox-nav",
+        class: "ilb-navigation",
     }),
     $wrapper = $("<div/>", {
         class: "imagelightbox-wrapper",
@@ -86,7 +87,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         options = $.extend(
             {
                 selector: "a[data-imagelightbox]",
-                id: "imagelightbox",
                 allowedTypes: "png|jpg|jpeg|gif",
                 animationSpeed: 250,
                 activity: false,
@@ -146,7 +146,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 _pushQuitToHistory();
             }
             $wrapper.trigger("quit.ilb2");
-            $body.removeClass("imagelightbox-open");
+            $body.removeClass("ilb-open");
             if (!image.length) {
                 return;
             }
@@ -279,7 +279,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             };
         },
         activityIndicatorOff = (): void => {
-            $(".imagelightbox-loading").remove();
+            $("#ilb-loading-indicator").remove();
         },
         _onLoadEnd = (): void => {
             if (options.activity) {
@@ -381,10 +381,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                         }
                     });
                 } else {
-                    element = $("<img id='" + options.id + "' />").attr(
-                        "src",
-                        imgPath!,
-                    );
+                    element = $('<img id="ilb-image" />').attr("src", imgPath!);
                 }
                 function onload(): void {
                     const params: JQuery.PlainObject = { opacity: 1 };
@@ -520,16 +517,17 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 }
             }, options.animationSpeed + 100);
         },
-        arrowsOn = function (): void {
+        arrowsOn = (): void => {
             $wrapper.append($arrows);
-            $arrows.on("click.ilb7 touchend.ilb7", function (e): void {
+            $arrowLeftObject.on("click.ilb7 touchend.ilb7", (e): void => {
                 e.stopImmediatePropagation();
                 e.preventDefault();
-                if ($(this).hasClass("imagelightbox-arrow-left")) {
-                    _previousTarget();
-                } else {
-                    _nextTarget();
-                }
+                _previousTarget();
+            });
+            $arrowRightObject.on("click.ilb7 touchend.ilb7", (e): void => {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                _nextTarget();
             });
         },
         navigationOn = function (): void {
@@ -557,7 +555,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                     const $this = $(this);
                     if (
                         targets.eq($this.index()).attr("href") !==
-                        $(".imagelightbox").attr("src")
+                        $("#ilb-image").attr("src")
                     ) {
                         const tmpTarget = targets.eq($this.index());
                         if (tmpTarget.length) {
@@ -615,7 +613,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 _pushToHistory();
             }
             _onStart();
-            $body.append($wrapper).addClass("imagelightbox-open");
+            $body.append($wrapper).addClass("ilb-open");
             $wrapper.trigger("start.ilb2", $target);
             _loadImage(0);
         },
@@ -727,9 +725,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                     $(this).data("ilb2VideoId", id);
                     const container: PreloadedVideo = {
                         e: $(
-                            "<video id='" +
-                                options.id +
-                                "' preload='metadata' data-ilb2-video-id='" +
+                            "<video id='ilb-image' preload='metadata' data-ilb2-video-id='" +
                                 id +
                                 "'>",
                         ),
@@ -785,7 +781,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
     function toggleFullScreen(): void {
         const doc = window.document as LegacyDocument;
-        const docEl = document.getElementById(options.id)!
+        const docEl = document.getElementById("ilb-image")!
             .parentElement as LegacyHTMLElement;
 
         /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions, @typescript-eslint/unbound-method -- Polyfills for very old browsers */
