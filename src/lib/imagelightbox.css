@@ -171,7 +171,7 @@
 #ilb-arrow-left {
     left: 2.5em; /* 40 */
 }
-.imagelightbox-arrow-right {
+#ilb-arrow-right {
     right: 2.5em; /* 40 */
 }
 .imagelightbox-arrow:before {
@@ -185,7 +185,7 @@
     border-right-color: #fff;
     margin-left: -1.7em;
 }
-.imagelightbox-arrow-right:before {
+#ilb-arrow-right:before {
     border-left-color: #fff;
     margin-left: -0.3em;
 }
@@ -210,7 +210,7 @@
     #ilb-arrow-left {
         left: 1.25em; /* 20 */
     }
-    .imagelightbox-arrow-right {
+    #ilb-arrow-right {
         right: 1.25em; /* 20 */
     }
 }
@@ -219,7 +219,7 @@
     #ilb-arrow-left {
         left: 0;
     }
-    .imagelightbox-arrow-right {
+    #ilb-arrow-right {
         right: 0;
     }
 }

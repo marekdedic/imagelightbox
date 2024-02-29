@@ -16,7 +16,8 @@ const $activityObject = $("<div/>")
         id: "ilb-arrow-left",
     }),
     $arrowRightObject = $("<div/>", {
-        class: "imagelightbox-arrow imagelightbox-arrow-right",
+        class: "imagelightbox-arrow",
+        id: "ilb-arrow-right",
     }),
     $arrows = $arrowLeftObject.add($arrowRightObject),
     $captionObject = $("<div/>", {
