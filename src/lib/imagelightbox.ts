@@ -6,6 +6,7 @@ import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
+import { addCloseButtonToDOM } from "./close-button";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addOverlayToDOM } from "./overlay";
@@ -24,9 +25,6 @@ const $arrowLeftObject = $("<div/>", {
   $captionObject = $("<div/>", {
     id: "ilb-caption",
     html: "&nbsp;",
-  }),
-  $buttonObject = $("<div/>", {
-    id: "ilb-close-button",
   }),
   $navItem = $("<a/>", {
     href: "#",
@@ -520,12 +518,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             .removeClass("ilb-navigation-active");
         });
     },
-    closeButtonOn = (): void => {
-      $buttonObject.appendTo($wrapper).on("click.ilb7", (): boolean => {
-        _quitImageLightbox();
-        return false;
-      });
-    },
     _onStart = (): void => {
       if (options.arrows) {
         arrowsOn();
@@ -537,7 +529,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         addOverlayToDOM($wrapper);
       }
       if (options.button) {
-        closeButtonOn();
+        addCloseButtonToDOM($wrapper, _quitImageLightbox);
       }
       if (options.caption) {
         $wrapper.append($captionObject);
