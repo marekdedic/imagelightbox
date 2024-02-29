@@ -6,6 +6,7 @@ import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
+import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
@@ -13,16 +14,7 @@ import { addOverlayToDOM } from "./overlay";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 
 // COMPONENTS //
-const $arrowLeftObject = $("<div/>", {
-    class: "ilb-arrow",
-    id: "ilb-arrow-left",
-  }),
-  $arrowRightObject = $("<div/>", {
-    class: "ilb-arrow",
-    id: "ilb-arrow-right",
-  }),
-  $arrows = $arrowLeftObject.add($arrowRightObject),
-  $captionObject = $("<div/>", {
+const $captionObject = $("<div/>", {
     id: "ilb-caption",
     html: "&nbsp;",
   }),
@@ -241,7 +233,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         removeActivityIndicatorFromDOM();
       }
       if (options.arrows) {
-        $arrows.css("display", "block");
+        showArrows();
       }
     },
     _previousTarget = (): void => {
@@ -462,19 +454,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         }
       }, options.animationSpeed + 100);
     },
-    arrowsOn = (): void => {
-      $wrapper.append($arrows);
-      $arrowLeftObject.on("click.ilb7 touchend.ilb7", (e): void => {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        _previousTarget();
-      });
-      $arrowRightObject.on("click.ilb7 touchend.ilb7", (e): void => {
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        _nextTarget();
-      });
-    },
     navigationOn = function (): void {
       if (!targets.length) {
         return;
@@ -520,7 +499,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     },
     _onStart = (): void => {
       if (options.arrows) {
-        arrowsOn();
+        addArrowsToDOM($wrapper, _previousTarget, _nextTarget);
       }
       if (options.navigation) {
         navigationOn();
