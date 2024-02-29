@@ -10,6 +10,7 @@
   "plugins": [
     "compat",
     "deprecation",
+    "jquery",
     "prefer-arrow-functions",
     "simple-import-sort",
     "@typescript-eslint"
