@@ -52,7 +52,7 @@
     "rimraf": "^5.0.1",
     "rollup-plugin-webpack-stats": "^0.2.4",
     "stylelint": "^16.1.0",
-    "stylelint-config-recommended": "^14.0.0",
+    "stylelint-config-standard": "^36.0.0",
     "stylelint-no-unsupported-browser-features": "^8.0.0",
     "stylelint-prettier": "^5.0.0",
     "typescript": "^5.3.3",

@@ -6,7 +6,7 @@
   z-index: 10000;
   top: 50%;
   touch-action: none;
-  box-shadow: 0 0 3.125em rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 3.125em rgba(0 0 0 75%);
 }
 
 .ilb-open {
@@ -22,14 +22,14 @@
 }
 
 #ilb-activity-indicator {
-  background-color: rgba(130, 130, 130, 0.8);
+  background-color: rgba(130 130 130 80%);
   position: fixed;
   z-index: 10003;
   top: 50%;
   left: 50%;
   padding: 0.65em;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 2.5em rgba(130, 130, 130, 0.6);
+  box-shadow: 0 0 2.5em rgba(130 130 130 60%);
 }
 
 #ilb-activity-indicator div {
@@ -40,15 +40,17 @@
 }
 
 @keyframes ilb-activity-indicator {
-  from {
+  0% {
     opacity: 0.5;
     transform: scale(0.75);
   }
+
   50% {
     opacity: 1;
     transform: scale(1);
   }
-  to {
+
+  100% {
     opacity: 0.5;
     transform: scale(0.75);
   }
@@ -57,12 +59,13 @@
 /* WITH OVERLAY */
 
 #ilb-overlay {
-  background-color: rgba(30, 30, 30, 0.9);
+  background-color: rgba(30 30 30 90%);
   position: fixed;
   z-index: 9998;
   top: 0;
   right: 0;
   bottom: 0;
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties -- inset is not supported by all browsers */
   left: 0;
 }
 
@@ -79,7 +82,7 @@
   cursor: pointer;
   width: 3em;
   height: 3em;
-  background-color: rgba(130, 130, 130, 0.8);
+  background-color: rgba(130 130 130 80%);
   position: fixed;
   z-index: 10002;
   top: 2.5em;
@@ -92,8 +95,8 @@
   background-color: #111;
 }
 
-#ilb-close-button:before,
-#ilb-close-button:after {
+#ilb-close-button::before,
+#ilb-close-button::after {
   width: 2px;
   background-color: #fff;
   content: "";
@@ -104,11 +107,11 @@
   margin-left: -1px;
 }
 
-#ilb-close-button:before {
+#ilb-close-button::before {
   transform: rotate(45deg);
 }
 
-#ilb-close-button:after {
+#ilb-close-button::after {
   transform: rotate(-45deg);
 }
 
@@ -130,7 +133,7 @@
 /* WITH NAVIGATION */
 
 .ilb-navigation {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0 0 0 50%);
   position: fixed;
   z-index: 10001;
   left: 50%;
@@ -145,7 +148,7 @@
   height: 1em;
   border: 1px solid #fff;
   display: inline-block;
-  margin: 0.2em 0.313em 0 0.313em;
+  margin: 0.2em 0.313em 0;
   border-radius: 50%;
 }
 
@@ -162,37 +165,44 @@
   cursor: pointer;
   width: 4em;
   height: 4em;
-  background-color: rgba(130, 130, 130, 0.8);
+  background-color: rgba(130 130 130 80%);
   display: none;
   position: fixed;
   z-index: 10001;
   top: 50%;
   transform: translateY(-50%);
 }
+
 .ilb-arrow:hover {
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0 0 0 75%);
 }
+
 .ilb-arrow:active {
   background-color: #111;
 }
+
 #ilb-arrow-left {
   left: 2.5em;
 }
+
 #ilb-arrow-right {
   right: 2.5em;
 }
-.ilb-arrow:before {
+
+.ilb-arrow::before {
   border: 1em solid transparent;
   content: "";
   position: absolute;
   top: 25%;
   left: 50%;
 }
-#ilb-arrow-left:before {
+
+#ilb-arrow-left::before {
   border-right-color: #fff;
   margin-left: -1.7em;
 }
-#ilb-arrow-right:before {
+
+#ilb-arrow-right::before {
   border-left-color: #fff;
   margin-left: -0.3em;
 }
@@ -201,6 +211,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -211,9 +222,11 @@
     top: 1.25em;
     right: 1.25em;
   }
+
   #ilb-arrow-left {
     left: 1.25em;
   }
+
   #ilb-arrow-right {
     right: 1.25em;
   }
@@ -223,6 +236,7 @@
   #ilb-arrow-left {
     left: 0;
   }
+
   #ilb-arrow-right {
     right: 0;
   }
