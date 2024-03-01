@@ -532,6 +532,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       $navObject
         .on("click.ilb7 touchend.ilb7", (): boolean => false)
         .on("click.ilb7 touchend.ilb7", "a", function (): void {
+          if (inProgress) {
+            return;
+          }
           const $this = $(this);
           if (
             targets.eq($this.index()).attr("href") !==
