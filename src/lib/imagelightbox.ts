@@ -519,13 +519,13 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         $navObject.append($navItem.clone());
       }
       const $navItems = $navObject.children("a");
-      $navItems.eq(targets.index(target)).addClass("active");
+      $navItems.eq(targets.index(target)).addClass("ilb-navigation-active");
 
       $wrapper.on("previous.ilb2 next.ilb2", (): void => {
         $navItems
-          .removeClass("active")
+          .removeClass("ilb-navigation-active")
           .eq(targets.index(target))
-          .addClass("active");
+          .addClass("ilb-navigation-active");
       });
       $wrapper.append($navObject);
 
@@ -544,7 +544,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
               _loadImage($this.index() < currentIndex ? -1 : 1);
             }
           }
-          $this.addClass("active").siblings().removeClass("active");
+          $this
+            .addClass("ilb-navigation-active")
+            .siblings()
+            .removeClass("ilb-navigation-active");
         });
     },
     overlayOn = (): void => {
