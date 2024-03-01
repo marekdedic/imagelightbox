@@ -152,6 +152,11 @@
   border-radius: 50%;
 }
 
+.ilb-navigation-active {
+  animation: fade-in 0.45s linear;
+  background-color: #fff;
+}
+
 .ilb-navigation a:active {
   background: #808080;
 }
