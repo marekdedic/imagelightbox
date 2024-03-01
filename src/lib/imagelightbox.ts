@@ -63,7 +63,6 @@ const hasTouch = "ontouchstart" in window,
     (legacyDocument.webkitFullscreenEnabled ?? false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
-  let currentIndex = 0;
   let image = $();
   let inProgress = false;
   let swipeDiff = 0;
@@ -486,9 +485,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           ) {
             const tmpTarget = targets.eq($this.index());
             if (tmpTarget.length) {
-              currentIndex = targets.index(target);
+              const loadDirection =
+                $this.index() < targets.index(target) ? 1 : -1;
               target = tmpTarget;
-              _loadImage($this.index() < currentIndex ? -1 : 1);
+              _loadImage(loadDirection);
             }
           }
           $this
