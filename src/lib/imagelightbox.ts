@@ -63,14 +63,14 @@ const hasTouch = "ontouchstart" in window,
     (legacyDocument.webkitFullscreenEnabled ?? false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
-  let image = $();
-  let inProgress = false;
-  let swipeDiff = 0;
-  let target = $();
-  let targetIndex = -1;
-  let targets: JQuery = $([]);
-  let targetSet = "";
-  const videos: Array<PreloadedVideo> = [],
+  let image = $(); // The open image element or $() if the imagelightbox is closed
+  let inProgress = false; // Whether a transition is in progress
+  let swipeDiff = 0; // If dragging by touch, this is the difference between the X positions of the touch start and toudh end
+  let target = $(); // targets.eq(targetIndex)
+  let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
+  let targets: JQuery = $([]); // Clickable images
+  let targetSet = ""; // The data-imagelightbox value for the current set
+  const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
     options = $.extend(
       {
         selector: "a[data-imagelightbox]",
