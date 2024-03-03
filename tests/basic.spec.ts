@@ -17,6 +17,10 @@ test("opens and closes the lightbox", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("activity").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
   await page.locator("#container").dispatchEvent("click");
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
@@ -25,6 +29,10 @@ test("shows a caption", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("caption").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
   await expect(page.getByText("Sunset in Tanzania")).toHaveId("ilb-caption");
 });
 
@@ -32,12 +40,20 @@ test("can be triggered manually", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Click me!" }).click();
   await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
 });
 
 test("can be controlled with arrows", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("arrows").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
   await page.locator("#ilb-arrow-right").click();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
