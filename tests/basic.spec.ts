@@ -1,5 +1,11 @@
 import { expect, test } from "playwright-test-coverage";
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript({
+    path: "tests/init.ts",
+  });
+});
+
 test("has correct title", async ({ page }) => {
   await page.goto("/");
   await expect(
@@ -70,7 +76,6 @@ test("has a working navigation", async ({ page }) => {
     "src",
     "images/demo1.jpg",
   );
-  await new Promise((resolve) => setTimeout(resolve, 250));
   await expect(page.locator(".ilb-navigation a").first()).toBeVisible();
   await expect(page.locator(".ilb-navigation a").nth(1)).toBeVisible();
   await expect(page.locator(".ilb-navigation a").nth(2)).toBeVisible();
