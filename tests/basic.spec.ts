@@ -1,9 +1,5 @@
 import { expect, test } from "playwright-test-coverage";
 
-// TODO: Touch
-// TODO: Videos
-// TODO: in progress stuff
-
 test.beforeEach(async ({ page }) => {
   await page.addInitScript({
     path: "tests/init.ts",
