@@ -25,6 +25,19 @@ test("opens and closes the lightbox", async ({ page }) => {
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
 
+test("shows the overlay", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("overlay").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await expect(page.locator("#ilb-overlay")).toBeVisible();
+  await page.locator("#ilb-overlay").dispatchEvent("click");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
 test("shows a caption", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("caption").getByRole("link").first().click();
