@@ -247,7 +247,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       let videoHasDimensions = false;
       $.each(videos, function (_, video) {
         if (videoId === this.i) {
-          setSizes(video.w!, video.h!);
+          setSizes(video.w ?? video.e.width()!, video.h ?? video.e.height()!);
           videoHasDimensions = true;
         }
       });
