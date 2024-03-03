@@ -204,6 +204,47 @@ test("can open history links", async ({ page }) => {
   );
 });
 
+test("has a working history with IDs", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("history-ids").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.locator("#container").dispatchEvent("click");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await page.goBack();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.goBack();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.goBack();
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
+test("can open history links with IDs", async ({ page }) => {
+  await page.goto("/?imageLightboxIndex=2&imageLightboxSet=k");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
+});
+
 test("has a working navigation", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("navigation").getByRole("link").first().click();

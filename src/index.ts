@@ -94,6 +94,7 @@ jQuery(($) => {
   });
 
   $('a[data-imagelightbox="k"]').imageLightbox({
+    arrows: true,
     history: true,
     ...(isTest && { animationSpeed: 0 }),
   });
