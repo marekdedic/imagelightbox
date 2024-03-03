@@ -639,13 +639,16 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         _quitImageLightbox(true);
         return;
       }
-      const element = targets.filter('[data-ilb2-id="' + newId + '"]');
-      if (
-        element.length === 0 ||
-        (newState.imageLightboxSet !== undefined &&
-          newState.imageLightboxSet !== element[0].dataset.imagelightbox)
-      ) {
+      if (newState.imageLightboxSet !== targetSet) {
         return;
+      }
+      let element = targets.filter('[data-ilb2-id="' + newId + '"]');
+      if (element.length === 0) {
+        const rawElement = targets.get(parseInt(newId));
+        if (rawElement === undefined) {
+          return;
+        }
+        element = $(rawElement);
       }
       if (targetIndex < 0) {
         _openImageLightbox(element, true);
