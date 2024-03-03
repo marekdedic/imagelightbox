@@ -61,6 +61,36 @@ test("can be controlled with arrows", async ({ page }) => {
   );
 });
 
+test("can be controlled with keyboard", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("fullscreen").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
 test("can add images dynamically", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Add another image" }).click();
