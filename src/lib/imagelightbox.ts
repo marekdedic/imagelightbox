@@ -268,7 +268,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       };
     },
     activityIndicatorOff = (): void => {
-      $("#ilb-loading-indicator").remove();
+      $("#ilb-activity-indicator").remove();
     },
     _onLoadEnd = (): void => {
       if (options.activity) {
