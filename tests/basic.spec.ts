@@ -75,6 +75,38 @@ test("can add images dynamically", async ({ page }) => {
   );
 });
 
+test("has a working history", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("history").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.locator("#container").dispatchEvent("click");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await page.goBack();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.goBack();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.goBack();
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
 test("can open history links", async ({ page }) => {
   await page.goto("/?imageLightboxIndex=2&imageLightboxSet=j");
   await expect(page.locator("#ilb-image")).toBeVisible();
