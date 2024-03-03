@@ -196,13 +196,12 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       $wrapper.append($activityObject);
     },
     captionReset = (): void => {
-      $captionObject.css("opacity", "0");
-      $captionObject.html("&nbsp;");
+      $captionObject.css("display", "none");
       if ($(target).data("ilb2-caption") !== undefined) {
-        $captionObject.css("opacity", "1");
+        $captionObject.css("display", "block");
         $captionObject.html($(target).data("ilb2-caption") as string);
       } else if ($(target).find("img").attr("alt") !== undefined) {
-        $captionObject.css("opacity", "1");
+        $captionObject.css("display", "block");
         $captionObject.html($(target).find("img").attr("alt")!);
       }
     },
