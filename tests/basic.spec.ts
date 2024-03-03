@@ -2,7 +2,6 @@ import { expect, test } from "playwright-test-coverage";
 
 // TODO: Touch
 // TODO: Videos
-// TODO: quitOnEnd
 // TODO: quitOnImgClick
 // TODO: in progress stuff
 
@@ -261,4 +260,34 @@ test("has a working navigation", async ({ page }) => {
     "src",
     "images/demo3.jpg",
   );
+});
+
+test("quits on end", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("quit").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await page.getByTestId("quit").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#ilb-image")).toBeHidden();
 });
