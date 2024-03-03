@@ -37,7 +37,7 @@
                 </code></pre>
 
                 <h2>With overlay</h2>
-                <ul>
+                <ul data-testid="overlay">
                     <li><a href="images/demo1.jpg" data-imagelightbox="b"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="b"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="b"><img src="images/thumb3.jpg"></a></li>
@@ -47,7 +47,7 @@
                 </code></pre>
 
                 <h2>With "close" button</h2>
-                <ul>
+                <ul data-testid="close-button">
                     <li><a href="images/demo1.jpg" data-imagelightbox="c"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="c"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="c"><img src="images/thumb3.jpg"></a></li>
@@ -95,6 +95,16 @@
                     <li><a href="images/demo3.jpg" data-imagelightbox="g" data-ilb2-caption="Just another sunset in Tanzania"><img src="images/thumb3.jpg"></a></li>
                 </ul>
 
+                <h2>Quiting on reaching the end or clicking the image</h2>
+                <ul data-testid="quit">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="quit"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="quit"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="quit"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>$('a[data-imagelightbox="quit"]')
+                    .imageLightbox({quitOnEnd: true, quitOnImgClick: true});
+                </code></pre>
+
                 <h2>With manual trigger</h2>
                 <ul>
                     <li><a href="images/demo1.jpg" data-imagelightbox="h"><img src="images/thumb1.jpg"></a></li>
@@ -112,7 +122,7 @@
                 <button class="add_image">Add another image</button>
 
                 <h2>With history & permalinks</h2>
-                <ul>
+                <ul data-testid="history">
                     <li><a href="images/demo1.jpg" data-imagelightbox="j"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="j"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="j"><img src="images/thumb3.jpg"></a></li>
@@ -124,7 +134,7 @@
                     (may need to add &imageLightboxSet=j as well because there are multiple examples)</pre>
 
                 <h2>History with ids</h2>
-                <ul>
+                <ul data-testid="history-ids">
                     <li><a href="images/demo1.jpg" data-imagelightbox="k" data-ilb2-id="img1"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="k" data-ilb2-id="img2"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="k" data-ilb2-id="img3"><img src="images/thumb3.jpg"></a></li>
@@ -145,7 +155,7 @@
 include a sources field - a list of source tags similarily encoded.</pre>
 
                 <h2>Press enter for fullscreen</h2>
-                <ul>
+                <ul data-testid="fullscreen">
                  <li><a href="images/demo1.jpg" data-imagelightbox="fullscreen"><img src="images/thumb1.jpg"></a></li>
                  <li><a href="images/demo2.jpg" data-imagelightbox="fullscreen"><img src="images/thumb2.jpg"></a></li>
                  <li><a href="images/demo3.jpg" data-imagelightbox="fullscreen"><img src="images/thumb3.jpg"></a></li>
