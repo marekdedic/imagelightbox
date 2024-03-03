@@ -60,6 +60,22 @@ test("shows a caption", async ({ page }) => {
     "images/demo1.jpg",
   );
   await expect(page.getByText("Sunset in Tanzania")).toHaveId("ilb-caption");
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await expect(page.locator("#ilb-caption")).toBeHidden();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
+  await expect(page.getByText("Just another sunset in Tanzania")).toHaveId(
+    "ilb-caption",
+  );
 });
 
 test("can be triggered manually", async ({ page }) => {
