@@ -41,6 +41,13 @@ jQuery(($) => {
     ...(isTest && { animationSpeed: 0 }),
   });
 
+  $('a[data-imagelightbox="quit"]').imageLightbox({
+    arrows: true,
+    quitOnEnd: true,
+    quitOnImgClick: true,
+    ...(isTest && { animationSpeed: 0 }),
+  });
+
   $('a[data-imagelightbox="fullscreen"]').imageLightbox({
     fullscreen: true,
     ...(isTest && { animationSpeed: 0 }),
