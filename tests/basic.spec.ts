@@ -16,7 +16,9 @@ test("has correct title", async ({ page }) => {
 test("opens and closes the lightbox", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("activity").getByRole("link").first().click();
+  await expect(page.locator("#ilb-activity-indicator")).toBeVisible();
   await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-activity-indicator")).toBeHidden();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo1.jpg",
