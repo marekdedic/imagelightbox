@@ -42,7 +42,6 @@ jQuery(($) => {
   });
 
   $('a[data-imagelightbox="quit"]').imageLightbox({
-    arrows: true,
     quitOnEnd: true,
     quitOnImgClick: true,
     ...(isTest && { animationSpeed: 0 }),

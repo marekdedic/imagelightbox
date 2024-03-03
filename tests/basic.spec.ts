@@ -2,7 +2,6 @@ import { expect, test } from "playwright-test-coverage";
 
 // TODO: Touch
 // TODO: Videos
-// TODO: quitOnImgClick
 // TODO: in progress stuff
 
 test.beforeEach(async ({ page }) => {
@@ -289,5 +288,17 @@ test("quits on end", async ({ page }) => {
     "images/demo1.jpg",
   );
   await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
+test("quits on image click", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("quit").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.locator("#ilb-image").click();
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
