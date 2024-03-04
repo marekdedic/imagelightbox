@@ -12,6 +12,7 @@ import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addOverlayToDOM } from "./overlay";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
+import { TransitionDirection } from "./TransitionDirection";
 
 // COMPONENTS //
 const $captionObject = $("<div/>", {
@@ -253,7 +254,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       _pushToHistory();
       $wrapper.trigger("previous.ilb2", target);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
-      _loadImage(+1);
+      _loadImage(TransitionDirection.Left);
     },
     _nextTarget = (): void => {
       if (inProgress) {
@@ -273,9 +274,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       target = targets.eq(targetIndex);
       $wrapper.trigger("next.ilb2", target);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
-      _loadImage(-1);
+      _loadImage(TransitionDirection.Right);
     },
-    _loadImage = (direction: number): void => {
+    _loadImage = (direction: TransitionDirection): void => {
       if (inProgress) {
         return;
       }
@@ -486,7 +487,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             const tmpTarget = targets.eq($this.index());
             if (tmpTarget.length) {
               const loadDirection =
-                $this.index() < targets.index(target) ? 1 : -1;
+                $this.index() < targets.index(target)
+                  ? TransitionDirection.Left
+                  : TransitionDirection.Right;
               target = tmpTarget;
               _loadImage(loadDirection);
             }
@@ -527,7 +530,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       _onStart();
       $body.append($wrapper).addClass("ilb-open");
       $wrapper.trigger("start.ilb2", $target);
-      _loadImage(0);
+      _loadImage(TransitionDirection.None);
     },
     _openHistory = (): void => {
       if (!options.history) {
@@ -582,9 +585,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         return;
       }
       const newIndex = targets.index(element);
-      let direction = +1;
+      let direction = TransitionDirection.Left;
       if (newIndex > targetIndex) {
-        direction = -1;
+        direction = TransitionDirection.Right;
       }
       target = element;
       targetIndex = newIndex;
