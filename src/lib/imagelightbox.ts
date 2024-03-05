@@ -12,6 +12,7 @@ import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addOverlayToDOM } from "./overlay";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
+import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 
 // COMPONENTS //
@@ -64,13 +65,13 @@ const hasTouch = "ontouchstart" in window,
     (legacyDocument.webkitFullscreenEnabled ?? false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
+  const state = new State($(this).data("imagelightbox") as string, $(this));
   let image = $(); // The open image element or $() if the imagelightbox is closed
   let inProgress = false; // Whether a transition is in progress
   let swipeDiff = 0; // If dragging by touch, this is the difference between the X positions of the touch start and toudh end
   let target = $(); // targets.eq(targetIndex)
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
-  const targetSet = $(this).data("imagelightbox") as string; // The data-imagelightbox value for the current set
   const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
     options = $.extend(
       {
@@ -567,7 +568,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         _quitImageLightbox(true);
         return;
       }
-      if (newState.imageLightboxSet !== targetSet) {
+      if (newState.imageLightboxSet !== state.getSet()) {
         return;
       }
       let element = targets.filter('[data-ilb2-id="' + newId + '"]');
