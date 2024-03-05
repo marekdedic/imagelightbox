@@ -65,7 +65,33 @@ const hasTouch = "ontouchstart" in window,
     (legacyDocument.webkitFullscreenEnabled ?? false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
-  const state = new State($(this).data("imagelightbox") as string, $(this));
+  const options: ILBOptions = $.extend(
+    {
+      allowedTypes: "png|jpg|jpeg|gif",
+      animationSpeed: 250,
+      activity: false,
+      arrows: false,
+      button: false,
+      caption: false,
+      enableKeyboard: true,
+      history: false,
+      fullscreen: false,
+      gutter: 10, // percentage of client height
+      navigation: false,
+      overlay: false,
+      preloadNext: true,
+      quitOnEnd: false,
+      quitOnImgClick: false,
+      quitOnDocClick: true,
+      quitOnEscKey: true,
+    },
+    opts,
+  );
+  const state = new State(
+    options,
+    $(this).data("imagelightbox") as string,
+    $(this),
+  );
   let image = $(); // The open image element or $() if the imagelightbox is closed
   let inProgress = false; // Whether a transition is in progress
   let swipeDiff = 0; // If dragging by touch, this is the difference between the X positions of the touch start and toudh end
@@ -73,28 +99,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
   const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
-    options = $.extend(
-      {
-        allowedTypes: "png|jpg|jpeg|gif",
-        animationSpeed: 250,
-        activity: false,
-        arrows: false,
-        button: false,
-        caption: false,
-        enableKeyboard: true,
-        history: false,
-        fullscreen: false,
-        gutter: 10, // percentage of client height
-        navigation: false,
-        overlay: false,
-        preloadNext: true,
-        quitOnEnd: false,
-        quitOnImgClick: false,
-        quitOnDocClick: true,
-        quitOnEscKey: true,
-      },
-      opts,
-    ),
     _pushQuitToHistory = (): void => {
       if (!options.history) {
         return;
@@ -762,6 +766,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   _preloadVideos(targets);
 
   this.addToImageLightbox = (elements: JQuery): void => {
+    state.addImages(elements);
     _addTargets(elements);
     _preloadVideos(elements);
   };

@@ -1,11 +1,14 @@
 //import $ from "jquery";
 
 export class State {
+  // The lightbox options
+  private readonly options: ILBOptions;
+
   // The value of data-imagelightbox on the images
   private readonly set: string;
 
   // The clickable images in the lightbox
-  //private images: JQuery;
+  private images: JQuery;
 
   // The index of the currently open image, or null if the lightbox is closed
   //private currentImage: number | null;
@@ -13,22 +16,33 @@ export class State {
   // Whether the lighbox is currently transitioning between images
   //private inTransition: boolean;
 
-  public constructor(set: string, _images: JQuery) {
+  public constructor(options: ILBOptions, set: string, images: JQuery) {
+    this.options = options;
     this.set = set;
-    //this.images = $();
+    this.images = $();
     //this.currentImage = null;
     //this.inTransition = true; // TODO: Really?
-    //this.addImages(images);
-  }
 
-  /*
-  public addImages(images: JQuery): void {
-    // TODO: Add some filtering etc.
-    this.images = images;
+    this.addImages(images);
   }
-  */
 
   public getSet(): string {
     return this.set;
+  }
+
+  public addImages(images: JQuery): void {
+    images
+      .filter(
+        (_, element): boolean =>
+          element.tagName.toLowerCase() === "a" &&
+          (new RegExp(".(" + this.options.allowedTypes + ")$", "i").test(
+            (element as HTMLAnchorElement).href,
+          ) ||
+            element.dataset.ilb2Video !== undefined),
+      )
+      .each((_, element): void => {
+        this.images = this.images.add(element);
+      });
+    this.images = images;
   }
 }
