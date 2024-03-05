@@ -1,5 +1,4 @@
 interface ILBOptions {
-  selector: string;
   allowedTypes: string;
   animationSpeed: number;
   activity: boolean;

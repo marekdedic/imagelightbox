@@ -74,7 +74,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
     options = $.extend(
       {
-        selector: "a[data-imagelightbox]",
         allowedTypes: "png|jpg|jpeg|gif",
         animationSpeed: 250,
         activity: false,
@@ -755,8 +754,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       });
     }
   });
-
-  $(document).off(".ilb7 .ilb2", options.selector);
 
   _addTargets($(this));
 
