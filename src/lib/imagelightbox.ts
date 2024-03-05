@@ -84,7 +84,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         history: false,
         fullscreen: false,
         gutter: 10, // percentage of client height
-        offsetY: 0, // percentage of gutter
         navigation: false,
         overlay: false,
         preloadNext: true,
