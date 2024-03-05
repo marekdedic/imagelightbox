@@ -70,7 +70,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let target = $(); // targets.eq(targetIndex)
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
-  let targetSet = ""; // The data-imagelightbox value for the current set
+  const targetSet = $(this).data("imagelightbox") as string; // The data-imagelightbox value for the current set
   const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
     options = $.extend(
       {
@@ -603,9 +603,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       function filterTargets(): void {
         newTargets
           .filter(function (): boolean {
-            return $(this).data("imagelightbox") === targetSet;
-          })
-          .filter(function (): boolean {
             return isTargetValid($(this));
           })
           .each(function (): void {
@@ -615,9 +612,8 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       newTargets.each(function (): void {
         targets = newTargets.add($(this));
       });
-      newTargets.on("click.ilb7", { set: targetSet }, function (e): void {
+      newTargets.on("click.ilb7", function (e): void {
         e.preventDefault();
-        targetSet = $(e.currentTarget).data("imagelightbox") as string;
         filterTargets();
         if (targets.length < 1) {
           _quitImageLightbox();
