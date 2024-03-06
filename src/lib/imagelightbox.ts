@@ -118,6 +118,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       image = $();
     },
     _quitImageLightbox = (noHistory = false): void => {
+      state.closeLightbox();
       targetIndex = -1;
       if (!noHistory) {
         _pushQuitToHistory();
@@ -240,6 +241,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
     },
     _previousTarget = (): void => {
+      state.previousImage();
       if (inProgress) {
         return;
       }
@@ -260,6 +262,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       _loadImage(TransitionDirection.Left);
     },
     _nextTarget = (): void => {
+      state.nextImage();
       if (inProgress) {
         return;
       }
@@ -521,6 +524,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
     },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
+      state.openLightboxWithImage($target);
       if (inProgress) {
         return;
       }
@@ -545,8 +549,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       let element = targets.filter('[data-ilb2-id="' + id + '"]');
       if (element.length > 0) {
+        state.openLightboxWithImage(element);
         targetIndex = targets.index(element);
       } else {
+        state.openLightbox(parseInt(id));
         targetIndex = parseInt(id);
         element = $(targets[targetIndex]);
       }
@@ -593,6 +599,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         direction = TransitionDirection.Right;
       }
       target = element;
+      state.changeImage(newIndex);
       targetIndex = newIndex;
       _loadImage(direction);
     },
