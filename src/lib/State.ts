@@ -1,5 +1,7 @@
 import $ from "jquery";
 
+import { addCaptionToDOM, setCaption } from "./caption";
+
 export class State {
   // The lightbox options
   private readonly options: ILBOptions;
@@ -46,16 +48,20 @@ export class State {
     this.images = images;
   }
 
-  public openLightboxWithImage(image: JQuery): void {
+  public openLightboxWithImage(image: JQuery, container: JQuery): void {
     const index = this.images.index(image);
     if (index < 0) {
       return;
     }
-    this.openLightbox(index);
+    this.openLightbox(index, container);
   }
 
-  public openLightbox(index: number): void {
-    this.currentImage = index;
+  public openLightbox(index: number, container: JQuery): void {
+    if (this.options.caption) {
+      addCaptionToDOM(container);
+    }
+
+    this.setImage(index);
   }
 
   public closeLightbox(): void {
@@ -67,7 +73,7 @@ export class State {
       return;
     }
     // TODO: Check quiting and wrapping
-    this.currentImage = index;
+    this.setImage(index);
   }
 
   public previousImage(): void {
@@ -84,5 +90,16 @@ export class State {
     }
     // TODO: Check quiting and wrapping
     this.changeImage(this.currentImage + 1);
+  }
+
+  private setImage(index: number): void {
+    this.currentImage = index;
+    const image = this.images.get(this.currentImage);
+    if (image === undefined) {
+      return;
+    }
+    setCaption(
+      image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+    );
   }
 }
