@@ -2,6 +2,16 @@ import $ from "jquery";
 
 import { addCaptionToDOM, setCaption } from "./caption";
 
+/**
+ * The lightbox state.
+ *
+ * The most important part of the State is managing the transition lifecycle. When transitioning between images, the lifecycle takes the following steps:
+ *
+ * 1. Start loading the new image and start visually transitioning the old image out (startTransition)
+ * 2a. When the old image is visually transitioned out, it is removed (removeOldImage)
+ * 2b. When the new image is loaded, it starts visually transitioning in (addNewImage)
+ * 3. Once the new image is in the right place, the transition ends (transitionEnd)
+ */
 export class State {
   // The lightbox options
   private readonly options: ILBOptions;
@@ -61,7 +71,7 @@ export class State {
       addCaptionToDOM(container);
     }
 
-    this.setImage(index);
+    this.startTransition(index);
   }
 
   public closeLightbox(): void {
@@ -73,7 +83,7 @@ export class State {
       return;
     }
     // TODO: Check quiting and wrapping
-    this.setImage(index);
+    this.startTransition(index);
   }
 
   public previousImage(): void {
@@ -92,14 +102,25 @@ export class State {
     this.changeImage(this.currentImage + 1);
   }
 
-  private setImage(index: number): void {
+  private startTransition(index: number): void {
     this.currentImage = index;
-    const image = this.images.get(this.currentImage);
-    if (image === undefined) {
-      return;
-    }
+
+    // TODO: Only call these later
+    this.removeOldImage();
+    this.addNewImage();
+  }
+
+  private removeOldImage(): void {}
+
+  private addNewImage(): void {
+    const image = this.images.get(this.currentImage!)!;
     setCaption(
       image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
     );
+
+    // TODO: Only call this later
+    this.endTransition();
   }
+
+  private endTransition(): void {}
 }
