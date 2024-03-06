@@ -16,11 +16,7 @@ import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 
 // COMPONENTS //
-const $captionObject = $("<div/>", {
-    id: "ilb-caption",
-    html: "&nbsp;",
-  }),
-  $navItem = $("<a/>", {
+const $navItem = $("<a/>", {
     href: "#",
   }),
   $navObject = $("<div/>", {
@@ -160,22 +156,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         document.location.pathname + newQuery,
       );
     },
-    captionReset = (): void => {
-      $captionObject.css("display", "none");
-      if ($(target).data("ilb2-caption") !== undefined) {
-        $captionObject.css("display", "block");
-        $captionObject.html($(target).data("ilb2-caption") as string);
-      } else if ($(target).find("img").attr("alt") !== undefined) {
-        $captionObject.css("display", "block");
-        $captionObject.html($(target).find("img").attr("alt")!);
-      }
-    },
     _onLoadStart = (): void => {
       if (options.activity) {
         addActivityIndicatorToDOM($wrapper);
-      }
-      if (options.caption) {
-        captionReset();
       }
     },
     _setImage = function (): void {
@@ -183,9 +166,8 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         return;
       }
 
-      const captionHeight = options.caption ? $captionObject.outerHeight()! : 0,
-        screenWidth = $(window).width()!,
-        screenHeight = $(window).height()! - captionHeight,
+      const screenWidth = $(window).width()!,
+        screenHeight = $(window).height()!,
         gutterFactor = Math.abs(1 - options.gutter / 100);
 
       function setSizes(imageWidth: number, imageHeight: number): void {
@@ -519,12 +501,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (options.button) {
         addCloseButtonToDOM($wrapper, _quitImageLightbox);
       }
-      if (options.caption) {
-        $wrapper.append($captionObject);
-      }
     },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
-      state.openLightboxWithImage($target);
+      state.openLightboxWithImage($target, $wrapper);
       if (inProgress) {
         return;
       }
@@ -549,10 +528,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       let element = targets.filter('[data-ilb2-id="' + id + '"]');
       if (element.length > 0) {
-        state.openLightboxWithImage(element);
+        state.openLightboxWithImage(element, $wrapper);
         targetIndex = targets.index(element);
       } else {
-        state.openLightbox(parseInt(id));
+        state.openLightbox(parseInt(id), $wrapper);
         targetIndex = parseInt(id);
         element = $(targets[targetIndex]);
       }

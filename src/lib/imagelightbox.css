@@ -14,21 +14,6 @@
   overflow: hidden;
 }
 
-/* WITH CAPTION */
-
-#ilb-caption {
-  text-align: center;
-  color: #fff;
-  background-color: #666;
-  position: fixed;
-  z-index: 10001;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 0.625em;
-  transition: opacity 0.25s ease;
-}
-
 /* WITH NAVIGATION */
 
 .ilb-navigation {
