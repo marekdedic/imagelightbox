@@ -1,4 +1,4 @@
-//import $ from "jquery";
+import $ from "jquery";
 
 export class State {
   // The lightbox options
@@ -11,7 +11,7 @@ export class State {
   private images: JQuery;
 
   // The index of the currently open image, or null if the lightbox is closed
-  //private currentImage: number | null;
+  private currentImage: number | null;
 
   // Whether the lighbox is currently transitioning between images
   //private inTransition: boolean;
@@ -20,7 +20,7 @@ export class State {
     this.options = options;
     this.set = set;
     this.images = $();
-    //this.currentImage = null;
+    this.currentImage = null;
     //this.inTransition = true; // TODO: Really?
 
     this.addImages(images);
@@ -44,5 +44,45 @@ export class State {
         this.images = this.images.add(element);
       });
     this.images = images;
+  }
+
+  public openLightboxWithImage(image: JQuery): void {
+    const index = this.images.index(image);
+    if (index < 0) {
+      return;
+    }
+    this.openLightbox(index);
+  }
+
+  public openLightbox(index: number): void {
+    this.currentImage = index;
+  }
+
+  public closeLightbox(): void {
+    this.currentImage = null;
+  }
+
+  public changeImage(index: number): void {
+    if (this.currentImage === null) {
+      return;
+    }
+    // TODO: Check quiting and wrapping
+    this.currentImage = index;
+  }
+
+  public previousImage(): void {
+    if (this.currentImage === null) {
+      return;
+    }
+    // TODO: Check quiting and wrapping
+    this.changeImage(this.currentImage - 1);
+  }
+
+  public nextImage(): void {
+    if (this.currentImage === null) {
+      return;
+    }
+    // TODO: Check quiting and wrapping
+    this.changeImage(this.currentImage + 1);
   }
 }
