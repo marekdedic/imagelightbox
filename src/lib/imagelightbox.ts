@@ -10,7 +10,6 @@ import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
-import { addOverlayToDOM } from "./overlay";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
@@ -494,9 +493,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       if (options.navigation) {
         navigationOn();
-      }
-      if (options.overlay) {
-        addOverlayToDOM($wrapper);
       }
       if (options.button) {
         addCloseButtonToDOM($wrapper, _quitImageLightbox);
