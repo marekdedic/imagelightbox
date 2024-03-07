@@ -1,14 +1,3 @@
-/* IMAGE LIGHTBOX SELECTOR */
-
-#ilb-image {
-  cursor: pointer;
-  position: fixed;
-  z-index: 10000;
-  top: 50%;
-  touch-action: none;
-  box-shadow: 0 0 3.125em rgba(0, 0, 0, 75%);
-}
-
 .ilb-open {
   user-select: none;
   overflow: hidden;
