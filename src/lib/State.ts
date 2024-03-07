@@ -1,6 +1,7 @@
 import $ from "jquery";
 
 import { addCaptionToDOM, setCaption } from "./caption";
+import { addOverlayToDOM } from "./overlay";
 
 /**
  * The lightbox state.
@@ -69,6 +70,9 @@ export class State {
   public openLightbox(index: number, container: JQuery): void {
     if (this.options.caption) {
       addCaptionToDOM(container);
+    }
+    if (this.options.overlay) {
+      addOverlayToDOM(container);
     }
 
     this.startTransition(index);
