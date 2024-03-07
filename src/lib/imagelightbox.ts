@@ -10,18 +10,13 @@ import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
+import { addNavigationToDOM } from "./navigation";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 
 // COMPONENTS //
-const $navItem = $("<a/>", {
-    href: "#",
-  }),
-  $navObject = $("<div/>", {
-    class: "ilb-navigation",
-  }),
-  $wrapper = $("<div/>", {
+const $wrapper = $("<div/>", {
     class: "imagelightbox-wrapper",
   }),
   $body = $("body");
@@ -441,58 +436,20 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         }
       }, options.animationSpeed + 100);
     },
-    navigationOn = function (): void {
-      if (!targets.length) {
-        return;
-      }
-      // eslint-disable-next-line @typescript-eslint/prefer-for-of -- targets cannot be iterated in old jQuery and the result wouldn't be used anyway
-      for (let i = 0; i < targets.length; i++) {
-        $navObject.append($navItem.clone());
-      }
-      const $navItems = $navObject.children("a");
-      $navItems.eq(targets.index(target)).addClass("ilb-navigation-active");
-
-      $wrapper.on("previous.ilb2 next.ilb2", (): void => {
-        $navItems
-          .removeClass("ilb-navigation-active")
-          .eq(targets.index(target))
-          .addClass("ilb-navigation-active");
-      });
-      $wrapper.append($navObject);
-
-      $navObject
-        .on("click.ilb7 touchend.ilb7", (): boolean => false)
-        .on("click.ilb7 touchend.ilb7", "a", function (): void {
-          if (inProgress) {
-            return;
-          }
-          const $this = $(this);
-          if (
-            targets.eq($this.index()).attr("href") !==
-            $("#ilb-image").attr("src")
-          ) {
-            const tmpTarget = targets.eq($this.index());
-            if (tmpTarget.length) {
-              const loadDirection =
-                $this.index() < targets.index(target)
-                  ? TransitionDirection.Left
-                  : TransitionDirection.Right;
-              target = tmpTarget;
-              _loadImage(loadDirection);
-            }
-          }
-          $this
-            .addClass("ilb-navigation-active")
-            .siblings()
-            .removeClass("ilb-navigation-active");
-        });
-    },
     _onStart = (): void => {
       if (options.arrows) {
         addArrowsToDOM($wrapper, _previousTarget, _nextTarget);
       }
       if (options.navigation) {
-        navigationOn();
+        addNavigationToDOM(
+          $wrapper,
+          () => targets,
+          () => targets.index(target),
+          (newTarget: JQuery, direction: TransitionDirection) => {
+            target = newTarget;
+            _loadImage(direction);
+          },
+        );
       }
       if (options.button) {
         addCloseButtonToDOM($wrapper, _quitImageLightbox);
