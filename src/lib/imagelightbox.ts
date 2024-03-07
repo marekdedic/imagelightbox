@@ -17,9 +17,8 @@ import { TransitionDirection } from "./TransitionDirection";
 
 // COMPONENTS //
 const $wrapper = $("<div/>", {
-    class: "imagelightbox-wrapper",
-  }),
-  $body = $("body");
+  class: "imagelightbox-wrapper",
+});
 
 function cssTransitionTranslateX(
   element: JQuery,
@@ -114,7 +113,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         _pushQuitToHistory();
       }
       $wrapper.trigger("quit.ilb2");
-      $body.removeClass("ilb-open");
+      $("body").removeClass("ilb-open");
       if (!image.length) {
         return;
       }
@@ -467,7 +466,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         _pushToHistory();
       }
       _onStart();
-      $body.append($wrapper).addClass("ilb-open");
+      $("body").append($wrapper).addClass("ilb-open");
       $wrapper.trigger("start.ilb2", $target);
       _loadImage(TransitionDirection.None);
     },
