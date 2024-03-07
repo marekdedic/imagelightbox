@@ -8,6 +8,13 @@ import {
 } from "./activity-indicator";
 import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
+import {
+  addImageViewToDOM,
+  removeImageViewFromDOM,
+  startLoadingImageView,
+  transitionInImageView,
+  transitionOutImageView,
+} from "./image-view";
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addNavigationToDOM } from "./navigation";
@@ -100,11 +107,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       window.history.pushState({}, "", document.location.pathname + newQuery);
     },
     _removeImage = (): void => {
-      if (!image.length) {
-        return;
-      }
-      image.remove();
-      image = $();
+      removeImageViewFromDOM(image);
     },
     _quitImageLightbox = (noHistory = false): void => {
       state.closeLightbox();
@@ -114,10 +117,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       $wrapper.trigger("quit.ilb2");
       $("body").removeClass("ilb-open");
-      if (!image.length) {
-        return;
-      }
-      image.animate({ opacity: 0 }, options.animationSpeed, (): void => {
+      transitionOutImageView(image, TransitionDirection.None, options, () => {
         _removeImage();
         inProgress = false;
         $wrapper.remove().find("*").remove();
@@ -153,59 +153,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (options.activity) {
         addActivityIndicatorToDOM($wrapper);
       }
-    },
-    _setImage = function (): void {
-      if (!image.length) {
-        return;
-      }
-
-      const screenWidth = $(window).width()!,
-        screenHeight = $(window).height()!,
-        gutterFactor = Math.abs(1 - options.gutter / 100);
-
-      function setSizes(imageWidth: number, imageHeight: number): void {
-        if (imageWidth > screenWidth || imageHeight > screenHeight) {
-          const ratio =
-            imageWidth / imageHeight > screenWidth / screenHeight
-              ? imageWidth / screenWidth
-              : imageHeight / screenHeight;
-          imageWidth /= ratio;
-          imageHeight /= ratio;
-        }
-        const cssHeight = imageHeight * gutterFactor,
-          cssWidth = imageWidth * gutterFactor,
-          cssLeft = ($(window).width()! - cssWidth) / 2;
-
-        image.css({
-          width: cssWidth.toString() + "px",
-          height: cssHeight.toString() + "px",
-          left: cssLeft.toString() + "px",
-        });
-      }
-
-      const videoId = image.data("ilb2VideoId") as string;
-      let videoHasDimensions = false;
-      $.each(videos, function (_, video) {
-        if (videoId === this.i) {
-          setSizes(video.w ?? video.e.width()!, video.h ?? video.e.height()!);
-          videoHasDimensions = true;
-        }
-      });
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TypeScript can't detect possible overwrite in a loop
-      if (videoHasDimensions) {
-        return;
-      }
-      const videoElement = image.get(0) as HTMLVideoElement;
-      if ((videoElement.videoWidth as number | undefined) !== undefined) {
-        setSizes(videoElement.videoWidth, videoElement.videoHeight);
-        return;
-      }
-
-      const tmpImage = new Image();
-      tmpImage.src = image.attr("src")!;
-      tmpImage.onload = (): void => {
-        setSizes(tmpImage.width, tmpImage.height);
-      };
     },
     _onLoadEnd = (): void => {
       if (options.activity) {
@@ -263,15 +210,15 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
 
       if (image.length) {
-        const params: JQuery.PlainObject = { opacity: 0 };
-        cssTransitionTranslateX(
+        transitionOutImageView(
           image,
-          (100 * direction - swipeDiff).toString() + "px",
-          options.animationSpeed / 1000,
+          direction,
+          options,
+          () => {
+            _removeImage();
+          },
+          swipeDiff,
         );
-        image.animate(params, options.animationSpeed, (): void => {
-          _removeImage();
-        });
         swipeDiff = 0;
       }
 
@@ -310,36 +257,26 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           element = $('<img id="ilb-image" />').attr("src", imgPath!);
         }
         function onload(): void {
-          const params: JQuery.PlainObject = { opacity: 1 };
-
-          image.appendTo($wrapper);
-          _setImage();
-          image.css("opacity", 0);
-          cssTransitionTranslateX(
+          addImageViewToDOM(
             image,
-            (-100 * direction).toString() + "px",
-            0,
+            $wrapper,
+            options,
+            () => videos,
+            () => {
+              transitionInImageView(image, direction, options, () => {
+                inProgress = false;
+                _onLoadEnd();
+              });
+              if (options.preloadNext) {
+                let nextTarget = targets.eq(targets.index(target) + 1);
+                if (!nextTarget.length) {
+                  nextTarget = targets.eq(0);
+                }
+                $("<img />").attr("src", nextTarget.attr("href")!);
+              }
+              $wrapper.trigger("loaded.ilb2");
+            },
           );
-          setTimeout((): void => {
-            cssTransitionTranslateX(
-              image,
-              "0px",
-              options.animationSpeed / 1000,
-            );
-          }, 50);
-
-          image.animate(params, options.animationSpeed, (): void => {
-            inProgress = false;
-            _onLoadEnd();
-          });
-          if (options.preloadNext) {
-            let nextTarget = targets.eq(targets.index(target) + 1);
-            if (!nextTarget.length) {
-              nextTarget = targets.eq(0);
-            }
-            $("<img />").attr("src", nextTarget.attr("href")!);
-          }
-          $wrapper.trigger("loaded.ilb2");
         }
         function onclick(e: BaseJQueryEventObject): void {
           e.preventDefault();
@@ -360,7 +297,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           }
         }
         image = element
-          .on("load.ilb7", onload)
           .on("error.ilb7", (): void => {
             _onLoadEnd();
           })
@@ -420,12 +356,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
               }
             },
           );
+        startLoadingImageView(image, onload);
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
         if (preloadedVideo === true) {
           onload();
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
-        } else if (preloadedVideo === false) {
-          image = image.on("loadedmetadata.ilb7", onload);
         }
         if (!videoOptions) {
           image = image.on(
@@ -623,7 +557,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       });
     };
 
-  $(window).on("resize.ilb7", _setImage);
   if (options.history) {
     $(window).on("popstate", _popHistory);
   }
