@@ -27,11 +27,10 @@ import {
   transitionInImageView,
   transitionOutImageView,
 } from "./image-view";
-import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
-import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addNavigationToDOM } from "./navigation";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
+import { VideoCache } from "./VideoCache";
 
 function cssTransitionTranslateX(
   element: JQuery,
@@ -100,8 +99,8 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let target = $(); // targets.eq(targetIndex)
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
-  const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
-    _removeImage = (): void => {
+  const videoCache = new VideoCache();
+  const _removeImage = (): void => {
       removeImageViewFromDOM(image);
     },
     _quitImageLightbox = (noHistory = false): void => {
@@ -207,25 +206,12 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         //     imgPath = target.attr('data-lightbox');
         // }
 
-        const videoOptions = target.data("ilb2Video") as
-          | VideoOptions
-          | undefined;
         let element = $();
         let preloadedVideo: boolean | undefined = undefined;
-        if (videoOptions) {
-          $.each(videos, (_, video): void => {
-            if (video.i === target.data("ilb2VideoId")) {
-              preloadedVideo = video.l;
-              element = video.e;
-              if (video.a !== undefined) {
-                if (preloadedVideo) {
-                  void (element.get(0) as HTMLVideoElement).play();
-                } else {
-                  element.attr("autoplay", video.a);
-                }
-              }
-            }
-          });
+        if (target.data("ilb2Video") !== undefined) {
+          [element, preloadedVideo] = videoCache.getVideoElement(
+            target.data("ilb2VideoId") as string,
+          );
         } else {
           element = $('<img id="ilb-image" />').attr("src", imgPath!);
         }
@@ -234,7 +220,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             image,
             temp_getContainer(),
             options,
-            () => videos,
+            videoCache,
             () => {
               transitionInImageView(image, direction, options, () => {
                 inProgress = false;
@@ -330,11 +316,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             },
           );
         startLoadingImageView(image, onload);
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Rule cannot handle loops
         if (preloadedVideo === true) {
           onload();
         }
-        if (!videoOptions) {
+        if (preloadedVideo !== undefined) {
           image = image.on(
             hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
             onclick,
@@ -404,65 +389,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           _quitImageLightbox();
         } else {
           _openImageLightbox($(this), false);
-        }
-      });
-    },
-    _preloadVideos = function (elements: JQuery): void {
-      elements.each(function () {
-        const videoOptions = $(this).data("ilb2Video") as
-          | VideoOptions
-          | undefined;
-        if (videoOptions) {
-          let id = $(this).data("ilb2Id") as string;
-          if (!id) {
-            // Random id
-            id = "a" + (((1 + Math.random()) * 0x10000) | 0).toString(16);
-          }
-          $(this).data("ilb2VideoId", id);
-          const container: PreloadedVideo = {
-            e: $(
-              "<video id='ilb-image' preload='metadata' data-ilb2-video-id='" +
-                id +
-                "'>",
-            ),
-            i: id,
-            l: false,
-            a: undefined,
-            h: undefined,
-            w: undefined,
-          };
-          $.each(videoOptions, (key: string, value): void => {
-            switch (key) {
-              case "autoplay":
-                container.a = value as string;
-                break;
-              case "height":
-                container.h = value as number;
-                break;
-              case "sources":
-                break;
-              case "width":
-                container.w = value as number;
-                break;
-              default:
-                // TODO: Remove this general behaviour
-                container.e = container.e.attr(key, value as number | string);
-            }
-          });
-          if (videoOptions.sources) {
-            $.each(videoOptions.sources, (_, source): void => {
-              let sourceElement = $("<source>");
-              $.each(source, (key: string, value): void => {
-                // TODO: Remove this general behaviour
-                sourceElement = sourceElement.attr(key, value!);
-              });
-              container.e.append(sourceElement);
-            });
-          }
-          container.e.on("loadedmetadata.ilb7", (): void => {
-            container.l = true;
-          });
-          videos.push(container);
         }
       });
     };
@@ -558,15 +484,13 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     }
   });
 
-  _addTargets($(this));
-
-  _preloadVideos(targets);
-
   this.addToImageLightbox = (elements: JQuery): void => {
     state.addImages(elements);
     _addTargets(elements);
-    _preloadVideos(elements);
+    videoCache.addVideos(elements);
   };
+
+  this.addToImageLightbox($(this));
 
   this.openHistory = (): void => {
     if (options.history) {
