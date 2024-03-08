@@ -2,8 +2,8 @@ import "./image-view.css";
 
 import $ from "jquery";
 
-import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import { TransitionDirection } from "./TransitionDirection";
+import type { VideoCache } from "./VideoCache";
 
 function cssTransitionTranslateX(
   element: JQuery,
@@ -18,7 +18,7 @@ function cssTransitionTranslateX(
 
 function reflowImageView(
   imageView: JQuery,
-  videos: () => Array<PreloadedVideo>,
+  videoCache: VideoCache,
   options: ILBOptions,
 ): void {
   const screenWidth = $(window).width()!,
@@ -46,15 +46,11 @@ function reflowImageView(
   }
 
   const videoId = imageView.data("ilb2VideoId") as string;
-  let videoHasDimensions = false;
-  $.each(videos(), function (_, video) {
-    if (videoId === this.i) {
-      setSizes(video.w ?? video.e.width()!, video.h ?? video.e.height()!);
-      videoHasDimensions = true;
-    }
-  });
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- TypeScript can't detect possible overwrite in a loop
-  if (videoHasDimensions) {
+  const videoDimensions = videoCache.getVideoWidthHeight(videoId);
+  if (videoDimensions !== undefined) {
+    setSizes(...videoDimensions);
+  }
+  if (videoDimensions !== undefined) {
     return;
   }
   const videoElement = imageView.get(0) as HTMLVideoElement;
@@ -82,14 +78,14 @@ export function addImageViewToDOM(
   imageView: JQuery,
   container: JQuery,
   options: ILBOptions,
-  videos: () => Array<PreloadedVideo>,
+  videoCache: VideoCache,
   callback: () => void,
 ): void {
   imageView.appendTo(container);
   imageView.css("opacity", 0);
-  reflowImageView(imageView, videos, options);
+  reflowImageView(imageView, videoCache, options);
   $(window).on("resize.ilb7", () => {
-    reflowImageView(imageView, videos, options);
+    reflowImageView(imageView, videoCache, options);
   });
   callback();
 }
