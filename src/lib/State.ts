@@ -86,7 +86,6 @@ export class State {
     if (this.currentImage === null) {
       return;
     }
-    // TODO: Check quiting and wrapping
     this.startTransition(index);
   }
 
@@ -94,16 +93,32 @@ export class State {
     if (this.currentImage === null) {
       return;
     }
-    // TODO: Check quiting and wrapping
-    this.changeImage(this.currentImage - 1);
+
+    if (this.currentImage === 0) {
+      if (this.options.quitOnEnd) {
+        this.closeLightbox();
+      } else {
+        this.changeImage(this.images.length - 1);
+      }
+    } else {
+      this.changeImage(this.currentImage - 1);
+    }
   }
 
   public nextImage(): void {
     if (this.currentImage === null) {
       return;
     }
-    // TODO: Check quiting and wrapping
-    this.changeImage(this.currentImage + 1);
+
+    if (this.currentImage === this.images.length - 1) {
+      if (this.options.quitOnEnd) {
+        this.closeLightbox();
+      } else {
+        this.changeImage(0);
+      }
+    } else {
+      this.changeImage(this.currentImage + 1);
+    }
   }
 
   private startTransition(index: number): void {
