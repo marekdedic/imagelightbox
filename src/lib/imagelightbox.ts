@@ -9,6 +9,12 @@ import {
 import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
 import {
+  addContainerToDOM,
+  removeContainerFromDOM,
+  temp_getContainer,
+  triggerContainerEvent,
+} from "./container";
+import {
   addImageViewToDOM,
   removeImageViewFromDOM,
   startLoadingImageView,
@@ -21,11 +27,6 @@ import { addNavigationToDOM } from "./navigation";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
-
-// COMPONENTS //
-const $wrapper = $("<div/>", {
-  class: "imagelightbox-wrapper",
-});
 
 function cssTransitionTranslateX(
   element: JQuery,
@@ -115,12 +116,12 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (!noHistory) {
         _pushQuitToHistory();
       }
-      $wrapper.trigger("quit.ilb2");
+      triggerContainerEvent("quit.ilb2");
       $("body").removeClass("ilb-open");
       transitionOutImageView(image, TransitionDirection.None, options, () => {
         _removeImage();
         inProgress = false;
-        $wrapper.remove().find("*").remove();
+        removeContainerFromDOM();
       });
     },
     _pushToHistory = (): void => {
@@ -151,7 +152,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     },
     _onLoadStart = (): void => {
       if (options.activity) {
-        addActivityIndicatorToDOM($wrapper);
+        addActivityIndicatorToDOM(temp_getContainer());
       }
     },
     _onLoadEnd = (): void => {
@@ -179,7 +180,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       target = targets.eq(targetIndex);
       _pushToHistory();
-      $wrapper.trigger("previous.ilb2", target);
+      triggerContainerEvent("previous.ilb2", target);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
       _loadImage(TransitionDirection.Left);
     },
@@ -200,7 +201,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       _pushToHistory();
       target = targets.eq(targetIndex);
-      $wrapper.trigger("next.ilb2", target);
+      triggerContainerEvent("next.ilb2", target);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
       _loadImage(TransitionDirection.Right);
     },
@@ -259,7 +260,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         function onload(): void {
           addImageViewToDOM(
             image,
-            $wrapper,
+            temp_getContainer(),
             options,
             () => videos,
             () => {
@@ -274,7 +275,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 }
                 $("<img />").attr("src", nextTarget.attr("href")!);
               }
-              $wrapper.trigger("loaded.ilb2");
+              triggerContainerEvent("loaded.ilb2");
             },
           );
         }
@@ -371,11 +372,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     },
     _onStart = (): void => {
       if (options.arrows) {
-        addArrowsToDOM($wrapper, _previousTarget, _nextTarget);
+        addArrowsToDOM(temp_getContainer(), _previousTarget, _nextTarget);
       }
       if (options.navigation) {
         addNavigationToDOM(
-          $wrapper,
+          temp_getContainer(),
           () => targets,
           () => targets.index(target),
           (newTarget: JQuery, direction: TransitionDirection) => {
@@ -385,11 +386,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         );
       }
       if (options.button) {
-        addCloseButtonToDOM($wrapper, _quitImageLightbox);
+        addCloseButtonToDOM(temp_getContainer(), _quitImageLightbox);
       }
     },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
-      state.openLightboxWithImage($target, $wrapper);
+      state.openLightboxWithImage($target, temp_getContainer());
       if (inProgress) {
         return;
       }
@@ -400,8 +401,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         _pushToHistory();
       }
       _onStart();
-      $("body").append($wrapper).addClass("ilb-open");
-      $wrapper.trigger("start.ilb2", $target);
+      addContainerToDOM();
+      $("body").addClass("ilb-open");
+      triggerContainerEvent("start.ilb2", $target);
       _loadImage(TransitionDirection.None);
     },
     _openHistory = (): void => {
@@ -414,10 +416,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       let element = targets.filter('[data-ilb2-id="' + id + '"]');
       if (element.length > 0) {
-        state.openLightboxWithImage(element, $wrapper);
+        state.openLightboxWithImage(element, temp_getContainer());
         targetIndex = targets.index(element);
       } else {
-        state.openLightbox(parseInt(id), $wrapper);
+        state.openLightbox(parseInt(id), temp_getContainer());
         targetIndex = parseInt(id);
         element = $(targets[targetIndex]);
       }
