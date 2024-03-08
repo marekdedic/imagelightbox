@@ -15,6 +15,12 @@ import {
   triggerContainerEvent,
 } from "./container";
 import {
+  openHistory,
+  popHistory,
+  pushQuitToHistory,
+  pushToHistory,
+} from "./history";
+import {
   addImageViewToDOM,
   removeImageViewFromDOM,
   startLoadingImageView,
@@ -24,7 +30,6 @@ import {
 import type { PreloadedVideo } from "./interfaces/PreloadedVideo";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { addNavigationToDOM } from "./navigation";
-import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 
@@ -96,25 +101,14 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
   const videos: Array<PreloadedVideo> = [], // Videos preloaded in the background
-    _pushQuitToHistory = (): void => {
-      if (!options.history) {
-        return;
-      }
-      let newQuery = removeQueryField(
-        document.location.search,
-        "imageLightboxIndex",
-      );
-      newQuery = removeQueryField(newQuery, "imageLightboxSet");
-      window.history.pushState({}, "", document.location.pathname + newQuery);
-    },
     _removeImage = (): void => {
       removeImageViewFromDOM(image);
     },
     _quitImageLightbox = (noHistory = false): void => {
       state.closeLightbox();
       targetIndex = -1;
-      if (!noHistory) {
-        _pushQuitToHistory();
+      if (!noHistory && options.history) {
+        pushQuitToHistory();
       }
       triggerContainerEvent("quit.ilb2");
       $("body").removeClass("ilb-open");
@@ -123,32 +117,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         inProgress = false;
         removeContainerFromDOM();
       });
-    },
-    _pushToHistory = (): void => {
-      if (!options.history) {
-        return;
-      }
-      const newIndex =
-        targets[targetIndex].dataset.ilb2Id ?? targetIndex.toString();
-      const newState = {
-        imageLightboxIndex: newIndex,
-        imageLightboxSet: "",
-      };
-      const set = targets[targetIndex].dataset.imagelightbox;
-      let newQuery = addQueryField(
-        document.location.search,
-        "imageLightboxIndex",
-        newIndex,
-      );
-      if (set !== undefined) {
-        newState.imageLightboxSet = set;
-        newQuery = addQueryField(newQuery, "imageLightboxSet", set);
-      }
-      window.history.pushState(
-        newState,
-        "",
-        document.location.pathname + newQuery,
-      );
     },
     _onLoadStart = (): void => {
       if (options.activity) {
@@ -179,7 +147,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         }
       }
       target = targets.eq(targetIndex);
-      _pushToHistory();
+      if (options.history) {
+        pushToHistory(targets, targetIndex);
+      }
       triggerContainerEvent("previous.ilb2", target);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
       _loadImage(TransitionDirection.Left);
@@ -199,7 +169,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           targetIndex = 0;
         }
       }
-      _pushToHistory();
+      if (options.history) {
+        pushToHistory(targets, targetIndex);
+      }
       target = targets.eq(targetIndex);
       triggerContainerEvent("next.ilb2", target);
       // eslint-disable-next-line @typescript-eslint/no-use-before-define -- Cyclical dependency
@@ -397,78 +369,14 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       inProgress = false;
       target = $target;
       targetIndex = targets.index(target);
-      if (!noHistory) {
-        _pushToHistory();
+      if (!noHistory && options.history) {
+        pushToHistory(targets, targetIndex);
       }
       _onStart();
       addContainerToDOM();
       $("body").addClass("ilb-open");
       triggerContainerEvent("start.ilb2", $target);
       _loadImage(TransitionDirection.None);
-    },
-    _openHistory = (): void => {
-      if (!options.history) {
-        return;
-      }
-      const id = getQueryField("imageLightboxIndex");
-      if (id === undefined) {
-        return;
-      }
-      let element = targets.filter('[data-ilb2-id="' + id + '"]');
-      if (element.length > 0) {
-        state.openLightboxWithImage(element, temp_getContainer());
-        targetIndex = targets.index(element);
-      } else {
-        state.openLightbox(parseInt(id), temp_getContainer());
-        targetIndex = parseInt(id);
-        element = $(targets[targetIndex]);
-      }
-      const set = getQueryField("imageLightboxSet");
-      if (
-        element.length === 0 ||
-        (set !== undefined && set !== element[0].dataset.imagelightbox)
-      ) {
-        return;
-      }
-      _openImageLightbox(element, true);
-    },
-    _popHistory = (event: BaseJQueryEventObject): void => {
-      const newState = (event.originalEvent as PopStateEvent).state as
-        | { imageLightboxIndex?: string; imageLightboxSet?: string }
-        | undefined;
-      if (!newState) {
-        _quitImageLightbox(true);
-        return;
-      }
-      const newId = newState.imageLightboxIndex;
-      if (newId === undefined) {
-        _quitImageLightbox(true);
-        return;
-      }
-      if (newState.imageLightboxSet !== state.getSet()) {
-        return;
-      }
-      let element = targets.filter('[data-ilb2-id="' + newId + '"]');
-      if (element.length === 0) {
-        const rawElement = targets.get(parseInt(newId));
-        if (rawElement === undefined) {
-          return;
-        }
-        element = $(rawElement);
-      }
-      if (targetIndex < 0) {
-        _openImageLightbox(element, true);
-        return;
-      }
-      const newIndex = targets.index(element);
-      let direction = TransitionDirection.Left;
-      if (newIndex > targetIndex) {
-        direction = TransitionDirection.Right;
-      }
-      target = element;
-      state.changeImage(newIndex);
-      targetIndex = newIndex;
-      _loadImage(direction);
     },
     isTargetValid = (element: JQuery): boolean =>
       (($(element).prop("tagName") as string).toLowerCase() === "a" &&
@@ -560,7 +468,25 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     };
 
   if (options.history) {
-    $(window).on("popstate", _popHistory);
+    $(window).on("popstate", (event: BaseJQueryEventObject) => {
+      popHistory(
+        event,
+        targets,
+        state,
+        targetIndex,
+        _openImageLightbox,
+        _quitImageLightbox,
+        (
+          newTarget: JQuery,
+          newIndex: number,
+          transitionDirection: TransitionDirection,
+        ) => {
+          target = newTarget;
+          targetIndex = newIndex;
+          _loadImage(transitionDirection);
+        },
+      );
+    });
   }
 
   function toggleFullScreen(): void {
@@ -634,8 +560,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
   _addTargets($(this));
 
-  _openHistory();
-
   _preloadVideos(targets);
 
   this.addToImageLightbox = (elements: JQuery): void => {
@@ -645,8 +569,21 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   };
 
   this.openHistory = (): void => {
-    _openHistory();
+    if (options.history) {
+      openHistory(
+        targets,
+        state,
+        (index: number) => {
+          targetIndex = index;
+        },
+        (element: JQuery, noHistory: boolean) => {
+          _openImageLightbox(element, noHistory);
+        },
+      );
+    }
   };
+
+  this.openHistory();
 
   this.loadPreviousImage = (): void => {
     _previousTarget();
