@@ -27,22 +27,6 @@ import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
 const hasTouch = "ontouchstart" in window;
-const hasPointers = "PointerEvent" in window;
-function wasTouched(event: PointerEvent): boolean {
-  if (hasTouch) {
-    return true;
-  }
-
-  if (!hasPointers || typeof event.pointerType === "undefined") {
-    return false;
-  }
-
-  if (event.pointerType !== "mouse") {
-    return true;
-  }
-
-  return false;
-}
 const legacyDocument = document as LegacyDocument;
 const hasFullscreenSupport: boolean =
   legacyDocument.fullscreenEnabled ||
@@ -180,9 +164,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 inProgress = false;
                 _onLoadEnd();
               },
-              onclick,
               _previousTarget,
               _nextTarget,
+              _quitImageLightbox,
             );
             if (options.preloadNext) {
               let nextTarget = targets.eq(targets.index(target) + 1);
@@ -193,24 +177,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             }
             triggerContainerEvent("loaded.ilb2");
           });
-        }
-        function onclick(e: BaseJQueryEventObject): void {
-          e.preventDefault();
-          if (options.quitOnImgClick) {
-            _quitImageLightbox();
-            return;
-          }
-          if (wasTouched(e.originalEvent as PointerEvent)) {
-            return;
-          }
-          const posX =
-            (e.pageX || (e.originalEvent as PointerEvent).pageX) -
-            (e.target as HTMLImageElement).offsetLeft;
-          if ((e.target as HTMLImageElement).width / 3 > posX) {
-            _previousTarget();
-          } else {
-            _nextTarget();
-          }
         }
         imageView = new ImageView(target, options, videoCache);
         imageView.startLoading(onload, _onLoadEnd);

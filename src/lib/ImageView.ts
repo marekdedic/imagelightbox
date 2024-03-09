@@ -96,9 +96,9 @@ export class ImageView {
   public transitionIn(
     transitionDirection: TransitionDirection,
     callback: () => void,
-    onclick: (e: BaseJQueryEventObject) => void,
     previousImage: () => void,
     nextImage: () => void,
+    closeLightbox: () => void,
   ): void {
     cssTransitionTranslateX(
       this.imageElement,
@@ -116,7 +116,7 @@ export class ImageView {
       { opacity: 1 },
       this.options.animationSpeed,
       () => {
-        this.onready(callback, onclick, previousImage, nextImage);
+        this.onready(callback, previousImage, nextImage, closeLightbox);
       },
     );
   }
@@ -192,16 +192,42 @@ export class ImageView {
     };
   }
 
-  private onready(
-    callback: () => void,
-    onclick: (e: BaseJQueryEventObject) => void,
+  private onclick(
+    event: BaseJQueryEventObject,
     previousImage: () => void,
     nextImage: () => void,
+    closeLightbox: () => void,
+  ): void {
+    event.preventDefault();
+    if (this.options.quitOnImgClick) {
+      closeLightbox();
+      return;
+    }
+    if (wasTouched(event.originalEvent as PointerEvent)) {
+      return;
+    }
+    const posX =
+      (event.pageX || (event.originalEvent as PointerEvent).pageX) -
+      (event.target as HTMLImageElement).offsetLeft;
+    if ((event.target as HTMLImageElement).width / 3 > posX) {
+      previousImage();
+    } else {
+      nextImage();
+    }
+  }
+
+  private onready(
+    callback: () => void,
+    previousImage: () => void,
+    nextImage: () => void,
+    closeLightbox: () => void,
   ): void {
     if (!this.isVideo) {
       this.imageElement.on(
         hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
-        onclick,
+        (e: BaseJQueryEventObject) => {
+          this.onclick(e, previousImage, nextImage, closeLightbox);
+        },
       );
     }
     this.imageElement
