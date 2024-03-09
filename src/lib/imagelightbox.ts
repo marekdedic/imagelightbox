@@ -20,13 +20,7 @@ import {
   pushQuitToHistory,
   pushToHistory,
 } from "./history";
-import {
-  addImageViewToDOM,
-  removeImageViewFromDOM,
-  startLoadingImageView,
-  transitionInImageView,
-  transitionOutImageView,
-} from "./image-view";
+import { ImageView } from "./ImageView";
 import { addNavigationToDOM } from "./navigation";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
@@ -93,7 +87,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     $(this).data("imagelightbox") as string,
     $(this),
   );
-  let image = $(); // The open image element or $() if the imagelightbox is closed
+  let imageView: ImageView | null = null;
   let inProgress = false; // Whether a transition is in progress
   let swipeDiff = 0; // If dragging by touch, this is the difference between the X positions of the touch start and toudh end
   let target = $(); // targets.eq(targetIndex)
@@ -101,7 +95,8 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let targets: JQuery = $([]); // Clickable images
   const videoCache = new VideoCache();
   const _removeImage = (): void => {
-      removeImageViewFromDOM(image);
+      imageView?.removeFromDOM();
+      imageView = null;
     },
     _quitImageLightbox = (noHistory = false): void => {
       state.closeLightbox();
@@ -111,7 +106,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       }
       triggerContainerEvent("quit.ilb2");
       $("body").removeClass("ilb-open");
-      transitionOutImageView(image, TransitionDirection.None, options, () => {
+      imageView?.transitionOut(TransitionDirection.None, () => {
         _removeImage();
         inProgress = false;
         removeContainerFromDOM();
@@ -181,18 +176,14 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         return;
       }
 
-      if (image.length) {
-        transitionOutImageView(
-          image,
-          direction,
-          options,
-          () => {
-            _removeImage();
-          },
-          swipeDiff,
-        );
-        swipeDiff = 0;
-      }
+      imageView?.transitionOut(
+        direction,
+        () => {
+          _removeImage();
+        },
+        swipeDiff,
+      );
+      swipeDiff = 0;
 
       inProgress = true;
       _onLoadStart();
@@ -216,26 +207,20 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           element = $('<img id="ilb-image" />').attr("src", imgPath!);
         }
         function onload(): void {
-          addImageViewToDOM(
-            image,
-            temp_getContainer(),
-            options,
-            videoCache,
-            () => {
-              transitionInImageView(image, direction, options, () => {
-                inProgress = false;
-                _onLoadEnd();
-              });
-              if (options.preloadNext) {
-                let nextTarget = targets.eq(targets.index(target) + 1);
-                if (!nextTarget.length) {
-                  nextTarget = targets.eq(0);
-                }
-                $("<img />").attr("src", nextTarget.attr("href")!);
+          imageView?.addToDOM(temp_getContainer(), () => {
+            imageView?.transitionIn(direction, () => {
+              inProgress = false;
+              _onLoadEnd();
+            });
+            if (options.preloadNext) {
+              let nextTarget = targets.eq(targets.index(target) + 1);
+              if (!nextTarget.length) {
+                nextTarget = targets.eq(0);
               }
-              triggerContainerEvent("loaded.ilb2");
-            },
-          );
+              $("<img />").attr("src", nextTarget.attr("href")!);
+            }
+            triggerContainerEvent("loaded.ilb2");
+          });
         }
         function onclick(e: BaseJQueryEventObject): void {
           e.preventDefault();
@@ -255,7 +240,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             _nextTarget();
           }
         }
-        image = element
+        element
           .on("error.ilb7", (): void => {
             _onLoadEnd();
           })
@@ -288,7 +273,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 (e.originalEvent as PointerEvent).pageX ||
                 (e.originalEvent as TouchEvent).touches[0].pageX;
               swipeDiff = swipeStart - swipeEnd;
-              cssTransitionTranslateX(image, (-swipeDiff).toString() + "px", 0);
+              cssTransitionTranslateX(
+                imageView!.temp_getImage(),
+                (-swipeDiff).toString() + "px",
+                0,
+              );
             },
           )
           .on(
@@ -308,22 +297,25 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 }
               } else {
                 cssTransitionTranslateX(
-                  image,
+                  imageView!.temp_getImage(),
                   "0px",
                   options.animationSpeed / 1000,
                 );
               }
             },
           );
-        startLoadingImageView(image, onload);
+        imageView = new ImageView(element, options, videoCache);
+        imageView.startLoading(onload);
         if (preloadedVideo === true) {
           onload();
         }
         if (preloadedVideo !== undefined) {
-          image = image.on(
-            hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
-            onclick,
-          );
+          imageView
+            .temp_getImage()
+            .on(
+              hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
+              onclick,
+            );
         }
       }, options.animationSpeed + 100);
     },
@@ -436,7 +428,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   $((): void => {
     if (options.quitOnDocClick) {
       $(document).on(hasTouch ? "touchend.ilb7" : "click.ilb7", (e): void => {
-        if (image.length && !$(e.target).is(image)) {
+        if (imageView !== null && !$(e.target).is(imageView.temp_getImage())) {
           e.preventDefault();
           _quitImageLightbox();
         }
@@ -445,7 +437,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
     if (options.fullscreen && hasFullscreenSupport) {
       $(document).on("keydown.ilb7", (e): void => {
-        if (!image.length) {
+        if (imageView === null) {
           return;
         }
         if ([9, 32, 38, 40].includes(e.which!)) {
@@ -462,7 +454,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
     if (options.enableKeyboard) {
       $(document).on("keydown.ilb7", (e): void => {
-        if (!image.length) {
+        if (imageView === null) {
           return;
         }
         if ([27].includes(e.which!) && options.quitOnEscKey) {

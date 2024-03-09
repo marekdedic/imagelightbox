@@ -1,0 +1,150 @@
+import "./ImageView.css";
+
+import $ from "jquery";
+
+import { TransitionDirection } from "./TransitionDirection";
+import type { VideoCache } from "./VideoCache";
+
+function cssTransitionTranslateX(
+  element: JQuery,
+  positionX: string,
+  speed: number,
+): void {
+  element.css({
+    transform: "translateX(" + positionX + ") translateY(-50%)",
+    transition: "transform " + speed.toString() + "s ease-in",
+  });
+}
+
+export class ImageView {
+  private readonly imageElement: JQuery;
+
+  private readonly options: ILBOptions;
+  private readonly videoCache: VideoCache;
+
+  public constructor(
+    imageElement: JQuery,
+    options: ILBOptions,
+    videoCache: VideoCache,
+  ) {
+    this.imageElement = imageElement;
+    this.options = options;
+    this.videoCache = videoCache;
+  }
+
+  public temp_getImage(): JQuery {
+    return this.imageElement;
+  }
+
+  public addToDOM(container: JQuery, callback: () => void): void {
+    this.imageElement.appendTo(container);
+    this.imageElement.css("opacity", 0);
+    this.reflow();
+    $(window).on("resize.ilb7", () => {
+      this.reflow();
+    });
+    callback();
+  }
+
+  public startLoading(callback: () => void): void {
+    // TODO .on("error.ilb7")
+    this.imageElement
+      .on("load.ilb7", callback)
+      .on("loadedmetadata.ilb7", callback);
+  }
+
+  public transitionIn(
+    transitionDirection: TransitionDirection,
+    callback: () => void,
+  ): void {
+    cssTransitionTranslateX(
+      this.imageElement,
+      (-100 * transitionDirection).toString() + "px",
+      0,
+    );
+    setTimeout((): void => {
+      cssTransitionTranslateX(
+        this.imageElement,
+        "0px",
+        this.options.animationSpeed / 1000,
+      );
+    }, 50);
+    this.imageElement.animate(
+      { opacity: 1 },
+      this.options.animationSpeed,
+      callback,
+    );
+  }
+
+  public transitionOut(
+    transitionDirection: TransitionDirection,
+    callback: () => void,
+    temp_swipeDiff = 0,
+  ): void {
+    if (transitionDirection !== TransitionDirection.None) {
+      cssTransitionTranslateX(
+        this.imageElement,
+        (100 * transitionDirection - temp_swipeDiff).toString() + "px",
+        this.options.animationSpeed / 1000,
+      );
+    }
+    this.imageElement.animate(
+      { opacity: 0 },
+      this.options.animationSpeed,
+      (): void => {
+        callback();
+      },
+    );
+  }
+
+  public removeFromDOM(): void {
+    $(window).off("resize.ilb7");
+    this.imageElement.remove();
+  }
+
+  private reflow(): void {
+    const screenWidth = $(window).width()!,
+      screenHeight = $(window).height()!,
+      gutterFactor = Math.abs(1 - this.options.gutter / 100);
+
+    const setSizes = (imageWidth: number, imageHeight: number): void => {
+      if (imageWidth > screenWidth || imageHeight > screenHeight) {
+        const ratio =
+          imageWidth / imageHeight > screenWidth / screenHeight
+            ? imageWidth / screenWidth
+            : imageHeight / screenHeight;
+        imageWidth /= ratio;
+        imageHeight /= ratio;
+      }
+      const cssHeight = imageHeight * gutterFactor,
+        cssWidth = imageWidth * gutterFactor,
+        cssLeft = ($(window).width()! - cssWidth) / 2;
+
+      this.imageElement.css({
+        width: cssWidth.toString() + "px",
+        height: cssHeight.toString() + "px",
+        left: cssLeft.toString() + "px",
+      });
+    };
+
+    const videoId = this.imageElement.data("ilb2VideoId") as string;
+    const videoDimensions = this.videoCache.getVideoWidthHeight(videoId);
+    if (videoDimensions !== undefined) {
+      setSizes(...videoDimensions);
+    }
+    if (videoDimensions !== undefined) {
+      return;
+    }
+    const videoElement = this.imageElement.get(0) as HTMLVideoElement;
+    if ((videoElement.videoWidth as number | undefined) !== undefined) {
+      setSizes(videoElement.videoWidth, videoElement.videoHeight);
+      return;
+    }
+
+    const tmpImage = new Image();
+    tmpImage.src = this.imageElement.attr("src")!;
+    tmpImage.onload = (): void => {
+      setSizes(tmpImage.width, tmpImage.height);
+    };
+  }
+}
