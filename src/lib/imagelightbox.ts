@@ -26,38 +26,27 @@ import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
-function cssTransitionTranslateX(
-  element: JQuery,
-  positionX: string,
-  speed: number,
-): void {
-  element.css({
-    transform: "translateX(" + positionX + ") translateY(-50%)",
-    transition: "transform " + speed.toString() + "s ease-in",
-  });
-}
+const hasTouch = "ontouchstart" in window;
+const hasPointers = "PointerEvent" in window;
+function wasTouched(event: PointerEvent): boolean {
+  if (hasTouch) {
+    return true;
+  }
 
-const hasTouch = "ontouchstart" in window,
-  hasPointers = "PointerEvent" in window,
-  wasTouched = (event: PointerEvent): boolean => {
-    if (hasTouch) {
-      return true;
-    }
-
-    if (!hasPointers || typeof event.pointerType === "undefined") {
-      return false;
-    }
-
-    if (event.pointerType !== "mouse") {
-      return true;
-    }
-
+  if (!hasPointers || typeof event.pointerType === "undefined") {
     return false;
-  },
-  legacyDocument = document as LegacyDocument,
-  hasFullscreenSupport: boolean =
-    legacyDocument.fullscreenEnabled ||
-    (legacyDocument.webkitFullscreenEnabled ?? false);
+  }
+
+  if (event.pointerType !== "mouse") {
+    return true;
+  }
+
+  return false;
+}
+const legacyDocument = document as LegacyDocument;
+const hasFullscreenSupport: boolean =
+  legacyDocument.fullscreenEnabled ||
+  (legacyDocument.webkitFullscreenEnabled ?? false);
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   const options: ILBOptions = $.extend(
@@ -89,7 +78,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   );
   let imageView: ImageView | null = null;
   let inProgress = false; // Whether a transition is in progress
-  let swipeDiff = 0; // If dragging by touch, this is the difference between the X positions of the touch start and toudh end
   let target = $(); // targets.eq(targetIndex)
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
@@ -176,21 +164,14 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         return;
       }
 
-      imageView?.transitionOut(
-        direction,
-        () => {
-          _removeImage();
-        },
-        swipeDiff,
-      );
-      swipeDiff = 0;
+      imageView?.transitionOut(direction, () => {
+        _removeImage();
+      });
 
       inProgress = true;
       _onLoadStart();
 
       setTimeout((): void => {
-        let swipeStart = 0;
-        let swipeEnd = 0;
         const imgPath = target.attr("href");
 
         // if (imgPath === undefined) {
@@ -208,10 +189,15 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         }
         function onload(): void {
           imageView?.addToDOM(temp_getContainer(), () => {
-            imageView?.transitionIn(direction, () => {
-              inProgress = false;
-              _onLoadEnd();
-            });
+            imageView?.transitionIn(
+              direction,
+              () => {
+                inProgress = false;
+                _onLoadEnd();
+              },
+              _previousTarget,
+              _nextTarget,
+            );
             if (options.preloadNext) {
               let nextTarget = targets.eq(targets.index(target) + 1);
               if (!nextTarget.length) {
@@ -240,70 +226,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             _nextTarget();
           }
         }
-        element
-          .on("error.ilb7", (): void => {
-            _onLoadEnd();
-          })
-          .on(
-            "touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7",
-            (e: BaseJQueryEventObject): void => {
-              if (
-                !wasTouched(e.originalEvent as PointerEvent) ||
-                options.quitOnImgClick
-              ) {
-                return;
-              }
-              swipeStart =
-                (e.originalEvent as PointerEvent).pageX ||
-                (e.originalEvent as TouchEvent).touches[0].pageX;
-            },
-          )
-          .on(
-            "touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7",
-            (e: BaseJQueryEventObject): void => {
-              if (
-                (!hasPointers && e.type === "pointermove") ||
-                !wasTouched(e.originalEvent as PointerEvent) ||
-                options.quitOnImgClick
-              ) {
-                return;
-              }
-              e.preventDefault();
-              swipeEnd =
-                (e.originalEvent as PointerEvent).pageX ||
-                (e.originalEvent as TouchEvent).touches[0].pageX;
-              swipeDiff = swipeStart - swipeEnd;
-              cssTransitionTranslateX(
-                imageView!.temp_getImage(),
-                (-swipeDiff).toString() + "px",
-                0,
-              );
-            },
-          )
-          .on(
-            "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
-            (e): void => {
-              if (
-                !wasTouched(e.originalEvent as PointerEvent) ||
-                options.quitOnImgClick
-              ) {
-                return;
-              }
-              if (Math.abs(swipeDiff) > 50) {
-                if (swipeDiff < 0) {
-                  _previousTarget();
-                } else {
-                  _nextTarget();
-                }
-              } else {
-                cssTransitionTranslateX(
-                  imageView!.temp_getImage(),
-                  "0px",
-                  options.animationSpeed / 1000,
-                );
-              }
-            },
-          );
+        element.on("error.ilb7", (): void => {
+          _onLoadEnd();
+        });
         imageView = new ImageView(element, options, videoCache);
         imageView.startLoading(onload);
         if (preloadedVideo === true) {

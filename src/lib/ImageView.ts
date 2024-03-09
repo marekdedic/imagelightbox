@@ -16,8 +16,28 @@ function cssTransitionTranslateX(
   });
 }
 
+const hasTouch = "ontouchstart" in window;
+const hasPointers = "PointerEvent" in window;
+function wasTouched(event: PointerEvent): boolean {
+  if (hasTouch) {
+    return true;
+  }
+
+  if (!hasPointers || typeof event.pointerType === "undefined") {
+    return false;
+  }
+
+  if (event.pointerType !== "mouse") {
+    return true;
+  }
+
+  return false;
+}
+
 export class ImageView {
   private readonly imageElement: JQuery;
+  private swipeStart: number;
+  private swipeDiff: number;
 
   private readonly options: ILBOptions;
   private readonly videoCache: VideoCache;
@@ -30,6 +50,9 @@ export class ImageView {
     this.imageElement = imageElement;
     this.options = options;
     this.videoCache = videoCache;
+
+    this.swipeStart = 0;
+    this.swipeDiff = 0;
   }
 
   public temp_getImage(): JQuery {
@@ -56,6 +79,8 @@ export class ImageView {
   public transitionIn(
     transitionDirection: TransitionDirection,
     callback: () => void,
+    previousImage: () => void,
+    nextImage: () => void,
   ): void {
     cssTransitionTranslateX(
       this.imageElement,
@@ -72,19 +97,20 @@ export class ImageView {
     this.imageElement.animate(
       { opacity: 1 },
       this.options.animationSpeed,
-      callback,
+      () => {
+        this.onready(callback, previousImage, nextImage);
+      },
     );
   }
 
   public transitionOut(
     transitionDirection: TransitionDirection,
     callback: () => void,
-    temp_swipeDiff = 0,
   ): void {
     if (transitionDirection !== TransitionDirection.None) {
       cssTransitionTranslateX(
         this.imageElement,
-        (100 * transitionDirection - temp_swipeDiff).toString() + "px",
+        (100 * transitionDirection - this.swipeDiff).toString() + "px",
         this.options.animationSpeed / 1000,
       );
     }
@@ -146,5 +172,72 @@ export class ImageView {
     tmpImage.onload = (): void => {
       setSizes(tmpImage.width, tmpImage.height);
     };
+  }
+
+  private onready(
+    callback: () => void,
+    previousImage: () => void,
+    nextImage: () => void,
+  ): void {
+    this.imageElement
+      .on(
+        "touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7",
+        (e: BaseJQueryEventObject): void => {
+          if (
+            !wasTouched(e.originalEvent as PointerEvent) ||
+            this.options.quitOnImgClick
+          ) {
+            return;
+          }
+          this.swipeStart =
+            (e.originalEvent as PointerEvent).pageX ||
+            (e.originalEvent as TouchEvent).touches[0].pageX;
+        },
+      )
+      .on(
+        "touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7",
+        (e: BaseJQueryEventObject): void => {
+          if (
+            (!hasPointers && e.type === "pointermove") ||
+            !wasTouched(e.originalEvent as PointerEvent) ||
+            this.options.quitOnImgClick
+          ) {
+            return;
+          }
+          e.preventDefault();
+          const swipeEnd =
+            (e.originalEvent as PointerEvent).pageX ||
+            (e.originalEvent as TouchEvent).touches[0].pageX;
+          this.swipeDiff = this.swipeStart - swipeEnd;
+          cssTransitionTranslateX(
+            this.imageElement,
+            (-this.swipeDiff).toString() + "px",
+            0,
+          );
+        },
+      )
+      .on(
+        "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
+        (e): void => {
+          if (
+            !wasTouched(e.originalEvent as PointerEvent) ||
+            this.options.quitOnImgClick
+          ) {
+            return;
+          }
+          if (this.swipeDiff < -50) {
+            previousImage();
+          } else if (this.swipeDiff > 50) {
+            nextImage();
+          } else {
+            cssTransitionTranslateX(
+              this.imageElement,
+              "0px",
+              this.options.animationSpeed / 1000,
+            );
+          }
+        },
+      );
+    callback();
   }
 }
