@@ -172,21 +172,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       _onLoadStart();
 
       setTimeout((): void => {
-        const imgPath = target.attr("href");
-
-        // if (imgPath === undefined) {
-        //     imgPath = target.attr('data-lightbox');
-        // }
-
-        let element = $();
-        let preloadedVideo: boolean | undefined = undefined;
-        if (target.data("ilb2Video") !== undefined) {
-          [element, preloadedVideo] = videoCache.getVideoElement(
-            target.data("ilb2VideoId") as string,
-          );
-        } else {
-          element = $('<img id="ilb-image" />').attr("src", imgPath!);
-        }
         function onload(): void {
           imageView?.addToDOM(temp_getContainer(), () => {
             imageView?.transitionIn(
@@ -195,6 +180,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
                 inProgress = false;
                 _onLoadEnd();
               },
+              onclick,
               _previousTarget,
               _nextTarget,
             );
@@ -226,22 +212,8 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             _nextTarget();
           }
         }
-        element.on("error.ilb7", (): void => {
-          _onLoadEnd();
-        });
-        imageView = new ImageView(element, options, videoCache);
-        imageView.startLoading(onload);
-        if (preloadedVideo === true) {
-          onload();
-        }
-        if (preloadedVideo !== undefined) {
-          imageView
-            .temp_getImage()
-            .on(
-              hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
-              onclick,
-            );
-        }
+        imageView = new ImageView(target, options, videoCache);
+        imageView.startLoading(onload, _onLoadEnd);
       }, options.animationSpeed + 100);
     },
     _onStart = (): void => {

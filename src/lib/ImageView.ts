@@ -38,21 +38,34 @@ export class ImageView {
   private readonly imageElement: JQuery;
   private swipeStart: number;
   private swipeDiff: number;
+  private readonly isVideo: boolean;
+  private readonly isVideoPreloaded: boolean | undefined;
 
   private readonly options: ILBOptions;
   private readonly videoCache: VideoCache;
 
   public constructor(
-    imageElement: JQuery,
+    image: JQuery,
     options: ILBOptions,
     videoCache: VideoCache,
   ) {
-    this.imageElement = imageElement;
     this.options = options;
     this.videoCache = videoCache;
 
     this.swipeStart = 0;
     this.swipeDiff = 0;
+
+    this.isVideo = image.data("ilb2Video") !== undefined;
+    if (this.isVideo) {
+      [this.imageElement, this.isVideoPreloaded] = videoCache.getVideoElement(
+        image.data("ilb2VideoId") as string,
+      );
+    } else {
+      this.imageElement = $('<img id="ilb-image" />').attr(
+        "src",
+        image.attr("href")!,
+      );
+    }
   }
 
   public temp_getImage(): JQuery {
@@ -69,16 +82,21 @@ export class ImageView {
     callback();
   }
 
-  public startLoading(callback: () => void): void {
-    // TODO .on("error.ilb7")
-    this.imageElement
-      .on("load.ilb7", callback)
-      .on("loadedmetadata.ilb7", callback);
+  public startLoading(onload: () => void, onerror: () => void): void {
+    this.imageElement.on("error.ilb7", onerror);
+    if (this.isVideoPreloaded === true) {
+      onload();
+    } else {
+      this.imageElement
+        .on("load.ilb7", onload)
+        .on("loadedmetadata.ilb7", onload);
+    }
   }
 
   public transitionIn(
     transitionDirection: TransitionDirection,
     callback: () => void,
+    onclick: (e: BaseJQueryEventObject) => void,
     previousImage: () => void,
     nextImage: () => void,
   ): void {
@@ -98,7 +116,7 @@ export class ImageView {
       { opacity: 1 },
       this.options.animationSpeed,
       () => {
-        this.onready(callback, previousImage, nextImage);
+        this.onready(callback, onclick, previousImage, nextImage);
       },
     );
   }
@@ -176,9 +194,16 @@ export class ImageView {
 
   private onready(
     callback: () => void,
+    onclick: (e: BaseJQueryEventObject) => void,
     previousImage: () => void,
     nextImage: () => void,
   ): void {
+    if (!this.isVideo) {
+      this.imageElement.on(
+        hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
+        onclick,
+      );
+    }
     this.imageElement
       .on(
         "touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7",
