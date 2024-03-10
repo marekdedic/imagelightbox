@@ -2,7 +2,6 @@ import "./imagelightbox.css";
 
 import $ from "jquery";
 
-import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
   removeContainerFromDOM,
@@ -173,9 +172,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             _loadImage(direction);
           },
         );
-      }
-      if (options.button) {
-        addCloseButtonToDOM(temp_getContainer(), _quitImageLightbox);
       }
     },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
