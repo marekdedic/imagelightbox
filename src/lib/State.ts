@@ -4,6 +4,7 @@ import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
+import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCaptionToDOM, setCaption } from "./caption";
 import { addOverlayToDOM } from "./overlay";
 
@@ -72,6 +73,17 @@ export class State {
   }
 
   public openLightbox(index: number, container: JQuery): void {
+    if (this.options.arrows) {
+      addArrowsToDOM(
+        container,
+        () => {
+          this.previousImage(container);
+        },
+        () => {
+          this.nextImage(container);
+        },
+      );
+    }
     if (this.options.caption) {
       addCaptionToDOM(container);
     }
@@ -152,5 +164,6 @@ export class State {
 
   private endTransition(): void {
     removeActivityIndicatorFromDOM();
+    showArrows();
   }
 }
