@@ -109,6 +109,6 @@ export function popHistory(
   if (newIndex > currentIndex) {
     direction = TransitionDirection.Right;
   }
-  state.changeImage(newIndex, temp_getContainer());
+  state.changeImage(newIndex, direction, temp_getContainer());
   updateState(element, newIndex, direction);
 }

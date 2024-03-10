@@ -7,9 +7,11 @@ import {
 import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCaptionToDOM, setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
+import { removeContainerFromDOM, triggerContainerEvent } from "./container";
+import { ImageView } from "./ImageView";
 import { addNavigationToDOM } from "./navigation";
 import { addOverlayToDOM } from "./overlay";
-import type { TransitionDirection } from "./TransitionDirection";
+import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
 /**
@@ -38,6 +40,9 @@ export class State {
   // The index of the currently open image, or null if the lightbox is closed
   private currentImage: number | null;
 
+  // The currently displayed image view
+  private currentImageView: ImageView | null;
+
   // Whether the lighbox is currently transitioning between images
   //private inTransition: boolean;
 
@@ -47,6 +52,7 @@ export class State {
     this.images = $();
     this.videoCache = new VideoCache();
     this.currentImage = null;
+    this.currentImageView = null;
     //this.inTransition = true; // TODO: Really?
 
     this.addImages(images);
@@ -54,6 +60,10 @@ export class State {
 
   public getSet(): string {
     return this.set;
+  }
+
+  public temp_getImageView(): ImageView | null {
+    return this.currentImageView;
   }
 
   public temp_getVideoCache(): VideoCache {
@@ -86,6 +96,9 @@ export class State {
   }
 
   public openLightbox(index: number, container: JQuery): void {
+    if (this.options.activity) {
+      addActivityIndicatorToDOM(container);
+    }
     if (this.options.arrows) {
       addArrowsToDOM(
         container,
@@ -102,7 +115,7 @@ export class State {
     }
     if (this.options.button) {
       addCloseButtonToDOM(container, () => {
-        this.closeLightbox();
+        this.closeLightbox(container);
       });
     }
     if (this.options.navigation) {
@@ -110,8 +123,8 @@ export class State {
         container,
         () => this.images,
         () => this.currentImage!,
-        (newIndex: number, _direction: TransitionDirection) => {
-          this.changeImage(newIndex, container);
+        (newIndex: number, direction: TransitionDirection) => {
+          this.changeImage(newIndex, direction, container);
         },
       );
     }
@@ -119,18 +132,19 @@ export class State {
       addOverlayToDOM(container);
     }
 
-    this.startTransition(index, container);
+    this.startLoadingNewImage(index, TransitionDirection.None, container);
   }
 
-  public closeLightbox(): void {
-    this.currentImage = null;
-  }
-
-  public changeImage(index: number, container: JQuery): void {
-    if (this.currentImage === null) {
-      return;
+  public closeLightbox(container: JQuery): void {
+    if (this.options.activity) {
+      addActivityIndicatorToDOM(container);
     }
-    this.startTransition(index, container);
+
+    this.transitionOutOldImage(TransitionDirection.None, () => {
+      this.currentImage = null;
+      this.currentImageView = null;
+      removeContainerFromDOM();
+    });
   }
 
   public previousImage(container: JQuery): void {
@@ -140,12 +154,20 @@ export class State {
 
     if (this.currentImage === 0) {
       if (this.options.quitOnEnd) {
-        this.closeLightbox();
+        this.closeLightbox(container);
       } else {
-        this.changeImage(this.images.length - 1, container);
+        this.changeImage(
+          this.images.length - 1,
+          TransitionDirection.Left,
+          container,
+        );
       }
     } else {
-      this.changeImage(this.currentImage - 1, container);
+      this.changeImage(
+        this.currentImage - 1,
+        TransitionDirection.Left,
+        container,
+      );
     }
   }
 
@@ -156,41 +178,114 @@ export class State {
 
     if (this.currentImage === this.images.length - 1) {
       if (this.options.quitOnEnd) {
-        this.closeLightbox();
+        this.closeLightbox(container);
       } else {
-        this.changeImage(0, container);
+        this.changeImage(0, TransitionDirection.Right, container);
       }
     } else {
-      this.changeImage(this.currentImage + 1, container);
+      this.changeImage(
+        this.currentImage + 1,
+        TransitionDirection.Right,
+        container,
+      );
     }
   }
 
-  private startTransition(index: number, container: JQuery): void {
-    // TODO: Maybe only do this later?
-    this.currentImage = index;
+  public changeImage(
+    index: number,
+    transitionDirection: TransitionDirection,
+    container: JQuery,
+  ): void {
+    if (this.currentImage === null) {
+      return;
+    }
 
     if (this.options.activity) {
       addActivityIndicatorToDOM(container);
     }
 
-    // TODO: Only call these later
-    this.removeOldImage();
-    this.addNewImage();
+    this.transitionOutOldImage(transitionDirection);
+    this.startLoadingNewImage(index, transitionDirection, container);
   }
 
-  private removeOldImage(): void {}
+  // Transition functions
 
-  private addNewImage(): void {
-    const image = this.images.get(this.currentImage!)!;
-    setCaption(
-      image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+  private transitionOutOldImage(
+    transitionDirection: TransitionDirection,
+    callback?: () => void,
+  ): void {
+    const oldImageView = this.currentImageView!;
+    oldImageView.transitionOut(transitionDirection, () => {
+      oldImageView.removeFromDOM();
+      callback?.();
+    });
+  }
+
+  private startLoadingNewImage(
+    newIndex: number,
+    transitionDirection: TransitionDirection,
+    container: JQuery,
+  ): void {
+    const newImageView = new ImageView(
+      this.images.eq(newIndex),
+      this.options,
+      this.videoCache,
     );
-
-    // TODO: Only call this later
-    this.endTransition();
+    newImageView.startLoading(
+      () => {
+        this.currentImage = newIndex;
+        this.currentImageView = newImageView;
+        this.addNewImage(transitionDirection, container);
+      },
+      () => {
+        this.endTransitionIn();
+      },
+    );
   }
 
-  private endTransition(): void {
+  private addNewImage(
+    transitionDirection: TransitionDirection,
+    container: JQuery,
+  ): void {
+    this.currentImageView?.addToDOM(container, () => {
+      const image = this.images.get(this.currentImage!)!;
+      setCaption(
+        image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+      );
+      this.transitionInNewImage(transitionDirection, container);
+      if (
+        this.options.preloadNext &&
+        this.currentImage! + 1 < this.images.length
+      ) {
+        const nextImage = this.images.eq(this.currentImage! + 1);
+        $("<img />").attr("src", nextImage.attr("href")!);
+      }
+      triggerContainerEvent("loaded.ilb2");
+    });
+  }
+
+  private transitionInNewImage(
+    transitionDirection: TransitionDirection,
+    container: JQuery,
+  ): void {
+    this.currentImageView?.transitionIn(
+      transitionDirection,
+      () => {
+        this.endTransitionIn();
+      },
+      () => {
+        this.previousImage(container);
+      },
+      () => {
+        this.nextImage(container);
+      },
+      () => {
+        this.closeLightbox(container);
+      },
+    );
+  }
+
+  private endTransitionIn(): void {
     removeActivityIndicatorFromDOM();
     showArrows();
   }
