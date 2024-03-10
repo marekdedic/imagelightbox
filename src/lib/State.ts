@@ -10,6 +10,7 @@ import { addCloseButtonToDOM } from "./close-button";
 import { addNavigationToDOM } from "./navigation";
 import { addOverlayToDOM } from "./overlay";
 import type { TransitionDirection } from "./TransitionDirection";
+import { VideoCache } from "./VideoCache";
 
 /**
  * The lightbox state.
@@ -31,6 +32,9 @@ export class State {
   // The clickable images in the lightbox
   private images: JQuery;
 
+  // Cached preloaded videos
+  private readonly videoCache: VideoCache;
+
   // The index of the currently open image, or null if the lightbox is closed
   private currentImage: number | null;
 
@@ -41,6 +45,7 @@ export class State {
     this.options = options;
     this.set = set;
     this.images = $();
+    this.videoCache = new VideoCache();
     this.currentImage = null;
     //this.inTransition = true; // TODO: Really?
 
@@ -51,8 +56,12 @@ export class State {
     return this.set;
   }
 
+  public temp_getVideoCache(): VideoCache {
+    return this.videoCache;
+  }
+
   public addImages(images: JQuery): void {
-    images
+    const validImages = images
       .filter(
         (_, element): boolean =>
           element.tagName.toLowerCase() === "a" &&
@@ -64,7 +73,8 @@ export class State {
       .each((_, element): void => {
         this.images = this.images.add(element);
       });
-    this.images = images;
+    this.videoCache.addVideos(validImages);
+    this.images.add(validImages);
   }
 
   public openLightboxWithImage(image: JQuery, container: JQuery): void {
