@@ -2,10 +2,6 @@ import "./imagelightbox.css";
 
 import $ from "jquery";
 
-import {
-  addActivityIndicatorToDOM,
-  removeActivityIndicatorFromDOM,
-} from "./activity-indicator";
 import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
 import {
@@ -84,21 +80,13 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         removeContainerFromDOM();
       });
     },
-    _onLoadStart = (): void => {
-      if (options.activity) {
-        addActivityIndicatorToDOM(temp_getContainer());
-      }
-    },
     _onLoadEnd = (): void => {
-      if (options.activity) {
-        removeActivityIndicatorFromDOM();
-      }
       if (options.arrows) {
         showArrows();
       }
     },
     _previousTarget = (): void => {
-      state.previousImage();
+      state.previousImage(temp_getContainer());
       if (inProgress) {
         return;
       }
@@ -121,7 +109,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       _loadImage(TransitionDirection.Left);
     },
     _nextTarget = (): void => {
-      state.nextImage();
+      state.nextImage(temp_getContainer());
       if (inProgress) {
         return;
       }
@@ -153,7 +141,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       });
 
       inProgress = true;
-      _onLoadStart();
 
       setTimeout((): void => {
         function onload(): void {

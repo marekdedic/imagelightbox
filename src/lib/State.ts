@@ -1,5 +1,9 @@
 import $ from "jquery";
 
+import {
+  addActivityIndicatorToDOM,
+  removeActivityIndicatorFromDOM,
+} from "./activity-indicator";
 import { addCaptionToDOM, setCaption } from "./caption";
 import { addOverlayToDOM } from "./overlay";
 
@@ -75,21 +79,21 @@ export class State {
       addOverlayToDOM(container);
     }
 
-    this.startTransition(index);
+    this.startTransition(index, container);
   }
 
   public closeLightbox(): void {
     this.currentImage = null;
   }
 
-  public changeImage(index: number): void {
+  public changeImage(index: number, container: JQuery): void {
     if (this.currentImage === null) {
       return;
     }
-    this.startTransition(index);
+    this.startTransition(index, container);
   }
 
-  public previousImage(): void {
+  public previousImage(container: JQuery): void {
     if (this.currentImage === null) {
       return;
     }
@@ -98,14 +102,14 @@ export class State {
       if (this.options.quitOnEnd) {
         this.closeLightbox();
       } else {
-        this.changeImage(this.images.length - 1);
+        this.changeImage(this.images.length - 1, container);
       }
     } else {
-      this.changeImage(this.currentImage - 1);
+      this.changeImage(this.currentImage - 1, container);
     }
   }
 
-  public nextImage(): void {
+  public nextImage(container: JQuery): void {
     if (this.currentImage === null) {
       return;
     }
@@ -114,15 +118,20 @@ export class State {
       if (this.options.quitOnEnd) {
         this.closeLightbox();
       } else {
-        this.changeImage(0);
+        this.changeImage(0, container);
       }
     } else {
-      this.changeImage(this.currentImage + 1);
+      this.changeImage(this.currentImage + 1, container);
     }
   }
 
-  private startTransition(index: number): void {
+  private startTransition(index: number, container: JQuery): void {
+    // TODO: Maybe only do this later?
     this.currentImage = index;
+
+    if (this.options.activity) {
+      addActivityIndicatorToDOM(container);
+    }
 
     // TODO: Only call these later
     this.removeOldImage();
@@ -141,5 +150,7 @@ export class State {
     this.endTransition();
   }
 
-  private endTransition(): void {}
+  private endTransition(): void {
+    removeActivityIndicatorFromDOM();
+  }
 }
