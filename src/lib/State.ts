@@ -6,6 +6,7 @@ import {
 } from "./activity-indicator";
 import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCaptionToDOM, setCaption } from "./caption";
+import { addCloseButtonToDOM } from "./close-button";
 import { addOverlayToDOM } from "./overlay";
 
 /**
@@ -86,6 +87,11 @@ export class State {
     }
     if (this.options.caption) {
       addCaptionToDOM(container);
+    }
+    if (this.options.button) {
+      addCloseButtonToDOM(container, () => {
+        this.closeLightbox();
+      });
     }
     if (this.options.overlay) {
       addOverlayToDOM(container);
