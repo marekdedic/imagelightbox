@@ -2,7 +2,6 @@ import "./imagelightbox.css";
 
 import $ from "jquery";
 
-import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
@@ -80,11 +79,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         removeContainerFromDOM();
       });
     },
-    _onLoadEnd = (): void => {
-      if (options.arrows) {
-        showArrows();
-      }
-    },
     _previousTarget = (): void => {
       state.previousImage(temp_getContainer());
       if (inProgress) {
@@ -149,7 +143,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
               direction,
               () => {
                 inProgress = false;
-                _onLoadEnd();
               },
               _previousTarget,
               _nextTarget,
@@ -166,13 +159,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           });
         }
         imageView = new ImageView(target, options, videoCache);
-        imageView.startLoading(onload, _onLoadEnd);
+        imageView.startLoading(onload, () => {});
       }, options.animationSpeed + 100);
     },
     _onStart = (): void => {
-      if (options.arrows) {
-        addArrowsToDOM(temp_getContainer(), _previousTarget, _nextTarget);
-      }
       if (options.navigation) {
         addNavigationToDOM(
           temp_getContainer(),
