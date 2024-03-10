@@ -17,7 +17,6 @@ import {
 import { ImageView } from "./ImageView";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
-import { VideoCache } from "./VideoCache";
 
 const hasTouch = "ontouchstart" in window;
 const legacyDocument = document as LegacyDocument;
@@ -58,7 +57,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let target = $(); // targets.eq(targetIndex)
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
-  const videoCache = new VideoCache();
   const _removeImage = (): void => {
       imageView?.removeFromDOM();
       imageView = null;
@@ -156,7 +154,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
             triggerContainerEvent("loaded.ilb2");
           });
         }
-        imageView = new ImageView(target, options, videoCache);
+        imageView = new ImageView(target, options, state.temp_getVideoCache());
         imageView.startLoading(onload, () => {});
       }, options.animationSpeed + 100);
     },
@@ -300,7 +298,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   this.addToImageLightbox = (elements: JQuery): void => {
     state.addImages(elements);
     _addTargets(elements);
-    videoCache.addVideos(elements);
   };
 
   this.addToImageLightbox($(this));
