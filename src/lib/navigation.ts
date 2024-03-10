@@ -15,7 +15,7 @@ export function addNavigationToDOM(
   container: JQuery,
   images: () => JQuery,
   currentIndex: () => number,
-  navigate: (target: JQuery, direction: TransitionDirection) => void,
+  navigate: (newIndex: number, direction: TransitionDirection) => void,
 ): void {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
   for (let i = 0; i < images().length; i++) {
@@ -46,12 +46,11 @@ export function addNavigationToDOM(
       ) {
         return;
       }
-      const newTarget = images().eq($this.index());
       const loadDirection =
         $this.index() < currentIndex()
           ? TransitionDirection.Left
           : TransitionDirection.Right;
-      navigate(newTarget, loadDirection);
+      navigate($this.index(), loadDirection);
       $this
         .addClass("ilb-navigation-active")
         .siblings()

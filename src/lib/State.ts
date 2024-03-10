@@ -7,7 +7,9 @@ import {
 import { addArrowsToDOM, showArrows } from "./arrows";
 import { addCaptionToDOM, setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
+import { addNavigationToDOM } from "./navigation";
 import { addOverlayToDOM } from "./overlay";
+import type { TransitionDirection } from "./TransitionDirection";
 
 /**
  * The lightbox state.
@@ -92,6 +94,16 @@ export class State {
       addCloseButtonToDOM(container, () => {
         this.closeLightbox();
       });
+    }
+    if (this.options.navigation) {
+      addNavigationToDOM(
+        container,
+        () => this.images,
+        () => this.currentImage!,
+        (newIndex: number, _direction: TransitionDirection) => {
+          this.changeImage(newIndex, container);
+        },
+      );
     }
     if (this.options.overlay) {
       addOverlayToDOM(container);

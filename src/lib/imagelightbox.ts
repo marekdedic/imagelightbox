@@ -15,7 +15,6 @@ import {
   pushToHistory,
 } from "./history";
 import { ImageView } from "./ImageView";
-import { addNavigationToDOM } from "./navigation";
 import { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
@@ -161,19 +160,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         imageView.startLoading(onload, () => {});
       }, options.animationSpeed + 100);
     },
-    _onStart = (): void => {
-      if (options.navigation) {
-        addNavigationToDOM(
-          temp_getContainer(),
-          () => targets,
-          () => targets.index(target),
-          (newTarget: JQuery, direction: TransitionDirection) => {
-            target = newTarget;
-            _loadImage(direction);
-          },
-        );
-      }
-    },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
       state.openLightboxWithImage($target, temp_getContainer());
       if (inProgress) {
@@ -185,7 +171,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (!noHistory && options.history) {
         pushToHistory(targets, targetIndex);
       }
-      _onStart();
       addContainerToDOM();
       $("body").addClass("ilb-open");
       triggerContainerEvent("start.ilb2", $target);
