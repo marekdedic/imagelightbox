@@ -52,10 +52,6 @@ export class State {
   // The currently displayed image view
   private currentImageView: ImageView | null;
 
-  // TODO
-  // Whether the lighbox is currently transitioning between images
-  //private inTransition: boolean;
-
   public constructor(
     options: ILBOptions,
     set: string | undefined,
@@ -68,7 +64,6 @@ export class State {
     this.container = getContainer();
     this.currentImage = null;
     this.currentImageView = null;
-    //this.inTransition = true; // TODO: Really?
 
     this.addImages(images);
 
