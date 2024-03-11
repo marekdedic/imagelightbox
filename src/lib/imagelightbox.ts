@@ -3,11 +3,6 @@ import "./imagelightbox.css";
 import $ from "jquery";
 
 import {
-  addContainerToDOM,
-  temp_getContainer,
-  triggerContainerEvent,
-} from "./container";
-import {
   openHistory,
   popHistory,
   pushQuitToHistory,
@@ -55,16 +50,15 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
   const _quitImageLightbox = (noHistory = false): void => {
-      state.closeLightbox(temp_getContainer());
+      state.closeLightbox();
       targetIndex = -1;
       if (!noHistory && options.history) {
         pushQuitToHistory();
       }
-      triggerContainerEvent("quit.ilb2");
       $("body").removeClass("ilb-open");
     },
     _previousTarget = (): void => {
-      state.previousImage(temp_getContainer());
+      state.previousImage();
       if (inProgress) {
         return;
       }
@@ -82,10 +76,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (options.history) {
         pushToHistory(targets, targetIndex);
       }
-      triggerContainerEvent("previous.ilb2", target);
     },
     _nextTarget = (): void => {
-      state.nextImage(temp_getContainer());
+      state.nextImage();
       if (inProgress) {
         return;
       }
@@ -103,10 +96,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         pushToHistory(targets, targetIndex);
       }
       target = targets.eq(targetIndex);
-      triggerContainerEvent("next.ilb2", target);
     },
     _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
-      state.openLightboxWithImage($target, temp_getContainer());
+      state.openLightboxWithImage($target);
       if (inProgress) {
         return;
       }
@@ -116,9 +108,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       if (!noHistory && options.history) {
         pushToHistory(targets, targetIndex);
       }
-      addContainerToDOM();
       $("body").addClass("ilb-open");
-      triggerContainerEvent("start.ilb2", $target);
     },
     isTargetValid = (element: JQuery): boolean =>
       (($(element).prop("tagName") as string).toLowerCase() === "a" &&
