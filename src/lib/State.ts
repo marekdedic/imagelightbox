@@ -95,10 +95,6 @@ export class State {
     return this.currentImageView;
   }
 
-  public temp_getVideoCache(): VideoCache {
-    return this.videoCache;
-  }
-
   public addImages(images: JQuery): void {
     const validImages = images.filter(
       (_, element): boolean =>
