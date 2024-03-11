@@ -13,6 +13,7 @@ import {
   removeContainerFromDOM,
   triggerContainerEvent,
 } from "./container";
+import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
 import { addNavigationToDOM } from "./navigation";
 import { addOverlayToDOM } from "./overlay";
@@ -34,7 +35,7 @@ export class State {
   private readonly options: ILBOptions;
 
   // The value of data-imagelightbox on the images
-  private readonly set: string;
+  private readonly set: string | undefined;
 
   // The clickable images in the lightbox
   private images: JQuery;
@@ -54,7 +55,11 @@ export class State {
   // Whether the lighbox is currently transitioning between images
   //private inTransition: boolean;
 
-  public constructor(options: ILBOptions, set: string, images: JQuery) {
+  public constructor(
+    options: ILBOptions,
+    set: string | undefined,
+    images: JQuery,
+  ) {
     this.options = options;
     this.set = set;
     this.images = $();
@@ -65,10 +70,24 @@ export class State {
     //this.inTransition = true; // TODO: Really?
 
     this.addImages(images);
+
+    if (this.options.history) {
+      $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
+        popHistory(event, this);
+      });
+    }
   }
 
-  public getSet(): string {
+  public getSet(): string | undefined {
     return this.set;
+  }
+
+  public getImages(): JQuery {
+    return this.images;
+  }
+
+  public getCurrentIndex(): number | null {
+    return this.currentImage;
   }
 
   public temp_getImageView(): ImageView | null {
@@ -104,7 +123,7 @@ export class State {
     this.openLightbox(index);
   }
 
-  public openLightbox(index: number): void {
+  public openLightbox(index: number, skipHistory = false): void {
     addContainerToDOM();
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
@@ -142,13 +161,21 @@ export class State {
       addOverlayToDOM(this.container);
     }
 
+    if (this.options.history && !skipHistory) {
+      pushToHistory(index, this);
+    }
+
     triggerContainerEvent("start.ilb2", this.images.eq(index));
     this.startLoadingNewImage(index, TransitionDirection.None);
   }
 
-  public closeLightbox(): void {
+  public closeLightbox(skipHistory = false): void {
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
+    }
+
+    if (this.options.history && !skipHistory) {
+      pushQuitToHistory();
     }
 
     triggerContainerEvent("quit.ilb2");
@@ -199,9 +226,14 @@ export class State {
   public changeImage(
     index: number,
     transitionDirection: TransitionDirection,
+    skipHistory = false,
   ): void {
     if (this.currentImage === null) {
       return;
+    }
+
+    if (this.options.history && !skipHistory) {
+      pushToHistory(index, this);
     }
 
     if (this.options.activity) {

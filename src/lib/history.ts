@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import type { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
@@ -13,101 +11,72 @@ export function pushQuitToHistory(): void {
   window.history.pushState({}, "", document.location.pathname + newQuery);
 }
 
-export function pushToHistory(images: JQuery, index: number): void {
-  const newIndex = images[index].dataset.ilb2Id ?? index.toString();
-  const newState = {
+export function pushToHistory(index: number, state: State): void {
+  const newIndex = state.getImages()[index].dataset.ilb2Id ?? index.toString();
+  const newHistoryState = {
     imageLightboxIndex: newIndex,
     imageLightboxSet: "",
   };
-  const set = images[index].dataset.imagelightbox;
   let newQuery = addQueryField(
     document.location.search,
     "imageLightboxIndex",
     newIndex,
   );
+  const set = state.getSet();
   if (set !== undefined) {
-    newState.imageLightboxSet = set;
+    newHistoryState.imageLightboxSet = set;
     newQuery = addQueryField(newQuery, "imageLightboxSet", set);
   }
-  window.history.pushState(newState, "", document.location.pathname + newQuery);
+  window.history.pushState(
+    newHistoryState,
+    "",
+    document.location.pathname + newQuery,
+  );
 }
 
-export function openHistory(
-  images: JQuery,
-  state: State,
-  setTargetIndex: (index: number) => void,
-  openLightbox: (element: JQuery, noHistory: boolean) => void,
-): void {
+export function openHistory(state: State): void {
   const id = getQueryField("imageLightboxIndex");
   if (id === undefined) {
     return;
   }
-  let element = images.filter('[data-ilb2-id="' + id + '"]');
-  let targetIndex = 0;
-  if (element.length > 0) {
-    state.openLightboxWithImage(element);
-    targetIndex = images.index(element);
-  } else {
-    state.openLightbox(parseInt(id));
-    targetIndex = parseInt(id);
-    element = $(images[targetIndex]);
+  let newIndex = state.getImages().index('[data-ilb2-id="' + id + '"]');
+  if (newIndex < 0) {
+    newIndex = parseInt(id);
   }
-  setTargetIndex(targetIndex);
-  const set = getQueryField("imageLightboxSet");
-  if (
-    element.length === 0 ||
-    (set !== undefined && set !== element[0].dataset.imagelightbox)
-  ) {
+  if (getQueryField("imageLightboxSet") !== state.getSet()) {
     return;
   }
-  openLightbox(element, true);
+  state.openLightbox(newIndex, true);
 }
 
-export function popHistory(
-  event: BaseJQueryEventObject,
-  images: JQuery,
-  state: State,
-  currentIndex: number,
-  openLightbox: (image: JQuery, noHistory: boolean) => void,
-  quitLightbox: (noHistory: boolean) => void,
-  updateState: (
-    newTarget: JQuery,
-    newIndex: number,
-    transitionDirection: TransitionDirection,
-  ) => void,
-): void {
-  const newState = (event.originalEvent as PopStateEvent).state as
+export function popHistory(event: BaseJQueryEventObject, state: State): void {
+  const newHistoryState = (event.originalEvent as PopStateEvent).state as
     | { imageLightboxIndex?: string; imageLightboxSet?: string }
     | undefined;
-  if (!newState) {
-    quitLightbox(true);
+  if (!newHistoryState) {
+    state.closeLightbox(true);
     return;
   }
-  const newId = newState.imageLightboxIndex;
+  const newId = newHistoryState.imageLightboxIndex;
   if (newId === undefined) {
-    quitLightbox(true);
+    state.closeLightbox(true);
     return;
   }
-  if (newState.imageLightboxSet !== state.getSet()) {
+  if (newHistoryState.imageLightboxSet !== state.getSet()) {
     return;
   }
-  let element = images.filter('[data-ilb2-id="' + newId + '"]');
-  if (element.length === 0) {
-    const rawElement = images.get(parseInt(newId));
-    if (rawElement === undefined) {
-      return;
-    }
-    element = $(rawElement);
+  let newIndex = state.getImages().index('[data-ilb2-id="' + newId + '"]');
+  if (newIndex < 0) {
+    newIndex = parseInt(newId);
   }
-  if (currentIndex < 0) {
-    openLightbox(element, true);
+  const currentIndex = state.getCurrentIndex();
+  if (currentIndex === null) {
+    state.openLightbox(newIndex, true);
     return;
   }
-  const newIndex = images.index(element);
-  let direction = TransitionDirection.Left;
-  if (newIndex > currentIndex) {
-    direction = TransitionDirection.Right;
-  }
-  state.changeImage(newIndex, direction);
-  updateState(element, newIndex, direction);
+  const direction =
+    newIndex > currentIndex
+      ? TransitionDirection.Right
+      : TransitionDirection.Left;
+  state.changeImage(newIndex, direction, true);
 }
