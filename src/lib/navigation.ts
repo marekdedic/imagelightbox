@@ -12,19 +12,23 @@ const navigation = $("<div/>", {
   class: "ilb-navigation",
 });
 
-export function addNavigationToDOM(state: State, container: JQuery): void {
-  navigation.empty();
+export function addNavigationItems(images: JQuery): void {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
-  for (let i = 0; i < state.getImages().length; i++) {
+  for (let i = 0; i < images.length; i++) {
     navigation.append(navigationItemTemplate.clone());
   }
-  const navigationItems = navigation.children("a");
-  navigationItems
+}
+
+export function addNavigationToDOM(state: State, container: JQuery): void {
+  navigation.empty();
+  addNavigationItems(state.getImages());
+  navigation
+    .children("a")
     .eq(state.getCurrentIndex()!)
     .addClass("ilb-navigation-active");
 
   container.on("previous.ilb2 next.ilb2", (_, image: JQuery): void => {
-    navigationItems
+    $(".ilb-navigation a")
       .removeClass("ilb-navigation-active")
       .eq(state.getImages().index(image))
       .addClass("ilb-navigation-active");
