@@ -6,7 +6,6 @@ const isTest: boolean = typeof TEST !== "undefined" ? TEST : false;
 jQuery(($) => {
   $('a[data-imagelightbox="a"]').imageLightbox({
     activity: true,
-    ...(isTest && { animationSpeed: 0 }),
   });
 
   $('a[data-imagelightbox="allowedtypes"]').imageLightbox({
