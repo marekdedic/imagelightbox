@@ -137,11 +137,11 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     return this;
   };
 
-  this.startImageLightbox = function (element?: JQuery): void {
-    if (element) {
-      element.trigger("click.ilb7");
+  this.startImageLightbox = (image?: JQuery): void => {
+    if (image !== undefined) {
+      state.openLightboxWithImage(image);
     } else {
-      $(this).trigger("click.ilb7");
+      state.openLightbox(0);
     }
   };
 
