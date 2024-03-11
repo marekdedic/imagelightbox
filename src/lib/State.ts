@@ -15,7 +15,7 @@ import {
 } from "./container";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
-import { addNavigationToDOM } from "./navigation";
+import { addNavigationItems, addNavigationToDOM } from "./navigation";
 import { addOverlayToDOM } from "./overlay";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
@@ -91,21 +91,23 @@ export class State {
   }
 
   public addImages(images: JQuery): void {
-    // TODO: Update everything that uses State.getImages()
-    const validImages = images.filter(
-      (_, element): boolean =>
-        element.tagName.toLowerCase() === "a" &&
-        (new RegExp(".(" + this.options.allowedTypes + ")$", "i").test(
-          (element as HTMLAnchorElement).href,
-        ) ||
-          element.dataset.ilb2Video !== undefined),
-    );
+    const validImages = images
+      .not(this.images)
+      .filter(
+        (_, element): boolean =>
+          element.tagName.toLowerCase() === "a" &&
+          (new RegExp(".(" + this.options.allowedTypes + ")$", "i").test(
+            (element as HTMLAnchorElement).href,
+          ) ||
+            element.dataset.ilb2Video !== undefined),
+      );
     this.videoCache.addVideos(validImages);
     this.images = this.images.add(validImages);
     validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
       event.preventDefault();
       this.openLightboxWithImage($(event.delegateTarget as HTMLElement));
     });
+    addNavigationItems(validImages);
   }
 
   public openLightboxWithImage(image: JQuery): void {
