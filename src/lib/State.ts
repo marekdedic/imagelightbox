@@ -52,6 +52,7 @@ export class State {
   // The currently displayed image view
   private currentImageView: ImageView | null;
 
+  // TODO
   // Whether the lighbox is currently transitioning between images
   //private inTransition: boolean;
 
@@ -99,20 +100,20 @@ export class State {
   }
 
   public addImages(images: JQuery): void {
-    const validImages = images
-      .filter(
-        (_, element): boolean =>
-          element.tagName.toLowerCase() === "a" &&
-          (new RegExp(".(" + this.options.allowedTypes + ")$", "i").test(
-            (element as HTMLAnchorElement).href,
-          ) ||
-            element.dataset.ilb2Video !== undefined),
-      )
-      .each((_, element): void => {
-        this.images = this.images.add(element);
-      });
+    const validImages = images.filter(
+      (_, element): boolean =>
+        element.tagName.toLowerCase() === "a" &&
+        (new RegExp(".(" + this.options.allowedTypes + ")$", "i").test(
+          (element as HTMLAnchorElement).href,
+        ) ||
+          element.dataset.ilb2Video !== undefined),
+    );
     this.videoCache.addVideos(validImages);
-    this.images.add(validImages);
+    this.images = this.images.add(validImages);
+    validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
+      event.preventDefault();
+      this.openLightboxWithImage($(event.delegateTarget as HTMLElement));
+    });
   }
 
   public openLightboxWithImage(image: JQuery): void {
