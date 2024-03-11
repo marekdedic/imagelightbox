@@ -91,6 +91,7 @@ export class State {
   }
 
   public addImages(images: JQuery): void {
+    // TODO: Update everything that uses State.getImages()
     const validImages = images.filter(
       (_, element): boolean =>
         element.tagName.toLowerCase() === "a" &&
@@ -141,14 +142,7 @@ export class State {
       });
     }
     if (this.options.navigation) {
-      addNavigationToDOM(
-        this.container,
-        () => this.images,
-        () => this.currentImage!,
-        (newIndex: number, direction: TransitionDirection) => {
-          this.changeImage(newIndex, direction);
-        },
-      );
+      addNavigationToDOM(this, this.container);
     }
     if (this.options.overlay) {
       addOverlayToDOM(this.container);
