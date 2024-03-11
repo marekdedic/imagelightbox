@@ -1,6 +1,5 @@
 import $ from "jquery";
 
-import { temp_getContainer } from "./container";
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import type { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
@@ -46,10 +45,10 @@ export function openHistory(
   let element = images.filter('[data-ilb2-id="' + id + '"]');
   let targetIndex = 0;
   if (element.length > 0) {
-    state.openLightboxWithImage(element, temp_getContainer());
+    state.openLightboxWithImage(element);
     targetIndex = images.index(element);
   } else {
-    state.openLightbox(parseInt(id), temp_getContainer());
+    state.openLightbox(parseInt(id));
     targetIndex = parseInt(id);
     element = $(images[targetIndex]);
   }
@@ -109,6 +108,6 @@ export function popHistory(
   if (newIndex > currentIndex) {
     direction = TransitionDirection.Right;
   }
-  state.changeImage(newIndex, direction, temp_getContainer());
+  state.changeImage(newIndex, direction);
   updateState(element, newIndex, direction);
 }

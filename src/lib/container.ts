@@ -16,6 +16,6 @@ export function triggerContainerEvent(event: string, element?: JQuery): void {
   container.trigger(event, element);
 }
 
-export function temp_getContainer(): JQuery {
+export function getContainer(): JQuery {
   return container;
 }
