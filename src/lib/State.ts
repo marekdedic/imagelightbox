@@ -159,6 +159,9 @@ export class State {
   }
 
   public closeLightbox(skipHistory = false): void {
+    if (this.currentImage === null) {
+      return;
+    }
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
     }

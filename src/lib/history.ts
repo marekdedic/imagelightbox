@@ -57,15 +57,18 @@ export function popHistory(event: BaseJQueryEventObject, state: State): void {
     state.closeLightbox(true);
     return;
   }
+  if (newHistoryState.imageLightboxSet !== state.getSet()) {
+    return;
+  }
   const newId = newHistoryState.imageLightboxIndex;
   if (newId === undefined) {
     state.closeLightbox(true);
     return;
   }
-  if (newHistoryState.imageLightboxSet !== state.getSet()) {
-    return;
-  }
-  let newIndex = state.getImages().index('[data-ilb2-id="' + newId + '"]');
+  let newIndex = state
+    .getImages()
+    .get()
+    .findIndex((e: HTMLElement) => e.dataset.ilb2Id === newId);
   if (newIndex < 0) {
     newIndex = parseInt(newId);
   }
