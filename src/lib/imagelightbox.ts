@@ -2,14 +2,8 @@ import "./imagelightbox.css";
 
 import $ from "jquery";
 
-import {
-  openHistory,
-  popHistory,
-  pushQuitToHistory,
-  pushToHistory,
-} from "./history";
+import { openHistory } from "./history";
 import { State } from "./State";
-import type { TransitionDirection } from "./TransitionDirection";
 
 const hasTouch = "ontouchstart" in window;
 const legacyDocument = document as LegacyDocument;
@@ -42,19 +36,16 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   );
   const state = new State(
     options,
-    $(this).data("imagelightbox") as string,
+    $(this).data("imagelightbox") as string | undefined,
     $(this),
   );
   let inProgress = false; // Whether a transition is in progress
   let target = $(); // targets.eq(targetIndex)
   let targetIndex = -1; // The index of the currently open image in its set (targets). -1 if the lightbox isn't open
   let targets: JQuery = $([]); // Clickable images
-  const _quitImageLightbox = (noHistory = false): void => {
+  const _quitImageLightbox = (): void => {
       state.closeLightbox();
       targetIndex = -1;
-      if (!noHistory && options.history) {
-        pushQuitToHistory();
-      }
       $("body").removeClass("ilb-open");
     },
     _previousTarget = (): void => {
@@ -73,9 +64,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         }
       }
       target = targets.eq(targetIndex);
-      if (options.history) {
-        pushToHistory(targets, targetIndex);
-      }
     },
     _nextTarget = (): void => {
       state.nextImage();
@@ -92,12 +80,9 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
           targetIndex = 0;
         }
       }
-      if (options.history) {
-        pushToHistory(targets, targetIndex);
-      }
       target = targets.eq(targetIndex);
     },
-    _openImageLightbox = ($target: JQuery, noHistory: boolean): void => {
+    _openImageLightbox = ($target: JQuery): void => {
       state.openLightboxWithImage($target);
       if (inProgress) {
         return;
@@ -105,9 +90,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       inProgress = false;
       target = $target;
       targetIndex = targets.index(target);
-      if (!noHistory && options.history) {
-        pushToHistory(targets, targetIndex);
-      }
       $("body").addClass("ilb-open");
     },
     isTargetValid = (element: JQuery): boolean =>
@@ -135,31 +117,10 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
         if (targets.length < 1) {
           _quitImageLightbox();
         } else {
-          _openImageLightbox($(this), false);
+          _openImageLightbox($(this));
         }
       });
     };
-
-  if (options.history) {
-    $(window).on("popstate", (event: BaseJQueryEventObject) => {
-      popHistory(
-        event,
-        targets,
-        state,
-        targetIndex,
-        _openImageLightbox,
-        _quitImageLightbox,
-        (
-          newTarget: JQuery,
-          newIndex: number,
-          _transitionDirection: TransitionDirection,
-        ) => {
-          target = newTarget;
-          targetIndex = newIndex;
-        },
-      );
-    });
-  }
 
   function toggleFullScreen(): void {
     const doc = window.document as LegacyDocument;
@@ -242,16 +203,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
   this.openHistory = (): void => {
     if (options.history) {
-      openHistory(
-        targets,
-        state,
-        (index: number) => {
-          targetIndex = index;
-        },
-        (element: JQuery, noHistory: boolean) => {
-          _openImageLightbox(element, noHistory);
-        },
-      );
+      openHistory(state);
     }
   };
 
