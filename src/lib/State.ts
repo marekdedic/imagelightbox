@@ -125,6 +125,7 @@ export class State {
   }
 
   public openLightbox(index: number, skipHistory = false): void {
+    $("body").addClass("ilb-open");
     addContainerToDOM();
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
@@ -185,6 +186,7 @@ export class State {
       this.currentImage = null;
       this.currentImageView = null;
       removeContainerFromDOM();
+      $("body").removeClass("ilb-open");
     });
   }
 
