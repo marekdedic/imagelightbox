@@ -15,6 +15,10 @@ import {
 } from "./container";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
+import {
+  addKeyboardNavigation,
+  removeKeyboardNavigation,
+} from "./keyboard-navigation";
 import { addNavigationItems, addNavigationToDOM } from "./navigation";
 import { addOverlayToDOM, darkenOverlay } from "./overlay";
 import { TransitionDirection } from "./TransitionDirection";
@@ -109,6 +113,18 @@ export class State {
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
     }
+    addKeyboardNavigation(
+      this.options,
+      () => {
+        this.closeLightbox();
+      },
+      () => {
+        this.previousImage();
+      },
+      () => {
+        this.nextImage();
+      },
+    );
     if (this.options.arrows) {
       addArrowsToDOM(
         this.container,
@@ -153,6 +169,8 @@ export class State {
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
     }
+
+    removeKeyboardNavigation();
 
     if (this.options.history && !skipHistory) {
       pushQuitToHistory();
