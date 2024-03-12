@@ -4,7 +4,7 @@ import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
-import { addArrowsToDOM, showArrows } from "./arrows";
+import { addArrowsToDOM } from "./arrows";
 import { addCaptionToDOM, setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
 import {
@@ -312,6 +312,5 @@ export class State {
 
   private endTransitionIn(): void {
     removeActivityIndicatorFromDOM();
-    showArrows();
   }
 }
