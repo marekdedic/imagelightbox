@@ -18,20 +18,20 @@ export class VideoCache {
       if (videoOptions === undefined) {
         return;
       }
-      this.videos.push(new PreloadedVideo($(element), videoOptions));
+      this.videos.push(PreloadedVideo($(element), videoOptions));
     });
   }
 
   public getVideoWidthHeight(videoId: string): [number, number] | undefined {
-    const video = this.videos.find((x) => x.id === videoId);
+    const video = this.videos.find((x) => x.id() === videoId);
     if (video === undefined) {
       return undefined;
     }
-    return video.getVideoWidthHeight();
+    return video.dimensions();
   }
 
   public getVideoElement(videoId: string): [JQuery, boolean] {
-    const video = this.videos.find((x) => x.id === videoId)!;
-    return video.getVideoElement();
+    const video = this.videos.find((x) => x.id() === videoId)!;
+    return video.element();
   }
 }

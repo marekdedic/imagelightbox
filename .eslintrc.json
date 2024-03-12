@@ -77,6 +77,10 @@
         "format": ["PascalCase"]
       },
       {
+        "selector": "function",
+        "format": ["camelCase", "PascalCase"]
+      },
+      {
         "selector": "enumMember",
         "format": ["PascalCase"]
       }
