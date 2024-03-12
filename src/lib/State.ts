@@ -20,16 +20,6 @@ import { addOverlayToDOM, darkenOverlay } from "./overlay";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
-/**
- * The lightbox state.
- *
- * The most important part of the State is managing the transition lifecycle. When transitioning between images, the lifecycle takes the following steps:
- *
- * 1. Start loading the new image and start visually transitioning the old image out (startTransition)
- * 2a. When the old image is visually transitioned out, it is removed (removeOldImage)
- * 2b. When the new image is loaded, it starts visually transitioning in (addNewImage)
- * 3. Once the new image is in the right place, the transition ends (transitionEnd)
- */
 export class State {
   // The value of data-imagelightbox on the images
   public readonly set: string | undefined;
@@ -170,7 +160,7 @@ export class State {
 
     triggerContainerEvent("quit.ilb2");
 
-    this.transitionOutOldImage(TransitionDirection.None, () => {
+    this.removeOldImage(TransitionDirection.None, () => {
       this.currentImage = null;
       this.currentImageView = null;
       removeContainerFromDOM();
@@ -230,13 +220,29 @@ export class State {
       addActivityIndicatorToDOM(this.container);
     }
 
-    this.transitionOutOldImage(transitionDirection);
+    this.removeOldImage(transitionDirection);
     this.startLoadingNewImage(index, transitionDirection);
   }
 
-  // Transition functions
+  /**
+   * The lightbox transition functions.
+   *
+   * The most important part of the State is managing the transition lifecycle. When transitioning between images, the lifecycle takes the following steps:
+   *
+   * For transitioning out an old image:
+   *
+   * 1. Start visually transitioning the old image out (slide + fade out)
+   * 2. When the image is visually gone, actually remove it from the DOM
+   *
+   * For transitioning in a new image:
+   *
+   * 1. Start loading the new image in the background (startLoadingNewImage)
+   * 2. When the new image is loaded, add it to the DOM, but keep it invisible (addNewImage)
+   * 3. After adding the image to the DOM, transition it into place - slide + fade in (transitionInNewImage)
+   * 3. Once the new image is in the right place, the transition ends (endTransitionIn)
+   */
 
-  private transitionOutOldImage(
+  private removeOldImage(
     transitionDirection: TransitionDirection,
     callback?: () => void,
   ): void {
