@@ -191,14 +191,13 @@ export class ImageView {
     previousImage: () => void,
     nextImage: () => void,
     closeLightbox: () => void,
-  ): void {
-    event.preventDefault();
+  ): boolean {
     if (this.options.quitOnImgClick) {
       closeLightbox();
-      return;
+      return false;
     }
     if (wasTouched(event.originalEvent as PointerEvent)) {
-      return;
+      return true;
     }
     const posX =
       (event.pageX || (event.originalEvent as PointerEvent).pageX) -
@@ -208,6 +207,7 @@ export class ImageView {
     } else {
       nextImage();
     }
+    return false;
   }
 
   private onready(
@@ -219,9 +219,8 @@ export class ImageView {
     if (!this.isVideo) {
       this.imageElement.on(
         hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
-        (e: BaseJQueryEventObject) => {
-          this.onclick(e, previousImage, nextImage, closeLightbox);
-        },
+        (e: BaseJQueryEventObject) =>
+          this.onclick(e, previousImage, nextImage, closeLightbox),
       );
     }
     this.imageElement
@@ -249,7 +248,6 @@ export class ImageView {
           ) {
             return;
           }
-          e.preventDefault();
           const swipeEnd =
             (e.originalEvent as PointerEvent).pageX ||
             (e.originalEvent as TouchEvent).touches[0].pageX;
@@ -263,24 +261,27 @@ export class ImageView {
       )
       .on(
         "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
-        (e): void => {
+        (e): boolean => {
           if (
             !wasTouched(e.originalEvent as PointerEvent) ||
             this.options.quitOnImgClick
           ) {
-            return;
+            return true;
           }
           if (this.swipeDiff < -50) {
             previousImage();
-          } else if (this.swipeDiff > 50) {
-            nextImage();
-          } else {
-            cssTransitionTranslateX(
-              this.imageElement,
-              "0px",
-              this.options.animationSpeed / 1000,
-            );
+            return false;
           }
+          if (this.swipeDiff > 50) {
+            nextImage();
+            return false;
+          }
+          cssTransitionTranslateX(
+            this.imageElement,
+            "0px",
+            this.options.animationSpeed / 1000,
+          );
+          return true;
         },
       );
     callback();
