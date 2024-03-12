@@ -24,218 +24,57 @@ import { addOverlayToDOM, darkenOverlay } from "./overlay";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
-export class State {
-  // The value of data-imagelightbox on the images
-  public readonly set: string | undefined;
-
-  // The lightbox options
-  private readonly options: ILBOptions;
-
-  // The clickable images in the lightbox
-  private images: JQuery;
-
-  // Cached preloaded videos
-  private readonly videoCache: VideoCache;
-
-  // The imagelightbox container element
-  private readonly container: JQuery;
-
-  // The index of the currently open image, or null if the lightbox is closed
-  private currentImage: number | null;
-
-  // The currently displayed image view
-  private currentImageView: ImageView | null;
-
-  public constructor(
-    options: ILBOptions,
-    set: string | undefined,
-    images: JQuery,
-  ) {
-    this.options = options;
-    this.set = set;
-    this.images = $();
-    this.videoCache = VideoCache();
-    this.container = getContainer();
-    this.currentImage = null;
-    this.currentImageView = null;
-
-    this.addImages(images);
-
-    if (this.options.history) {
-      $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
-        popHistory(event, this);
-      });
-    }
-  }
-
-  public getImages(): JQuery {
-    return this.images;
-  }
-
-  public getCurrentIndex(): number | null {
-    return this.currentImage;
-  }
-
-  public addImages(images: JQuery): void {
-    const validImages = images
-      .not(this.images)
-      .filter(
-        (_, element): boolean =>
-          element.tagName.toLowerCase() === "a" &&
-          (new RegExp(".(" + this.options.allowedTypes + ")$", "i").test(
-            (element as HTMLAnchorElement).href,
-          ) ||
-            element.dataset.ilb2Video !== undefined),
-      );
-    this.videoCache.add(validImages);
-    this.images = this.images.add(validImages);
-    validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
-      this.openLightboxWithImage($(event.delegateTarget as HTMLElement));
-      return false;
-    });
-    addNavigationItems(validImages);
-  }
-
-  public openLightboxWithImage(image: JQuery): void {
-    const index = this.images.index(image);
-    if (index < 0) {
-      return;
-    }
-    this.openLightbox(index);
-  }
-
-  public openLightbox(index: number, skipHistory = false): void {
-    addContainerToDOM();
-    if (this.options.activity) {
-      addActivityIndicatorToDOM(this.container);
-    }
-    addKeyboardNavigation(
-      this.options,
-      () => {
-        this.closeLightbox();
-      },
-      () => {
-        this.previousImage();
-      },
-      () => {
-        this.nextImage();
-      },
-    );
-    if (this.options.arrows) {
-      addArrowsToDOM(
-        this.container,
-        () => {
-          this.previousImage();
-        },
-        () => {
-          this.nextImage();
-        },
-      );
-    }
-    if (this.options.caption) {
-      addCaptionToDOM(this.container);
-    }
-    if (this.options.button) {
-      addCloseButtonToDOM(this.container, () => {
-        this.closeLightbox();
-      });
-    }
-    if (this.options.navigation) {
-      addNavigationToDOM(this, this.container);
-    }
-    addOverlayToDOM(this.container, this.options.quitOnDocClick, () => {
-      this.closeLightbox();
-    });
-    if (this.options.overlay) {
-      darkenOverlay();
-    }
-
-    if (this.options.history && !skipHistory) {
-      pushToHistory(index, this);
-    }
-
-    triggerContainerEvent("start.ilb2", this.images.eq(index));
-    this.startLoadingNewImage(index, TransitionDirection.None);
-  }
-
-  public closeLightbox(skipHistory = false): void {
-    if (this.currentImage === null) {
-      return;
-    }
-    if (this.options.activity) {
-      addActivityIndicatorToDOM(this.container);
-    }
-
-    removeKeyboardNavigation();
-
-    if (this.options.history && !skipHistory) {
-      pushQuitToHistory();
-    }
-
-    triggerContainerEvent("quit.ilb2");
-
-    this.removeOldImage(TransitionDirection.None, () => {
-      this.currentImage = null;
-      this.currentImageView = null;
-      removeContainerFromDOM();
-    });
-  }
-
-  public previousImage(): void {
-    if (this.currentImage === null) {
-      return;
-    }
-
-    let newIndex = this.currentImage - 1;
-    if (this.currentImage === 0) {
-      if (this.options.quitOnEnd) {
-        this.closeLightbox();
-        return;
-      } else {
-        newIndex = this.images.length - 1;
-      }
-    }
-    triggerContainerEvent("previous.ilb2", this.images.eq(newIndex));
-    this.changeImage(newIndex, TransitionDirection.Left);
-  }
-
-  public nextImage(): void {
-    if (this.currentImage === null) {
-      return;
-    }
-
-    let newIndex = this.currentImage + 1;
-    if (this.currentImage === this.images.length - 1) {
-      if (this.options.quitOnEnd) {
-        this.closeLightbox();
-        return;
-      } else {
-        newIndex = 0;
-      }
-    }
-    triggerContainerEvent("next.ilb2", this.images.eq(newIndex));
-    this.changeImage(newIndex, TransitionDirection.Right);
-  }
-
-  public changeImage(
+export interface State {
+  set(): string | undefined;
+  images(): JQuery;
+  currentIndex(): number | null;
+  addImages(images: JQuery): void;
+  openWithImage(image: JQuery): void;
+  open(index: number, skipHistory?: boolean): void;
+  close(skipHistory?: boolean): void;
+  previous(): void;
+  next(): void;
+  change(
     index: number,
     transitionDirection: TransitionDirection,
-    skipHistory = false,
-  ): void {
-    if (this.currentImage === null) {
-      return;
-    }
+    skipHistory?: boolean,
+  ): void;
+}
 
-    if (this.options.history && !skipHistory) {
-      pushToHistory(index, this);
-    }
+export function State(
+  // The lightbox options
+  options: ILBOptions,
+  // The value of data-imagelightbox on the images
+  lightboxSet: string | undefined,
+  initialImages: JQuery,
+): State {
+  // The clickable images in the lightbox
+  let targetImages: JQuery = $();
 
-    if (this.options.activity) {
-      addActivityIndicatorToDOM(this.container);
-    }
+  // Cached preloaded videos
+  const videoCache: VideoCache = VideoCache();
 
-    this.removeOldImage(transitionDirection);
-    this.startLoadingNewImage(index, transitionDirection);
+  // The imagelightbox container element
+  const container: JQuery = getContainer();
+
+  // The index of the currently open image, or null if the lightbox is closed
+  let currentImage: number | null = null;
+
+  // The currently displayed image view
+  let currentImageView: ImageView | null = null;
+
+  // !!! State initialization is at the bottom!
+
+  function set(): string | undefined {
+    return lightboxSet;
+  }
+
+  function images(): JQuery {
+    return targetImages;
+  }
+
+  function currentIndex(): number | null {
+    return currentImage;
   }
 
   /**
@@ -255,71 +94,228 @@ export class State {
    * 3. After adding the image to the DOM, transition it into place - slide + fade in (transitionInNewImage)
    */
 
-  private removeOldImage(
+  function removeOldImage(
     transitionDirection: TransitionDirection,
     callback?: () => void,
   ): void {
-    const oldImageView = this.currentImageView!;
+    const oldImageView = currentImageView!;
     oldImageView.transitionOut(transitionDirection, () => {
       oldImageView.removeFromDOM();
       callback?.();
     });
   }
 
-  private startLoadingNewImage(
-    newIndex: number,
+  function transitionInNewImage(
     transitionDirection: TransitionDirection,
   ): void {
-    const newImageView = ImageView(
-      this.images.eq(newIndex),
-      this.options,
-      this.videoCache,
-    );
-    newImageView.startLoading(
-      () => {
-        this.currentImage = newIndex;
-        this.currentImageView = newImageView;
-        this.addNewImage(transitionDirection);
-      },
-      () => {
-        removeActivityIndicatorFromDOM();
-      },
+    currentImageView?.transitionIn(
+      transitionDirection,
+      removeActivityIndicatorFromDOM,
+      /* eslint-disable @typescript-eslint/no-use-before-define -- Cyclical dependencies */
+      previous,
+      next,
+      close,
+      /* eslint-enable */
     );
   }
 
-  private addNewImage(transitionDirection: TransitionDirection): void {
-    this.currentImageView?.addToDOM(this.container, () => {
-      const image = this.images.get(this.currentImage!)!;
+  function addNewImage(transitionDirection: TransitionDirection): void {
+    currentImageView?.addToDOM(container, () => {
+      const image = targetImages.get(currentImage!)!;
       setCaption(
         image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
       );
-      this.transitionInNewImage(transitionDirection);
-      if (
-        this.options.preloadNext &&
-        this.currentImage! + 1 < this.images.length
-      ) {
-        const nextImage = this.images.eq(this.currentImage! + 1);
+      transitionInNewImage(transitionDirection);
+      if (options.preloadNext && currentImage! + 1 < targetImages.length) {
+        const nextImage = targetImages.eq(currentImage! + 1);
         $("<img />").attr("src", nextImage.attr("href")!);
       }
       triggerContainerEvent("loaded.ilb2");
     });
   }
 
-  private transitionInNewImage(transitionDirection: TransitionDirection): void {
-    this.currentImageView?.transitionIn(
-      transitionDirection,
+  function startLoadingNewImage(
+    newIndex: number,
+    transitionDirection: TransitionDirection,
+  ): void {
+    const newImageView = ImageView(
+      targetImages.eq(newIndex),
+      options,
+      videoCache,
+    );
+    newImageView.startLoading(
+      () => {
+        currentImage = newIndex;
+        currentImageView = newImageView;
+        addNewImage(transitionDirection);
+      },
       () => {
         removeActivityIndicatorFromDOM();
       },
-      () => {
-        this.previousImage();
-      },
-      () => {
-        this.nextImage();
-      },
-      () => {
-        this.closeLightbox();
-      },
     );
   }
+
+  // Public functions wrapping the state transition functions
+
+  function close(skipHistory = false): void {
+    if (currentImage === null) {
+      return;
+    }
+    if (options.activity) {
+      addActivityIndicatorToDOM(container);
+    }
+
+    removeKeyboardNavigation();
+
+    if (options.history && !skipHistory) {
+      pushQuitToHistory();
+    }
+
+    triggerContainerEvent("quit.ilb2");
+
+    removeOldImage(TransitionDirection.None, () => {
+      currentImage = null;
+      currentImageView = null;
+      removeContainerFromDOM();
+    });
+  }
+
+  function change(
+    index: number,
+    transitionDirection: TransitionDirection,
+    skipHistory = false,
+  ): void {
+    if (currentImage === null) {
+      return;
+    }
+
+    if (options.history && !skipHistory) {
+      pushToHistory(index, set(), images());
+    }
+
+    if (options.activity) {
+      addActivityIndicatorToDOM(container);
+    }
+
+    removeOldImage(transitionDirection);
+    startLoadingNewImage(index, transitionDirection);
+  }
+
+  function previous(): void {
+    if (currentImage === null) {
+      return;
+    }
+
+    let newIndex = currentImage - 1;
+    if (currentImage === 0) {
+      if (options.quitOnEnd) {
+        close();
+        return;
+      } else {
+        newIndex = targetImages.length - 1;
+      }
+    }
+    triggerContainerEvent("previous.ilb2", targetImages.eq(newIndex));
+    change(newIndex, TransitionDirection.Left);
+  }
+
+  function next(): void {
+    if (currentImage === null) {
+      return;
+    }
+
+    let newIndex = currentImage + 1;
+    if (currentImage === targetImages.length - 1) {
+      if (options.quitOnEnd) {
+        close();
+        return;
+      } else {
+        newIndex = 0;
+      }
+    }
+    triggerContainerEvent("next.ilb2", targetImages.eq(newIndex));
+    change(newIndex, TransitionDirection.Right);
+  }
+
+  function open(index: number, skipHistory = false): void {
+    addContainerToDOM();
+    if (options.activity) {
+      addActivityIndicatorToDOM(container);
+    }
+    addKeyboardNavigation(options, close, previous, next);
+    if (options.arrows) {
+      addArrowsToDOM(container, previous, next);
+    }
+    if (options.caption) {
+      addCaptionToDOM(container);
+    }
+    if (options.button) {
+      addCloseButtonToDOM(container, close);
+    }
+    if (options.navigation) {
+      addNavigationToDOM(container, images, currentIndex, change);
+    }
+    addOverlayToDOM(container, options.quitOnDocClick, close);
+    if (options.overlay) {
+      darkenOverlay();
+    }
+
+    if (options.history && !skipHistory) {
+      pushToHistory(index, set(), images());
+    }
+
+    triggerContainerEvent("start.ilb2", targetImages.eq(index));
+    startLoadingNewImage(index, TransitionDirection.None);
+  }
+
+  function openWithImage(image: JQuery): void {
+    const index = targetImages.index(image);
+    if (index < 0) {
+      return;
+    }
+    open(index);
+  }
+
+  function addImages(newImages: JQuery): void {
+    const validImages = newImages
+      .not(targetImages)
+      .filter(
+        (_, element): boolean =>
+          element.tagName.toLowerCase() === "a" &&
+          (new RegExp(".(" + options.allowedTypes + ")$", "i").test(
+            (element as HTMLAnchorElement).href,
+          ) ||
+            element.dataset.ilb2Video !== undefined),
+      );
+    videoCache.add(validImages);
+    targetImages = targetImages.add(validImages);
+    validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
+      openWithImage($(event.delegateTarget as HTMLElement));
+      return false;
+    });
+    addNavigationItems(validImages);
+  }
+
+  // State initialization
+
+  addImages(initialImages);
+
+  if (options.history) {
+    $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
+      popHistory(event, set(), images(), currentIndex(), open, close, change);
+    });
+  }
+
+  return {
+    set,
+    images,
+    currentIndex,
+    addImages,
+    openWithImage,
+    open,
+    close,
+    previous,
+    next,
+    change,
+  };
 }
