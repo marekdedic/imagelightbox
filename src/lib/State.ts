@@ -239,7 +239,6 @@ export class State {
    * 1. Start loading the new image in the background (startLoadingNewImage)
    * 2. When the new image is loaded, add it to the DOM, but keep it invisible (addNewImage)
    * 3. After adding the image to the DOM, transition it into place - slide + fade in (transitionInNewImage)
-   * 3. Once the new image is in the right place, the transition ends (endTransitionIn)
    */
 
   private removeOldImage(
@@ -269,7 +268,7 @@ export class State {
         this.addNewImage(transitionDirection);
       },
       () => {
-        this.endTransitionIn();
+        removeActivityIndicatorFromDOM();
       },
     );
   }
@@ -296,7 +295,7 @@ export class State {
     this.currentImageView?.transitionIn(
       transitionDirection,
       () => {
-        this.endTransitionIn();
+        removeActivityIndicatorFromDOM();
       },
       () => {
         this.previousImage();
@@ -308,9 +307,5 @@ export class State {
         this.closeLightbox();
       },
     );
-  }
-
-  private endTransitionIn(): void {
-    removeActivityIndicatorFromDOM();
   }
 }
