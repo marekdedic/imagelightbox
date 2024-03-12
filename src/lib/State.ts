@@ -16,7 +16,7 @@ import {
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
 import { addNavigationItems, addNavigationToDOM } from "./navigation";
-import { addOverlayToDOM } from "./overlay";
+import { addOverlayToDOM, darkenOverlay } from "./overlay";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
@@ -119,7 +119,6 @@ export class State {
   }
 
   public openLightbox(index: number, skipHistory = false): void {
-    $("body").addClass("ilb-open");
     addContainerToDOM();
     if (this.options.activity) {
       addActivityIndicatorToDOM(this.container);
@@ -146,8 +145,11 @@ export class State {
     if (this.options.navigation) {
       addNavigationToDOM(this, this.container);
     }
+    addOverlayToDOM(this.container, this.options.quitOnDocClick, () => {
+      this.closeLightbox();
+    });
     if (this.options.overlay) {
-      addOverlayToDOM(this.container);
+      darkenOverlay();
     }
 
     if (this.options.history && !skipHistory) {
@@ -176,7 +178,6 @@ export class State {
       this.currentImage = null;
       this.currentImageView = null;
       removeContainerFromDOM();
-      $("body").removeClass("ilb-open");
     });
   }
 

@@ -1,11 +1,8 @@
-import "./imagelightbox.css";
-
 import $ from "jquery";
 
 import { openHistory } from "./history";
 import { State } from "./State";
 
-const hasTouch = "ontouchstart" in window;
 const legacyDocument = document as LegacyDocument;
 const hasFullscreenSupport: boolean =
   legacyDocument.fullscreenEnabled ||
@@ -59,18 +56,6 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   }
 
   $((): void => {
-    if (options.quitOnDocClick) {
-      $(document).on(hasTouch ? "touchend.ilb7" : "click.ilb7", (e): void => {
-        if (
-          state.temp_getImageView() !== null &&
-          !$(e.target).is(state.temp_getImageView()!.temp_getImage())
-        ) {
-          e.preventDefault();
-          state.closeLightbox();
-        }
-      });
-    }
-
     if (options.fullscreen && hasFullscreenSupport) {
       $(document).on("keydown.ilb7", (e): void => {
         if (state.temp_getImageView() === null) {
