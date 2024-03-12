@@ -270,7 +270,7 @@ export class State {
     newIndex: number,
     transitionDirection: TransitionDirection,
   ): void {
-    const newImageView = new ImageView(
+    const newImageView = ImageView(
       this.images.eq(newIndex),
       this.options,
       this.videoCache,
