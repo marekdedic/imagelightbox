@@ -22,10 +22,9 @@ export function pushToHistory(index: number, state: State): void {
     "imageLightboxIndex",
     newIndex,
   );
-  const set = state.getSet();
-  if (set !== undefined) {
-    newHistoryState.imageLightboxSet = set;
-    newQuery = addQueryField(newQuery, "imageLightboxSet", set);
+  if (state.set !== undefined) {
+    newHistoryState.imageLightboxSet = state.set;
+    newQuery = addQueryField(newQuery, "imageLightboxSet", state.set);
   }
   window.history.pushState(
     newHistoryState,
@@ -43,7 +42,7 @@ export function openHistory(state: State): void {
   if (newIndex < 0) {
     newIndex = parseInt(id);
   }
-  if (getQueryField("imageLightboxSet") !== state.getSet()) {
+  if (getQueryField("imageLightboxSet") !== state.set) {
     return;
   }
   state.openLightbox(newIndex, true);
@@ -57,7 +56,7 @@ export function popHistory(event: BaseJQueryEventObject, state: State): void {
     state.closeLightbox(true);
     return;
   }
-  if (newHistoryState.imageLightboxSet !== state.getSet()) {
+  if (newHistoryState.imageLightboxSet !== state.set) {
     return;
   }
   const newId = newHistoryState.imageLightboxIndex;
