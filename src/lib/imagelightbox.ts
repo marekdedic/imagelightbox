@@ -26,7 +26,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     },
     opts,
   );
-  const state = new State(
+  const state = State(
     options,
     $(this).data("imagelightbox") as string | undefined,
     $(this),
@@ -38,30 +38,36 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
   this.openHistory = (): void => {
     if (options.history) {
-      openHistory(state);
+      openHistory(
+        state.set(),
+        state.images(),
+        (index: number, skipHistory?: boolean) => {
+          state.open(index, skipHistory);
+        },
+      );
     }
   };
 
   this.openHistory();
 
   this.loadPreviousImage = (): void => {
-    state.previousImage();
+    state.previous();
   };
 
   this.loadNextImage = (): void => {
-    state.nextImage();
+    state.next();
   };
 
   this.quitImageLightbox = function (): JQuery {
-    state.closeLightbox();
+    state.close();
     return this;
   };
 
   this.startImageLightbox = (image?: JQuery): void => {
     if (image !== undefined) {
-      state.openLightboxWithImage(image);
+      state.openWithImage(image);
     } else {
-      state.openLightbox(0);
+      state.open(0);
     }
   };
 

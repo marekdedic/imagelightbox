@@ -2,7 +2,6 @@ import "./navigation.css";
 
 import $ from "jquery";
 
-import type { State } from "./State";
 import { TransitionDirection } from "./TransitionDirection";
 
 const navigationItemTemplate = $("<a/>", {
@@ -19,18 +18,23 @@ export function addNavigationItems(images: JQuery): void {
   }
 }
 
-export function addNavigationToDOM(state: State, container: JQuery): void {
+export function addNavigationToDOM(
+  container: JQuery,
+  images: () => JQuery,
+  currentIndex: () => number | null,
+  change: (index: number, transitionDirection: TransitionDirection) => void,
+): void {
   navigation.empty();
-  addNavigationItems(state.getImages());
+  addNavigationItems(images());
   navigation
     .children("a")
-    .eq(state.getCurrentIndex()!)
+    .eq(currentIndex()!)
     .addClass("ilb-navigation-active");
 
   container.on("previous.ilb2 next.ilb2", (_, image: JQuery): void => {
     $(".ilb-navigation a")
       .removeClass("ilb-navigation-active")
-      .eq(state.getImages().index(image))
+      .eq(images().index(image))
       .addClass("ilb-navigation-active");
   });
   container.append(navigation);
@@ -40,16 +44,15 @@ export function addNavigationToDOM(state: State, container: JQuery): void {
     .on("click.ilb7 touchend.ilb7", "a", function (): boolean {
       const $this = $(this);
       if (
-        state.getImages().eq($this.index()).attr("href") ===
-        $("#ilb-image").attr("src")
+        images().eq($this.index()).attr("href") === $("#ilb-image").attr("src")
       ) {
         return false;
       }
       const loadDirection =
-        $this.index() < state.getCurrentIndex()!
+        $this.index() < currentIndex()!
           ? TransitionDirection.Left
           : TransitionDirection.Right;
-      state.changeImage($this.index(), loadDirection);
+      change($this.index(), loadDirection);
       $this
         .addClass("ilb-navigation-active")
         .siblings()
