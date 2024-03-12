@@ -29,7 +29,3 @@ export function addArrowsToDOM(
     }),
   );
 }
-
-export function showArrows(): void {
-  $(".ilb-arrow").css("display", "block");
-}
