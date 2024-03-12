@@ -54,7 +54,7 @@ export class State {
     this.options = options;
     this.set = set;
     this.images = $();
-    this.videoCache = new VideoCache();
+    this.videoCache = VideoCache();
     this.container = getContainer();
     this.currentImage = null;
     this.currentImageView = null;
@@ -87,7 +87,7 @@ export class State {
           ) ||
             element.dataset.ilb2Video !== undefined),
       );
-    this.videoCache.addVideos(validImages);
+    this.videoCache.add(validImages);
     this.images = this.images.add(validImages);
     validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
       this.openLightboxWithImage($(event.delegateTarget as HTMLElement));

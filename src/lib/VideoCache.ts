@@ -3,35 +3,43 @@ import $ from "jquery";
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { PreloadedVideo } from "./PreloadedVideo";
 
-export class VideoCache {
-  private readonly videos: Array<PreloadedVideo>;
+export interface VideoCache {
+  add(elements: JQuery): void;
+  dimensions(videoId: string): [number, number] | undefined;
+  element(videoId: string): [JQuery, boolean];
+}
 
-  public constructor() {
-    this.videos = [];
-  }
+export function VideoCache(): VideoCache {
+  const videos: Array<PreloadedVideo> = [];
 
-  public addVideos(elements: JQuery): void {
-    elements.each((_, element) => {
-      const videoOptions = $(element).data("ilb2Video") as
+  function add(elements: JQuery): void {
+    elements.each((_, image) => {
+      const videoOptions = $(image).data("ilb2Video") as
         | VideoOptions
         | undefined;
       if (videoOptions === undefined) {
         return;
       }
-      this.videos.push(PreloadedVideo($(element), videoOptions));
+      videos.push(PreloadedVideo($(image), videoOptions));
     });
   }
 
-  public getVideoWidthHeight(videoId: string): [number, number] | undefined {
-    const video = this.videos.find((x) => x.id() === videoId);
+  function dimensions(videoId: string): [number, number] | undefined {
+    const video = videos.find((x) => x.id() === videoId);
     if (video === undefined) {
       return undefined;
     }
     return video.dimensions();
   }
 
-  public getVideoElement(videoId: string): [JQuery, boolean] {
-    const video = this.videos.find((x) => x.id() === videoId)!;
+  function element(videoId: string): [JQuery, boolean] {
+    const video = videos.find((x) => x.id() === videoId)!;
     return video.element();
   }
+
+  return {
+    add,
+    dimensions,
+    element,
+  };
 }
