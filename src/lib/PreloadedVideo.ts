@@ -2,83 +2,89 @@ import $ from "jquery";
 
 import type { VideoOptions } from "./interfaces/VideoOptions";
 
-export class PreloadedVideo {
-  public readonly id: string;
-  private readonly element: JQuery;
-  private isLoaded: boolean;
-  private autoplay: boolean;
-  private height: number | undefined;
-  private width: number | undefined;
+export interface PreloadedVideo {
+  id(): string;
+  dimensions(): [number, number];
+  element(): [JQuery, boolean];
+}
 
-  public constructor(element: JQuery, videoOptions: VideoOptions) {
-    let id = element.data("ilb2Id") as string | undefined;
-    if (id === undefined) {
-      // Random id
-      id = "a" + (((1 + Math.random()) * 0x10000) | 0).toString(16);
+export function PreloadedVideo(
+  image: JQuery,
+  videoOptions: VideoOptions,
+): PreloadedVideo {
+  let tempId = image.data("ilb2Id") as string | undefined;
+  if (tempId === undefined) {
+    // Random id
+    tempId = "a" + (((1 + Math.random()) * 0x10000) | 0).toString(16);
+  }
+  image.data("ilb2VideoId", tempId);
+  const videoId = tempId;
+
+  const videoElement = $(
+    "<video id='ilb-image' preload='metadata' data-ilb2-video-id='" +
+      videoId +
+      "'>",
+  );
+  let isLoaded = false;
+  let autoplay = false;
+  let height: number | undefined = undefined;
+  let width: number | undefined = undefined;
+
+  $.each(videoOptions, (key: string, value): void => {
+    switch (key) {
+      case "autoplay":
+        autoplay = true;
+        break;
+      case "height":
+        height = value as number;
+        break;
+      case "width":
+        width = value as number;
+        break;
+      case "controls":
+      case "loop":
+      case "muted":
+      case "poster":
+      case "preload":
+      case "src":
+        videoElement.attr(key, value as number | string);
     }
-    element.data("ilb2VideoId", id);
-
-    this.id = id;
-    this.id = id;
-    this.element = $(
-      "<video id='ilb-image' preload='metadata' data-ilb2-video-id='" +
-        id +
-        "'>",
-    );
-    this.isLoaded = false;
-    this.autoplay = false;
-    this.height = undefined;
-    this.width = undefined;
-
-    $.each(videoOptions, (key: string, value): void => {
-      switch (key) {
-        case "autoplay":
-          this.autoplay = true;
-          break;
-        case "height":
-          this.height = value as number;
-          break;
-        case "width":
-          this.width = value as number;
-          break;
-        case "controls":
-        case "loop":
-        case "muted":
-        case "poster":
-        case "preload":
-        case "src":
-          this.element.attr(key, value as number | string);
-      }
-    });
-    if (videoOptions.sources) {
-      $.each(videoOptions.sources, (_, source): void => {
-        let sourceElement = $("<source>");
-        $.each(source, (key: string, value): void => {
-          sourceElement = sourceElement.attr(key, value!);
-        });
-        this.element.append(sourceElement);
+  });
+  if (videoOptions.sources) {
+    $.each(videoOptions.sources, (_, source): void => {
+      let sourceElement = $("<source>");
+      $.each(source, (key: string, value): void => {
+        sourceElement = sourceElement.attr(key, value!);
       });
-    }
-    this.element.on("loadedmetadata.ilb7", (): void => {
-      this.isLoaded = true;
+      videoElement.append(sourceElement);
     });
   }
+  videoElement.on("loadedmetadata.ilb7", (): void => {
+    isLoaded = true;
+  });
 
-  public getVideoWidthHeight(): [number, number] {
-    return [
-      this.width ?? this.element.width()!,
-      this.height ?? this.element.height()!,
-    ];
+  function id(): string {
+    return videoId;
   }
 
-  public getVideoElement(): [JQuery, boolean] {
-    if (this.autoplay) {
-      if (this.isLoaded) {
-        void (this.element.get(0) as HTMLVideoElement).play();
+  function dimensions(): [number, number] {
+    return [width ?? videoElement.width()!, height ?? videoElement.height()!];
+  }
+
+  function element(): [JQuery, boolean] {
+    if (autoplay) {
+      if (isLoaded) {
+        void (videoElement.get(0) as HTMLVideoElement).play();
       } else {
-        this.element.attr("autoplay", "autoplay");
+        videoElement.attr("autoplay", "autoplay");
       }
     }
-    return [this.element, this.isLoaded];
+    return [videoElement, isLoaded];
   }
+
+  return {
+    id,
+    dimensions,
+    element,
+  };
 }
