@@ -57,42 +57,39 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
   $((): void => {
     if (options.fullscreen && hasFullscreenSupport) {
-      $(document).on("keydown.ilb7", (e): void => {
+      $(document).on("keydown.ilb7", (e): boolean => {
         if (state.temp_getImageView() === null) {
-          return;
+          return true;
         }
         if ([9, 32, 38, 40].includes(e.which!)) {
-          e.stopPropagation();
-          e.preventDefault();
+          return false;
         }
         if ([13].includes(e.which!)) {
-          e.stopPropagation();
-          e.preventDefault();
           toggleFullScreen();
+          return false;
         }
+        return true;
       });
     }
 
     if (options.enableKeyboard) {
-      $(document).on("keydown.ilb7", (e): void => {
+      $(document).on("keydown.ilb7", (e): boolean => {
         if (state.temp_getImageView() === null) {
-          return;
+          return true;
         }
         if ([27].includes(e.which!) && options.quitOnEscKey) {
-          e.stopPropagation();
-          e.preventDefault();
           state.closeLightbox();
+          return false;
         }
         if ([37].includes(e.which!)) {
-          e.stopPropagation();
-          e.preventDefault();
           state.previousImage();
+          return false;
         }
         if ([39].includes(e.which!)) {
-          e.stopPropagation();
-          e.preventDefault();
           state.nextImage();
+          return false;
         }
+        return true;
       });
     }
   });

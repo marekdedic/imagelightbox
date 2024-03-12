@@ -37,13 +37,13 @@ export function addNavigationToDOM(state: State, container: JQuery): void {
 
   navigation
     .on("click.ilb7 touchend.ilb7", (): boolean => false)
-    .on("click.ilb7 touchend.ilb7", "a", function (): void {
+    .on("click.ilb7 touchend.ilb7", "a", function (): boolean {
       const $this = $(this);
       if (
         state.getImages().eq($this.index()).attr("href") ===
         $("#ilb-image").attr("src")
       ) {
-        return;
+        return false;
       }
       const loadDirection =
         $this.index() < state.getCurrentIndex()!
@@ -54,5 +54,6 @@ export function addNavigationToDOM(state: State, container: JQuery): void {
         .addClass("ilb-navigation-active")
         .siblings()
         .removeClass("ilb-navigation-active");
+      return false;
     });
 }

@@ -16,9 +16,9 @@ export function addOverlayToDOM(
   if (attachOnclick) {
     overlay.on(
       "ontouchstart" in window ? "touchend.ilb7" : "click.ilb7",
-      (e): void => {
-        e.preventDefault();
+      (): boolean => {
         onclick();
+        return false;
       },
     );
   }

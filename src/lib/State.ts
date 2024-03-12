@@ -90,8 +90,8 @@ export class State {
     this.videoCache.addVideos(validImages);
     this.images = this.images.add(validImages);
     validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
-      event.preventDefault();
       this.openLightboxWithImage($(event.delegateTarget as HTMLElement));
+      return false;
     });
     addNavigationItems(validImages);
   }
