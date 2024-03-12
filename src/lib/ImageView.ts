@@ -57,7 +57,7 @@ export class ImageView {
 
     this.isVideo = image.data("ilb2Video") !== undefined;
     if (this.isVideo) {
-      [this.imageElement, this.isVideoPreloaded] = videoCache.getVideoElement(
+      [this.imageElement, this.isVideoPreloaded] = videoCache.element(
         image.data("ilb2VideoId") as string,
       );
     } else {
@@ -168,7 +168,7 @@ export class ImageView {
     };
 
     const videoId = this.imageElement.data("ilb2VideoId") as string;
-    const videoDimensions = this.videoCache.getVideoWidthHeight(videoId);
+    const videoDimensions = this.videoCache.dimensions(videoId);
     if (videoDimensions !== undefined) {
       setSizes(...videoDimensions);
       return;
