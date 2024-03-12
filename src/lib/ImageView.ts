@@ -175,8 +175,6 @@ export class ImageView {
     const videoDimensions = this.videoCache.getVideoWidthHeight(videoId);
     if (videoDimensions !== undefined) {
       setSizes(...videoDimensions);
-    }
-    if (videoDimensions !== undefined) {
       return;
     }
     const videoElement = this.imageElement.get(0) as HTMLVideoElement;
