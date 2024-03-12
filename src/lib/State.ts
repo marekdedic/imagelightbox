@@ -76,10 +76,6 @@ export class State {
     return this.currentImage;
   }
 
-  public temp_getImageView(): ImageView | null {
-    return this.currentImageView;
-  }
-
   public addImages(images: JQuery): void {
     const validImages = images
       .not(this.images)
