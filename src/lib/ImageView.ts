@@ -68,10 +68,6 @@ export class ImageView {
     }
   }
 
-  public temp_getImage(): JQuery {
-    return this.imageElement;
-  }
-
   public addToDOM(container: JQuery, callback: () => void): void {
     this.imageElement.appendTo(container);
     this.imageElement.css("opacity", 0);
