@@ -31,11 +31,11 @@ import { VideoCache } from "./VideoCache";
  * 3. Once the new image is in the right place, the transition ends (transitionEnd)
  */
 export class State {
+  // The value of data-imagelightbox on the images
+  public readonly set: string | undefined;
+
   // The lightbox options
   private readonly options: ILBOptions;
-
-  // The value of data-imagelightbox on the images
-  private readonly set: string | undefined;
 
   // The clickable images in the lightbox
   private images: JQuery;
@@ -72,10 +72,6 @@ export class State {
         popHistory(event, this);
       });
     }
-  }
-
-  public getSet(): string | undefined {
-    return this.set;
   }
 
   public getImages(): JQuery {
