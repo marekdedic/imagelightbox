@@ -138,6 +138,21 @@ test("can be controlled with arrows", async ({ page }) => {
     "src",
     "images/demo2.jpg",
   );
+  await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
+  await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.locator("#ilb-arrow-left").click();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
 });
 
 test("can be controlled with keyboard", async ({ page }) => {
