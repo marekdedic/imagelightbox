@@ -90,6 +90,31 @@ test("can be triggered manually", async ({ page }) => {
   );
 });
 
+test("can be controlled with image clicks", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("overlay").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo3.jpg",
+  );
+  await page.locator("#ilb-image").click({ position: { x: 20, y: 32 } });
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+});
+
 test("can be controlled with arrows", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("arrows").getByRole("link").first().click();
