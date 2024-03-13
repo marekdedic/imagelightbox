@@ -247,15 +247,15 @@ export function ImageView(
     cssTransitionTranslateX(
       imageElement,
       (-100 * transitionDirection).toString() + "px",
-      0,
+      0.001,
     );
-    setTimeout((): void => {
+    image.on("transitionend", () => {
       cssTransitionTranslateX(
         imageElement,
         "0px",
         options.animationSpeed / 1000,
       );
-    }, 50);
+    });
     imageElement.animate({ opacity: 1 }, options.animationSpeed, () => {
       onready(callback, previousImage, nextImage, closeLightbox);
     });
