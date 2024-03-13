@@ -263,6 +263,16 @@ test("has a working navigation", async ({ page }) => {
     "src",
     "images/demo3.jpg",
   );
+  await page.locator(".ilb-navigation a").nth(1).click();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
+  await page.locator(".ilb-navigation a").nth(1).click();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
 });
 
 test("quits on end", async ({ page }) => {
