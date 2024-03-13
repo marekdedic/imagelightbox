@@ -141,6 +141,12 @@ test("can be controlled with keyboard", async ({ page }) => {
     "src",
     "images/demo2.jpg",
   );
+  await page.keyboard.press("Tab");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo2.jpg",
+  );
   await page.keyboard.press("Escape");
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
