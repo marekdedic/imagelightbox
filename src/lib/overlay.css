@@ -1,0 +1,14 @@
+#ilb-overlay {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties -- inset is not supported by all browsers */
+  left: 0;
+}
+
+.ilb-overlay-dark {
+  animation: fade-in 0.25s linear;
+  background-color: rgba(30, 30, 30, 90%);
+}

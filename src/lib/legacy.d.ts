@@ -7,7 +7,5 @@ declare class LegacyDocument extends Document {
 }
 
 declare class LegacyHTMLElement extends HTMLElement {
-  public webkitRequestFullScreen?: (
-    options: FullscreenOptions,
-  ) => Promise<undefined>;
+  public webkitRequestFullScreen?: () => Promise<undefined>;
 }
