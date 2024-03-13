@@ -2,6 +2,7 @@ import "./ImageView.css";
 
 import $ from "jquery";
 
+import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 import type { VideoCache } from "./VideoCache";
 
@@ -35,7 +36,7 @@ function wasTouched(event: PointerEvent): boolean {
 }
 
 export interface ImageView {
-  addToDOM(container: JQuery, callback: () => void): void;
+  addToDOM(callback: () => void): void;
   startLoading(onload: () => void, onerror: () => void): void;
   transitionIn(
     transitionDirection: TransitionDirection,
@@ -216,8 +217,8 @@ export function ImageView(
     };
   }
 
-  function addToDOM(container: JQuery, callback: () => void): void {
-    imageElement.appendTo(container);
+  function addToDOM(callback: () => void): void {
+    getContainer().append(imageElement);
     imageElement.css("opacity", 0);
     reflow();
     $(window).on("resize.ilb7", () => {
