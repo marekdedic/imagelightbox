@@ -206,6 +206,21 @@ test("can open history links", async ({ page }) => {
   );
 });
 
+test.describe("doesn't break on invalid history links", () => {
+  test("invalid index", async ({ page }) => {
+    await page.goto("/?imageLightboxIndex=42&imageLightboxSet=j");
+    await expect(page.locator("#ilb-image")).toBeHidden();
+  });
+  test("no index", async ({ page }) => {
+    await page.goto("/?imageLightboxSet=j");
+    await expect(page.locator("#ilb-image")).toBeHidden();
+  });
+  test("invalid set", async ({ page }) => {
+    await page.goto("/?imageLightboxIndex=2&imageLightboxSet=asdf");
+    await expect(page.locator("#ilb-image")).toBeHidden();
+  });
+});
+
 test("has a working history with IDs", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("history-ids").getByRole("link").first().click();
