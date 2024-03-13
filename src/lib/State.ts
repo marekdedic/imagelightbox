@@ -10,6 +10,7 @@ import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
   darkenOverlay,
+  fadeOutContainer,
   removeContainerFromDOM,
   triggerContainerEvent,
 } from "./container";
@@ -170,6 +171,7 @@ export function State(
 
     triggerContainerEvent("quit.ilb2");
 
+    fadeOutContainer(options.animationSpeed);
     removeOldImage(TransitionDirection.None, () => {
       currentImage = null;
       currentImageView = null;
@@ -236,7 +238,7 @@ export function State(
   }
 
   function open(index: number, skipHistory = false): void {
-    addContainerToDOM(options.quitOnDocClick, close);
+    addContainerToDOM(options.animationSpeed, options.quitOnDocClick, close);
     if (options.activity) {
       addActivityIndicatorToDOM();
     }

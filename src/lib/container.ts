@@ -7,6 +7,7 @@ const container = $("<div/>", {
 });
 
 export function addContainerToDOM(
+  animationSpeed: number,
   attachOnclick: boolean,
   onclick: () => void,
 ): void {
@@ -19,10 +20,15 @@ export function addContainerToDOM(
       return false;
     });
   }
+  container.animate({ opacity: 1 }, animationSpeed);
 }
 
 export function darkenOverlay(): void {
   container.addClass("ilb-overlay");
+}
+
+export function fadeOutContainer(animationSpeed: number): void {
+  container.animate({ opacity: 0 }, animationSpeed);
 }
 
 export function removeContainerFromDOM(): void {
