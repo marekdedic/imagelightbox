@@ -35,6 +35,7 @@ function wasTouched(event: PointerEvent): boolean {
   return false;
 }
 
+// TODO: Refactor
 export interface ImageView {
   addToDOM(callback: () => void): void;
   startLoading(onload: () => void, onerror: () => void): void;

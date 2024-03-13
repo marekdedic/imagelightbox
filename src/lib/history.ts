@@ -1,6 +1,11 @@
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { TransitionDirection } from "./TransitionDirection";
 
+interface HistoryState {
+  imageLightboxIndex?: string;
+  imageLightboxSet?: string;
+}
+
 export function pushQuitToHistory(): void {
   let newQuery = removeQueryField(
     document.location.search,
@@ -16,15 +21,15 @@ export function pushToHistory(
   images: JQuery,
 ): void {
   const newIndex = images[index].dataset.ilb2Id ?? index.toString();
-  const newHistoryState = {
-    imageLightboxIndex: newIndex,
-    imageLightboxSet: "",
-  };
   let newQuery = addQueryField(
     document.location.search,
     "imageLightboxIndex",
     newIndex,
   );
+  const newHistoryState: HistoryState = {
+    imageLightboxIndex: newIndex,
+    imageLightboxSet: "",
+  };
   if (set !== undefined) {
     newHistoryState.imageLightboxSet = set;
     newQuery = addQueryField(newQuery, "imageLightboxSet", set);
@@ -41,6 +46,9 @@ export function openHistory(
   images: JQuery,
   open: (index: number, skipHistory?: boolean) => void,
 ): void {
+  if (getQueryField("imageLightboxSet") !== set) {
+    return;
+  }
   const id = getQueryField("imageLightboxIndex");
   if (id === undefined) {
     return;
@@ -48,9 +56,6 @@ export function openHistory(
   let newIndex = images.index('[data-ilb2-id="' + id + '"]');
   if (newIndex < 0) {
     newIndex = parseInt(id);
-  }
-  if (getQueryField("imageLightboxSet") !== set) {
-    return;
   }
   open(newIndex, true);
 }
@@ -68,17 +73,17 @@ export function popHistory(
     skipHistory?: boolean,
   ) => void,
 ): void {
-  const newHistoryState = (event.originalEvent as PopStateEvent).state as
-    | { imageLightboxIndex?: string; imageLightboxSet?: string }
-    | undefined;
-  if (!newHistoryState) {
+  const historyState = (event.originalEvent as PopStateEvent)
+    .state as HistoryState | null;
+  // This needs to be before checking the set in order to close the lightbox when navigating to a non-imagelightbox state
+  if (historyState === null) {
     close(true);
     return;
   }
-  if (newHistoryState.imageLightboxSet !== set) {
+  if (historyState.imageLightboxSet !== set) {
     return;
   }
-  const newId = newHistoryState.imageLightboxIndex;
+  const newId = historyState.imageLightboxIndex;
   if (newId === undefined) {
     close(true);
     return;
@@ -93,9 +98,11 @@ export function popHistory(
     open(newIndex, true);
     return;
   }
-  const direction =
+  change(
+    newIndex,
     newIndex > currentIndex
       ? TransitionDirection.Right
-      : TransitionDirection.Left;
-  change(newIndex, direction, true);
+      : TransitionDirection.Left,
+    true,
+  );
 }
