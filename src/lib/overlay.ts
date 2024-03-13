@@ -2,17 +2,18 @@ import "./overlay.css";
 
 import $ from "jquery";
 
+import { getContainer } from "./container";
+
 const overlay = $("<div/>", {
   id: "ilb-overlay",
 });
 
 export function addOverlayToDOM(
-  container: JQuery,
   attachOnclick: boolean,
   onclick: () => void,
 ): void {
   overlay.removeClass("ilb-overlay-dark");
-  container.append(overlay);
+  getContainer().append(overlay);
   if (attachOnclick) {
     overlay.on(
       "ontouchstart" in window ? "touchend.ilb7" : "click.ilb7",

@@ -2,6 +2,8 @@ import "./arrows.css";
 
 import $ from "jquery";
 
+import { getContainer } from "./container";
+
 const leftArrow = $("<div/>", {
   class: "ilb-arrow",
   id: "ilb-arrow-left",
@@ -11,12 +13,8 @@ const rightArrow = $("<div/>", {
   id: "ilb-arrow-right",
 });
 
-export function addArrowsToDOM(
-  container: JQuery,
-  onleft: () => void,
-  onright: () => void,
-): void {
-  container.append(
+export function addArrowsToDOM(onleft: () => void, onright: () => void): void {
+  getContainer().append(
     leftArrow.on("click.ilb7 touchend.ilb7", (): boolean => {
       onleft();
       return false;

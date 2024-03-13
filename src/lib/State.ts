@@ -9,7 +9,6 @@ import { addCaptionToDOM, setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
-  getContainer,
   removeContainerFromDOM,
   triggerContainerEvent,
 } from "./container";
@@ -53,9 +52,6 @@ export function State(
 
   // Cached preloaded videos
   const videoCache: VideoCache = VideoCache();
-
-  // The imagelightbox container element
-  const container: JQuery = getContainer();
 
   // The index of the currently open image, or null if the lightbox is closed
   let currentImage: number | null = null;
@@ -120,7 +116,7 @@ export function State(
   }
 
   function addNewImage(transitionDirection: TransitionDirection): void {
-    currentImageView?.addToDOM(container, () => {
+    currentImageView?.addToDOM(() => {
       const image = targetImages.get(currentImage!)!;
       setCaption(
         image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
@@ -162,7 +158,7 @@ export function State(
       return;
     }
     if (options.activity) {
-      addActivityIndicatorToDOM(container);
+      addActivityIndicatorToDOM();
     }
 
     removeKeyboardNavigation();
@@ -194,7 +190,7 @@ export function State(
     }
 
     if (options.activity) {
-      addActivityIndicatorToDOM(container);
+      addActivityIndicatorToDOM();
     }
 
     removeOldImage(transitionDirection);
@@ -240,22 +236,22 @@ export function State(
   function open(index: number, skipHistory = false): void {
     addContainerToDOM();
     if (options.activity) {
-      addActivityIndicatorToDOM(container);
+      addActivityIndicatorToDOM();
     }
     addKeyboardNavigation(options, close, previous, next);
     if (options.arrows) {
-      addArrowsToDOM(container, previous, next);
+      addArrowsToDOM(previous, next);
     }
     if (options.caption) {
-      addCaptionToDOM(container);
+      addCaptionToDOM();
     }
     if (options.button) {
-      addCloseButtonToDOM(container, close);
+      addCloseButtonToDOM(close);
     }
     if (options.navigation) {
-      addNavigationToDOM(container, images, currentIndex, change);
+      addNavigationToDOM(images, currentIndex, change);
     }
-    addOverlayToDOM(container, options.quitOnDocClick, close);
+    addOverlayToDOM(options.quitOnDocClick, close);
     if (options.overlay) {
       darkenOverlay();
     }

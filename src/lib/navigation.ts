@@ -2,6 +2,7 @@ import "./navigation.css";
 
 import $ from "jquery";
 
+import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 
 const navigationItemTemplate = $("<a/>", {
@@ -19,7 +20,6 @@ export function addNavigationItems(images: JQuery): void {
 }
 
 export function addNavigationToDOM(
-  container: JQuery,
   images: () => JQuery,
   currentIndex: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
@@ -31,13 +31,13 @@ export function addNavigationToDOM(
     .eq(currentIndex()!)
     .addClass("ilb-navigation-active");
 
-  container.on("previous.ilb2 next.ilb2", (_, image: JQuery): void => {
+  getContainer().on("previous.ilb2 next.ilb2", (_, image: JQuery): void => {
     $(".ilb-navigation a")
       .removeClass("ilb-navigation-active")
       .eq(images().index(image))
       .addClass("ilb-navigation-active");
   });
-  container.append(navigation);
+  getContainer().append(navigation);
 
   navigation
     .on("click.ilb7 touchend.ilb7", (): boolean => false)

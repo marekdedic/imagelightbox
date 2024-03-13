@@ -2,13 +2,15 @@ import "./caption.css";
 
 import $ from "jquery";
 
+import { getContainer } from "./container";
+
 const caption = $("<div/>", {
   id: "ilb-caption",
   html: "&nbsp;",
 });
 
-export function addCaptionToDOM(container: JQuery): void {
-  container.append(caption);
+export function addCaptionToDOM(): void {
+  getContainer().append(caption);
 }
 
 export function setCaption(captionText: string | null): void {
