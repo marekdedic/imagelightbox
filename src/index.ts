@@ -6,7 +6,6 @@ const isTest: boolean = typeof TEST !== "undefined" ? TEST : false;
 jQuery(($) => {
   $('a[data-imagelightbox="a"]').imageLightbox({
     activity: true,
-    ...(isTest && { animationSpeed: 0 }),
   });
 
   $('a[data-imagelightbox="allowedtypes"]').imageLightbox({
@@ -32,7 +31,6 @@ jQuery(($) => {
 
   $('a[data-imagelightbox="e"]').imageLightbox({
     navigation: true,
-    selector: 'a[data-imagelightbox="e"]',
     ...(isTest && { animationSpeed: 0 }),
   });
 
@@ -60,7 +58,6 @@ jQuery(($) => {
     navigation: true,
     overlay: true,
     quitOnDocClick: false,
-    selector: 'a[data-imagelightbox="f"]',
     ...(isTest && { animationSpeed: 0 }),
   });
 

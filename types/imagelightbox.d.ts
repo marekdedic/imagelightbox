@@ -1,5 +1,4 @@
 interface ILBOptions {
-  selector: string;
   allowedTypes: string;
   animationSpeed: number;
   activity: boolean;
@@ -10,7 +9,6 @@ interface ILBOptions {
   history: boolean;
   fullscreen: boolean;
   gutter: number;
-  offsetY: number;
   navigation: boolean;
   overlay: boolean;
   preloadNext: boolean;
