@@ -19,6 +19,7 @@ export function addNavigationItems(images: JQuery): void {
   }
 }
 
+// TODO: Refactor
 export function addNavigationToDOM(
   images: () => JQuery,
   currentIndex: () => number | null,
