@@ -1,9 +1,9 @@
 * @marekdedic
 
 # dependabot can approve changes to all of the files it updates
-package.json @marekdedic @dependabot
-package-lock.json @marekdedic @dependabot
-.github/workflows/ @marekdedic @dependabot
+package.json @marekdedic @github-actions
+package-lock.json @marekdedic @github-actions
+.github/workflows/ @marekdedic @github-actions
 
 # Disallow dependabot from approving changes to its auto-merge script
 .github/workflows/dependabot-auto-merge.yml @marekdedic
