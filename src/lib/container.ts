@@ -10,6 +10,7 @@ export function addContainerToDOM(): void {
 
 export function removeContainerFromDOM(): void {
   container.remove();
+  container.empty();
 }
 
 export function triggerContainerEvent(event: string, element?: JQuery): void {
