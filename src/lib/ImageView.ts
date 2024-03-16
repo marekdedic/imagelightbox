@@ -174,57 +174,16 @@ export function ImageView(
     callback();
   }
 
-  function reflow(): void {
-    const screenWidth = $(window).width()!,
-      screenHeight = $(window).height()!,
-      gutterFactor = Math.abs(1 - options.gutter / 100);
-
-    const setSizes = (imageWidth: number, imageHeight: number): void => {
-      if (imageWidth > screenWidth || imageHeight > screenHeight) {
-        const ratio =
-          imageWidth / imageHeight > screenWidth / screenHeight
-            ? imageWidth / screenWidth
-            : imageHeight / screenHeight;
-        imageWidth /= ratio;
-        imageHeight /= ratio;
-      }
-      const cssHeight = imageHeight * gutterFactor,
-        cssWidth = imageWidth * gutterFactor,
-        cssLeft = ($(window).width()! - cssWidth) / 2;
-
-      imageElement.css({
-        width: cssWidth.toString() + "px",
-        height: cssHeight.toString() + "px",
-        left: cssLeft.toString() + "px",
-      });
-    };
-
-    const videoId = imageElement.data("ilb2VideoId") as string;
-    const videoDimensions = videoCache.dimensions(videoId);
-    if (videoDimensions !== undefined) {
-      setSizes(...videoDimensions);
-      return;
-    }
-    const videoElement = imageElement.get(0) as HTMLVideoElement;
-    if ((videoElement.videoWidth as number | undefined) !== undefined) {
-      setSizes(videoElement.videoWidth, videoElement.videoHeight);
-      return;
-    }
-
-    const tmpImage = new Image();
-    tmpImage.src = imageElement.attr("src")!;
-    tmpImage.onload = (): void => {
-      setSizes(tmpImage.width, tmpImage.height);
-    };
-  }
-
   function addToDOM(callback: () => void): void {
     getContainer().append(imageElement);
+    const maxSize = Math.abs(100 - options.gutter);
+    imageElement.css("max-height", maxSize + "%");
+    imageElement.css("max-width", maxSize + "%");
+    imageElement.css(
+      "transition",
+      "left ease " + options.animationSpeed + "ms",
+    );
     imageElement.css("opacity", 0);
-    reflow();
-    $(window).on("resize.ilb7", () => {
-      reflow();
-    });
     callback();
   }
 
@@ -278,7 +237,6 @@ export function ImageView(
   }
 
   function removeFromDOM(): void {
-    $(window).off("resize.ilb7");
     imageElement.remove();
   }
 
