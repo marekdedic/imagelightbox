@@ -1,0 +1,8 @@
+#ilb-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties -- inset is not supported by all browsers */
+  top: 0;
+}

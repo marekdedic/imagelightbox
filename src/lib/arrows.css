@@ -6,7 +6,7 @@
   width: 4em;
   height: 4em;
   background-color: rgba(130, 130, 130, 80%);
-  position: fixed;
+  position: absolute;
   z-index: 10001;
   top: 50%;
   transform: translateY(-50%);

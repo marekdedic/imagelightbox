@@ -1,7 +1,7 @@
 .ilb-navigation {
   animation: fade-in 0.25s linear;
   background-color: rgba(0, 0, 0, 50%);
-  position: fixed;
+  position: absolute;
   z-index: 10001;
   left: 50%;
   bottom: 3.75em;

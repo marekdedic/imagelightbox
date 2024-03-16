@@ -2,7 +2,7 @@
   text-align: center;
   color: #fff;
   background-color: #666;
-  position: fixed;
+  position: absolute;
   z-index: 10001;
   left: 0;
   right: 0;
