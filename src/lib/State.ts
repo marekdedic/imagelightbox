@@ -235,6 +235,7 @@ export function State(
 
   function open(index: number, skipHistory = false): void {
     addContainerToDOM();
+    addOverlayToDOM(options.quitOnDocClick, close);
     if (options.activity) {
       addActivityIndicatorToDOM();
     }
@@ -251,7 +252,6 @@ export function State(
     if (options.navigation) {
       addNavigationToDOM(images, currentIndex, change);
     }
-    addOverlayToDOM(options.quitOnDocClick, close);
     if (options.overlay) {
       darkenOverlay();
     }

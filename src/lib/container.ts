@@ -1,7 +1,9 @@
+import "./container.css";
+
 import $ from "jquery";
 
 const container = $("<div/>", {
-  class: "imagelightbox-container",
+  id: "ilb-container",
 });
 
 export function addContainerToDOM(): void {

@@ -1,6 +1,6 @@
 #ilb-image {
   cursor: pointer;
-  position: fixed;
+  position: absolute;
   z-index: 10000;
   top: 50%;
   touch-action: none;
