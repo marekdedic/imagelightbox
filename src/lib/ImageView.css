@@ -1,8 +1,7 @@
 #ilb-image {
   cursor: pointer;
-  position: absolute;
   z-index: 10000;
-  top: 50%;
+  margin: auto;
   touch-action: none;
   box-shadow: 0 0 3.125em rgba(0, 0, 0, 75%);
 }
