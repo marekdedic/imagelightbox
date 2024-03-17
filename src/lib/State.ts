@@ -101,11 +101,8 @@ export function State(
     });
   }
 
-  function transitionInNewImage(
-    transitionDirection: TransitionDirection,
-  ): void {
+  function transitionInNewImage(): void {
     currentImageView?.transitionIn(
-      transitionDirection,
       removeActivityIndicatorFromDOM,
       /* eslint-disable @typescript-eslint/no-use-before-define -- Cyclical dependencies */
       previous,
@@ -116,12 +113,12 @@ export function State(
   }
 
   function addNewImage(transitionDirection: TransitionDirection): void {
-    currentImageView?.addToDOM(() => {
+    currentImageView?.addToDOM(transitionDirection, () => {
       const image = targetImages.get(currentImage!)!;
       setCaption(
         image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
       );
-      transitionInNewImage(transitionDirection);
+      transitionInNewImage();
       if (options.preloadNext && currentImage! + 1 < targetImages.length) {
         const nextImage = targetImages.eq(currentImage! + 1);
         $("<img />").attr("src", nextImage.attr("href")!);

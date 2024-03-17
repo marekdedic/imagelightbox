@@ -37,10 +37,12 @@ function wasTouched(event: PointerEvent): boolean {
 
 // TODO: Refactor
 export interface ImageView {
-  addToDOM(callback: () => void): void;
+  addToDOM(
+    transitionDirection: TransitionDirection,
+    callback: () => void,
+  ): void;
   startLoading(onload: () => void, onerror: () => void): void;
   transitionIn(
-    transitionDirection: TransitionDirection,
     callback: () => void,
     previousImage: () => void,
     nextImage: () => void,
@@ -64,6 +66,9 @@ export function ImageView(
     "src",
     image.attr("href")!,
   );
+  const containerElement: JQuery = $(
+    '<div class="ilb-image-container">',
+  ).append(imageElement);
   let isVideoPreloaded: boolean | undefined = undefined;
 
   const isVideo = image.data("ilb2Video") !== undefined;
@@ -174,17 +179,22 @@ export function ImageView(
     callback();
   }
 
-  function addToDOM(callback: () => void): void {
-    getContainer().append(imageElement);
+  function addToDOM(
+    transitionDirection: TransitionDirection,
+    callback: () => void,
+  ): void {
+    getContainer().append(containerElement);
     const maxSize = Math.abs(100 - options.gutter);
-    imageElement.css("max-height", maxSize + "%");
-    imageElement.css("max-width", maxSize + "%");
-    imageElement.css(
-      "transition",
-      "left ease " + options.animationSpeed + "ms",
-    );
-    imageElement.css("opacity", 0);
-    callback();
+    imageElement.css({
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
+      "max-height": maxSize.toString() + "%",
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
+      "max-width": maxSize.toString() + "%",
+      left: (-100 * transitionDirection).toString() + "px",
+      transition: "left ease " + options.animationSpeed.toString() + "ms",
+      opacity: "0",
+    });
+    imageElement.show(callback);
   }
 
   function startLoading(onload: () => void, onerror: () => void): void {
@@ -197,24 +207,12 @@ export function ImageView(
   }
 
   function transitionIn(
-    transitionDirection: TransitionDirection,
     callback: () => void,
     previousImage: () => void,
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    cssTransitionTranslateX(
-      imageElement,
-      (-100 * transitionDirection).toString() + "px",
-      0,
-    );
-    setTimeout((): void => {
-      cssTransitionTranslateX(
-        imageElement,
-        "0px",
-        options.animationSpeed / 1000,
-      );
-    }, 50);
+    imageElement.css("left", "0");
     imageElement.animate({ opacity: 1 }, options.animationSpeed, () => {
       onready(callback, previousImage, nextImage, closeLightbox);
     });
@@ -225,11 +223,7 @@ export function ImageView(
     callback: () => void,
   ): void {
     if (transitionDirection !== TransitionDirection.None) {
-      cssTransitionTranslateX(
-        imageElement,
-        (100 * transitionDirection - swipeDiff).toString() + "px",
-        options.animationSpeed / 1000,
-      );
+      imageElement.css("left", (100 * transitionDirection).toString() + "px");
     }
     imageElement.animate({ opacity: 0 }, options.animationSpeed, (): void => {
       callback();
@@ -237,7 +231,7 @@ export function ImageView(
   }
 
   function removeFromDOM(): void {
-    imageElement.remove();
+    containerElement.remove();
   }
 
   return {
