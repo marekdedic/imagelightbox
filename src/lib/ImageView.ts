@@ -88,13 +88,10 @@ export function ImageView(
       closeLightbox();
       return false;
     }
-    if (wasTouched(event.originalEvent as PointerEvent)) {
-      return true;
-    }
-    const posX =
-      (event.pageX || (event.originalEvent as PointerEvent).pageX) -
-      (event.target as HTMLImageElement).offsetLeft;
-    if ((event.target as HTMLImageElement).width / 3 > posX) {
+    const target = event.target as HTMLImageElement;
+    const xPosRelativeToImage =
+      (event.pageX - target.offsetLeft) / target.width;
+    if (xPosRelativeToImage <= 1 / 3) {
       previousImage();
     } else {
       nextImage();
@@ -108,11 +105,9 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    if (!isVideo) {
-      imageElement.on(
-        hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
-        (e: BaseJQueryEventObject) =>
-          onclick(e, previousImage, nextImage, closeLightbox),
+    if (!isVideo && !("ontouchstart" in window)) {
+      imageElement.on("click.ilb7", (e: BaseJQueryEventObject) =>
+        onclick(e, previousImage, nextImage, closeLightbox),
       );
     }
     imageElement
