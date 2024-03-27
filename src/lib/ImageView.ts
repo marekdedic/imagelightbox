@@ -6,41 +6,13 @@ import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 import type { VideoCache } from "./VideoCache";
 
-function cssTransitionTranslateX(
-  element: JQuery,
-  positionX: string,
-  speed: number,
-): void {
-  element.css({
-    transform: "translateX(" + positionX + ") translateY(-50%)",
-    transition: "transform " + speed.toString() + "s ease-in",
-  });
-}
-
-const hasTouch = "ontouchstart" in window;
-const hasPointers = "PointerEvent" in window;
-function wasTouched(event: PointerEvent): boolean {
-  if (hasTouch) {
-    return true;
-  }
-
-  if (!hasPointers || typeof event.pointerType === "undefined") {
-    return false;
-  }
-
-  if (event.pointerType !== "mouse") {
-    return true;
-  }
-
-  return false;
-}
-
-// TODO: Refactor
 export interface ImageView {
-  addToDOM(callback: () => void): void;
+  addToDOM(
+    transitionDirection: TransitionDirection,
+    callback: () => void,
+  ): void;
   startLoading(onload: () => void, onerror: () => void): void;
   transitionIn(
-    transitionDirection: TransitionDirection,
     callback: () => void,
     previousImage: () => void,
     nextImage: () => void,
@@ -64,6 +36,9 @@ export function ImageView(
     "src",
     image.attr("href")!,
   );
+  const containerElement: JQuery = $(
+    '<div class="ilb-image-container">',
+  ).append(imageElement);
   let isVideoPreloaded: boolean | undefined = undefined;
 
   const isVideo = image.data("ilb2Video") !== undefined;
@@ -83,13 +58,10 @@ export function ImageView(
       closeLightbox();
       return false;
     }
-    if (wasTouched(event.originalEvent as PointerEvent)) {
-      return true;
-    }
-    const posX =
-      (event.pageX || (event.originalEvent as PointerEvent).pageX) -
-      (event.target as HTMLImageElement).offsetLeft;
-    if ((event.target as HTMLImageElement).width / 3 > posX) {
+    const target = event.target as HTMLImageElement;
+    const xPosRelativeToImage =
+      (event.pageX - target.offsetLeft) / target.width;
+    if (xPosRelativeToImage <= 1 / 3) {
       previousImage();
     } else {
       nextImage();
@@ -103,129 +75,55 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    if (!isVideo) {
-      imageElement.on(
-        hasPointers ? "pointerup.ilb7 MSPointerUp.ilb7" : "click.ilb7",
-        (e: BaseJQueryEventObject) =>
-          onclick(e, previousImage, nextImage, closeLightbox),
+    if (!isVideo && !("ontouchstart" in window)) {
+      imageElement.on("click.ilb7", (e: BaseJQueryEventObject) =>
+        onclick(e, previousImage, nextImage, closeLightbox),
       );
     }
     imageElement
-      .on(
-        "touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7",
-        (e: BaseJQueryEventObject): void => {
-          if (
-            !wasTouched(e.originalEvent as PointerEvent) ||
-            options.quitOnImgClick
-          ) {
-            return;
-          }
-          swipeStart =
-            (e.originalEvent as PointerEvent).pageX ||
-            (e.originalEvent as TouchEvent).touches[0].pageX;
-        },
-      )
-      .on(
-        "touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7",
-        (e: BaseJQueryEventObject): void => {
-          if (
-            (!hasPointers && e.type === "pointermove") ||
-            !wasTouched(e.originalEvent as PointerEvent) ||
-            options.quitOnImgClick
-          ) {
-            return;
-          }
-          const swipeEnd =
-            (e.originalEvent as PointerEvent).pageX ||
-            (e.originalEvent as TouchEvent).touches[0].pageX;
-          swipeDiff = swipeStart - swipeEnd;
-          cssTransitionTranslateX(
-            imageElement,
-            (-swipeDiff).toString() + "px",
-            0,
-          );
-        },
-      )
-      .on(
-        "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
-        (e): boolean => {
-          if (
-            !wasTouched(e.originalEvent as PointerEvent) ||
-            options.quitOnImgClick
-          ) {
-            return true;
-          }
-          if (swipeDiff < -50) {
-            previousImage();
-            return false;
-          }
-          if (swipeDiff > 50) {
-            nextImage();
-            return false;
-          }
-          cssTransitionTranslateX(
-            imageElement,
-            "0px",
-            options.animationSpeed / 1000,
-          );
-          return true;
-        },
-      );
-    callback();
-  }
-
-  function reflow(): void {
-    const screenWidth = $(window).width()!,
-      screenHeight = $(window).height()!,
-      gutterFactor = Math.abs(1 - options.gutter / 100);
-
-    const setSizes = (imageWidth: number, imageHeight: number): void => {
-      if (imageWidth > screenWidth || imageHeight > screenHeight) {
-        const ratio =
-          imageWidth / imageHeight > screenWidth / screenHeight
-            ? imageWidth / screenWidth
-            : imageHeight / screenHeight;
-        imageWidth /= ratio;
-        imageHeight /= ratio;
-      }
-      const cssHeight = imageHeight * gutterFactor,
-        cssWidth = imageWidth * gutterFactor,
-        cssLeft = ($(window).width()! - cssWidth) / 2;
-
-      imageElement.css({
-        width: cssWidth.toString() + "px",
-        height: cssHeight.toString() + "px",
-        left: cssLeft.toString() + "px",
+      .on("touchstart.ilb7", (e: BaseJQueryEventObject): void => {
+        swipeStart = (e.originalEvent as TouchEvent).touches[0].pageX;
+        imageElement.css("transition-property", "opacity");
+      })
+      .on("touchmove.ilb7", (e: BaseJQueryEventObject): void => {
+        swipeDiff =
+          (e.originalEvent as TouchEvent).touches[0].pageX - swipeStart;
+        imageElement.css("left", swipeDiff.toString() + "px");
+      })
+      .on("touchend.ilb7 touchcancel.ilb7", (): boolean => {
+        imageElement.css("transition-property", "left, opacity");
+        if (swipeDiff > 50) {
+          previousImage();
+          return false;
+        }
+        if (swipeDiff < -50) {
+          nextImage();
+          return false;
+        }
+        imageElement.css("left", "0");
+        return true;
       });
-    };
-
-    const videoId = imageElement.data("ilb2VideoId") as string;
-    const videoDimensions = videoCache.dimensions(videoId);
-    if (videoDimensions !== undefined) {
-      setSizes(...videoDimensions);
-      return;
-    }
-    const videoElement = imageElement.get(0) as HTMLVideoElement;
-    if ((videoElement.videoWidth as number | undefined) !== undefined) {
-      setSizes(videoElement.videoWidth, videoElement.videoHeight);
-      return;
-    }
-
-    const tmpImage = new Image();
-    tmpImage.src = imageElement.attr("src")!;
-    tmpImage.onload = (): void => {
-      setSizes(tmpImage.width, tmpImage.height);
-    };
+    callback();
   }
 
-  function addToDOM(callback: () => void): void {
-    getContainer().append(imageElement);
-    imageElement.css("opacity", 0);
-    reflow();
-    $(window).on("resize.ilb7", () => {
-      reflow();
+  function addToDOM(
+    transitionDirection: TransitionDirection,
+    callback: () => void,
+  ): void {
+    getContainer().append(containerElement);
+    const maxSize = Math.abs(100 - options.gutter);
+    imageElement.css({
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
+      "max-height": maxSize.toString() + "%",
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
+      "max-width": maxSize.toString() + "%",
+      left: (-100 * transitionDirection).toString() + "px",
+      transition: "all ease " + options.animationSpeed.toString() + "ms",
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
+      "transition-property": "left, opacity",
+      opacity: "0",
     });
-    callback();
+    imageElement.show(callback);
   }
 
   function startLoading(onload: () => void, onerror: () => void): void {
@@ -238,27 +136,18 @@ export function ImageView(
   }
 
   function transitionIn(
-    transitionDirection: TransitionDirection,
     callback: () => void,
     previousImage: () => void,
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    cssTransitionTranslateX(
-      imageElement,
-      (-100 * transitionDirection).toString() + "px",
-      0,
-    );
-    setTimeout((): void => {
-      cssTransitionTranslateX(
-        imageElement,
-        "0px",
-        options.animationSpeed / 1000,
-      );
-    }, 50);
-    imageElement.animate({ opacity: 1 }, options.animationSpeed, () => {
-      onready(callback, previousImage, nextImage, closeLightbox);
+    imageElement.css({
+      left: "0",
+      opacity: "1",
     });
+    setTimeout(() => {
+      onready(callback, previousImage, nextImage, closeLightbox);
+    }, options.animationSpeed);
   }
 
   function transitionOut(
@@ -266,20 +155,20 @@ export function ImageView(
     callback: () => void,
   ): void {
     if (transitionDirection !== TransitionDirection.None) {
-      cssTransitionTranslateX(
-        imageElement,
-        (100 * transitionDirection - swipeDiff).toString() + "px",
-        options.animationSpeed / 1000,
+      const currentLeft = parseInt(imageElement.css("left"), 10) || 0;
+      imageElement.css(
+        "left",
+        (currentLeft + 100 * transitionDirection).toString() + "px",
       );
     }
-    imageElement.animate({ opacity: 0 }, options.animationSpeed, (): void => {
+    imageElement.css("opacity", "0");
+    setTimeout(() => {
       callback();
-    });
+    }, options.animationSpeed);
   }
 
   function removeFromDOM(): void {
-    $(window).off("resize.ilb7");
-    imageElement.remove();
+    containerElement.remove();
   }
 
   return {

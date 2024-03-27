@@ -1,8 +1,18 @@
+.ilb-image-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties -- inset is not supported by all browsers */
+  top: 0;
+  display: flex;
+}
+
 #ilb-image {
+  position: relative;
   cursor: pointer;
-  position: fixed;
   z-index: 10000;
-  top: 50%;
+  margin: auto;
   touch-action: none;
   box-shadow: 0 0 3.125em rgba(0, 0, 0, 75%);
 }
