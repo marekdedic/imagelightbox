@@ -6,36 +6,6 @@ import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 import type { VideoCache } from "./VideoCache";
 
-function cssTransitionTranslateX(
-  element: JQuery,
-  positionX: string,
-  speed: number,
-): void {
-  element.css({
-    transform: "translateX(" + positionX + ") translateY(-50%)",
-    transition: "transform " + speed.toString() + "s ease-in",
-  });
-}
-
-const hasTouch = "ontouchstart" in window;
-const hasPointers = "PointerEvent" in window;
-function wasTouched(event: PointerEvent): boolean {
-  if (hasTouch) {
-    return true;
-  }
-
-  if (!hasPointers || typeof event.pointerType === "undefined") {
-    return false;
-  }
-
-  if (event.pointerType !== "mouse") {
-    return true;
-  }
-
-  return false;
-}
-
-// TODO: Refactor
 export interface ImageView {
   addToDOM(
     transitionDirection: TransitionDirection,
@@ -111,66 +81,31 @@ export function ImageView(
       );
     }
     imageElement
-      .on(
-        "touchstart.ilb7 pointerdown.ilb7 MSPointerDown.ilb7",
-        (e: BaseJQueryEventObject): void => {
-          if (
-            !wasTouched(e.originalEvent as PointerEvent) ||
-            options.quitOnImgClick
-          ) {
-            return;
-          }
-          swipeStart =
-            (e.originalEvent as PointerEvent).pageX ||
-            (e.originalEvent as TouchEvent).touches[0].pageX;
-        },
-      )
-      .on(
-        "touchmove.ilb7 pointermove.ilb7 MSPointerMove.ilb7",
-        (e: BaseJQueryEventObject): void => {
-          if (
-            (!hasPointers && e.type === "pointermove") ||
-            !wasTouched(e.originalEvent as PointerEvent) ||
-            options.quitOnImgClick
-          ) {
-            return;
-          }
-          const swipeEnd =
-            (e.originalEvent as PointerEvent).pageX ||
-            (e.originalEvent as TouchEvent).touches[0].pageX;
-          swipeDiff = swipeStart - swipeEnd;
-          cssTransitionTranslateX(
-            imageElement,
-            (-swipeDiff).toString() + "px",
-            0,
-          );
-        },
-      )
-      .on(
-        "touchend.ilb7 touchcancel.ilb7 pointerup.ilb7 pointercancel.ilb7 MSPointerUp.ilb7 MSPointerCancel.ilb7",
-        (e): boolean => {
-          if (
-            !wasTouched(e.originalEvent as PointerEvent) ||
-            options.quitOnImgClick
-          ) {
-            return true;
-          }
-          if (swipeDiff < -50) {
-            previousImage();
-            return false;
-          }
-          if (swipeDiff > 50) {
-            nextImage();
-            return false;
-          }
-          cssTransitionTranslateX(
-            imageElement,
-            "0px",
-            options.animationSpeed / 1000,
-          );
-          return true;
-        },
-      );
+      .on("touchstart.ilb7", (e: BaseJQueryEventObject): void => {
+        swipeStart = (e.originalEvent as TouchEvent).touches[0].pageX;
+        imageElement.css("transition", "");
+      })
+      .on("touchmove.ilb7", (e: BaseJQueryEventObject): void => {
+        swipeDiff =
+          (e.originalEvent as TouchEvent).touches[0].pageX - swipeStart;
+        imageElement.css("left", swipeDiff.toString() + "px");
+      })
+      .on("touchend.ilb7 touchcancel.ilb7", (): boolean => {
+        imageElement.css(
+          "transition",
+          "left ease " + options.animationSpeed.toString() + "ms",
+        );
+        if (swipeDiff > 50) {
+          previousImage();
+          return false;
+        }
+        if (swipeDiff < -50) {
+          nextImage();
+          return false;
+        }
+        imageElement.css("left", "0");
+        return true;
+      });
     callback();
   }
 
@@ -218,7 +153,11 @@ export function ImageView(
     callback: () => void,
   ): void {
     if (transitionDirection !== TransitionDirection.None) {
-      imageElement.css("left", (100 * transitionDirection).toString() + "px");
+      const currentLeft = parseInt(imageElement.css("left"), 10) || 0;
+      imageElement.css(
+        "left",
+        (currentLeft + 100 * transitionDirection).toString() + "px",
+      );
     }
     imageElement.animate({ opacity: 0 }, options.animationSpeed, (): void => {
       callback();
