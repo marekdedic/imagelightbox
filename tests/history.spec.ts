@@ -20,7 +20,7 @@ test("has a working history", async ({ page }) => {
     "src",
     "images/demo2.jpg",
   );
-  await page.locator("#ilb-overlay").dispatchEvent("click");
+  await page.locator("#ilb-container").dispatchEvent("click");
   await expect(page.locator("#ilb-image")).toBeHidden();
   await page.goBack();
   await expect(page.locator("#ilb-image")).toBeVisible();
@@ -76,7 +76,7 @@ test("has a working history with IDs", async ({ page }) => {
     "src",
     "images/demo2.jpg",
   );
-  await page.locator("#ilb-overlay").dispatchEvent("click");
+  await page.locator("#ilb-container").dispatchEvent("click");
   await expect(page.locator("#ilb-image")).toBeHidden();
   await page.goBack();
   await expect(page.locator("#ilb-image")).toBeVisible();

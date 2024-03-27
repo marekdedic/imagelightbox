@@ -6,9 +6,23 @@ const container = $("<div/>", {
   id: "ilb-container",
 });
 
-export function addContainerToDOM(): void {
-  $("body").append(container);
+export function addContainerToDOM(
+  attachOnclick: boolean,
+  onclick: () => void,
+): void {
+  container.removeClass("ilb-overlay");
   $("body").addClass("ilb-body");
+  $("body").append(container);
+  if (attachOnclick) {
+    container.on("click.ilb7 touchend.ilb7", (): boolean => {
+      onclick();
+      return false;
+    });
+  }
+}
+
+export function darkenOverlay(): void {
+  container.addClass("ilb-overlay");
 }
 
 export function removeContainerFromDOM(): void {
