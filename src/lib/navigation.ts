@@ -19,7 +19,14 @@ export function addNavigationItems(images: JQuery): void {
   }
 }
 
-// TODO: Refactor
+export function changeNavigationCurrent(currentIndex: number): void {
+  navigation
+    .children()
+    .removeClass("ilb-navigation-active")
+    .eq(currentIndex)
+    .addClass("ilb-navigation-active");
+}
+
 export function addNavigationToDOM(
   images: () => JQuery,
   currentIndex: () => number | null,
@@ -27,22 +34,13 @@ export function addNavigationToDOM(
 ): void {
   navigation.empty();
   addNavigationItems(images());
-  navigation
-    .children("a")
-    .eq(currentIndex()!)
-    .addClass("ilb-navigation-active");
-
-  getContainer().on("previous.ilb2 next.ilb2", (_, image: JQuery): void => {
-    $(".ilb-navigation a")
-      .removeClass("ilb-navigation-active")
-      .eq(images().index(image))
-      .addClass("ilb-navigation-active");
-  });
+  changeNavigationCurrent(currentIndex()!);
   getContainer().append(navigation);
 
   navigation
     .on("click.ilb7 touchend.ilb7", (): boolean => false)
-    .on("click.ilb7 touchend.ilb7", "a", function (): boolean {
+    .children()
+    .on("click.ilb7 touchend.ilb7", function (): boolean {
       const $this = $(this);
       if (
         images().eq($this.index()).attr("href") === $("#ilb-image").attr("src")
@@ -54,10 +52,6 @@ export function addNavigationToDOM(
           ? TransitionDirection.Left
           : TransitionDirection.Right;
       change($this.index(), loadDirection);
-      $this
-        .addClass("ilb-navigation-active")
-        .siblings()
-        .removeClass("ilb-navigation-active");
       return false;
     });
 }

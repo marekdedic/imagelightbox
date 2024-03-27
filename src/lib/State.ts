@@ -19,7 +19,11 @@ import {
   addKeyboardNavigation,
   removeKeyboardNavigation,
 } from "./keyboard-navigation";
-import { addNavigationItems, addNavigationToDOM } from "./navigation";
+import {
+  addNavigationItems,
+  addNavigationToDOM,
+  changeNavigationCurrent,
+} from "./navigation";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
@@ -189,6 +193,7 @@ export function State(
     if (options.activity) {
       addActivityIndicatorToDOM();
     }
+    changeNavigationCurrent(index);
 
     removeOldImage(transitionDirection);
     startLoadingNewImage(index, transitionDirection);
