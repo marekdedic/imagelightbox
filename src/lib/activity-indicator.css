@@ -2,7 +2,7 @@
   animation: fade-in 0.25s linear;
   background-color: rgba(130, 130, 130, 80%);
   border-radius: 999px;
-  position: fixed;
+  position: absolute;
   z-index: 10003;
   top: 50%;
   left: 50%;

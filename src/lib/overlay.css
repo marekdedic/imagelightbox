@@ -1,5 +1,5 @@
 #ilb-overlay {
-  position: fixed;
+  position: absolute;
   z-index: 9998;
   top: 0;
   right: 0;

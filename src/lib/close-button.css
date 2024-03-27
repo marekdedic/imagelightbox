@@ -4,7 +4,7 @@
   width: 3em;
   height: 3em;
   background-color: rgba(130, 130, 130, 80%);
-  position: fixed;
+  position: absolute;
   z-index: 10002;
   top: 2.5em;
   right: 2.5em;

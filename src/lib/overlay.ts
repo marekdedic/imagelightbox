@@ -4,6 +4,7 @@ import $ from "jquery";
 
 import { getContainer } from "./container";
 
+// TODO: Remove overlay and move functionality to container
 const overlay = $("<div/>", {
   id: "ilb-overlay",
 });
