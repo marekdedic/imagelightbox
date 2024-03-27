@@ -14,8 +14,9 @@ test("shows the overlay", async ({ page }) => {
     "src",
     "images/demo1.jpg",
   );
-  await expect(page.locator("#ilb-overlay")).toBeVisible();
-  await page.locator("#ilb-overlay").dispatchEvent("click");
+  await expect(page.locator("#ilb-container")).toBeVisible();
+  await expect(page.locator("#ilb-container")).toHaveClass("ilb-overlay");
+  await page.locator("#ilb-container").dispatchEvent("click");
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
 

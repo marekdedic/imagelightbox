@@ -23,7 +23,7 @@ test("opens and closes the lightbox", async ({ page }) => {
     "src",
     "images/demo1.jpg",
   );
-  await page.locator("#ilb-overlay").dispatchEvent("click");
+  await page.locator("#ilb-container").dispatchEvent("click");
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
 
