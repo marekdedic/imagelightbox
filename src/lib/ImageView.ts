@@ -83,7 +83,7 @@ export function ImageView(
     imageElement
       .on("touchstart.ilb7", (e: BaseJQueryEventObject): void => {
         swipeStart = (e.originalEvent as TouchEvent).touches[0].pageX;
-        imageElement.css("transition", "");
+        imageElement.css("transition-property", "opacity");
       })
       .on("touchmove.ilb7", (e: BaseJQueryEventObject): void => {
         swipeDiff =
@@ -91,10 +91,7 @@ export function ImageView(
         imageElement.css("left", swipeDiff.toString() + "px");
       })
       .on("touchend.ilb7 touchcancel.ilb7", (): boolean => {
-        imageElement.css(
-          "transition",
-          "left ease " + options.animationSpeed.toString() + "ms",
-        );
+        imageElement.css("transition-property", "left, opacity");
         if (swipeDiff > 50) {
           previousImage();
           return false;
@@ -121,7 +118,9 @@ export function ImageView(
       // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
       "max-width": maxSize.toString() + "%",
       left: (-100 * transitionDirection).toString() + "px",
-      transition: "left ease " + options.animationSpeed.toString() + "ms",
+      transition: "all ease " + options.animationSpeed.toString() + "ms",
+      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
+      "transition-property": "left, opacity",
       opacity: "0",
     });
     imageElement.show(callback);
@@ -142,10 +141,13 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    imageElement.css("left", "0");
-    imageElement.animate({ opacity: 1 }, options.animationSpeed, () => {
-      onready(callback, previousImage, nextImage, closeLightbox);
+    imageElement.css({
+      left: "0",
+      opacity: "1",
     });
+    setTimeout(() => {
+      onready(callback, previousImage, nextImage, closeLightbox);
+    }, options.animationSpeed);
   }
 
   function transitionOut(
@@ -159,9 +161,10 @@ export function ImageView(
         (currentLeft + 100 * transitionDirection).toString() + "px",
       );
     }
-    imageElement.animate({ opacity: 0 }, options.animationSpeed, (): void => {
+    imageElement.css("opacity", "0");
+    setTimeout(() => {
       callback();
-    });
+    }, options.animationSpeed);
   }
 
   function removeFromDOM(): void {
