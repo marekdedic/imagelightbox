@@ -9,6 +9,7 @@ import { addCaptionToDOM, setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
+  darkenOverlay,
   removeContainerFromDOM,
   triggerContainerEvent,
 } from "./container";
@@ -19,7 +20,6 @@ import {
   removeKeyboardNavigation,
 } from "./keyboard-navigation";
 import { addNavigationItems, addNavigationToDOM } from "./navigation";
-import { addOverlayToDOM, darkenOverlay } from "./overlay";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
@@ -231,8 +231,7 @@ export function State(
   }
 
   function open(index: number, skipHistory = false): void {
-    addContainerToDOM();
-    addOverlayToDOM(options.quitOnDocClick, close);
+    addContainerToDOM(options.quitOnDocClick, close);
     if (options.activity) {
       addActivityIndicatorToDOM();
     }
