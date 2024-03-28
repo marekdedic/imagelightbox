@@ -29,15 +29,29 @@ After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs`
 ;
 ## How to use
 
-````javascript
-<script src="jquery.js"></script>
-<script src="imagelightbox.js"></script>
-<script>
-    $( function()
-    {
-        $( selector ).imageLightbox();
-    });
-</script>
+````html
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="node_modules/imagelightbox/dist/imagelightbox.css">
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/imagelightbox/dist/imagelightbox.umd.cjs"></script>
+        <script>
+            $( function()
+            {
+                $('a[data-imagelightbox="xyz"]').imageLightbox();
+            });
+        </script>
+    </head>
+    <body>
+        <a data-imagelightbox="xyz" href="image_1.jpg">
+            <img src="thumbnail_1.jpg" alt="Caption 1"/>
+        </a>
+        <a data-imagelightbox="xyz" href="image_2.jpg">
+            <img src="thumbnail_2.jpg" alt="Caption 2"/>
+        </a>
+    </body>
+</html>
 ````
 
 ## Options
