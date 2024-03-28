@@ -1,7 +1,7 @@
 interface ILBOptions {
+  activity: boolean;
   allowedTypes: string;
   animationSpeed: number;
-  activity: boolean;
   arrows: boolean;
   button: boolean;
   caption: boolean;
