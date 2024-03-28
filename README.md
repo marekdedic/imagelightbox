@@ -17,8 +17,16 @@ See most of the available options at the [Demo Page](http://marekdedic.github.io
 ## Requirements and Browser support
 
 * jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
-* All major desktop browsers and versions as well as mobile browsers on Android, iOS and Windows Phone.
+* All major desktop browsers and versions as well as mobile browsers on Android and iOS.
 
+## How to install
+
+```sh
+$ npm install --save jquery imagelightbox
+```
+
+After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs` files. Alternatively, you can use the `dist/imagelightbox.js` file if you are using ES6 modules.
+;
 ## How to use
 
 ````javascript
