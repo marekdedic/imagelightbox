@@ -1,5 +1,4 @@
 #ilb-activity-indicator {
-  animation: fade-in 0.25s linear;
   background-color: rgba(130, 130, 130, 80%);
   border-radius: 999px;
   position: absolute;
