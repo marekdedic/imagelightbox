@@ -54,6 +54,9 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): boolean {
+    if (event.type === "touchend") {
+      return false;
+    }
     if (options.quitOnImgClick) {
       closeLightbox();
       return false;
@@ -75,8 +78,8 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    if (!isVideo && !("ontouchstart" in window)) {
-      imageElement.on("click.ilb7", (e: BaseJQueryEventObject) =>
+    if (!isVideo) {
+      imageElement.on("click.ilb7 touchend.ilb7", (e: BaseJQueryEventObject) =>
         onclick(e, previousImage, nextImage, closeLightbox),
       );
     }
