@@ -5,7 +5,7 @@ import {
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
 import { addArrowsToDOM } from "./arrows";
-import { addCaptionToDOM, setCaption } from "./caption";
+import { setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
@@ -120,9 +120,12 @@ export function State(
   function addNewImage(transitionDirection: TransitionDirection): void {
     currentImageView?.addToDOM(transitionDirection, () => {
       const image = targetImages.get(currentImage!)!;
-      setCaption(
-        image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
-      );
+      if (options.caption) {
+        setCaption(
+          image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+          options.animationSpeed,
+        );
+      }
       transitionInNewImage();
       if (options.preloadNext && currentImage! + 1 < targetImages.length) {
         const nextImage = targetImages.eq(currentImage! + 1);
@@ -245,9 +248,6 @@ export function State(
     addKeyboardNavigation(options, close, previous, next);
     if (options.arrows) {
       addArrowsToDOM(previous, next);
-    }
-    if (options.caption) {
-      addCaptionToDOM();
     }
     if (options.button) {
       addCloseButtonToDOM(close);
