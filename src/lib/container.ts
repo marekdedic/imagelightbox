@@ -20,15 +20,21 @@ export function addContainerToDOM(
       return false;
     });
   }
-  container.animate({ opacity: 1 }, animationSpeed);
+  container.css(
+    "transition",
+    "opacity " + animationSpeed.toString() + "ms ease",
+  );
+  container.show(() => {
+    container.css("opacity", "1");
+  });
 }
 
 export function darkenOverlay(): void {
   container.addClass("ilb-overlay");
 }
 
-export function fadeOutContainer(animationSpeed: number): void {
-  container.animate({ opacity: 0 }, animationSpeed);
+export function transitionOutContainer(): void {
+  container.css("opacity", "0");
 }
 
 export function removeContainerFromDOM(): void {

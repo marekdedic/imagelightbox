@@ -10,8 +10,8 @@ import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
   darkenOverlay,
-  fadeOutContainer,
   removeContainerFromDOM,
+  transitionOutContainer,
   triggerContainerEvent,
 } from "./container";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
@@ -174,7 +174,7 @@ export function State(
 
     triggerContainerEvent("quit.ilb2");
 
-    fadeOutContainer(options.animationSpeed);
+    transitionOutContainer();
     removeOldImage(TransitionDirection.None, () => {
       currentImage = null;
       currentImageView = null;
