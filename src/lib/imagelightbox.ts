@@ -6,16 +6,16 @@ import { State } from "./State";
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   const options: ILBOptions = $.extend(
     {
+      activity: false,
       allowedTypes: "png|jpg|jpeg|gif",
       animationSpeed: 250,
-      activity: false,
       arrows: false,
       button: false,
       caption: false,
       enableKeyboard: true,
       history: false,
       fullscreen: false,
-      gutter: 10, // percentage of client height
+      gutter: 10,
       navigation: false,
       overlay: false,
       preloadNext: true,
