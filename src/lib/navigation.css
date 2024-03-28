@@ -1,5 +1,4 @@
 .ilb-navigation {
-  animation: fade-in 0.25s linear;
   background-color: rgba(0, 0, 0, 50%);
   position: absolute;
   z-index: 10001;
@@ -20,20 +19,5 @@
 }
 
 .ilb-navigation-active {
-  animation: fade-in 0.45s linear;
   background-color: #fff;
-}
-
-.ilb-navigation a:active {
-  background: #808080;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
