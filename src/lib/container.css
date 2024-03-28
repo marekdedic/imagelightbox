@@ -10,7 +10,6 @@
 }
 
 .ilb-overlay {
-  animation: fade-in 0.25s linear;
   background-color: rgba(30, 30, 30, 90%);
 }
 
