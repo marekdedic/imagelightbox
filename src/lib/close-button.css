@@ -1,5 +1,5 @@
+/* TODO: Unify styles with arrows */
 #ilb-close-button {
-  animation: fade-in 0.25s linear;
   cursor: pointer;
   width: 3em;
   height: 3em;

@@ -5,12 +5,13 @@ import {
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
 import { addArrowsToDOM } from "./arrows";
-import { addCaptionToDOM, setCaption } from "./caption";
+import { setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
 import {
   addContainerToDOM,
   darkenOverlay,
   removeContainerFromDOM,
+  transitionOutContainer,
   triggerContainerEvent,
 } from "./container";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
@@ -119,9 +120,12 @@ export function State(
   function addNewImage(transitionDirection: TransitionDirection): void {
     currentImageView?.addToDOM(transitionDirection, () => {
       const image = targetImages.get(currentImage!)!;
-      setCaption(
-        image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
-      );
+      if (options.caption) {
+        setCaption(
+          image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+          options.animationSpeed,
+        );
+      }
       transitionInNewImage();
       if (options.preloadNext && currentImage! + 1 < targetImages.length) {
         const nextImage = targetImages.eq(currentImage! + 1);
@@ -170,6 +174,7 @@ export function State(
 
     triggerContainerEvent("quit.ilb2");
 
+    transitionOutContainer();
     removeOldImage(TransitionDirection.None, () => {
       currentImage = null;
       currentImageView = null;
@@ -236,7 +241,7 @@ export function State(
   }
 
   function open(index: number, skipHistory = false): void {
-    addContainerToDOM(options.quitOnDocClick, close);
+    addContainerToDOM(options.animationSpeed, options.quitOnDocClick, close);
     if (options.activity) {
       addActivityIndicatorToDOM();
     }
@@ -244,14 +249,11 @@ export function State(
     if (options.arrows) {
       addArrowsToDOM(previous, next);
     }
-    if (options.caption) {
-      addCaptionToDOM();
-    }
     if (options.button) {
       addCloseButtonToDOM(close);
     }
     if (options.navigation) {
-      addNavigationToDOM(images, currentIndex, change);
+      addNavigationToDOM(images, currentIndex, change, options.animationSpeed);
     }
     if (options.overlay) {
       darkenOverlay();
@@ -290,7 +292,7 @@ export function State(
       openWithImage($(event.delegateTarget as HTMLElement));
       return false;
     });
-    addNavigationItems(validImages);
+    addNavigationItems(validImages, options.animationSpeed);
   }
 
   // State initialization
