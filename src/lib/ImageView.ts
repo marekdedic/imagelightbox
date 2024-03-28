@@ -119,9 +119,6 @@ export function ImageView(
       "max-width": maxSize.toString() + "%",
       left: (-100 * transitionDirection).toString() + "px",
       transition: "all ease " + options.animationSpeed.toString() + "ms",
-      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
-      "transition-property": "left, opacity",
-      opacity: "0",
     });
     imageElement.show(callback);
   }
