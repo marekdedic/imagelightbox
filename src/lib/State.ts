@@ -253,7 +253,7 @@ export function State(
       addCloseButtonToDOM(close);
     }
     if (options.navigation) {
-      addNavigationToDOM(images, currentIndex, change);
+      addNavigationToDOM(images, currentIndex, change, options.animationSpeed);
     }
     if (options.overlay) {
       darkenOverlay();
@@ -292,7 +292,7 @@ export function State(
       openWithImage($(event.delegateTarget as HTMLElement));
       return false;
     });
-    addNavigationItems(validImages);
+    addNavigationItems(validImages, options.animationSpeed);
   }
 
   // State initialization

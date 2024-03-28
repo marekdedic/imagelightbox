@@ -12,11 +12,20 @@ const navigation = $("<div/>", {
   class: "ilb-navigation",
 });
 
-export function addNavigationItems(images: JQuery): void {
+export function addNavigationItems(
+  images: JQuery,
+  animationSpeed: number,
+): void {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
   for (let i = 0; i < images.length; i++) {
     navigation.append(navigationItemTemplate.clone());
   }
+  navigation
+    .children()
+    .css(
+      "transition",
+      "background-color " + animationSpeed.toString() + "ms ease",
+    );
 }
 
 export function changeNavigationCurrent(currentIndex: number): void {
@@ -31,9 +40,10 @@ export function addNavigationToDOM(
   images: () => JQuery,
   currentIndex: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
+  animationSpeed: number,
 ): void {
   navigation.empty();
-  addNavigationItems(images());
+  addNavigationItems(images(), animationSpeed);
   changeNavigationCurrent(currentIndex()!);
   getContainer().append(navigation);
 

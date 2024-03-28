@@ -19,20 +19,5 @@
 }
 
 .ilb-navigation-active {
-  animation: fade-in 0.45s linear;
   background-color: #fff;
-}
-
-.ilb-navigation a:active {
-  background: #808080;
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
