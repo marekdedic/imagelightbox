@@ -1,0 +1,15 @@
+.ilb-button {
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(130, 130, 130, 80%);
+  z-index: 10002;
+  border-radius: 50%;
+  transition: background-color 0.25s ease;
+}
+
+.ilb-button:hover {
+  background-color: #111;
+}
