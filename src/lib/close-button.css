@@ -24,9 +24,9 @@
   transform: rotate(-45deg);
 }
 
-@media only screen and (max-width: 41.25em) {
+@media only screen and (max-width: 700px) {
   #ilb-close-button {
-    top: 1.25em;
-    right: 1.25em;
+    top: 1em;
+    right: 1em;
   }
 }

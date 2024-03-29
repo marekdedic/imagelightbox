@@ -11,5 +11,5 @@
 }
 
 .ilb-button:hover {
-  background-color: #111;
+  background-color: rgba(0, 0, 0, 75%);
 }
