@@ -1,34 +1,19 @@
 .ilb-arrow {
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  width: 4em;
-  height: 4em;
-  background-color: rgba(130, 130, 130, 80%);
   position: absolute;
-  z-index: 10001;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.ilb-arrow:hover {
-  background-color: rgba(0, 0, 0, 75%);
-}
-
-.ilb-arrow:active {
-  background-color: #111;
-}
-
 #ilb-arrow-left {
-  left: 2.5em;
+  left: 2.5rem;
 }
 
 #ilb-arrow-right {
-  right: 2.5em;
+  right: 2.5rem;
 }
 
 .ilb-arrow::before {
-  border: 1em solid transparent;
+  border: 1rem solid transparent;
   content: "";
   position: absolute;
   top: 25%;
@@ -37,30 +22,20 @@
 
 #ilb-arrow-left::before {
   border-right-color: #fff;
-  margin-left: -1.7em;
+  margin-left: -1.7rem;
 }
 
 #ilb-arrow-right::before {
   border-left-color: #fff;
-  margin-left: -0.3em;
+  margin-left: -0.3rem;
 }
 
-@media only screen and (max-width: 41.25em) {
+@media only screen and (max-width: 700px) {
   #ilb-arrow-left {
-    left: 1.25em;
+    left: 1em;
   }
 
   #ilb-arrow-right {
-    right: 1.25em;
-  }
-}
-
-@media only screen and (max-width: 20em) {
-  #ilb-arrow-left {
-    left: 0;
-  }
-
-  #ilb-arrow-right {
-    right: 0;
+    right: 1em;
   }
 }
