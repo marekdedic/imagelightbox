@@ -14,7 +14,7 @@ export function setCaption(
   animationSpeed: number,
 ): void {
   if (captionText !== null) {
-    getContainer().append(caption);
+    $(getContainer()).append(caption);
     caption.css(
       "transition",
       "opacity " + animationSpeed.toString() + "ms ease",

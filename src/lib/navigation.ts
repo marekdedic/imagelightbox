@@ -42,7 +42,7 @@ export function addNavigationToDOM(
   navigation.empty();
   addNavigationItems(images(), animationSpeed);
   changeNavigationCurrent(currentIndex()!);
-  getContainer().append(navigation);
+  $(getContainer()).append(navigation);
 
   navigation
     .on("click.ilb7 touchend.ilb7", (): boolean => false)

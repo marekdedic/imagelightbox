@@ -9,7 +9,7 @@ const activityIndicator = $("<div/>")
   .append($("<div/>"));
 
 export function addActivityIndicatorToDOM(): void {
-  getContainer().append(activityIndicator);
+  $(getContainer()).append(activityIndicator);
 }
 
 export function removeActivityIndicatorFromDOM(): void {

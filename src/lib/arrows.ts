@@ -15,7 +15,7 @@ const rightArrow = $("<div/>", {
 });
 
 export function addArrowsToDOM(onleft: () => void, onright: () => void): void {
-  getContainer().append(
+  $(getContainer()).append(
     leftArrow.on("click.ilb7 touchend.ilb7", (): boolean => {
       onleft();
       return false;
