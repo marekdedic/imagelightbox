@@ -40,7 +40,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
     if (options.history) {
       openHistory(
         state.set(),
-        state.images(),
+        state.images().get() as Array<HTMLAnchorElement>,
         (index: number, skipHistory?: boolean) => {
           state.open(index, skipHistory);
         },

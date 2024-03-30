@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { TransitionDirection } from "./TransitionDirection";
 
@@ -43,7 +45,7 @@ export function pushToHistory(
 
 export function openHistory(
   set: string | undefined,
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
   open: (index: number, skipHistory?: boolean) => void,
 ): void {
   if (getQueryField("imageLightboxSet") !== set) {
@@ -53,7 +55,7 @@ export function openHistory(
   if (id === undefined) {
     return;
   }
-  let newIndex = images.index('[data-ilb2-id="' + id + '"]');
+  let newIndex = $(images).index('[data-ilb2-id="' + id + '"]');
   if (newIndex < 0) {
     newIndex = parseInt(id);
   }
