@@ -1,19 +1,7 @@
-/* TODO: Unify styles with arrows */
 #ilb-close-button {
-  cursor: pointer;
-  width: 3em;
-  height: 3em;
-  background-color: rgba(130, 130, 130, 80%);
   position: absolute;
-  z-index: 10002;
-  top: 2.5em;
-  right: 2.5em;
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
-}
-
-#ilb-close-button:hover {
-  background-color: #111;
+  top: 2.5rem;
+  right: 2.5rem;
 }
 
 #ilb-close-button::before,
@@ -22,8 +10,8 @@
   background-color: #fff;
   content: "";
   position: absolute;
-  top: 20%;
-  bottom: 20%;
+  top: 25%;
+  bottom: 25%;
   left: 50%;
   margin-left: -1px;
 }
@@ -36,9 +24,9 @@
   transform: rotate(-45deg);
 }
 
-@media only screen and (max-width: 41.25em) {
+@media only screen and (max-width: 700px) {
   #ilb-close-button {
-    top: 1.25em;
-    right: 1.25em;
+    top: 1em;
+    right: 1em;
   }
 }

@@ -1,10 +1,12 @@
+import "./button.css";
 import "./close-button.css";
 
 import $ from "jquery";
 
 import { getContainer } from "./container";
 
-const closeButton = $("<div/>", {
+const closeButton = $("<button/>", {
+  class: "ilb-button",
   id: "ilb-close-button",
 });
 

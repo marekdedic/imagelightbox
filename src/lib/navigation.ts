@@ -5,9 +5,6 @@ import $ from "jquery";
 import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 
-const navigationItemTemplate = $("<a/>", {
-  href: "#",
-});
 const navigation = $("<div/>", {
   class: "ilb-navigation",
 });
@@ -18,7 +15,7 @@ export function addNavigationItems(
 ): void {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
   for (let i = 0; i < images.length; i++) {
-    navigation.append(navigationItemTemplate.clone());
+    navigation.append($("<button/>"));
   }
   navigation
     .children()
@@ -49,8 +46,7 @@ export function addNavigationToDOM(
 
   navigation
     .on("click.ilb7 touchend.ilb7", (): boolean => false)
-    .children()
-    .on("click.ilb7 touchend.ilb7", function (): boolean {
+    .on("click.ilb7 touchend.ilb7", "button", function (): boolean {
       const $this = $(this);
       if (
         images().eq($this.index()).attr("href") === $("#ilb-image").attr("src")
