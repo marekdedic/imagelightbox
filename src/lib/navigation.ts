@@ -46,8 +46,7 @@ export function addNavigationToDOM(
 
   navigation
     .on("click.ilb7 touchend.ilb7", (): boolean => false)
-    .children()
-    .on("click.ilb7 touchend.ilb7", function (): boolean {
+    .on("click.ilb7 touchend.ilb7", "button", function (): boolean {
       const $this = $(this);
       if (
         images().eq($this.index()).attr("href") === $("#ilb-image").attr("src")
