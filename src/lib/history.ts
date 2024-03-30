@@ -18,7 +18,7 @@ export function pushQuitToHistory(): void {
 export function pushToHistory(
   index: number,
   set: string | undefined,
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
 ): void {
   const newIndex = images[index].dataset.ilb2Id ?? index.toString();
   let newQuery = addQueryField(

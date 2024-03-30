@@ -192,7 +192,7 @@ export function State(
     }
 
     if (options.history && !skipHistory) {
-      pushToHistory(index, set(), images());
+      pushToHistory(index, set(), images().get() as Array<HTMLAnchorElement>);
     }
 
     if (options.activity) {
@@ -271,7 +271,7 @@ export function State(
     }
 
     if (options.history && !skipHistory) {
-      pushToHistory(index, set(), images());
+      pushToHistory(index, set(), images().get() as Array<HTMLAnchorElement>);
     }
 
     triggerContainerEvent(
