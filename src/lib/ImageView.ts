@@ -43,9 +43,11 @@ export function ImageView(
 
   const isVideo = $(image).data("ilb2Video") !== undefined;
   if (isVideo) {
-    [imageElement, isVideoPreloaded] = videoCache.element(
+    let rawImageElement = undefined;
+    [rawImageElement, isVideoPreloaded] = videoCache.element(
       $(image).data("ilb2VideoId") as string,
     );
+    imageElement = $(rawImageElement);
   }
 
   function onclick(

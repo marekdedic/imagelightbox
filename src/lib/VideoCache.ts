@@ -6,7 +6,7 @@ import { PreloadedVideo } from "./PreloadedVideo";
 export interface VideoCache {
   add(elements: JQuery): void;
   dimensions(videoId: string): [number, number] | undefined;
-  element(videoId: string): [JQuery, boolean];
+  element(videoId: string): [HTMLVideoElement, boolean];
 }
 
 export function VideoCache(): VideoCache {
@@ -32,7 +32,7 @@ export function VideoCache(): VideoCache {
     return video.dimensions();
   }
 
-  function element(videoId: string): [JQuery, boolean] {
+  function element(videoId: string): [HTMLVideoElement, boolean] {
     const video = videos.find((x) => x.id() === videoId)!;
     return video.element();
   }

@@ -5,7 +5,7 @@ import type { VideoOptions } from "./interfaces/VideoOptions";
 export interface PreloadedVideo {
   id(): string;
   dimensions(): [number, number];
-  element(): [JQuery, boolean];
+  element(): [HTMLVideoElement, boolean];
 }
 
 export function PreloadedVideo(
@@ -71,7 +71,7 @@ export function PreloadedVideo(
     return [width ?? videoElement.width()!, height ?? videoElement.height()!];
   }
 
-  function element(): [JQuery, boolean] {
+  function element(): [HTMLVideoElement, boolean] {
     if (autoplay) {
       if (isLoaded) {
         void (videoElement.get(0) as HTMLVideoElement).play();
@@ -79,7 +79,7 @@ export function PreloadedVideo(
         videoElement.attr("autoplay", "autoplay");
       }
     }
-    return [videoElement, isLoaded];
+    return [videoElement.get(0)! as HTMLVideoElement, isLoaded];
   }
 
   return {
