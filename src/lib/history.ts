@@ -63,7 +63,7 @@ export function openHistory(
 }
 
 export function popHistory(
-  event: BaseJQueryEventObject,
+  event: PopStateEvent,
   set: string | undefined,
   images: Array<HTMLAnchorElement>,
   currentIndex: number | null,
@@ -75,8 +75,7 @@ export function popHistory(
     skipHistory?: boolean,
   ) => void,
 ): void {
-  const historyState = (event.originalEvent as PopStateEvent)
-    .state as HistoryState | null;
+  const historyState = event.state as HistoryState | null;
   // This needs to be before checking the set in order to close the lightbox when navigating to a non-imagelightbox state
   if (historyState === null) {
     close(true);
