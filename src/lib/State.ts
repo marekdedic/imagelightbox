@@ -300,7 +300,7 @@ export function State(
           ) ||
             element.dataset.ilb2Video !== undefined),
       );
-    videoCache.add(validImages);
+    videoCache.add(validImages.get() as Array<HTMLAnchorElement>);
     targetImages = targetImages.add(validImages);
     validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
       openWithImage($(event.delegateTarget as HTMLElement));

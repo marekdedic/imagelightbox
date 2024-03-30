@@ -4,7 +4,7 @@ import type { VideoOptions } from "./interfaces/VideoOptions";
 import { PreloadedVideo } from "./PreloadedVideo";
 
 export interface VideoCache {
-  add(elements: JQuery): void;
+  add(elements: Array<HTMLAnchorElement>): void;
   dimensions(videoId: string): [number, number] | undefined;
   element(videoId: string): [HTMLVideoElement, boolean];
 }
@@ -12,15 +12,15 @@ export interface VideoCache {
 export function VideoCache(): VideoCache {
   const videos: Array<PreloadedVideo> = [];
 
-  function add(elements: JQuery): void {
-    elements.each((_, image) => {
+  function add(elements: Array<HTMLAnchorElement>): void {
+    $(elements).each((_, image) => {
       const videoOptions = $(image).data("ilb2Video") as
         | VideoOptions
         | undefined;
       if (videoOptions === undefined) {
         return;
       }
-      videos.push(PreloadedVideo(image as HTMLAnchorElement, videoOptions));
+      videos.push(PreloadedVideo(image, videoOptions));
     });
   }
 
