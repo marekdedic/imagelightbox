@@ -1,15 +1,16 @@
 import "./arrows.css";
+import "./button.css";
 
 import $ from "jquery";
 
 import { getContainer } from "./container";
 
 const leftArrow = $("<div/>", {
-  class: "ilb-arrow",
+  class: "ilb-button ilb-arrow",
   id: "ilb-arrow-left",
 });
 const rightArrow = $("<div/>", {
-  class: "ilb-arrow",
+  class: "ilb-button ilb-arrow",
   id: "ilb-arrow-right",
 });
 

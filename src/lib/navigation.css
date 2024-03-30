@@ -4,20 +4,23 @@
   z-index: 10001;
   left: 50%;
   bottom: 3.75em;
-  padding: 0.313em;
+  padding: 0.3rem;
   transform: translateX(-50%);
   border-radius: 20px;
 }
 
-.ilb-navigation a {
-  width: 1em;
-  height: 1em;
+.ilb-navigation button {
+  width: 1rem;
+  height: 1rem;
   border: 1px solid #fff;
-  display: inline-block;
-  margin: 0.2em 0.313em 0;
+  display: inline-flex;
+  background-color: unset;
+  margin: 0.3rem;
   border-radius: 50%;
+  cursor: pointer;
 }
 
-.ilb-navigation-active {
+.ilb-navigation button:hover,
+.ilb-navigation .ilb-navigation-active {
   background-color: #fff;
 }

@@ -115,20 +115,20 @@ test("can be controlled with the navigation", async ({ page }) => {
     "src",
     "images/demo1.jpg",
   );
-  await expect(page.locator(".ilb-navigation a").first()).toBeVisible();
-  await expect(page.locator(".ilb-navigation a").nth(1)).toBeVisible();
-  await expect(page.locator(".ilb-navigation a").nth(2)).toBeVisible();
-  await page.locator(".ilb-navigation a").nth(2).click();
+  await expect(page.locator(".ilb-navigation button").first()).toBeVisible();
+  await expect(page.locator(".ilb-navigation button").nth(1)).toBeVisible();
+  await expect(page.locator(".ilb-navigation button").nth(2)).toBeVisible();
+  await page.locator(".ilb-navigation button").nth(2).click();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
   );
-  await page.locator(".ilb-navigation a").nth(1).click();
+  await page.locator(".ilb-navigation button").nth(1).click();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
-  await page.locator(".ilb-navigation a").nth(1).click();
+  await page.locator(".ilb-navigation button").nth(1).click();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
