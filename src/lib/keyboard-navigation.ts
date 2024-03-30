@@ -7,7 +7,7 @@ const fullscreenEnabled: boolean =
   ((document as LegacyDocument).webkitFullscreenEnabled ?? false);
 
 function toggleFullScreen(): void {
-  const container = getContainer().get(0)!;
+  const container = getContainer();
 
   /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions -- Polyfills for very old browsers */
   const requestFullscreen = (): void => {

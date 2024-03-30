@@ -113,7 +113,7 @@ export function ImageView(
     transitionDirection: TransitionDirection,
     callback: () => void,
   ): void {
-    getContainer().append(containerElement);
+    $(getContainer()).append(containerElement);
     const maxSize = Math.abs(100 - options.gutter);
     imageElement.css({
       // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property

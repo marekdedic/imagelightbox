@@ -11,7 +11,7 @@ const closeButton = $("<button/>", {
 });
 
 export function addCloseButtonToDOM(onclick: () => void): void {
-  getContainer().append(
+  $(getContainer()).append(
     closeButton.on("click.ilb7", (): boolean => {
       onclick();
       return false;

@@ -50,6 +50,6 @@ export function triggerContainerEvent(
   container.trigger(event, element);
 }
 
-export function getContainer(): JQuery {
-  return container;
+export function getContainer(): HTMLDivElement {
+  return container.get(0) as HTMLDivElement;
 }
