@@ -65,7 +65,7 @@ export function openHistory(
 export function popHistory(
   event: BaseJQueryEventObject,
   set: string | undefined,
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
   currentIndex: number | null,
   open: (index: number, skipHistory?: boolean) => void,
   close: (skipHistory?: boolean) => void,
@@ -90,9 +90,9 @@ export function popHistory(
     close(true);
     return;
   }
-  let newIndex = images
-    .get()
-    .findIndex((e: HTMLElement) => e.dataset.ilb2Id === newId);
+  let newIndex = images.findIndex(
+    (e: HTMLElement) => e.dataset.ilb2Id === newId,
+  );
   if (newIndex < 0) {
     newIndex = parseInt(newId);
   }
