@@ -9,15 +9,15 @@ export interface PreloadedVideo {
 }
 
 export function PreloadedVideo(
-  image: JQuery,
+  image: HTMLAnchorElement,
   videoOptions: VideoOptions,
 ): PreloadedVideo {
-  let tempId = image.data("ilb2Id") as string | undefined;
+  let tempId = $(image).data("ilb2Id") as string | undefined;
   if (tempId === undefined) {
     // Random id
     tempId = "a" + (((1 + Math.random()) * 0x10000) | 0).toString(16);
   }
-  image.data("ilb2VideoId", tempId);
+  $(image).data("ilb2VideoId", tempId);
   const videoId = tempId;
 
   const videoElement = $(

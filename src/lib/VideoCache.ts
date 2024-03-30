@@ -20,7 +20,7 @@ export function VideoCache(): VideoCache {
       if (videoOptions === undefined) {
         return;
       }
-      videos.push(PreloadedVideo($(image), videoOptions));
+      videos.push(PreloadedVideo(image as HTMLAnchorElement, videoOptions));
     });
   }
 
