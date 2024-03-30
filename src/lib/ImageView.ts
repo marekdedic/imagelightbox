@@ -26,7 +26,7 @@ export interface ImageView {
 }
 
 export function ImageView(
-  image: JQuery,
+  image: HTMLAnchorElement,
   options: ILBOptions,
   videoCache: VideoCache,
 ): ImageView {
@@ -34,17 +34,17 @@ export function ImageView(
   let swipeDiff = 0;
   let imageElement: JQuery = $('<img id="ilb-image" />').attr(
     "src",
-    image.attr("href")!,
+    $(image).attr("href")!,
   );
   const containerElement: JQuery = $(
     '<div class="ilb-image-container">',
   ).append(imageElement);
   let isVideoPreloaded: boolean | undefined = undefined;
 
-  const isVideo = image.data("ilb2Video") !== undefined;
+  const isVideo = $(image).data("ilb2Video") !== undefined;
   if (isVideo) {
     [imageElement, isVideoPreloaded] = videoCache.element(
-      image.data("ilb2VideoId") as string,
+      $(image).data("ilb2VideoId") as string,
     );
   }
 

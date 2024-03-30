@@ -140,7 +140,7 @@ export function State(
     transitionDirection: TransitionDirection,
   ): void {
     const newImageView = ImageView(
-      targetImages.eq(newIndex),
+      targetImages.eq(newIndex).get(0)! as HTMLAnchorElement,
       options,
       videoCache,
     );
