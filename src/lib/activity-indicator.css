@@ -1,6 +1,6 @@
 #ilb-activity-indicator {
   background-color: rgba(130, 130, 130, 80%);
-  border-radius: 999px;
+  border-radius: 50%;
   position: absolute;
   z-index: 10003;
   top: 50%;
