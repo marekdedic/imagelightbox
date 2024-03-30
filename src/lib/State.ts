@@ -301,7 +301,10 @@ export function State(
       openWithImage($(event.delegateTarget as HTMLElement));
       return false;
     });
-    addNavigationItems(validImages, options.animationSpeed);
+    addNavigationItems(
+      validImages.get() as Array<HTMLAnchorElement>,
+      options.animationSpeed,
+    );
   }
 
   // State initialization
