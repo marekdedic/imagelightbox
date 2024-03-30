@@ -319,7 +319,7 @@ export function State(
   if (options.history) {
     $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
       popHistory(
-        event,
+        event.originalEvent as PopStateEvent,
         set(),
         images().get() as Array<HTMLAnchorElement>,
         currentIndex(),
