@@ -10,7 +10,7 @@ const navigation = $("<div/>", {
 });
 
 export function addNavigationItems(
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
   animationSpeed: number,
 ): void {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
@@ -40,7 +40,10 @@ export function addNavigationToDOM(
   animationSpeed: number,
 ): void {
   navigation.empty();
-  addNavigationItems(images(), animationSpeed);
+  addNavigationItems(
+    images().get() as Array<HTMLAnchorElement>,
+    animationSpeed,
+  );
   changeNavigationCurrent(currentIndex()!);
   $(getContainer()).append(navigation);
 
