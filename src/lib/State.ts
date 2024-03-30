@@ -318,7 +318,15 @@ export function State(
 
   if (options.history) {
     $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
-      popHistory(event, set(), images(), currentIndex(), open, close, change);
+      popHistory(
+        event,
+        set(),
+        images().get() as Array<HTMLAnchorElement>,
+        currentIndex(),
+        open,
+        close,
+        change,
+      );
     });
   }
 
