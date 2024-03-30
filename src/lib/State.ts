@@ -218,7 +218,10 @@ export function State(
         newIndex = targetImages.length - 1;
       }
     }
-    triggerContainerEvent("previous.ilb2", targetImages.eq(newIndex));
+    triggerContainerEvent(
+      "previous.ilb2",
+      targetImages.eq(newIndex).get(0) as HTMLAnchorElement | undefined,
+    );
     change(newIndex, TransitionDirection.Left);
   }
 
@@ -236,7 +239,10 @@ export function State(
         newIndex = 0;
       }
     }
-    triggerContainerEvent("next.ilb2", targetImages.eq(newIndex));
+    triggerContainerEvent(
+      "next.ilb2",
+      targetImages.eq(newIndex).get(0) as HTMLAnchorElement | undefined,
+    );
     change(newIndex, TransitionDirection.Right);
   }
 
@@ -263,7 +269,10 @@ export function State(
       pushToHistory(index, set(), images());
     }
 
-    triggerContainerEvent("start.ilb2", targetImages.eq(index));
+    triggerContainerEvent(
+      "start.ilb2",
+      targetImages.eq(index).get(0) as HTMLAnchorElement | undefined,
+    );
     startLoadingNewImage(index, TransitionDirection.None);
   }
 
