@@ -34,16 +34,13 @@ export function changeNavigationCurrent(currentIndex: number): void {
 }
 
 export function addNavigationToDOM(
-  images: () => JQuery,
+  images: () => Array<HTMLAnchorElement>,
   currentIndex: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
   navigation.empty();
-  addNavigationItems(
-    images().get() as Array<HTMLAnchorElement>,
-    animationSpeed,
-  );
+  addNavigationItems(images(), animationSpeed);
   changeNavigationCurrent(currentIndex()!);
   $(getContainer()).append(navigation);
 
@@ -52,7 +49,8 @@ export function addNavigationToDOM(
     .on("click.ilb7 touchend.ilb7", "button", function (): boolean {
       const $this = $(this);
       if (
-        images().eq($this.index()).attr("href") === $("#ilb-image").attr("src")
+        $(images()).eq($this.index()).attr("href") ===
+        $("#ilb-image").attr("src")
       ) {
         return false;
       }
