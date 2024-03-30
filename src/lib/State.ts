@@ -259,7 +259,12 @@ export function State(
       addCloseButtonToDOM(close);
     }
     if (options.navigation) {
-      addNavigationToDOM(images, currentIndex, change, options.animationSpeed);
+      addNavigationToDOM(
+        () => images().get() as Array<HTMLAnchorElement>,
+        currentIndex,
+        change,
+        options.animationSpeed,
+      );
     }
     if (options.overlay) {
       darkenOverlay();
