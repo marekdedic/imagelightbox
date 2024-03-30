@@ -43,7 +43,10 @@ export function removeContainerFromDOM(): void {
   $("body").removeClass("ilb-body");
 }
 
-export function triggerContainerEvent(event: string, element?: JQuery): void {
+export function triggerContainerEvent(
+  event: string,
+  element?: HTMLAnchorElement,
+): void {
   container.trigger(event, element);
 }
 
