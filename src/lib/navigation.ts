@@ -1,13 +1,10 @@
 import "./navigation.css";
 
-import $ from "jquery";
-
 import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 
-const navigation = $("<div/>", {
-  class: "ilb-navigation",
-});
+const navigation = document.createElement("div");
+navigation.classList.add("ilb-navigation");
 
 export function addNavigationItems(
   images: Array<HTMLAnchorElement>,
@@ -15,38 +12,38 @@ export function addNavigationItems(
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of -- The result won't be used anyway
   for (let i = 0; i < images.length; i++) {
-    const newButton = $("<button/>")
-      .css(
-        "transition",
-        "background-color " + animationSpeed.toString() + "ms ease",
-      )
-      .on("click.ilb7 touchend.ilb7", function (): boolean {
-        const $this = $(this);
-        if (
-          $(images).eq($this.index()).attr("href") ===
-          $("#ilb-image").attr("src")
-        ) {
-          return false;
-        }
-        const loadDirection =
-          $this.index() < currentIndex()!
-            ? TransitionDirection.Left
-            : TransitionDirection.Right;
-        change($this.index(), loadDirection);
-        return false;
-      });
-    navigation.append(newButton);
+    const button = document.createElement("button");
+    button.style.transition =
+      "background-color " + animationSpeed.toString() + "ms ease";
+    const buttonClick = (): void => {
+      if (button.classList.contains("ilb-navigation-active")) {
+        return;
+      }
+      const buttonIndex = Array.prototype.indexOf.call(
+        button.parentNode!.childNodes,
+        button,
+      );
+      const loadDirection =
+        buttonIndex < currentIndex()!
+          ? TransitionDirection.Left
+          : TransitionDirection.Right;
+      change(buttonIndex, loadDirection);
+    };
+    button.addEventListener("click", buttonClick);
+    button.addEventListener("touchend", buttonClick);
+    navigation.appendChild(button);
   }
 }
 
 export function changeNavigationCurrent(currentIndex: number): void {
-  navigation
-    .children()
-    .removeClass("ilb-navigation-active")
-    .eq(currentIndex)
-    .addClass("ilb-navigation-active");
+  for (let i = 0; i < navigation.children.length; i++) {
+    navigation.children.item(i)?.classList.remove("ilb-navigation-active");
+  }
+  navigation.children
+    .item(currentIndex)
+    ?.classList.add("ilb-navigation-active");
 }
 
 export function addNavigationToDOM(
@@ -55,10 +52,15 @@ export function addNavigationToDOM(
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
-  navigation.empty();
+  navigation.textContent = "";
   addNavigationItems(images, currentIndex, change, animationSpeed);
   changeNavigationCurrent(currentIndex()!);
-  $(getContainer()).append(navigation);
+  getContainer().appendChild(navigation);
 
-  navigation.on("click.ilb7 touchend.ilb7", (): boolean => false);
+  navigation.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+  navigation.addEventListener("touchend", (e) => {
+    e.stopPropagation();
+  });
 }
