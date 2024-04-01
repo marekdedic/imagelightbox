@@ -6,7 +6,7 @@ import {
 } from "./activity-indicator";
 import { addArrowsToDOM, removeArrowsFromDOM } from "./arrows";
 import { setCaption } from "./caption";
-import { addCloseButtonToDOM } from "./close-button";
+import { addCloseButtonToDOM, removeCloseButtonFromDOM } from "./close-button";
 import {
   addContainerToDOM,
   darkenOverlay,
@@ -179,6 +179,7 @@ export function State(
       currentImage = null;
       currentImageView = null;
       removeArrowsFromDOM();
+      removeCloseButtonFromDOM();
       removeContainerFromDOM();
     });
   }
