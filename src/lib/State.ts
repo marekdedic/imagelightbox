@@ -262,7 +262,7 @@ export function State(
     }
     if (options.navigation) {
       addNavigationToDOM(
-        () => images().get() as Array<HTMLAnchorElement>,
+        images().get() as Array<HTMLAnchorElement>,
         currentIndex,
         change,
         options.animationSpeed,
@@ -310,6 +310,8 @@ export function State(
     });
     addNavigationItems(
       validImages.get() as Array<HTMLAnchorElement>,
+      currentIndex,
+      change,
       options.animationSpeed,
     );
   }
