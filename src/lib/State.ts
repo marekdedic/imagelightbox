@@ -4,7 +4,7 @@ import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
-import { addArrowsToDOM } from "./arrows";
+import { addArrowsToDOM, removeArrowsFromDOM } from "./arrows";
 import { setCaption } from "./caption";
 import { addCloseButtonToDOM } from "./close-button";
 import {
@@ -178,6 +178,7 @@ export function State(
     removeOldImage(TransitionDirection.None, () => {
       currentImage = null;
       currentImageView = null;
+      removeArrowsFromDOM();
       removeContainerFromDOM();
     });
   }
