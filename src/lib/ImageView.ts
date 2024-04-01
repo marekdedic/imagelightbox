@@ -36,15 +36,16 @@ export function ImageView(
     document.createElement("img");
   imageElement.setAttribute("id", "ilb-image");
   imageElement.setAttribute("src", image.getAttribute("href") ?? "");
-  const containerElement: JQuery = $(
-    '<div class="ilb-image-container">',
-  ).append(imageElement);
+  const containerElement = document.createElement("div");
+  containerElement.classList.add("ilb-image-container");
+  containerElement.appendChild(imageElement);
   let isVideoPreloaded: boolean | undefined = undefined;
 
-  const isVideo = $(image).data("ilb2Video") !== undefined;
+  const isVideo = image.dataset.ilb2Video !== undefined;
   if (isVideo) {
     [imageElement, isVideoPreloaded] = videoCache.element(
-      $(image).data("ilb2VideoId") as string,
+      // TODO: Check this non-undefined assertion
+      image.dataset.ilb2VideoId!,
     );
   }
 
@@ -115,7 +116,7 @@ export function ImageView(
     transitionDirection: TransitionDirection,
     callback: () => void,
   ): void {
-    $(getContainer()).append(containerElement);
+    getContainer().appendChild(containerElement);
     const maxSize = Math.abs(100 - options.gutter);
     imageElement.style.maxHeight = maxSize.toString() + "%";
     imageElement.style.maxWidth = maxSize.toString() + "%";
