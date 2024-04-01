@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import { addQueryField, getQueryField, removeQueryField } from "./query";
 import { TransitionDirection } from "./TransitionDirection";
 
@@ -55,7 +53,7 @@ export function openHistory(
   if (id === undefined) {
     return;
   }
-  let newIndex = $(images).index('[data-ilb2-id="' + id + '"]');
+  let newIndex = images.findIndex((image) => image.dataset.ilb2Id === id);
   if (newIndex < 0) {
     newIndex = parseInt(id);
   }
