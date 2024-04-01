@@ -11,18 +11,34 @@ const navigation = $("<div/>", {
 
 export function addNavigationItems(
   images: Array<HTMLAnchorElement>,
+  currentIndex: () => number | null,
+  change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
   for (let i = 0; i < images.length; i++) {
-    navigation.append($("<button/>"));
+    const newButton = $("<button/>")
+      .css(
+        "transition",
+        "background-color " + animationSpeed.toString() + "ms ease",
+      )
+      .on("click.ilb7 touchend.ilb7", function (): boolean {
+        const $this = $(this);
+        if (
+          $(images).eq($this.index()).attr("href") ===
+          $("#ilb-image").attr("src")
+        ) {
+          return false;
+        }
+        const loadDirection =
+          $this.index() < currentIndex()!
+            ? TransitionDirection.Left
+            : TransitionDirection.Right;
+        change($this.index(), loadDirection);
+        return false;
+      });
+    navigation.append(newButton);
   }
-  navigation
-    .children()
-    .css(
-      "transition",
-      "background-color " + animationSpeed.toString() + "ms ease",
-    );
 }
 
 export function changeNavigationCurrent(currentIndex: number): void {
@@ -34,31 +50,15 @@ export function changeNavigationCurrent(currentIndex: number): void {
 }
 
 export function addNavigationToDOM(
-  images: () => Array<HTMLAnchorElement>,
+  images: Array<HTMLAnchorElement>,
   currentIndex: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
   navigation.empty();
-  addNavigationItems(images(), animationSpeed);
+  addNavigationItems(images, currentIndex, change, animationSpeed);
   changeNavigationCurrent(currentIndex()!);
   $(getContainer()).append(navigation);
 
-  navigation
-    .on("click.ilb7 touchend.ilb7", (): boolean => false)
-    .on("click.ilb7 touchend.ilb7", "button", function (): boolean {
-      const $this = $(this);
-      if (
-        $(images()).eq($this.index()).attr("href") ===
-        $("#ilb-image").attr("src")
-      ) {
-        return false;
-      }
-      const loadDirection =
-        $this.index() < currentIndex()!
-          ? TransitionDirection.Left
-          : TransitionDirection.Right;
-      change($this.index(), loadDirection);
-      return false;
-    });
+  navigation.on("click.ilb7 touchend.ilb7", (): boolean => false);
 }
