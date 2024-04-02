@@ -1,7 +1,5 @@
 import "./ImageView.css";
 
-import $ from "jquery";
-
 import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 import type { VideoCache } from "./VideoCache";
@@ -49,30 +47,6 @@ export function ImageView(
     );
   }
 
-  function onclick(
-    event: BaseJQueryEventObject,
-    previousImage: () => void,
-    nextImage: () => void,
-    closeLightbox: () => void,
-  ): boolean {
-    if (event.type === "touchend") {
-      return false;
-    }
-    if (options.quitOnImgClick) {
-      closeLightbox();
-      return false;
-    }
-    const target = event.target as HTMLImageElement;
-    const xPosRelativeToImage =
-      (event.pageX - target.offsetLeft) / target.width;
-    if (xPosRelativeToImage <= 1 / 3) {
-      previousImage();
-    } else {
-      nextImage();
-    }
-    return false;
-  }
-
   function onready(
     callback: () => void,
     previousImage: () => void,
@@ -80,35 +54,43 @@ export function ImageView(
     closeLightbox: () => void,
   ): void {
     if (!isVideo) {
-      $(imageElement).on(
-        "click.ilb7 touchend.ilb7",
-        (e: BaseJQueryEventObject) =>
-          onclick(e, previousImage, nextImage, closeLightbox),
-      );
-    }
-    $(imageElement)
-      .on("touchstart.ilb7", (e: BaseJQueryEventObject): void => {
-        swipeStart = (e.originalEvent as TouchEvent).touches[0].pageX;
-        imageElement.style.transitionProperty = "opacity";
-      })
-      .on("touchmove.ilb7", (e: BaseJQueryEventObject): void => {
-        swipeDiff =
-          (e.originalEvent as TouchEvent).touches[0].pageX - swipeStart;
-        imageElement.style.left = swipeDiff.toString() + "px";
-      })
-      .on("touchend.ilb7 touchcancel.ilb7", (): boolean => {
-        imageElement.style.transitionProperty = "left, opacity";
-        if (swipeDiff > 50) {
+      (imageElement as HTMLImageElement).addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (options.quitOnImgClick) {
+          closeLightbox();
+        }
+        const xPosRelativeToImage =
+          (e.pageX - imageElement.offsetLeft) / imageElement.width;
+        if (xPosRelativeToImage <= 1 / 3) {
           previousImage();
-          return false;
-        }
-        if (swipeDiff < -50) {
+        } else {
           nextImage();
-          return false;
         }
-        imageElement.style.left = "0";
-        return true;
       });
+    }
+    imageElement.addEventListener("touchstart", (e) => {
+      swipeStart = (e as TouchEvent).touches[0].pageX;
+      imageElement.style.transitionProperty = "opacity";
+    });
+    imageElement.addEventListener("touchmove", (e) => {
+      swipeDiff = (e as TouchEvent).touches[0].pageX - swipeStart;
+      imageElement.style.left = swipeDiff.toString() + "px";
+    });
+    // TODO: Handle touch cancel - return image back to original position
+    imageElement.addEventListener("touchend", (e) => {
+      e.stopPropagation();
+      imageElement.style.transitionProperty = "left, opacity";
+      if (swipeDiff > 50) {
+        previousImage();
+        return false;
+      }
+      if (swipeDiff < -50) {
+        nextImage();
+        return false;
+      }
+      imageElement.style.left = "0";
+      return true;
+    });
     callback();
   }
 
@@ -123,15 +105,17 @@ export function ImageView(
     imageElement.style.left = (-100 * transitionDirection).toString() + "px";
     imageElement.style.transition =
       "all ease " + options.animationSpeed.toString() + "ms";
+    // TODO: Check later that this really works and the transition isn't discarded
     setTimeout(callback, 1);
   }
 
   function startLoading(onload: () => void, onerror: () => void): void {
-    $(imageElement).on("error.ilb7", onerror);
+    imageElement.addEventListener("error", onerror);
     if (isVideoPreloaded === true) {
       onload();
     } else {
-      $(imageElement).on("load.ilb7", onload).on("loadedmetadata.ilb7", onload);
+      imageElement.addEventListener("load", onload);
+      imageElement.addEventListener("loadedmetadata", onload);
     }
   }
 
