@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import type { VideoOptions } from "./interfaces/VideoOptions";
 import { PreloadedVideo } from "./PreloadedVideo";
 
@@ -13,15 +11,15 @@ export function VideoCache(): VideoCache {
   const videos: Array<PreloadedVideo> = [];
 
   function add(elements: Array<HTMLAnchorElement>): void {
-    $(elements).each((_, image) => {
-      const videoOptions = $(image).data("ilb2Video") as
-        | VideoOptions
-        | undefined;
+    for (const image of elements) {
+      const videoOptions = image.dataset.ilb2Video;
       if (videoOptions === undefined) {
-        return;
+        continue;
       }
-      videos.push(PreloadedVideo(image, videoOptions));
-    });
+      videos.push(
+        PreloadedVideo(image, JSON.parse(videoOptions) as VideoOptions),
+      );
+    }
   }
 
   function dimensions(videoId: string): [number, number] | undefined {
