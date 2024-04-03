@@ -36,7 +36,6 @@ export function ImageView(
   imageElement.setAttribute("src", image.getAttribute("href") ?? "");
   const containerElement = document.createElement("div");
   containerElement.classList.add("ilb-image-container");
-  containerElement.appendChild(imageElement);
   let isVideoPreloaded: boolean | undefined = undefined;
 
   const isVideo = image.dataset.ilb2Video !== undefined;
@@ -46,6 +45,7 @@ export function ImageView(
       image.dataset.ilb2VideoId!,
     );
   }
+  containerElement.appendChild(imageElement);
 
   function onready(
     callback: () => void,

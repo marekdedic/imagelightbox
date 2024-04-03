@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import type { VideoOptions } from "./interfaces/VideoOptions";
 
 export interface PreloadedVideo {
@@ -12,25 +10,24 @@ export function PreloadedVideo(
   image: HTMLAnchorElement,
   videoOptions: VideoOptions,
 ): PreloadedVideo {
-  let tempId = $(image).data("ilb2Id") as string | undefined;
+  let tempId = image.dataset.ilb2Id;
   if (tempId === undefined) {
     // Random id
     tempId = "a" + (((1 + Math.random()) * 0x10000) | 0).toString(16);
   }
-  $(image).data("ilb2VideoId", tempId);
+  image.dataset.ilb2VideoId = tempId;
   const videoId = tempId;
 
-  const videoElement = $(
-    "<video id='ilb-image' preload='metadata' data-ilb2-video-id='" +
-      videoId +
-      "'>",
-  );
+  const videoElement = document.createElement("video");
+  videoElement.setAttribute("id", "ilb-image");
+  videoElement.preload = "metadata";
+  videoElement.dataset.ilb2VideoId = videoId;
   let isLoaded = false;
   let autoplay = false;
   let height: number | undefined = undefined;
   let width: number | undefined = undefined;
 
-  $.each(videoOptions, (key: string, value): void => {
+  for (const [key, value] of Object.entries(videoOptions)) {
     switch (key) {
       case "autoplay":
         autoplay = true;
@@ -47,19 +44,19 @@ export function PreloadedVideo(
       case "poster":
       case "preload":
       case "src":
-        videoElement.attr(key, value as number | string);
+        videoElement.setAttribute(key, (value as number | string).toString());
     }
-  });
-  if (videoOptions.sources) {
-    $.each(videoOptions.sources, (_, source): void => {
-      let sourceElement = $("<source>");
-      $.each(source, (key: string, value): void => {
-        sourceElement = sourceElement.attr(key, value!);
-      });
-      videoElement.append(sourceElement);
-    });
   }
-  videoElement.on("loadedmetadata.ilb7", (): void => {
+  if (videoOptions.sources) {
+    for (const source of videoOptions.sources) {
+      const sourceElement = document.createElement("source");
+      for (const [key, value] of Object.entries(source)) {
+        sourceElement.setAttribute(key, value as string);
+      }
+      videoElement.appendChild(sourceElement);
+    }
+  }
+  videoElement.addEventListener("loadedmetadata", () => {
     isLoaded = true;
   });
 
@@ -68,18 +65,19 @@ export function PreloadedVideo(
   }
 
   function dimensions(): [number, number] {
-    return [width ?? videoElement.width()!, height ?? videoElement.height()!];
+    return [width ?? videoElement.width, height ?? videoElement.height];
   }
 
   function element(): [HTMLVideoElement, boolean] {
+    // TODO: Maybe only autoplay after the transition?
     if (autoplay) {
       if (isLoaded) {
-        void (videoElement.get(0) as HTMLVideoElement).play();
+        void videoElement.play();
       } else {
-        videoElement.attr("autoplay", "autoplay");
+        videoElement.autoplay = true;
       }
     }
-    return [videoElement.get(0)! as HTMLVideoElement, isLoaded];
+    return [videoElement, isLoaded];
   }
 
   return {
