@@ -44,14 +44,11 @@ export class ImageLightbox {
   }
 
   public open(image?: HTMLAnchorElement): void {
-    const index =
-      image !== undefined
-        ? Array.prototype.indexOf.call(
-            image.parentNode?.childNodes ?? [],
-            image,
-          )
-        : 0;
-    this.s.open(index);
+    if (image !== undefined) {
+      this.s.openWithImage(image);
+    } else {
+      this.s.open(0);
+    }
   }
 
   public previous(): void {
