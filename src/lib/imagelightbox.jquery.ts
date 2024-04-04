@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { ImageLightbox } from "./ImageLightbox";
+import { ImageLightbox } from "./imagelightbox";
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   const lightbox = new ImageLightbox(
