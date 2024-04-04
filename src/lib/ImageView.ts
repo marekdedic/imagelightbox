@@ -57,6 +57,7 @@ export function ImageView(
         e.stopPropagation();
         if (options.quitOnImgClick) {
           closeLightbox();
+          return;
         }
         const xPosRelativeToImage =
           (e.pageX - imageElement.offsetLeft) / imageElement.width;
