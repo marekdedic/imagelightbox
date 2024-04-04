@@ -53,7 +53,7 @@ export function State(
   initialImages: Array<HTMLAnchorElement>,
 ): State {
   // The clickable images in the lightbox
-  let targetImages: JQuery = $();
+  const targetImages: Array<HTMLAnchorElement> = [];
 
   // Cached preloaded videos
   const videoCache: VideoCache = VideoCache();
@@ -71,7 +71,7 @@ export function State(
   }
 
   function images(): Array<HTMLAnchorElement> {
-    return targetImages.get() as Array<HTMLAnchorElement>;
+    return targetImages;
   }
 
   function currentIndex(): number | null {
@@ -119,7 +119,7 @@ export function State(
 
   function addNewImage(transitionDirection: TransitionDirection): void {
     currentImageView?.addToDOM(transitionDirection, () => {
-      const image = targetImages.get(currentImage!)!;
+      const image = targetImages[currentImage!];
       if (options.caption) {
         setCaption(
           image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
@@ -128,8 +128,8 @@ export function State(
       }
       transitionInNewImage();
       if (options.preloadNext && currentImage! + 1 < targetImages.length) {
-        const nextImage = targetImages.eq(currentImage! + 1);
-        $("<img />").attr("src", nextImage.attr("href")!);
+        const nextImage = targetImages[currentImage! + 1];
+        $("<img />").attr("src", nextImage.getAttribute("href"));
       }
       triggerContainerEvent("loaded.ilb2");
     });
@@ -139,11 +139,7 @@ export function State(
     newIndex: number,
     transitionDirection: TransitionDirection,
   ): void {
-    const newImageView = ImageView(
-      targetImages.eq(newIndex).get(0)! as HTMLAnchorElement,
-      options,
-      videoCache,
-    );
+    const newImageView = ImageView(targetImages[newIndex], options, videoCache);
     newImageView.startLoading(
       () => {
         currentImage = newIndex;
@@ -220,10 +216,7 @@ export function State(
         newIndex = targetImages.length - 1;
       }
     }
-    triggerContainerEvent(
-      "previous.ilb2",
-      targetImages.eq(newIndex).get(0) as HTMLAnchorElement | undefined,
-    );
+    triggerContainerEvent("previous.ilb2", targetImages[newIndex]);
     change(newIndex, TransitionDirection.Left);
   }
 
@@ -241,10 +234,7 @@ export function State(
         newIndex = 0;
       }
     }
-    triggerContainerEvent(
-      "next.ilb2",
-      targetImages.eq(newIndex).get(0) as HTMLAnchorElement | undefined,
-    );
+    triggerContainerEvent("next.ilb2", targetImages[newIndex]);
     change(newIndex, TransitionDirection.Right);
   }
 
@@ -276,15 +266,12 @@ export function State(
       pushToHistory(index, set(), images());
     }
 
-    triggerContainerEvent(
-      "start.ilb2",
-      targetImages.eq(index).get(0) as HTMLAnchorElement | undefined,
-    );
+    triggerContainerEvent("start.ilb2", targetImages[index]);
     startLoadingNewImage(index, TransitionDirection.None);
   }
 
   function openWithImage(image: HTMLAnchorElement): void {
-    const index = targetImages.index(image);
+    const index = targetImages.indexOf(image);
     if (index < 0) {
       return;
     }
@@ -303,7 +290,7 @@ export function State(
             element.dataset.ilb2Video !== undefined),
       );
     videoCache.add(validImages.get());
-    targetImages = targetImages.add(validImages);
+    targetImages.push(...validImages.get());
     validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
       openWithImage(event.delegateTarget as HTMLAnchorElement);
       return false;
