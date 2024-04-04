@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
@@ -122,14 +120,20 @@ export function State(
       const image = targetImages[currentImage!];
       if (options.caption) {
         setCaption(
-          image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+          image.dataset.ilb2Caption ??
+            image.getElementsByTagName("img").item(0)?.alt ??
+            "",
           options.animationSpeed,
         );
       }
       transitionInNewImage();
       if (options.preloadNext && currentImage! + 1 < targetImages.length) {
         const nextImage = targetImages[currentImage! + 1];
-        $("<img />").attr("src", nextImage.getAttribute("href"));
+        const nextImageElement = document.createElement("img");
+        nextImageElement.setAttribute(
+          "src",
+          nextImage.getAttribute("href") ?? "",
+        );
       }
       triggerContainerEvent("loaded.ilb2");
     });
@@ -279,24 +283,27 @@ export function State(
   }
 
   function addImages(newImages: Array<HTMLAnchorElement>): void {
-    const validImages = $(newImages)
-      .not(targetImages)
+    const validImages = newImages
+      .filter((x) => !targetImages.includes(x))
       .filter(
-        (_, element): boolean =>
+        (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
           (new RegExp(".(" + options.allowedTypes + ")$", "i").test(
             element.href,
           ) ||
             element.dataset.ilb2Video !== undefined),
       );
-    videoCache.add(validImages.get());
-    targetImages.push(...validImages.get());
-    validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
-      openWithImage(event.delegateTarget as HTMLAnchorElement);
-      return false;
-    });
+    videoCache.add(validImages);
+    targetImages.push(...validImages);
+    for (const image of validImages) {
+      image.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openWithImage(image);
+      });
+    }
     addNavigationItems(
-      validImages.get(),
+      validImages,
       currentIndex,
       change,
       options.animationSpeed,
@@ -308,16 +315,8 @@ export function State(
   addImages(initialImages);
 
   if (options.history) {
-    $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
-      popHistory(
-        event.originalEvent as PopStateEvent,
-        set(),
-        images(),
-        currentIndex(),
-        open,
-        close,
-        change,
-      );
+    window.addEventListener("popstate", (e) => {
+      popHistory(e, set(), images(), currentIndex(), open, close, change);
     });
   }
 
