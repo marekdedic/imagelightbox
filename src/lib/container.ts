@@ -2,54 +2,61 @@ import "./container.css";
 
 import $ from "jquery";
 
-const container = $("<div/>", {
-  id: "ilb-container",
-});
+const container = document.createElement("div");
+container.setAttribute("id", "ilb-container");
+
+let wrappedOnclick: ((e: Event) => void) | null = null;
 
 export function addContainerToDOM(
   animationSpeed: number,
   attachOnclick: boolean,
   onclick: () => void,
 ): void {
-  container.removeClass("ilb-overlay");
-  $("body").addClass("ilb-body");
-  $("body").append(container);
+  container.classList.remove("ilb-overlay");
+  document.body.classList.add("ilb-body");
+  document.body.appendChild(container);
   if (attachOnclick) {
-    container.on("click.ilb7 touchend.ilb7", (): boolean => {
+    wrappedOnclick = (e): void => {
+      e.stopPropagation();
       onclick();
-      return false;
-    });
+    };
+    container.addEventListener("click", wrappedOnclick);
+    container.addEventListener("touchend", wrappedOnclick);
   }
-  container.css(
-    "transition",
-    "opacity " + animationSpeed.toString() + "ms ease",
-  );
-  container.show(() => {
-    container.css("opacity", "1");
-  });
+  container.style.transition =
+    "opacity " + animationSpeed.toString() + "ms ease";
+  // TODO: Check
+  setTimeout(() => {
+    container.style.opacity = "1";
+  }, 1);
 }
 
 export function darkenOverlay(): void {
-  container.addClass("ilb-overlay");
+  container.classList.add("ilb-overlay");
 }
 
 export function transitionOutContainer(): void {
-  container.css("opacity", "0");
+  container.style.opacity = "0";
 }
 
 export function removeContainerFromDOM(): void {
+  if (wrappedOnclick !== null) {
+    container.removeEventListener("click", wrappedOnclick);
+    container.removeEventListener("touchend", wrappedOnclick);
+  }
   container.remove();
-  container.empty();
-  $("body").removeClass("ilb-body");
+  container.textContent = "";
+  document.body.classList.remove("ilb-body");
 }
 
+// TODO: remove
 export function triggerContainerEvent(
   event: string,
   element?: HTMLAnchorElement,
 ): void {
-  container.trigger(event, element);
+  $(container).trigger(event, element);
 }
 
 export function getContainer(): HTMLDivElement {
-  return container.get(0) as HTMLDivElement;
+  return container;
 }
