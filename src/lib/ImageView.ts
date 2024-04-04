@@ -41,7 +41,6 @@ export function ImageView(
   const isVideo = image.dataset.ilb2Video !== undefined;
   if (isVideo) {
     [imageElement, isVideoPreloaded] = videoCache.element(
-      // TODO: Check this non-undefined assertion
       image.dataset.ilb2VideoId!,
     );
   }
