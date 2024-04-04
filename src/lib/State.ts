@@ -29,18 +29,12 @@ import { VideoCache } from "./VideoCache";
 export interface State {
   set(): string | undefined;
   images(): Array<HTMLAnchorElement>;
-  currentIndex(): number | null;
   addImages(images: Array<HTMLAnchorElement>): void;
   openWithImage(image: HTMLAnchorElement): void;
   open(index: number, skipHistory?: boolean): void;
   close(skipHistory?: boolean): void;
   previous(): void;
   next(): void;
-  change(
-    index: number,
-    transitionDirection: TransitionDirection,
-    skipHistory?: boolean,
-  ): void;
 }
 
 export function State(
@@ -70,10 +64,6 @@ export function State(
 
   function images(): Array<HTMLAnchorElement> {
     return targetImages;
-  }
-
-  function currentIndex(): number | null {
-    return currentImage;
   }
 
   /**
@@ -261,7 +251,7 @@ export function State(
     if (options.navigation) {
       addNavigationToDOM(
         images(),
-        currentIndex,
+        () => currentImage,
         change,
         options.animationSpeed,
       );
@@ -310,7 +300,7 @@ export function State(
     }
     addNavigationItems(
       validImages,
-      currentIndex,
+      () => currentImage,
       change,
       options.animationSpeed,
     );
@@ -322,20 +312,18 @@ export function State(
 
   if (options.history) {
     window.addEventListener("popstate", (e) => {
-      popHistory(e, set(), images(), currentIndex(), open, close, change);
+      popHistory(e, set(), images(), currentImage, open, close, change);
     });
   }
 
   return {
     set,
     images,
-    currentIndex,
     addImages,
     openWithImage,
     open,
     close,
     previous,
     next,
-    change,
   };
 }
