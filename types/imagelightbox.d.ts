@@ -1,9 +1,17 @@
 export class ImageLightbox {
   public constructor(
-    images: Array<HTMLAnchorElement>,
+    images:
+      | Array<HTMLAnchorElement>
+      | HTMLCollectionOf<HTMLAnchorElement>
+      | NodeListOf<HTMLAnchorElement>,
     options?: Partial<ILBOptions>,
   );
-  public addImages(images: Array<HTMLAnchorElement>): void;
+  public addImages(
+    images:
+      | Array<HTMLAnchorElement>
+      | HTMLCollectionOf<HTMLAnchorElement>
+      | NodeListOf<HTMLAnchorElement>,
+  ): void;
   public open(image?: HTMLAnchorElement): void;
   public previous(): void;
   public next(): void;

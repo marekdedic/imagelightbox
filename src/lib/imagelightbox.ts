@@ -5,7 +5,10 @@ export class ImageLightbox {
   private readonly s: State;
 
   public constructor(
-    images: Array<HTMLAnchorElement>,
+    images:
+      | Array<HTMLAnchorElement>
+      | HTMLCollectionOf<HTMLAnchorElement>
+      | NodeListOf<HTMLAnchorElement>,
     options?: Partial<ILBOptions>,
   ) {
     const opts: ILBOptions = {
@@ -31,7 +34,7 @@ export class ImageLightbox {
     this.s = State(
       opts,
       images.length > 0 ? images[0].dataset.imagelightbox ?? "" : "",
-      images,
+      Array.from(images),
     );
 
     if (opts.history) {
@@ -39,8 +42,13 @@ export class ImageLightbox {
     }
   }
 
-  public addImages(images: Array<HTMLAnchorElement>): void {
-    this.s.addImages(images);
+  public addImages(
+    images:
+      | Array<HTMLAnchorElement>
+      | HTMLCollectionOf<HTMLAnchorElement>
+      | NodeListOf<HTMLAnchorElement>,
+  ): void {
+    this.s.addImages(Array.from(images));
   }
 
   public open(image?: HTMLAnchorElement): void {
