@@ -69,7 +69,6 @@ export function PreloadedVideo(
   }
 
   function element(): [HTMLVideoElement, boolean] {
-    // TODO: Maybe only autoplay after the transition?
     if (autoplay) {
       if (isLoaded) {
         void videoElement.play();
