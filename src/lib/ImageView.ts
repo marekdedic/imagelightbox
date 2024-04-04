@@ -75,20 +75,21 @@ export function ImageView(
       swipeDiff = (e as TouchEvent).touches[0].pageX - swipeStart;
       imageElement.style.left = swipeDiff.toString() + "px";
     });
-    // TODO: Handle touch cancel - return image back to original position
     imageElement.addEventListener("touchend", (e) => {
       e.stopPropagation();
       imageElement.style.transitionProperty = "left, opacity";
       if (swipeDiff > 50) {
         previousImage();
-        return false;
       }
       if (swipeDiff < -50) {
         nextImage();
-        return false;
       }
       imageElement.style.left = "0";
-      return true;
+    });
+    imageElement.addEventListener("touchcancel", (e) => {
+      e.stopPropagation();
+      imageElement.style.transitionProperty = "left, opacity";
+      imageElement.style.left = "0";
     });
     callback();
   }
