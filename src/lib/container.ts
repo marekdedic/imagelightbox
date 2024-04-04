@@ -1,7 +1,5 @@
 import "./container.css";
 
-import $ from "jquery";
-
 const container = document.createElement("div");
 container.setAttribute("id", "ilb-container");
 
@@ -47,14 +45,6 @@ export function removeContainerFromDOM(): void {
   container.remove();
   container.textContent = "";
   document.body.classList.remove("ilb-body");
-}
-
-// TODO: remove
-export function triggerContainerEvent(
-  event: string,
-  element?: HTMLAnchorElement,
-): void {
-  $(container).trigger(event, element);
 }
 
 export function getContainer(): HTMLDivElement {
