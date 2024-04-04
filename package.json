@@ -15,6 +15,11 @@
       "import": "./dist/imagelightbox.js",
       "require": "./dist/imagelightbox.umd.cjs",
       "style": "./dist/imagelightbox.min.css"
+    },
+    "./jquery": {
+      "import": "./dist/imagelightbox.jquery.js",
+      "require": "./dist/imagelightbox.jquery.umd.cjs",
+      "style": "./dist/imagelightbox.min.css"
     }
   },
   "files": [
@@ -67,13 +72,15 @@
     "clean": "rimraf dist/* docs/*",
     "prebuild": "npm run clean",
     "build:docs": "vite build --config docs.vite.config.ts",
-    "build:lib": "vite build",
+    "build:lib:native": "vite build --config native.vite.config.ts",
+    "build:lib:jquery": "vite build --config jquery.vite.config.ts",
+    "build:lib": "run-p -c --aggregate-output build:lib:*",
     "build": "run-p -c --aggregate-output build:*",
     "start": "vite --config docs.vite.config.ts",
     "test": "nyc --reporter=lcov playwright test",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'tests/**/*.ts' 'types/**/*.ts' 'docs.vite.config.ts' 'playwright.config.js' 'postcss.config.js' 'vite.config.ts'",
+    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'tests/**/*.ts' 'types/**/*.ts' 'docs.vite.config.ts' 'jquery.vite.config.ts' 'native.vite.config.ts' 'playwright.config.js' 'postcss.config.js'",
     "lint:ts:typecheck": "tsc --noEmit",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
