@@ -6,7 +6,7 @@ export class ImageLightbox {
 
   public constructor(
     images: Array<HTMLAnchorElement>,
-    options: Partial<ILBOptions>,
+    options?: Partial<ILBOptions>,
   ) {
     const opts: ILBOptions = {
       activity: false,
