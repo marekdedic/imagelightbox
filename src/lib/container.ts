@@ -23,10 +23,9 @@ export function addContainerToDOM(
   }
   container.style.transition =
     "opacity " + animationSpeed.toString() + "ms ease";
-  // TODO: Check
   setTimeout(() => {
     container.style.opacity = "1";
-  }, 1);
+  }, 50);
 }
 
 export function darkenOverlay(): void {
