@@ -9,11 +9,8 @@ caption.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
-export function setCaption(
-  captionText: string | null,
-  animationSpeed: number,
-): void {
-  if (captionText !== null) {
+export function setCaption(captionText: string, animationSpeed: number): void {
+  if (captionText !== "") {
     getContainer().appendChild(caption);
     caption.style.transition =
       "opacity " + animationSpeed.toString() + "ms ease";
