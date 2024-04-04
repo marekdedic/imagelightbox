@@ -73,3 +73,20 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
   return this;
 };
+
+const doc = $(document);
+doc.on("ilb:start", (e) => {
+  $("#ilb-container").trigger("start.ilb2", e.target);
+});
+doc.on("ilb:quit", () => {
+  $("#ilb-container").trigger("quit.ilb2");
+});
+doc.on("ilb:loaded", () => {
+  $("#ilb-container").trigger("loaded.ilb2");
+});
+doc.on("ilb:previous", (e) => {
+  $("#ilb-container").trigger("previous.ilb2", e.target);
+});
+doc.on("ilb:next", (e) => {
+  $("#ilb-container").trigger("next.ilb2", e.target);
+});

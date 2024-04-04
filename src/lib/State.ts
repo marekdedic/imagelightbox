@@ -8,9 +8,9 @@ import { addCloseButtonToDOM, removeCloseButtonFromDOM } from "./close-button";
 import {
   addContainerToDOM,
   darkenOverlay,
+  getContainer,
   removeContainerFromDOM,
   transitionOutContainer,
-  triggerContainerEvent,
 } from "./container";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
@@ -135,7 +135,7 @@ export function State(
           nextImage.getAttribute("href") ?? "",
         );
       }
-      triggerContainerEvent("loaded.ilb2");
+      getContainer().dispatchEvent(new Event("ilb:loaded", { bubbles: true }));
     });
   }
 
@@ -172,7 +172,7 @@ export function State(
       pushQuitToHistory();
     }
 
-    triggerContainerEvent("quit.ilb2");
+    getContainer().dispatchEvent(new Event("ilb:quit", { bubbles: true }));
 
     transitionOutContainer();
     removeOldImage(TransitionDirection.None, () => {
@@ -220,7 +220,9 @@ export function State(
         newIndex = targetImages.length - 1;
       }
     }
-    triggerContainerEvent("previous.ilb2", targetImages[newIndex]);
+    targetImages[newIndex].dispatchEvent(
+      new Event("ilb:previous", { bubbles: true }),
+    );
     change(newIndex, TransitionDirection.Left);
   }
 
@@ -238,7 +240,9 @@ export function State(
         newIndex = 0;
       }
     }
-    triggerContainerEvent("next.ilb2", targetImages[newIndex]);
+    targetImages[newIndex].dispatchEvent(
+      new Event("ilb:next", { bubbles: true }),
+    );
     change(newIndex, TransitionDirection.Right);
   }
 
@@ -270,7 +274,9 @@ export function State(
       pushToHistory(index, set(), images());
     }
 
-    triggerContainerEvent("start.ilb2", targetImages[index]);
+    targetImages[index].dispatchEvent(
+      new Event("ilb:start", { bubbles: true }),
+    );
     startLoadingNewImage(index, TransitionDirection.None);
   }
 
