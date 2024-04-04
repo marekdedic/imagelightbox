@@ -73,9 +73,13 @@ export function popHistory(
     skipHistory?: boolean,
   ) => void,
 ): void {
-  const historyState = event.state as HistoryState | null;
+  const historyState = event.state as
+    | HistoryState
+    | Record<string, never>
+    | null
+    | undefined;
   // This needs to be before checking the set in order to close the lightbox when navigating to a non-imagelightbox state
-  if (historyState === null) {
+  if (!historyState || Object.keys(historyState).length === 0) {
     close(true);
     return;
   }
