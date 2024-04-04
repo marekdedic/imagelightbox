@@ -20,10 +20,10 @@ interface ILBOptions {
 
 interface JQuery {
   imageLightbox(opts?: Partial<ILBOptions>): JQuery;
-  addToImageLightbox(elements: JQuery): void;
+  addToImageLightbox(elements: JQuery<HTMLAnchorElement>): void;
   openHistory(): void;
   loadPreviousImage(): void;
   loadNextImage(): void;
   quitImageLightbox(): void;
-  startImageLightbox(element?: JQuery): void;
+  startImageLightbox(element?: JQuery<HTMLAnchorElement>): void;
 }
