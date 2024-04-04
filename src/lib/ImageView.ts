@@ -105,8 +105,7 @@ export function ImageView(
     imageElement.style.left = (-100 * transitionDirection).toString() + "px";
     imageElement.style.transition =
       "all ease " + options.animationSpeed.toString() + "ms";
-    // TODO: Check later that this really works and the transition isn't discarded
-    setTimeout(callback, 1);
+    setTimeout(callback, 50);
   }
 
   function startLoading(onload: () => void, onerror: () => void): void {
