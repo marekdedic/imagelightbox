@@ -30,10 +30,10 @@ import { VideoCache } from "./VideoCache";
 
 export interface State {
   set(): string | undefined;
-  images(): JQuery;
+  images(): Array<HTMLAnchorElement>;
   currentIndex(): number | null;
-  addImages(images: JQuery): void;
-  openWithImage(image: JQuery): void;
+  addImages(images: Array<HTMLAnchorElement>): void;
+  openWithImage(image: HTMLAnchorElement): void;
   open(index: number, skipHistory?: boolean): void;
   close(skipHistory?: boolean): void;
   previous(): void;
@@ -50,7 +50,7 @@ export function State(
   options: ILBOptions,
   // The value of data-imagelightbox on the images
   lightboxSet: string | undefined,
-  initialImages: JQuery,
+  initialImages: Array<HTMLAnchorElement>,
 ): State {
   // The clickable images in the lightbox
   let targetImages: JQuery = $();
@@ -70,8 +70,8 @@ export function State(
     return lightboxSet;
   }
 
-  function images(): JQuery {
-    return targetImages;
+  function images(): Array<HTMLAnchorElement> {
+    return targetImages.get() as Array<HTMLAnchorElement>;
   }
 
   function currentIndex(): number | null {
@@ -194,7 +194,7 @@ export function State(
     }
 
     if (options.history && !skipHistory) {
-      pushToHistory(index, set(), images().get() as Array<HTMLAnchorElement>);
+      pushToHistory(index, set(), images());
     }
 
     if (options.activity) {
@@ -262,7 +262,7 @@ export function State(
     }
     if (options.navigation) {
       addNavigationToDOM(
-        images().get() as Array<HTMLAnchorElement>,
+        images(),
         currentIndex,
         change,
         options.animationSpeed,
@@ -273,7 +273,7 @@ export function State(
     }
 
     if (options.history && !skipHistory) {
-      pushToHistory(index, set(), images().get() as Array<HTMLAnchorElement>);
+      pushToHistory(index, set(), images());
     }
 
     triggerContainerEvent(
@@ -283,7 +283,7 @@ export function State(
     startLoadingNewImage(index, TransitionDirection.None);
   }
 
-  function openWithImage(image: JQuery): void {
+  function openWithImage(image: HTMLAnchorElement): void {
     const index = targetImages.index(image);
     if (index < 0) {
       return;
@@ -291,25 +291,25 @@ export function State(
     open(index);
   }
 
-  function addImages(newImages: JQuery): void {
-    const validImages = newImages
+  function addImages(newImages: Array<HTMLAnchorElement>): void {
+    const validImages = $(newImages)
       .not(targetImages)
       .filter(
         (_, element): boolean =>
           element.tagName.toLowerCase() === "a" &&
           (new RegExp(".(" + options.allowedTypes + ")$", "i").test(
-            (element as HTMLAnchorElement).href,
+            element.href,
           ) ||
             element.dataset.ilb2Video !== undefined),
       );
-    videoCache.add(validImages.get() as Array<HTMLAnchorElement>);
+    videoCache.add(validImages.get());
     targetImages = targetImages.add(validImages);
     validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
-      openWithImage($(event.delegateTarget as HTMLElement));
+      openWithImage(event.delegateTarget as HTMLAnchorElement);
       return false;
     });
     addNavigationItems(
-      validImages.get() as Array<HTMLAnchorElement>,
+      validImages.get(),
       currentIndex,
       change,
       options.animationSpeed,
@@ -325,7 +325,7 @@ export function State(
       popHistory(
         event.originalEvent as PopStateEvent,
         set(),
-        images().get() as Array<HTMLAnchorElement>,
+        images(),
         currentIndex(),
         open,
         close,

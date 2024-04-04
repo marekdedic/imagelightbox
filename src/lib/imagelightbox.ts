@@ -29,18 +29,18 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   const state = State(
     options,
     $(this).data("imagelightbox") as string | undefined,
-    $(this),
+    $(this).get() as Array<HTMLAnchorElement>,
   );
 
   this.addToImageLightbox = (elements: JQuery): void => {
-    state.addImages(elements);
+    state.addImages(elements.get() as Array<HTMLAnchorElement>);
   };
 
   this.openHistory = (): void => {
     if (options.history) {
       openHistory(
         state.set(),
-        state.images().get() as Array<HTMLAnchorElement>,
+        state.images(),
         (index: number, skipHistory?: boolean) => {
           state.open(index, skipHistory);
         },
@@ -65,7 +65,7 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
 
   this.startImageLightbox = (image?: JQuery): void => {
     if (image !== undefined) {
-      state.openWithImage(image);
+      state.openWithImage(image.get(0)! as HTMLAnchorElement);
     } else {
       state.open(0);
     }
