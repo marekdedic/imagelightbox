@@ -1,13 +1,13 @@
-import $ from "jquery";
-
 import { getContainer } from "./container";
 
 const fullscreenEnabled: boolean =
   document.fullscreenEnabled ||
   ((document as LegacyDocument).webkitFullscreenEnabled ?? false);
 
+let keyHandler: ((e: KeyboardEvent) => void) | null = null;
+
 function toggleFullScreen(): void {
-  const container = getContainer().get(0)!;
+  const container = getContainer();
 
   /* eslint-disable @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions -- Polyfills for very old browsers */
   const requestFullscreen = (): void => {
@@ -34,6 +34,13 @@ function toggleFullScreen(): void {
   }
 }
 
+function fullscreenKeyHandler(e: KeyboardEvent): void {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    toggleFullScreen();
+  }
+}
+
 export function addKeyboardNavigation(
   options: ILBOptions,
   closeLightbox: () => void,
@@ -41,38 +48,31 @@ export function addKeyboardNavigation(
   nextImage: () => void,
 ): void {
   if (options.fullscreen && fullscreenEnabled) {
-    $(document).on("keyup.ilb7", (e): boolean => {
-      // Keycode 13: Enter
-      if (e.which === 13) {
-        toggleFullScreen();
-        return false;
-      }
-      return true;
-    });
+    document.addEventListener("keypress", fullscreenKeyHandler);
   }
 
   if (options.enableKeyboard) {
-    $(document).on("keyup.ilb7", (e): boolean => {
-      // Keycode 27: Escape
-      if (options.quitOnEscKey && e.which === 27) {
+    keyHandler = (e): void => {
+      if (options.quitOnEscKey && e.key === "Escape") {
+        e.preventDefault();
         closeLightbox();
-        return false;
       }
-      // Keycode 37: Arrow left
-      if (e.which === 37) {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
         previousImage();
-        return false;
       }
-      // Keycode 39: Arrow right
-      if (e.which === 39) {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
         nextImage();
-        return false;
       }
-      return true;
-    });
+    };
+    document.addEventListener("keyup", keyHandler);
   }
 }
 
 export function removeKeyboardNavigation(): void {
-  $(document).off("keyup.ilb7");
+  document.removeEventListener("keypress", fullscreenKeyHandler);
+  if (keyHandler !== null) {
+    document.removeEventListener("keyup", keyHandler);
+  }
 }

@@ -1,11 +1,17 @@
-import $ from "jquery";
-
 import { openHistory } from "./history";
 import { State } from "./State";
 
-$.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
-  const options: ILBOptions = $.extend(
-    {
+export class ImageLightbox {
+  private readonly s: State;
+
+  public constructor(
+    images:
+      | Array<HTMLAnchorElement>
+      | HTMLCollectionOf<HTMLAnchorElement>
+      | NodeListOf<HTMLAnchorElement>,
+    options?: Partial<ILBOptions>,
+  ) {
+    const opts: ILBOptions = {
       activity: false,
       allowedTypes: "png|jpg|jpeg|gif",
       animationSpeed: 250,
@@ -23,53 +29,55 @@ $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
       quitOnImgClick: false,
       quitOnDocClick: true,
       quitOnEscKey: true,
-    },
-    opts,
-  );
-  const state = State(
-    options,
-    $(this).data("imagelightbox") as string | undefined,
-    $(this),
-  );
+      ...options,
+    };
+    this.s = State(
+      opts,
+      images.length > 0 ? images[0].dataset.imagelightbox ?? "" : "",
+      Array.from(images),
+    );
 
-  this.addToImageLightbox = (elements: JQuery): void => {
-    state.addImages(elements);
-  };
-
-  this.openHistory = (): void => {
-    if (options.history) {
-      openHistory(
-        state.set(),
-        state.images(),
-        (index: number, skipHistory?: boolean) => {
-          state.open(index, skipHistory);
-        },
-      );
+    if (opts.history) {
+      this.openHistory();
     }
-  };
+  }
 
-  this.openHistory();
+  public addImages(
+    images:
+      | Array<HTMLAnchorElement>
+      | HTMLCollectionOf<HTMLAnchorElement>
+      | NodeListOf<HTMLAnchorElement>,
+  ): void {
+    this.s.addImages(Array.from(images));
+  }
 
-  this.loadPreviousImage = (): void => {
-    state.previous();
-  };
-
-  this.loadNextImage = (): void => {
-    state.next();
-  };
-
-  this.quitImageLightbox = function (): JQuery {
-    state.close();
-    return this;
-  };
-
-  this.startImageLightbox = (image?: JQuery): void => {
+  public open(image?: HTMLAnchorElement): void {
     if (image !== undefined) {
-      state.openWithImage(image);
+      this.s.openWithImage(image);
     } else {
-      state.open(0);
+      this.s.open(0);
     }
-  };
+  }
 
-  return this;
-};
+  public previous(): void {
+    this.s.previous();
+  }
+
+  public next(): void {
+    this.s.next();
+  }
+
+  public close(): void {
+    this.s.close();
+  }
+
+  public openHistory(): void {
+    openHistory(
+      this.s.set(),
+      this.s.images(),
+      (index: number, skipHistory?: boolean) => {
+        this.s.open(index, skipHistory);
+      },
+    );
+  }
+}

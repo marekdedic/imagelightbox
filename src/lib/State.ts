@@ -1,18 +1,16 @@
-import $ from "jquery";
-
 import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,
 } from "./activity-indicator";
-import { addArrowsToDOM } from "./arrows";
+import { addArrowsToDOM, removeArrowsFromDOM } from "./arrows";
 import { setCaption } from "./caption";
-import { addCloseButtonToDOM } from "./close-button";
+import { addCloseButtonToDOM, removeCloseButtonFromDOM } from "./close-button";
 import {
   addContainerToDOM,
   darkenOverlay,
+  getContainer,
   removeContainerFromDOM,
   transitionOutContainer,
-  triggerContainerEvent,
 } from "./container";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
@@ -30,19 +28,13 @@ import { VideoCache } from "./VideoCache";
 
 export interface State {
   set(): string | undefined;
-  images(): JQuery;
-  currentIndex(): number | null;
-  addImages(images: JQuery): void;
-  openWithImage(image: JQuery): void;
+  images(): Array<HTMLAnchorElement>;
+  addImages(images: Array<HTMLAnchorElement>): void;
+  openWithImage(image: HTMLAnchorElement): void;
   open(index: number, skipHistory?: boolean): void;
   close(skipHistory?: boolean): void;
   previous(): void;
   next(): void;
-  change(
-    index: number,
-    transitionDirection: TransitionDirection,
-    skipHistory?: boolean,
-  ): void;
 }
 
 export function State(
@@ -50,10 +42,10 @@ export function State(
   options: ILBOptions,
   // The value of data-imagelightbox on the images
   lightboxSet: string | undefined,
-  initialImages: JQuery,
+  initialImages: Array<HTMLAnchorElement>,
 ): State {
   // The clickable images in the lightbox
-  let targetImages: JQuery = $();
+  const targetImages: Array<HTMLAnchorElement> = [];
 
   // Cached preloaded videos
   const videoCache: VideoCache = VideoCache();
@@ -70,12 +62,8 @@ export function State(
     return lightboxSet;
   }
 
-  function images(): JQuery {
+  function images(): Array<HTMLAnchorElement> {
     return targetImages;
-  }
-
-  function currentIndex(): number | null {
-    return currentImage;
   }
 
   /**
@@ -119,19 +107,25 @@ export function State(
 
   function addNewImage(transitionDirection: TransitionDirection): void {
     currentImageView?.addToDOM(transitionDirection, () => {
-      const image = targetImages.get(currentImage!)!;
+      const image = targetImages[currentImage!];
       if (options.caption) {
         setCaption(
-          image.dataset.ilb2Caption ?? $(image).find("img").attr("alt") ?? null,
+          image.dataset.ilb2Caption ??
+            image.getElementsByTagName("img").item(0)?.alt ??
+            "",
           options.animationSpeed,
         );
       }
       transitionInNewImage();
       if (options.preloadNext && currentImage! + 1 < targetImages.length) {
-        const nextImage = targetImages.eq(currentImage! + 1);
-        $("<img />").attr("src", nextImage.attr("href")!);
+        const nextImage = targetImages[currentImage! + 1];
+        const nextImageElement = document.createElement("img");
+        nextImageElement.setAttribute(
+          "src",
+          nextImage.getAttribute("href") ?? "",
+        );
       }
-      triggerContainerEvent("loaded.ilb2");
+      getContainer().dispatchEvent(new Event("ilb:loaded", { bubbles: true }));
     });
   }
 
@@ -139,11 +133,7 @@ export function State(
     newIndex: number,
     transitionDirection: TransitionDirection,
   ): void {
-    const newImageView = ImageView(
-      targetImages.eq(newIndex),
-      options,
-      videoCache,
-    );
+    const newImageView = ImageView(targetImages[newIndex], options, videoCache);
     newImageView.startLoading(
       () => {
         currentImage = newIndex;
@@ -172,12 +162,14 @@ export function State(
       pushQuitToHistory();
     }
 
-    triggerContainerEvent("quit.ilb2");
+    getContainer().dispatchEvent(new Event("ilb:quit", { bubbles: true }));
 
     transitionOutContainer();
     removeOldImage(TransitionDirection.None, () => {
       currentImage = null;
       currentImageView = null;
+      removeArrowsFromDOM();
+      removeCloseButtonFromDOM();
       removeContainerFromDOM();
     });
   }
@@ -218,7 +210,9 @@ export function State(
         newIndex = targetImages.length - 1;
       }
     }
-    triggerContainerEvent("previous.ilb2", targetImages.eq(newIndex));
+    targetImages[newIndex].dispatchEvent(
+      new Event("ilb:previous", { bubbles: true }),
+    );
     change(newIndex, TransitionDirection.Left);
   }
 
@@ -236,7 +230,9 @@ export function State(
         newIndex = 0;
       }
     }
-    triggerContainerEvent("next.ilb2", targetImages.eq(newIndex));
+    targetImages[newIndex].dispatchEvent(
+      new Event("ilb:next", { bubbles: true }),
+    );
     change(newIndex, TransitionDirection.Right);
   }
 
@@ -253,7 +249,12 @@ export function State(
       addCloseButtonToDOM(close);
     }
     if (options.navigation) {
-      addNavigationToDOM(images, currentIndex, change, options.animationSpeed);
+      addNavigationToDOM(
+        images(),
+        () => currentImage,
+        change,
+        options.animationSpeed,
+      );
     }
     if (options.overlay) {
       darkenOverlay();
@@ -263,36 +264,46 @@ export function State(
       pushToHistory(index, set(), images());
     }
 
-    triggerContainerEvent("start.ilb2", targetImages.eq(index));
+    targetImages[index].dispatchEvent(
+      new Event("ilb:start", { bubbles: true }),
+    );
     startLoadingNewImage(index, TransitionDirection.None);
   }
 
-  function openWithImage(image: JQuery): void {
-    const index = targetImages.index(image);
+  function openWithImage(image: HTMLAnchorElement): void {
+    const index = targetImages.indexOf(image);
     if (index < 0) {
       return;
     }
     open(index);
   }
 
-  function addImages(newImages: JQuery): void {
+  function addImages(newImages: Array<HTMLAnchorElement>): void {
     const validImages = newImages
-      .not(targetImages)
+      .filter((x) => !targetImages.includes(x))
       .filter(
-        (_, element): boolean =>
+        (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
           (new RegExp(".(" + options.allowedTypes + ")$", "i").test(
-            (element as HTMLAnchorElement).href,
+            element.href,
           ) ||
             element.dataset.ilb2Video !== undefined),
       );
     videoCache.add(validImages);
-    targetImages = targetImages.add(validImages);
-    validImages.on("click.ilb7", (event: BaseJQueryEventObject) => {
-      openWithImage($(event.delegateTarget as HTMLElement));
-      return false;
-    });
-    addNavigationItems(validImages, options.animationSpeed);
+    targetImages.push(...validImages);
+    for (const image of validImages) {
+      image.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openWithImage(image);
+      });
+    }
+    addNavigationItems(
+      validImages,
+      () => currentImage,
+      change,
+      options.animationSpeed,
+    );
   }
 
   // State initialization
@@ -300,21 +311,19 @@ export function State(
   addImages(initialImages);
 
   if (options.history) {
-    $(window).on("popstate.ilb7", (event: BaseJQueryEventObject) => {
-      popHistory(event, set(), images(), currentIndex(), open, close, change);
+    window.addEventListener("popstate", (e) => {
+      popHistory(e, set(), images(), currentImage, open, close, change);
     });
   }
 
   return {
     set,
     images,
-    currentIndex,
     addImages,
     openWithImage,
     open,
     close,
     previous,
     next,
-    change,
   };
 }

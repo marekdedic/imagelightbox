@@ -18,7 +18,7 @@ export function pushQuitToHistory(): void {
 export function pushToHistory(
   index: number,
   set: string | undefined,
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
 ): void {
   const newIndex = images[index].dataset.ilb2Id ?? index.toString();
   let newQuery = addQueryField(
@@ -43,7 +43,7 @@ export function pushToHistory(
 
 export function openHistory(
   set: string | undefined,
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
   open: (index: number, skipHistory?: boolean) => void,
 ): void {
   if (getQueryField("imageLightboxSet") !== set) {
@@ -53,7 +53,7 @@ export function openHistory(
   if (id === undefined) {
     return;
   }
-  let newIndex = images.index('[data-ilb2-id="' + id + '"]');
+  let newIndex = images.findIndex((image) => image.dataset.ilb2Id === id);
   if (newIndex < 0) {
     newIndex = parseInt(id);
   }
@@ -61,9 +61,9 @@ export function openHistory(
 }
 
 export function popHistory(
-  event: BaseJQueryEventObject,
+  event: PopStateEvent,
   set: string | undefined,
-  images: JQuery,
+  images: Array<HTMLAnchorElement>,
   currentIndex: number | null,
   open: (index: number, skipHistory?: boolean) => void,
   close: (skipHistory?: boolean) => void,
@@ -73,10 +73,13 @@ export function popHistory(
     skipHistory?: boolean,
   ) => void,
 ): void {
-  const historyState = (event.originalEvent as PopStateEvent)
-    .state as HistoryState | null;
+  const historyState = event.state as
+    | HistoryState
+    | Record<string, never>
+    | null
+    | undefined;
   // This needs to be before checking the set in order to close the lightbox when navigating to a non-imagelightbox state
-  if (historyState === null) {
+  if (!historyState || Object.keys(historyState).length === 0) {
     close(true);
     return;
   }
@@ -88,9 +91,9 @@ export function popHistory(
     close(true);
     return;
   }
-  let newIndex = images
-    .get()
-    .findIndex((e: HTMLElement) => e.dataset.ilb2Id === newId);
+  let newIndex = images.findIndex(
+    (e: HTMLElement) => e.dataset.ilb2Id === newId,
+  );
   if (newIndex < 0) {
     newIndex = parseInt(newId);
   }

@@ -1,7 +1,5 @@
 import "./ImageView.css";
 
-import $ from "jquery";
-
 import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 import type { VideoCache } from "./VideoCache";
@@ -26,51 +24,27 @@ export interface ImageView {
 }
 
 export function ImageView(
-  image: JQuery,
+  image: HTMLAnchorElement,
   options: ILBOptions,
   videoCache: VideoCache,
 ): ImageView {
   let swipeStart = 0;
   let swipeDiff = 0;
-  let imageElement: JQuery = $('<img id="ilb-image" />').attr(
-    "src",
-    image.attr("href")!,
-  );
-  const containerElement: JQuery = $(
-    '<div class="ilb-image-container">',
-  ).append(imageElement);
+  let imageElement: HTMLImageElement | HTMLVideoElement =
+    document.createElement("img");
+  imageElement.setAttribute("id", "ilb-image");
+  imageElement.setAttribute("src", image.getAttribute("href") ?? "");
+  const containerElement = document.createElement("div");
+  containerElement.classList.add("ilb-image-container");
   let isVideoPreloaded: boolean | undefined = undefined;
 
-  const isVideo = image.data("ilb2Video") !== undefined;
+  const isVideo = image.dataset.ilb2Video !== undefined;
   if (isVideo) {
     [imageElement, isVideoPreloaded] = videoCache.element(
-      image.data("ilb2VideoId") as string,
+      image.dataset.ilb2VideoId!,
     );
   }
-
-  function onclick(
-    event: BaseJQueryEventObject,
-    previousImage: () => void,
-    nextImage: () => void,
-    closeLightbox: () => void,
-  ): boolean {
-    if (event.type === "touchend") {
-      return false;
-    }
-    if (options.quitOnImgClick) {
-      closeLightbox();
-      return false;
-    }
-    const target = event.target as HTMLImageElement;
-    const xPosRelativeToImage =
-      (event.pageX - target.offsetLeft) / target.width;
-    if (xPosRelativeToImage <= 1 / 3) {
-      previousImage();
-    } else {
-      nextImage();
-    }
-    return false;
-  }
+  containerElement.appendChild(imageElement);
 
   function onready(
     callback: () => void,
@@ -79,33 +53,45 @@ export function ImageView(
     closeLightbox: () => void,
   ): void {
     if (!isVideo) {
-      imageElement.on("click.ilb7 touchend.ilb7", (e: BaseJQueryEventObject) =>
-        onclick(e, previousImage, nextImage, closeLightbox),
-      );
-    }
-    imageElement
-      .on("touchstart.ilb7", (e: BaseJQueryEventObject): void => {
-        swipeStart = (e.originalEvent as TouchEvent).touches[0].pageX;
-        imageElement.css("transition-property", "opacity");
-      })
-      .on("touchmove.ilb7", (e: BaseJQueryEventObject): void => {
-        swipeDiff =
-          (e.originalEvent as TouchEvent).touches[0].pageX - swipeStart;
-        imageElement.css("left", swipeDiff.toString() + "px");
-      })
-      .on("touchend.ilb7 touchcancel.ilb7", (): boolean => {
-        imageElement.css("transition-property", "left, opacity");
-        if (swipeDiff > 50) {
+      (imageElement as HTMLImageElement).addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (options.quitOnImgClick) {
+          closeLightbox();
+          return;
+        }
+        const xPosRelativeToImage =
+          (e.pageX - imageElement.offsetLeft) / imageElement.width;
+        if (xPosRelativeToImage <= 1 / 3) {
           previousImage();
-          return false;
-        }
-        if (swipeDiff < -50) {
+        } else {
           nextImage();
-          return false;
         }
-        imageElement.css("left", "0");
-        return true;
       });
+    }
+    imageElement.addEventListener("touchstart", (e) => {
+      swipeStart = (e as TouchEvent).touches[0].pageX;
+      imageElement.style.transitionProperty = "opacity";
+    });
+    imageElement.addEventListener("touchmove", (e) => {
+      swipeDiff = (e as TouchEvent).touches[0].pageX - swipeStart;
+      imageElement.style.left = swipeDiff.toString() + "px";
+    });
+    imageElement.addEventListener("touchend", (e) => {
+      e.stopPropagation();
+      imageElement.style.transitionProperty = "left, opacity";
+      if (swipeDiff > 50) {
+        previousImage();
+      }
+      if (swipeDiff < -50) {
+        nextImage();
+      }
+      imageElement.style.left = "0";
+    });
+    imageElement.addEventListener("touchcancel", (e) => {
+      e.stopPropagation();
+      imageElement.style.transitionProperty = "left, opacity";
+      imageElement.style.left = "0";
+    });
     callback();
   }
 
@@ -113,25 +99,23 @@ export function ImageView(
     transitionDirection: TransitionDirection,
     callback: () => void,
   ): void {
-    getContainer().append(containerElement);
+    getContainer().appendChild(containerElement);
     const maxSize = Math.abs(100 - options.gutter);
-    imageElement.css({
-      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
-      "max-height": maxSize.toString() + "%",
-      // eslint-disable-next-line @typescript-eslint/naming-convention -- CSS property
-      "max-width": maxSize.toString() + "%",
-      left: (-100 * transitionDirection).toString() + "px",
-      transition: "all ease " + options.animationSpeed.toString() + "ms",
-    });
-    imageElement.show(callback);
+    imageElement.style.maxHeight = maxSize.toString() + "%";
+    imageElement.style.maxWidth = maxSize.toString() + "%";
+    imageElement.style.left = (-100 * transitionDirection).toString() + "px";
+    imageElement.style.transition =
+      "all ease " + options.animationSpeed.toString() + "ms";
+    setTimeout(callback, 50);
   }
 
   function startLoading(onload: () => void, onerror: () => void): void {
-    imageElement.on("error.ilb7", onerror);
+    imageElement.addEventListener("error", onerror);
     if (isVideoPreloaded === true) {
       onload();
     } else {
-      imageElement.on("load.ilb7", onload).on("loadedmetadata.ilb7", onload);
+      imageElement.addEventListener("load", onload);
+      imageElement.addEventListener("loadedmetadata", onload);
     }
   }
 
@@ -141,10 +125,8 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    imageElement.css({
-      left: "0",
-      opacity: "1",
-    });
+    imageElement.style.left = "0";
+    imageElement.style.opacity = "1";
     setTimeout(() => {
       onready(callback, previousImage, nextImage, closeLightbox);
     }, options.animationSpeed);
@@ -155,13 +137,11 @@ export function ImageView(
     callback: () => void,
   ): void {
     if (transitionDirection !== TransitionDirection.None) {
-      const currentLeft = parseInt(imageElement.css("left"), 10) || 0;
-      imageElement.css(
-        "left",
-        (currentLeft + 100 * transitionDirection).toString() + "px",
-      );
+      const currentLeft = parseInt(imageElement.style.left, 10) || 0;
+      imageElement.style.left =
+        (currentLeft + 100 * transitionDirection).toString() + "px";
     }
-    imageElement.css("opacity", "0");
+    imageElement.style.opacity = "0";
     setTimeout(() => {
       callback();
     }, options.animationSpeed);

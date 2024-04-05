@@ -1,15 +1,13 @@
 import "./activity-indicator.css";
 
-import $ from "jquery";
-
 import { getContainer } from "./container";
 
-const activityIndicator = $("<div/>")
-  .attr("id", "ilb-activity-indicator")
-  .append($("<div/>"));
+const activityIndicator = document.createElement("div");
+activityIndicator.setAttribute("id", "ilb-activity-indicator");
+activityIndicator.appendChild(document.createElement("div"));
 
 export function addActivityIndicatorToDOM(): void {
-  getContainer().append(activityIndicator);
+  getContainer().appendChild(activityIndicator);
 }
 
 export function removeActivityIndicatorFromDOM(): void {

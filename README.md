@@ -16,17 +16,18 @@ See most of the available options at the [Demo Page](http://marekdedic.github.io
 
 ## Requirements and Browser support
 
-* jQuery 1.12 (earlier version not tested), feel free to use jQuery v2 or v3 if you don't need to support older browsers
 * All major desktop browsers and versions as well as mobile browsers on Android and iOS.
 
 ## How to install
 
 ```sh
-$ npm install --save jquery imagelightbox
+$ npm install --save imagelightbox
 ```
 
 After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs` files. Alternatively, you can use the `dist/imagelightbox.js` file if you are using ES6 modules.
-;
+
+If you prefer to use jQuery, there are also jQuery wrappers available in `dist/imagelightbox.jquery.umd.cjs` or `dist/imagelightbox.jquery.js`. These wrappers mostly adapt the interface of the library to work with jQuery types and emit jQuery events. These are here mostly for legacy reasons and their use is discouraged.
+
 ## How to use
 
 ```html
@@ -34,13 +35,11 @@ After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs`
 <html>
     <head>
         <link rel="stylesheet" href="node_modules/imagelightbox/dist/imagelightbox.css">
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/imagelightbox/dist/imagelightbox.umd.cjs"></script>
         <script>
-            $( function()
-            {
-                $('a[data-imagelightbox="xyz"]').imageLightbox();
-            });
+            new Imagelightbox(
+                document.querySelectorAll('a[data-imagelightbox="xyz"]'),
+            )
         </script>
     </head>
     <body>
@@ -56,7 +55,7 @@ After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs`
 
 ## Options
 
-You can pass an object with options to the `imageLightbox()` function. The available options are:
+You can pass an object with options to the `ImageLightbox` constructor as a second argument. The available options are:
 
 | Option           | Type      | Default value         | Description |
 | ---------------- | --------- | --------------------- | --- |
@@ -80,26 +79,25 @@ You can pass an object with options to the `imageLightbox()` function. The avail
 
 ## Opening the lightbox with a JavaScript call
 
-The lightbox can be opened with the `startImageLightbox()` JavaScript function call.
+The lightbox can be opened with the `open()` method call.
 
 ###### Example:
 
 ```js
-$( function()
-{
-    var gallery = $('a[data-imagelightbox="xyz"]').imageLightbox();
-    gallery.startImageLightbox();
-});
+const gallery = new ImageLightbox(
+    document.querySelectorAll('a[data-imagelightbox="xyz"]'),
+);
+gallery.open();
 ```
 ###### Example: Open specific image
 
 ```js
-$( function()
-{
-    var gallery = $('a[data-imagelightbox="xyz"]').imageLightbox();
-    var $image = $('a[href="image_1.jpg"]');
-    gallery.startImageLightbox( $image );
-});
+const gallery = new ImageLightbox(
+    document.querySelectorAll('a[data-imagelightbox="xyz"]'),
+);
+gallery.open(
+    document.querySelectorAll('a[href="image_1.jpg"]').item(0),
+);
 ```
 
 ## Adding captions to lightbox
@@ -129,26 +127,28 @@ Videos can be displayed in lightbox by including a `data-ilb2-video` attribute i
 ## Custom events
 
 The lightbox dispatches custom events upon opening, closing, image loading, and when either the next or previous image is requested (beware that these are not dispatched when the image is changed in other ways, such as the navigation panel).
-These events are, respectively, `start.ilb2`, `quit.ilb2`, `loaded.ilb2`, `next.ilb2`, and `previous.ilb2`.
+These events are, respectively, `ilb:start`, `ilb:quit`, `ilb:loaded`, `ilb:next`, and `ilb:previous`.
 
 Usage example:
 ```js
-$(document)
-    .on("start.ilb2", function (_, e) {
-        console.log("The lightbox was started with element: ");
-        console.log(e);
-    })
-    .on("next.ilb2", function (_, e) {
-        console.log("Next image: ");
-        console.log(e);
-    })
-    .on("previous.ilb2", function (_, e) {
-        console.log("Previous image: ");
-        console.log(e);
-    })
-    .on("quit.ilb2", function () {
-        console.log("The lightbox was closed.");
-    });
+document.addEventListener("ilb:start", (e) => {
+    console.log("The lightbox was started with element: ");
+    console.log(e.target);
+});
+document.addEventListener("ilb:quit", () => {
+    console.log("The lightbox was closed.");
+});
+document.addEventListener("ilb:loaded", () => {
+    console.log("A new image was loaded");
+});
+document.addEventListener("ilb:previous", (e) => {
+    console.log("Previous image: ");
+    console.log(e.target);
+});
+document.addEventListener("ilb:next", (e) => {
+    console.log("Next image: ");
+    console.log(e.target);
+});
 ```
 
 ## Using multiple lighboxes
@@ -182,12 +182,18 @@ More images can be added to the lightbox after it has been initialized.
 ###### Example:
 
 ```js
-$( function()
-{
-    var gallery = $('a[data-imagelightbox="xyz"]').imageLightbox();
-    var image = $( '<img src="image_42.jpg" />' );
-    gallery.addToImageLightbox( image );
-});
+const lightbox = new Imagelightbox(
+    document.querySelectorAll('a[data-imagelightbox="xyz"]'),
+)
+const newAnchor = document.createElement("a");
+newAnchor.dataset.imagelightbox = "xyz";
+newAnchor.href = "images/demo4.jpg";
+
+const newImg = document.createElement("img");
+newImg.src = "images/thumb4.jpg";
+newAnchor.appendChild(newImg);
+
+lightbox.addImages([newAnchor]);
 ```
 
 ## Permalinks & History
@@ -210,16 +216,16 @@ In some cases, this could lead to a different image being opened, for example if
 </a>
 
 <script>
-    $( function()
-    {
-        $('a[data-imagelightbox="images"]').imageLightbox({
-            history: true
-        });
-    });
+    new Imagelightbox(
+        document.querySelectorAll('a[data-imagelightbox="images"]'),
+        {
+            history: true,
+        },
+    )
 </script>
 ```
 
-If you want a dynamically add images after the page has loaded and still support direct links to them, you have to call `gallery.openHistory()` manually on the lightbox object yourself after adding the image.
+If you want a dynamically add images after the page has loaded and still support direct links to them, you have to call `lightbox.openHistory()` manually on the lightbox object yourself after adding the image.
 
 ## Changelog
 
