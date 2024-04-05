@@ -47,9 +47,6 @@ jobs:
           webpackStatsFile: dist/webpack-stats.json
 
   test:
-    strategy:
-      matrix:
-        jquery-version: [1, 2, 3]
     name: "Test"
     runs-on: ubuntu-latest
     container:
@@ -70,10 +67,6 @@ jobs:
       - name: "Install NPM dependencies"
         run: |
           npm ci
-
-      - name: "Install jQuery version ${{ matrix.jquery-version }}"
-        run: |
-          npm install jquery@${{ matrix.jquery-version }}
 
       - name: "Run tests"
         run: |

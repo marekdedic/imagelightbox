@@ -1,63 +1,66 @@
 import "./navigation.css";
 
-import $ from "jquery";
-
 import { getContainer } from "./container";
 import { TransitionDirection } from "./TransitionDirection";
 
-const navigation = $("<div/>", {
-  class: "ilb-navigation",
-});
+const navigation = document.createElement("div");
+navigation.classList.add("ilb-navigation");
 
 export function addNavigationItems(
-  images: JQuery,
-  animationSpeed: number,
-): void {
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of -- images cannot be iterated in old jQuery and the result wouldn't be used anyway
-  for (let i = 0; i < images.length; i++) {
-    navigation.append($("<button/>"));
-  }
-  navigation
-    .children()
-    .css(
-      "transition",
-      "background-color " + animationSpeed.toString() + "ms ease",
-    );
-}
-
-export function changeNavigationCurrent(currentIndex: number): void {
-  navigation
-    .children()
-    .removeClass("ilb-navigation-active")
-    .eq(currentIndex)
-    .addClass("ilb-navigation-active");
-}
-
-export function addNavigationToDOM(
-  images: () => JQuery,
+  images: Array<HTMLAnchorElement>,
   currentIndex: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
-  navigation.empty();
-  addNavigationItems(images(), animationSpeed);
-  changeNavigationCurrent(currentIndex()!);
-  getContainer().append(navigation);
-
-  navigation
-    .on("click.ilb7 touchend.ilb7", (): boolean => false)
-    .on("click.ilb7 touchend.ilb7", "button", function (): boolean {
-      const $this = $(this);
-      if (
-        images().eq($this.index()).attr("href") === $("#ilb-image").attr("src")
-      ) {
-        return false;
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of -- The result won't be used anyway
+  for (let i = 0; i < images.length; i++) {
+    const button = document.createElement("button");
+    button.style.transition =
+      "background-color " + animationSpeed.toString() + "ms ease";
+    const buttonClick = (): void => {
+      if (button.classList.contains("ilb-navigation-active")) {
+        return;
       }
+      const buttonIndex = Array.prototype.indexOf.call(
+        button.parentNode!.childNodes,
+        button,
+      );
       const loadDirection =
-        $this.index() < currentIndex()!
+        buttonIndex < currentIndex()!
           ? TransitionDirection.Left
           : TransitionDirection.Right;
-      change($this.index(), loadDirection);
-      return false;
-    });
+      change(buttonIndex, loadDirection);
+    };
+    button.addEventListener("click", buttonClick);
+    button.addEventListener("touchend", buttonClick);
+    navigation.appendChild(button);
+  }
+}
+
+export function changeNavigationCurrent(currentIndex: number): void {
+  for (let i = 0; i < navigation.children.length; i++) {
+    navigation.children.item(i)?.classList.remove("ilb-navigation-active");
+  }
+  navigation.children
+    .item(currentIndex)
+    ?.classList.add("ilb-navigation-active");
+}
+
+export function addNavigationToDOM(
+  images: Array<HTMLAnchorElement>,
+  currentIndex: () => number | null,
+  change: (index: number, transitionDirection: TransitionDirection) => void,
+  animationSpeed: number,
+): void {
+  navigation.textContent = "";
+  addNavigationItems(images, currentIndex, change, animationSpeed);
+  changeNavigationCurrent(currentIndex()!);
+  getContainer().appendChild(navigation);
+
+  navigation.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+  navigation.addEventListener("touchend", (e) => {
+    e.stopPropagation();
+  });
 }

@@ -14,16 +14,25 @@ test("can be controlled with image clicks", async ({ page }) => {
     "src",
     "images/demo1.jpg",
   );
+  await new Promise((resolve) => {
+    setTimeout(resolve, 100);
+  });
   await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
+  await new Promise((resolve) => {
+    setTimeout(resolve, 100);
+  });
   await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
   );
+  await new Promise((resolve) => {
+    setTimeout(resolve, 100);
+  });
   await page.locator("#ilb-image").click({ position: { x: 20, y: 32 } });
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
