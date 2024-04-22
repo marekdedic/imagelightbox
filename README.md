@@ -4,7 +4,7 @@ imagelightbox
 ![NPM Version](https://img.shields.io/npm/v/imagelightbox)
 ![GitHub](https://img.shields.io/github/license/marekdedic/imagelightbox)
 ![GitHub CI](https://img.shields.io/github/actions/workflow/status/marekdedic/imagelightbox/CI.yml?logo=github)
-![Codecov](https://img.shields.io/codecov/c/github/marekdedic/imagelightbox/master?logo=codecov)
+![Coveralls](https://img.shields.io/coverallsCoverage/github/marekdedic/imagelightbox)
 ![NPM downloads](https://img.shields.io/npm/dm/imagelightbox?logo=npm)
 ![RelativeCI](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)
 
