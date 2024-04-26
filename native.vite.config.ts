@@ -5,7 +5,7 @@ import { webpackStats } from "rollup-plugin-webpack-stats";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [webpackStats()],
+  plugins: [webpackStats({ fileName: "webpack-stats.native.json" })],
   build: {
     lib: {
       entry: resolve(__dirname, "src/lib/imagelightbox.ts"),

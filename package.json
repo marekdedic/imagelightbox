@@ -24,7 +24,8 @@
   },
   "files": [
     "dist",
-    "!dist/webpack-stats.json",
+    "!dist/webpack-stats.jquery.json",
+    "!dist/webpack-stats.native.json",
     "docs",
     "types",
     "CHANGELOG.md"
