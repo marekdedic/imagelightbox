@@ -41,10 +41,16 @@ jobs:
           name: "docs"
           path: docs
 
-      - name: Upload webpack stats artifact
-        uses: relative-ci/agent-upload-artifact-action@v1.0.3
+      - name: Prepare webpack-stats dir
+        run: |
+          mkdir $RUNNER_TEMP/relative-ci-artifacts
+          cp dist/webpack-stats.* $RUNNER_TEMP/relative-ci-artifacts/
+
+      - name: Upload webpack-stats
+        uses: actions/upload-artifact@v3
         with:
-          webpackStatsFile: dist/webpack-stats.json
+          name: relative-ci-artifacts
+          path: $RUNNER_TEMP/relative-ci-artifacts
 
   test:
     name: "Test"
