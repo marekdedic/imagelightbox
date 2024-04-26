@@ -40,14 +40,14 @@ jobs:
 
       - name: Prepare webpack-stats dir
         run: |
-          mkdir $RUNNER_TEMP/relative-ci-artifacts
-          cp dist/webpack-stats.* $RUNNER_TEMP/relative-ci-artifacts/
+          mkdir relative-ci-artifacts
+          cp dist/webpack-stats.* relative-ci-artifacts/
 
       - name: Upload webpack-stats
         uses: actions/upload-artifact@v3
         with:
           name: relative-ci-artifacts
-          path: $RUNNER_TEMP/relative-ci-artifacts
+          path: relative-ci-artifacts
 
   test:
     name: "Test"
