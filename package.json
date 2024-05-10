@@ -27,7 +27,8 @@
     "!dist/webpack-stats.json",
     "docs",
     "types",
-    "CHANGELOG.md"
+    "LICENSE",
+    "README.md"
   ],
   "devDependencies": {
     "@playwright/test": "^1.44.0",
