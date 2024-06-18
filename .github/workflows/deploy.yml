@@ -13,9 +13,6 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v4
 
-      - name: "Setup node"
-        uses: actions/setup-node@v4.0.2
-
       - name: "Cache NPM dependencies"
         uses: actions/cache@v4
         with:
