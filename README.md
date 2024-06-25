@@ -1,12 +1,11 @@
-imagelightbox
-=============
+# imagelightbox
 
-![NPM Version](https://img.shields.io/npm/v/imagelightbox)
-![GitHub](https://img.shields.io/github/license/marekdedic/imagelightbox)
-![GitHub CI](https://img.shields.io/github/actions/workflow/status/marekdedic/imagelightbox/CI.yml?logo=github)
-![Coveralls](https://img.shields.io/coverallsCoverage/github/marekdedic/imagelightbox)
-![NPM downloads](https://img.shields.io/npm/dm/imagelightbox?logo=npm)
-![RelativeCI](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)
+[![NPM Version](https://img.shields.io/npm/v/imagelightbox?logo=npm)](https://www.npmjs.com/package/imagelightbox)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/marekdedic/imagelightbox/CI.yml?branch=master&logo=github)](https://github.com/marekdedic/imagelightbox/actions)
+[![Coveralls](https://img.shields.io/coverallsCoverage/github/marekdedic/imagelightbox?branch=master&logo=coveralls)](https://coveralls.io/github/marekdedic/imagelightbox)
+[![NPM Downloads](https://img.shields.io/npm/dm/imagelightbox?logo=npm)](https://www.npmjs.com/package/imagelightbox)
+[![NPM License](https://img.shields.io/npm/l/imagelightbox)](https://github.com/marekdedic/imagelightbox/blob/master/LICENSE)
+[![RelativeCI](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)](https://app.relative-ci.com/projects/mqvYqDg4xPM2gcxviDAG)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
