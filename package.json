@@ -55,7 +55,7 @@
     "postcss": "^8.4.35",
     "prettier": "^3.0.0",
     "rimraf": "^5.0.1",
-    "rollup-plugin-webpack-stats": "^0.3.0",
+    "rollup-plugin-webpack-stats": "^1.0.0",
     "stylelint": "^16.3.1",
     "stylelint-config-standard": "^36.0.0",
     "stylelint-no-unsupported-browser-features": "^8.0.0",
