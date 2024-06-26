@@ -5,7 +5,8 @@
 [![Coveralls](https://img.shields.io/coverallsCoverage/github/marekdedic/imagelightbox?branch=master&logo=coveralls)](https://coveralls.io/github/marekdedic/imagelightbox)
 [![NPM Downloads](https://img.shields.io/npm/dm/imagelightbox?logo=npm)](https://www.npmjs.com/package/imagelightbox)
 [![NPM License](https://img.shields.io/npm/l/imagelightbox)](https://github.com/marekdedic/imagelightbox/blob/master/LICENSE)
-[![RelativeCI](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)](https://app.relative-ci.com/projects/mqvYqDg4xPM2gcxviDAG)
+[![RelativeCI native bundle](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)](https://app.relative-ci.com/projects/mqvYqDg4xPM2gcxviDAG)
+[![RelativeCI jquery bundle](https://badges.relative-ci.com/badges/99MW2QOdJusoWoLHsKkr?branch=master&style=flat)](https://app.relative-ci.com/projects/99MW2QOdJusoWoLHsKkr)
 
 Image Lightbox, Responsive and Touch‑friendly.
 
