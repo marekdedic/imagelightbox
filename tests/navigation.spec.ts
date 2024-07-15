@@ -17,7 +17,10 @@ test("can be controlled with image clicks", async ({ page }) => {
   await new Promise((resolve) => {
     setTimeout(resolve, 100);
   });
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
@@ -26,6 +29,8 @@ test("can be controlled with image clicks", async ({ page }) => {
     setTimeout(resolve, 100);
   });
   await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
@@ -34,6 +39,8 @@ test("can be controlled with image clicks", async ({ page }) => {
     setTimeout(resolve, 100);
   });
   await page.locator("#ilb-image").click({ position: { x: 20, y: 32 } });
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
@@ -49,19 +56,22 @@ test("can be controlled with keyboard", async ({ page }) => {
     "images/demo1.jpg",
   );
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
   );
   await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
@@ -85,31 +95,43 @@ test("can be controlled with arrows", async ({ page }) => {
     "images/demo1.jpg",
   );
   await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
   await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
   );
   await page.locator("#ilb-arrow-left").click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
   await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
   );
   await page.locator("#ilb-arrow-right").click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo1.jpg",
   );
   await page.locator("#ilb-arrow-left").click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
@@ -128,16 +150,21 @@ test("can be controlled with the navigation", async ({ page }) => {
   await expect(page.locator(".ilb-navigation button").nth(1)).toBeVisible();
   await expect(page.locator(".ilb-navigation button").nth(2)).toBeVisible();
   await page.locator(".ilb-navigation button").nth(2).click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
   );
   await page.locator(".ilb-navigation button").nth(1).click();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
   await page.locator(".ilb-navigation button").nth(1).click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
