@@ -15,7 +15,7 @@ test("can be controlled with image clicks", async ({ page }) => {
     "images/demo1.jpg",
   );
   await new Promise((resolve) => {
-    setTimeout(resolve, 100);
+    setTimeout(resolve, 1000);
   });
   await expect(page.locator("#ilb-image")).toHaveCount(1);
   await page.locator("#ilb-image").click({ position: { x: 200, y: 32 } });
