@@ -43,14 +43,16 @@ test("shows a caption", async ({ page }) => {
   );
   await expect(page.getByText("Sunset in Tanzania")).toHaveId("ilb-caption");
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
   await expect(page.locator("#ilb-caption")).toBeHidden();
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",

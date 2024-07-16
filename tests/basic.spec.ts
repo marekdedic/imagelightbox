@@ -60,11 +60,15 @@ test("quits on end", async ({ page }) => {
     "images/demo1.jpg",
   );
   await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
   );
   await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo3.jpg",
