@@ -15,7 +15,8 @@ test("has a working history", async ({ page }) => {
     "images/demo1.jpg",
   );
   await page.locator("#ilb-arrow-right").click();
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
@@ -29,7 +30,8 @@ test("has a working history", async ({ page }) => {
     "images/demo2.jpg",
   );
   await page.goBack();
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo1.jpg",
@@ -71,7 +73,8 @@ test("has a working history with IDs", async ({ page }) => {
     "images/demo1.jpg",
   );
   await page.locator("#ilb-arrow-right").click();
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo2.jpg",
@@ -85,7 +88,8 @@ test("has a working history with IDs", async ({ page }) => {
     "images/demo2.jpg",
   );
   await page.goBack();
-  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveCount(2);
+  await expect(page.locator("#ilb-image")).toHaveCount(1);
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
     "images/demo1.jpg",
