@@ -33,7 +33,7 @@ export class ImageLightbox {
     };
     this.s = State(
       opts,
-      images.length > 0 ? images[0].dataset.imagelightbox ?? "" : "",
+      images.length > 0 ? (images[0].dataset.imagelightbox ?? "") : "",
       Array.from(images),
     );
 
