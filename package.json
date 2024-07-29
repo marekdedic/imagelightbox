@@ -34,7 +34,7 @@
   "devDependencies": {
     "@playwright/test": "^1.45.0",
     "@types/jquery": "^3.3.31",
-    "@types/node": "^20.11.20",
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "autoprefixer": "^10.4.17",
