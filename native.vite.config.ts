@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import { resolve } from "path";
 import webpackStats from "rollup-plugin-webpack-stats";
 import { defineConfig } from "vite";

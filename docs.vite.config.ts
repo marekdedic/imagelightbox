@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import { defineConfig } from "vite";
 import IstanbulPlugin from "vite-plugin-istanbul";
 
