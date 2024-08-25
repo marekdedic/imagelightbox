@@ -206,9 +206,8 @@ export function State(
       if (options.quitOnEnd) {
         close();
         return;
-      } else {
-        newIndex = targetImages.length - 1;
       }
+      newIndex = targetImages.length - 1;
     }
     targetImages[newIndex].dispatchEvent(
       new Event("ilb:previous", { bubbles: true }),
@@ -226,9 +225,8 @@ export function State(
       if (options.quitOnEnd) {
         close();
         return;
-      } else {
-        newIndex = 0;
       }
+      newIndex = 0;
     }
     targetImages[newIndex].dispatchEvent(
       new Event("ilb:next", { bubbles: true }),
