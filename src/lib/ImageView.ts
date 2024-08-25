@@ -74,7 +74,7 @@ export function ImageView(
     });
     imageElement.addEventListener("touchmove", (e) => {
       swipeDiff = (e as TouchEvent).touches[0].pageX - swipeStart;
-      imageElement.style.left = swipeDiff.toString() + "px";
+      imageElement.style.left = `${swipeDiff.toString()}px`;
     });
     imageElement.addEventListener("touchend", (e) => {
       e.stopPropagation();
@@ -101,11 +101,10 @@ export function ImageView(
   ): void {
     getContainer().appendChild(containerElement);
     const maxSize = Math.abs(100 - options.gutter);
-    imageElement.style.maxHeight = maxSize.toString() + "%";
-    imageElement.style.maxWidth = maxSize.toString() + "%";
-    imageElement.style.left = (-100 * transitionDirection).toString() + "px";
-    imageElement.style.transition =
-      "all ease " + options.animationSpeed.toString() + "ms";
+    imageElement.style.maxHeight = `${maxSize.toString()}%`;
+    imageElement.style.maxWidth = `${maxSize.toString()}%`;
+    imageElement.style.left = `${(-100 * transitionDirection).toString()}px`;
+    imageElement.style.transition = `all ease ${options.animationSpeed.toString()}ms`;
     setTimeout(callback, 50);
   }
 
@@ -138,8 +137,7 @@ export function ImageView(
   ): void {
     if (transitionDirection !== TransitionDirection.None) {
       const currentLeft = parseInt(imageElement.style.left, 10) || 0;
-      imageElement.style.left =
-        (currentLeft + 100 * transitionDirection).toString() + "px";
+      imageElement.style.left = `${(currentLeft + 100 * transitionDirection).toString()}px`;
     }
     imageElement.style.opacity = "0";
     setTimeout(() => {

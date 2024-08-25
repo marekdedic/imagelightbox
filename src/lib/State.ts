@@ -282,9 +282,7 @@ export function State(
       .filter(
         (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
-          (new RegExp(".(" + options.allowedTypes + ")$", "i").test(
-            element.href,
-          ) ||
+          (new RegExp(`.(${options.allowedTypes})$`, "i").test(element.href) ||
             element.dataset.ilb2Video !== undefined),
       );
     videoCache.add(validImages);
