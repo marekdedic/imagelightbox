@@ -9,6 +9,7 @@ export interface ImageView {
     transitionDirection: TransitionDirection,
     callback: () => void,
   ): void;
+  removeFromDOM(): void;
   startLoading(onload: () => void, onerror: () => void): void;
   transitionIn(
     callback: () => void,
@@ -20,7 +21,6 @@ export interface ImageView {
     transitionDirection: TransitionDirection,
     callback: () => void,
   ): void;
-  removeFromDOM(): void;
 }
 
 export function ImageView(

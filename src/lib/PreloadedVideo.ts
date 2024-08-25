@@ -1,9 +1,9 @@
 import type { VideoOptions } from "./interfaces/VideoOptions";
 
 export interface PreloadedVideo {
-  id(): string;
   dimensions(): [number, number];
   element(): [HTMLVideoElement, boolean];
+  id(): string;
 }
 
 export function PreloadedVideo(

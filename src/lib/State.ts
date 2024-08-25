@@ -27,14 +27,14 @@ import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
 export interface State {
-  set(): string | undefined;
-  images(): Array<HTMLAnchorElement>;
   addImages(images: Array<HTMLAnchorElement>): void;
-  openWithImage(image: HTMLAnchorElement): void;
-  open(index: number, skipHistory?: boolean): void;
   close(skipHistory?: boolean): void;
-  previous(): void;
+  images(): Array<HTMLAnchorElement>;
   next(): void;
+  open(index: number, skipHistory?: boolean): void;
+  openWithImage(image: HTMLAnchorElement): void;
+  previous(): void;
+  set(): string | undefined;
 }
 
 export function State(
