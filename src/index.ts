@@ -133,6 +133,8 @@ new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="video"]'), {
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="events"]'), {
   ...(isTest && { animationSpeed: 0 }),
 });
+
+/* eslint-disable no-console -- This is the docs */
 document.addEventListener("ilb:start", (e) => {
   console.log("ilb:start");
   console.log(e.target);
@@ -151,3 +153,4 @@ document.addEventListener("ilb:next", (e) => {
   console.log("ilb:next");
   console.log(e.target);
 });
+/* eslint-enable no-console */
