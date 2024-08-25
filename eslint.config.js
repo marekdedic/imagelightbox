@@ -108,7 +108,6 @@ export default tseslint.config(
       ],
       "guard-for-in": "error",
       "logical-assignment-operators": "error",
-      "new-cap": "error",
       "no-alert": "error",
       "no-await-in-loop": "error",
       "no-console": "error",
