@@ -12,8 +12,7 @@ caption.addEventListener("click", (e) => {
 export function setCaption(captionText: string, animationSpeed: number): void {
   if (captionText !== "") {
     getContainer().appendChild(caption);
-    caption.style.transition =
-      "opacity " + animationSpeed.toString() + "ms ease";
+    caption.style.transition = `opacity ${animationSpeed.toString()}ms ease`;
     setTimeout(() => {
       caption.style.opacity = "1";
     }, 1);
