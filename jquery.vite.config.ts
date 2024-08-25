@@ -3,25 +3,25 @@ import webpackStats from "rollup-plugin-webpack-stats";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  plugins: [webpackStats({ fileName: "webpack-stats.jquery.json" })],
   build: {
     lib: {
       entry: resolve(__dirname, "src/lib/imagelightbox.jquery.ts"),
-      name: "imagelightbox",
       fileName: "imagelightbox.jquery",
+      name: "imagelightbox",
     },
     outDir: "../dist",
-    sourcemap: true,
     rollupOptions: {
       external: ["jquery", "./imagelightbox"],
       output: {
+        assetFileNames: "imagelightbox.[ext]",
         globals: {
           jquery: "jQuery",
         },
-        assetFileNames: "imagelightbox.[ext]",
       },
     },
+    sourcemap: true,
   },
-  root: "src",
+  plugins: [webpackStats({ fileName: "webpack-stats.jquery.json" })],
   publicDir: false,
+  root: "src",
 });

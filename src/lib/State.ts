@@ -313,13 +313,13 @@ export function State(
   }
 
   return {
-    set,
-    images,
     addImages,
-    openWithImage,
-    open,
     close,
-    previous,
+    images,
     next,
+    open,
+    openWithImage,
+    previous,
+    set,
   };
 }

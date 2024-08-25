@@ -82,8 +82,8 @@ export function PreloadedVideo(
   }
 
   return {
-    id,
     dimensions,
     element,
+    id,
   };
 }
