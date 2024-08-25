@@ -1,8 +1,8 @@
-import "./ImageView.css";
+import type { VideoCache } from "./VideoCache";
 
 import { getContainer } from "./container";
+import "./ImageView.css";
 import { TransitionDirection } from "./TransitionDirection";
-import type { VideoCache } from "./VideoCache";
 
 export interface ImageView {
   addToDOM(
