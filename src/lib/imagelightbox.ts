@@ -51,24 +51,20 @@ export class ImageLightbox {
     this.s.addImages(Array.from(images));
   }
 
-  public open(image?: HTMLAnchorElement): void {
-    if (image !== undefined) {
-      this.s.openWithImage(image);
-    } else {
-      this.s.open(0);
-    }
-  }
-
-  public previous(): void {
-    this.s.previous();
+  public close(): void {
+    this.s.close();
   }
 
   public next(): void {
     this.s.next();
   }
 
-  public close(): void {
-    this.s.close();
+  public open(image?: HTMLAnchorElement): void {
+    if (image !== undefined) {
+      this.s.openWithImage(image);
+    } else {
+      this.s.open(0);
+    }
   }
 
   public openHistory(): void {
@@ -79,5 +75,9 @@ export class ImageLightbox {
         this.s.open(index, skipHistory);
       },
     );
+  }
+
+  public previous(): void {
+    this.s.previous();
   }
 }
