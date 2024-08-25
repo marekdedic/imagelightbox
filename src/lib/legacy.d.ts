@@ -1,9 +1,7 @@
 declare class LegacyDocument extends Document {
-  public webkitFullscreenEnabled?: boolean;
-
-  public webkitFullscreenElement?: Element;
-
   public webkitExitFullscreen?: () => Promise<undefined>;
+  public webkitFullscreenElement?: Element;
+  public webkitFullscreenEnabled?: boolean;
 }
 
 declare class LegacyHTMLElement extends HTMLElement {
