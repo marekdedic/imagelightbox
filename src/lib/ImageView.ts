@@ -151,9 +151,9 @@ export function ImageView(
 
   return {
     addToDOM,
+    removeFromDOM,
     startLoading,
     transitionIn,
     transitionOut,
-    removeFromDOM,
   };
 }
