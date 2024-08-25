@@ -1,5 +1,4 @@
 import "./activity-indicator.css";
-
 import { getContainer } from "./container";
 
 const activityIndicator = document.createElement("div");

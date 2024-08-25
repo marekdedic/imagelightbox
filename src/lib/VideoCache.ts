@@ -1,4 +1,5 @@
 import type { VideoOptions } from "./interfaces/VideoOptions";
+
 import { PreloadedVideo } from "./PreloadedVideo";
 
 export interface VideoCache {

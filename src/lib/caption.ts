@@ -1,5 +1,4 @@
 import "./caption.css";
-
 import { getContainer } from "./container";
 
 const caption = document.createElement("caption");

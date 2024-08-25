@@ -1,6 +1,5 @@
-import "./navigation.css";
-
 import { getContainer } from "./container";
+import "./navigation.css";
 import { TransitionDirection } from "./TransitionDirection";
 
 const navigation = document.createElement("div");
