@@ -32,12 +32,6 @@ export function PreloadedVideo(
       case "autoplay":
         autoplay = true;
         break;
-      case "height":
-        height = value as number;
-        break;
-      case "width":
-        width = value as number;
-        break;
       case "controls":
       case "loop":
       case "muted":
@@ -45,6 +39,14 @@ export function PreloadedVideo(
       case "preload":
       case "src":
         videoElement.setAttribute(key, (value as number | string).toString());
+        break;
+      case "height":
+        height = value as number;
+        break;
+      case "width":
+        width = value as number;
+        break;
+      default:
     }
   }
   if (videoOptions.sources) {
