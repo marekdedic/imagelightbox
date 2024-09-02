@@ -6,24 +6,24 @@ interface ILBOptions {
   button: boolean;
   caption: boolean;
   enableKeyboard: boolean;
-  history: boolean;
   fullscreen: boolean;
   gutter: number;
+  history: boolean;
   navigation: boolean;
   overlay: boolean;
   preloadNext: boolean;
-  quitOnEnd: boolean;
-  quitOnImgClick: boolean;
   quitOnDocClick: boolean;
+  quitOnEnd: boolean;
   quitOnEscKey: boolean;
+  quitOnImgClick: boolean;
 }
 
 interface JQuery {
-  imageLightbox(opts?: Partial<ILBOptions>): JQuery;
   addToImageLightbox(elements: JQuery<HTMLAnchorElement>): void;
-  openHistory(): void;
-  loadPreviousImage(): void;
+  imageLightbox(opts?: Partial<ILBOptions>): JQuery;
   loadNextImage(): void;
+  loadPreviousImage(): void;
+  openHistory(): void;
   quitImageLightbox(): void;
   startImageLightbox(element?: JQuery<HTMLAnchorElement>): void;
 }

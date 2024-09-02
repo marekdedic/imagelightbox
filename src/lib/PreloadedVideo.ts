@@ -1,9 +1,9 @@
 import type { VideoOptions } from "./interfaces/VideoOptions";
 
 export interface PreloadedVideo {
-  id(): string;
   dimensions(): [number, number];
   element(): [HTMLVideoElement, boolean];
+  id(): string;
 }
 
 export function PreloadedVideo(
@@ -13,7 +13,7 @@ export function PreloadedVideo(
   let tempId = image.dataset.ilb2Id;
   if (tempId === undefined) {
     // Random id
-    tempId = "a" + (((1 + Math.random()) * 0x10000) | 0).toString(16);
+    tempId = `a${(((1 + Math.random()) * 0x10000) | 0).toString(16)}`;
   }
   image.dataset.ilb2VideoId = tempId;
   const videoId = tempId;
@@ -32,12 +32,6 @@ export function PreloadedVideo(
       case "autoplay":
         autoplay = true;
         break;
-      case "height":
-        height = value as number;
-        break;
-      case "width":
-        width = value as number;
-        break;
       case "controls":
       case "loop":
       case "muted":
@@ -45,6 +39,14 @@ export function PreloadedVideo(
       case "preload":
       case "src":
         videoElement.setAttribute(key, (value as number | string).toString());
+        break;
+      case "height":
+        height = value as number;
+        break;
+      case "width":
+        width = value as number;
+        break;
+      default:
     }
   }
   if (videoOptions.sources) {
@@ -80,8 +82,8 @@ export function PreloadedVideo(
   }
 
   return {
-    id,
     dimensions,
     element,
+    id,
   };
 }

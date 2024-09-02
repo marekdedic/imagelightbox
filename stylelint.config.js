@@ -6,14 +6,14 @@ export default {
     /* eslint-disable @typescript-eslint/naming-convention -- The keys are rule names */
     "color-function-notation": "legacy",
     "media-feature-range-notation": "prefix",
-    "selector-class-pattern": "ilb-.*",
-    "selector-id-pattern": "ilb-.*",
     "plugin/no-unsupported-browser-features": [
       true,
       {
         severity: "warning",
       },
     ],
+    "selector-class-pattern": "ilb-.*",
+    "selector-id-pattern": "ilb-.*",
     /* eslint-enable */
   },
 };

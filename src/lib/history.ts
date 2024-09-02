@@ -55,7 +55,7 @@ export function openHistory(
   }
   let newIndex = images.findIndex((image) => image.dataset.ilb2Id === id);
   if (newIndex < 0) {
-    newIndex = parseInt(id);
+    newIndex = parseInt(id, 10);
   }
   open(newIndex, true);
 }
@@ -95,7 +95,7 @@ export function popHistory(
     (e: HTMLElement) => e.dataset.ilb2Id === newId,
   );
   if (newIndex < 0) {
-    newIndex = parseInt(newId);
+    newIndex = parseInt(newId, 10);
   }
   if (currentIndex === null) {
     open(newIndex, true);

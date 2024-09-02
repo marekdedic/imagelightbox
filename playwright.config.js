@@ -1,18 +1,8 @@
-/* eslint-env node */
-
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./tests",
-  fullyParallel: true,
   forbidOnly: process.env.CI !== undefined,
-  retries: process.env.CI !== undefined ? 2 : 0,
-  reporter: process.env.CI !== undefined ? "html" : "list",
-  use: {
-    baseURL: "http://127.0.0.1:5173",
-    trace: "on-first-retry",
-  },
-
+  fullyParallel: true,
   projects: [
     {
       name: "chromium",
@@ -27,10 +17,16 @@ export default defineConfig({
       use: { ...devices["Desktop Safari"] },
     },
   ],
-
+  reporter: process.env.CI !== undefined ? "html" : "list",
+  retries: process.env.CI !== undefined ? 2 : 0,
+  testDir: "./tests",
+  use: {
+    baseURL: "http://127.0.0.1:5173",
+    trace: "on-first-retry",
+  },
   webServer: {
     command: "npm run start -- --host",
-    url: "http://127.0.0.1:5173",
     reuseExistingServer: process.env.CI === undefined,
+    url: "http://127.0.0.1:5173",
   },
 });

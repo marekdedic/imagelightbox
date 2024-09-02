@@ -12,9 +12,9 @@ export class ImageLightbox {
       | HTMLCollectionOf<HTMLAnchorElement>
       | NodeListOf<HTMLAnchorElement>,
   ): void;
-  public open(image?: HTMLAnchorElement): void;
-  public previous(): void;
-  public next(): void;
   public close(): void;
+  public next(): void;
+  public open(image?: HTMLAnchorElement): void;
   public openHistory(): void;
+  public previous(): void;
 }

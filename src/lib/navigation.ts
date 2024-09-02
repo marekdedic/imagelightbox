@@ -1,6 +1,5 @@
-import "./navigation.css";
-
 import { getContainer } from "./container";
+import "./navigation.css";
 import { TransitionDirection } from "./TransitionDirection";
 
 const navigation = document.createElement("div");
@@ -15,8 +14,7 @@ export function addNavigationItems(
   // eslint-disable-next-line @typescript-eslint/prefer-for-of -- The result won't be used anyway
   for (let i = 0; i < images.length; i++) {
     const button = document.createElement("button");
-    button.style.transition =
-      "background-color " + animationSpeed.toString() + "ms ease";
+    button.style.transition = `background-color ${animationSpeed.toString()}ms ease`;
     const buttonClick = (): void => {
       if (button.classList.contains("ilb-navigation-active")) {
         return;
