@@ -1,14 +1,12 @@
-/* eslint-env node */
-
 import { defineConfig } from "vite";
-import IstanbulPlugin from "vite-plugin-istanbul";
+import istanbulPlugin from "vite-plugin-istanbul";
 
 export default defineConfig({
-  plugins: [IstanbulPlugin({ include: "src/lib/**/*.ts" })],
+  base: "./",
   build: {
     outDir: "../docs",
     sourcemap: true,
   },
+  plugins: [istanbulPlugin({ include: "src/lib/**/*.ts" })],
   root: "src",
-  base: "./",
 });

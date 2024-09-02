@@ -21,8 +21,7 @@ export function addContainerToDOM(
     container.addEventListener("click", wrappedOnclick);
     container.addEventListener("touchend", wrappedOnclick);
   }
-  container.style.transition =
-    "opacity " + animationSpeed.toString() + "ms ease";
+  container.style.transition = `opacity ${animationSpeed.toString()}ms ease`;
   setTimeout(() => {
     container.style.opacity = "1";
   }, 50);

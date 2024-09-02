@@ -1,6 +1,5 @@
 import "./arrows.css";
 import "./button.css";
-
 import { getContainer } from "./container";
 
 const leftArrow = document.createElement("div");

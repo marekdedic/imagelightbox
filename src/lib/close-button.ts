@@ -1,6 +1,5 @@
 import "./button.css";
 import "./close-button.css";
-
 import { getContainer } from "./container";
 
 const closeButton = document.createElement("button");

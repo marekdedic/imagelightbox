@@ -27,14 +27,14 @@ import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
 
 export interface State {
-  set(): string | undefined;
-  images(): Array<HTMLAnchorElement>;
   addImages(images: Array<HTMLAnchorElement>): void;
-  openWithImage(image: HTMLAnchorElement): void;
-  open(index: number, skipHistory?: boolean): void;
   close(skipHistory?: boolean): void;
-  previous(): void;
+  images(): Array<HTMLAnchorElement>;
   next(): void;
+  open(index: number, skipHistory?: boolean): void;
+  openWithImage(image: HTMLAnchorElement): void;
+  previous(): void;
+  set(): string | undefined;
 }
 
 export function State(
@@ -206,9 +206,8 @@ export function State(
       if (options.quitOnEnd) {
         close();
         return;
-      } else {
-        newIndex = targetImages.length - 1;
       }
+      newIndex = targetImages.length - 1;
     }
     targetImages[newIndex].dispatchEvent(
       new Event("ilb:previous", { bubbles: true }),
@@ -226,9 +225,8 @@ export function State(
       if (options.quitOnEnd) {
         close();
         return;
-      } else {
-        newIndex = 0;
       }
+      newIndex = 0;
     }
     targetImages[newIndex].dispatchEvent(
       new Event("ilb:next", { bubbles: true }),
@@ -284,9 +282,7 @@ export function State(
       .filter(
         (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
-          (new RegExp(".(" + options.allowedTypes + ")$", "i").test(
-            element.href,
-          ) ||
+          (new RegExp(`.(${options.allowedTypes})$`, "i").test(element.href) ||
             element.dataset.ilb2Video !== undefined),
       );
     videoCache.add(validImages);
@@ -317,13 +313,13 @@ export function State(
   }
 
   return {
-    set,
-    images,
     addImages,
-    openWithImage,
-    open,
     close,
-    previous,
+    images,
     next,
+    open,
+    openWithImage,
+    previous,
+    set,
   };
 }
