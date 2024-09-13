@@ -5,8 +5,6 @@
     "module": "es6",
     "moduleResolution": "node",
 
-    "skipLibCheck": true,
-
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
