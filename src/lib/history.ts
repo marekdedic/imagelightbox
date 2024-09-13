@@ -20,7 +20,7 @@ export function pushToHistory(
   set: string | undefined,
   images: Array<HTMLAnchorElement>,
 ): void {
-  const newIndex = images[index].dataset.ilb2Id ?? index.toString();
+  const newIndex = images[index].dataset["ilb2Id"] ?? index.toString();
   let newQuery = addQueryField(
     document.location.search,
     "imageLightboxIndex",
@@ -53,7 +53,7 @@ export function openHistory(
   if (id === undefined) {
     return;
   }
-  let newIndex = images.findIndex((image) => image.dataset.ilb2Id === id);
+  let newIndex = images.findIndex((image) => image.dataset["ilb2Id"] === id);
   if (newIndex < 0) {
     newIndex = parseInt(id, 10);
   }
@@ -92,7 +92,7 @@ export function popHistory(
     return;
   }
   let newIndex = images.findIndex(
-    (e: HTMLElement) => e.dataset.ilb2Id === newId,
+    (e: HTMLElement) => e.dataset["ilb2Id"] === newId,
   );
   if (newIndex < 0) {
     newIndex = parseInt(newId, 10);

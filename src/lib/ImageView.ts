@@ -38,10 +38,10 @@ export function ImageView(
   containerElement.classList.add("ilb-image-container");
   let isVideoPreloaded: boolean | undefined = undefined;
 
-  const isVideo = image.dataset.ilb2Video !== undefined;
+  const isVideo = image.dataset["ilb2Video"] !== undefined;
   if (isVideo) {
     [imageElement, isVideoPreloaded] = videoCache.element(
-      image.dataset.ilb2VideoId!,
+      image.dataset["ilb2VideoId"]!,
     );
   }
   containerElement.appendChild(imageElement);

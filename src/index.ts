@@ -98,7 +98,7 @@ document
     linkContainer.appendChild(newLi);
 
     const newAnchor = document.createElement("a");
-    newAnchor.dataset.imagelightbox = "i";
+    newAnchor.dataset["imagelightbox"] = "i";
     newAnchor.href = "images/demo4.jpg";
     newLi.appendChild(newAnchor);
 
