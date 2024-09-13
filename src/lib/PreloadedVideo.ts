@@ -10,18 +10,18 @@ export function PreloadedVideo(
   image: HTMLAnchorElement,
   videoOptions: VideoOptions,
 ): PreloadedVideo {
-  let tempId = image.dataset.ilb2Id;
+  let tempId = image.dataset["ilb2Id"];
   if (tempId === undefined) {
     // Random id
     tempId = `a${(((1 + Math.random()) * 0x10000) | 0).toString(16)}`;
   }
-  image.dataset.ilb2VideoId = tempId;
+  image.dataset["ilb2VideoId"] = tempId;
   const videoId = tempId;
 
   const videoElement = document.createElement("video");
   videoElement.setAttribute("id", "ilb-image");
   videoElement.preload = "metadata";
-  videoElement.dataset.ilb2VideoId = videoId;
+  videoElement.dataset["ilb2VideoId"] = videoId;
   let isLoaded = false;
   let autoplay = false;
   let height: number | undefined = undefined;

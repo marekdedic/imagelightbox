@@ -13,7 +13,7 @@ export function VideoCache(): VideoCache {
 
   function add(elements: Array<HTMLAnchorElement>): void {
     for (const image of elements) {
-      const videoOptions = image.dataset.ilb2Video;
+      const videoOptions = image.dataset["ilb2Video"];
       if (videoOptions === undefined) {
         continue;
       }
