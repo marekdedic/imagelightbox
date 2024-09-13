@@ -110,7 +110,7 @@ export function State(
       const image = targetImages[currentImage!];
       if (options.caption) {
         setCaption(
-          image.dataset.ilb2Caption ??
+          image.dataset["ilb2Caption"] ??
             image.getElementsByTagName("img").item(0)?.alt ??
             "",
           options.animationSpeed,
@@ -283,7 +283,7 @@ export function State(
         (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
           (new RegExp(`.(${options.allowedTypes})$`, "i").test(element.href) ||
-            element.dataset.ilb2Video !== undefined),
+            element.dataset["ilb2Video"] !== undefined),
       );
     videoCache.add(validImages);
     targetImages.push(...validImages);
