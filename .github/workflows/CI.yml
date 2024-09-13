@@ -50,7 +50,7 @@ jobs:
           path: relative-ci-artifacts
 
   get-playwright-version:
-    name: 'Read Playwright Version'
+    name: 'Get Playwright Version'
     runs-on: ubuntu-latest
     outputs:
       playwright-version: ${{ steps.extract_playwright_version.outputs.playwright-version }}
@@ -63,7 +63,6 @@ jobs:
         run: |
           playwright_version=$(node -e 'console.log(require("./package-lock.json")["packages"]["node_modules/@playwright/test"].version)')
           echo "playwright-version=$playwright_version" >> $GITHUB_OUTPUT
-
 
   test:
     name: "Test"
