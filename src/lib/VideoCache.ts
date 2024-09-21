@@ -4,7 +4,7 @@ import { PreloadedVideo } from "./PreloadedVideo";
 
 export interface VideoCache {
   add(elements: Array<HTMLAnchorElement>): void;
-  element(videoId: string): [HTMLVideoElement, boolean];
+  element(videoId: string): [HTMLVideoElement, boolean] | undefined;
 }
 
 export function VideoCache(): VideoCache {
@@ -22,9 +22,9 @@ export function VideoCache(): VideoCache {
     }
   }
 
-  function element(videoId: string): [HTMLVideoElement, boolean] {
-    const video = videos.find((x) => x.id() === videoId)!;
-    return video.element();
+  function element(videoId: string): [HTMLVideoElement, boolean] | undefined {
+    const video = videos.find((x) => x.id() === videoId);
+    return video?.element();
   }
 
   return {

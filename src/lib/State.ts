@@ -87,7 +87,10 @@ export function State(
     transitionDirection: TransitionDirection,
     callback?: () => void,
   ): void {
-    const oldImageView = currentImageView!;
+    if (currentImageView === null) {
+      return;
+    }
+    const oldImageView = currentImageView;
     oldImageView.transitionOut(transitionDirection, () => {
       oldImageView.removeFromDOM();
       callback?.();
@@ -107,7 +110,10 @@ export function State(
 
   function addNewImage(transitionDirection: TransitionDirection): void {
     currentImageView?.addToDOM(transitionDirection, () => {
-      const image = targetImages[currentImage!];
+      if (currentImage === null) {
+        return;
+      }
+      const image = targetImages[currentImage];
       if (options.caption) {
         setCaption(
           image.dataset["ilb2Caption"] ??
@@ -117,8 +123,8 @@ export function State(
         );
       }
       transitionInNewImage();
-      if (options.preloadNext && currentImage! + 1 < targetImages.length) {
-        const nextImage = targetImages[currentImage! + 1];
+      if (options.preloadNext && currentImage + 1 < targetImages.length) {
+        const nextImage = targetImages[currentImage + 1];
         const nextImageElement = document.createElement("img");
         nextImageElement.setAttribute(
           "src",
