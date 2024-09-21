@@ -75,8 +75,8 @@ const manualOpenGallery = new ImageLightbox(
 );
 document
   .getElementsByClassName("trigger_lightbox")
-  .item(0)!
-  .addEventListener("click", () => {
+  .item(0)
+  ?.addEventListener("click", () => {
     manualOpenGallery.open();
   });
 
@@ -89,13 +89,13 @@ const dynamicAddingGallery = new ImageLightbox(
 );
 document
   .getElementsByClassName("add_image")
-  .item(0)!
-  .addEventListener("click", () => {
+  .item(0)
+  ?.addEventListener("click", () => {
     const linkContainer = document
       .getElementsByClassName("demo_dynamic")
-      .item(0)!;
+      .item(0);
     const newLi = document.createElement("li");
-    linkContainer.appendChild(newLi);
+    linkContainer?.appendChild(newLi);
 
     const newAnchor = document.createElement("a");
     newAnchor.dataset["imagelightbox"] = "i";

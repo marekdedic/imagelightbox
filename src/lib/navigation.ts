@@ -7,7 +7,7 @@ navigation.classList.add("ilb-navigation");
 
 export function addNavigationItems(
   images: Array<HTMLAnchorElement>,
-  currentIndex: () => number | null,
+  currentIndexFn: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
@@ -16,15 +16,20 @@ export function addNavigationItems(
     const button = document.createElement("button");
     button.style.transition = `background-color ${animationSpeed.toString()}ms ease`;
     const buttonClick = (): void => {
-      if (button.classList.contains("ilb-navigation-active")) {
+      const currentIndex = currentIndexFn();
+      if (
+        button.classList.contains("ilb-navigation-active") ||
+        currentIndex === null ||
+        button.parentNode === null
+      ) {
         return;
       }
       const buttonIndex = Array.prototype.indexOf.call(
-        button.parentNode!.childNodes,
+        button.parentNode.childNodes,
         button,
       );
       const loadDirection =
-        buttonIndex < currentIndex()!
+        buttonIndex < currentIndex
           ? TransitionDirection.Left
           : TransitionDirection.Right;
       change(buttonIndex, loadDirection);
@@ -46,13 +51,16 @@ export function changeNavigationCurrent(currentIndex: number): void {
 
 export function addNavigationToDOM(
   images: Array<HTMLAnchorElement>,
-  currentIndex: () => number | null,
+  currentIndexFn: () => number | null,
   change: (index: number, transitionDirection: TransitionDirection) => void,
   animationSpeed: number,
 ): void {
   navigation.textContent = "";
-  addNavigationItems(images, currentIndex, change, animationSpeed);
-  changeNavigationCurrent(currentIndex()!);
+  addNavigationItems(images, currentIndexFn, change, animationSpeed);
+  const currentIndex = currentIndexFn();
+  if (currentIndex !== null) {
+    changeNavigationCurrent(currentIndex);
+  }
   getContainer().appendChild(navigation);
 
   navigation.addEventListener("click", (e) => {

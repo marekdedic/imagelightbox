@@ -38,11 +38,17 @@ export function ImageView(
   containerElement.classList.add("ilb-image-container");
   let isVideoPreloaded: boolean | undefined = undefined;
 
-  const isVideo = image.dataset["ilb2Video"] !== undefined;
+  const videoId = image.dataset["ilb2VideoId"];
+  let isVideo =
+    image.dataset["ilb2Video"] !== undefined && videoId !== undefined;
   if (isVideo) {
-    [imageElement, isVideoPreloaded] = videoCache.element(
-      image.dataset["ilb2VideoId"]!,
-    );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Checked by the if above
+    const videoElement = videoCache.element(videoId!);
+    if (videoElement !== undefined) {
+      [imageElement, isVideoPreloaded] = videoElement;
+    } else {
+      isVideo = false;
+    }
   }
   containerElement.appendChild(imageElement);
 
