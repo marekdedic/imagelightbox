@@ -1,7 +1,6 @@
 import type { VideoOptions } from "./interfaces/VideoOptions";
 
 export interface PreloadedVideo {
-  dimensions(): [number, number];
   element(): [HTMLVideoElement, boolean];
   id(): string;
 }
@@ -24,8 +23,6 @@ export function PreloadedVideo(
   videoElement.dataset["ilb2VideoId"] = videoId;
   let isLoaded = false;
   let autoplay = false;
-  let height: number | undefined = undefined;
-  let width: number | undefined = undefined;
 
   for (const [key, value] of Object.entries(videoOptions)) {
     switch (key) {
@@ -39,12 +36,6 @@ export function PreloadedVideo(
       case "preload":
       case "src":
         videoElement.setAttribute(key, (value as number | string).toString());
-        break;
-      case "height":
-        height = value as number;
-        break;
-      case "width":
-        width = value as number;
         break;
       default:
     }
@@ -66,10 +57,6 @@ export function PreloadedVideo(
     return videoId;
   }
 
-  function dimensions(): [number, number] {
-    return [width ?? videoElement.width, height ?? videoElement.height];
-  }
-
   function element(): [HTMLVideoElement, boolean] {
     if (autoplay) {
       if (isLoaded) {
@@ -82,7 +69,6 @@ export function PreloadedVideo(
   }
 
   return {
-    dimensions,
     element,
     id,
   };
