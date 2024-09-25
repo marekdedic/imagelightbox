@@ -140,10 +140,10 @@ export function State(
     transitionDirection: TransitionDirection,
   ): void {
     const newImageView = ImageView(targetImages[newIndex], options, videoCache);
+    currentImage = newIndex;
+    currentImageView = newImageView;
     newImageView.startLoading(
       () => {
-        currentImage = newIndex;
-        currentImageView = newImageView;
         addNewImage(transitionDirection);
       },
       () => {
@@ -241,6 +241,9 @@ export function State(
   }
 
   function open(index: number, skipHistory = false): void {
+    if (currentImage !== null) {
+      return;
+    }
     addContainerToDOM(options.animationSpeed, options.quitOnDocClick, close);
     if (options.activity) {
       addActivityIndicatorToDOM();
