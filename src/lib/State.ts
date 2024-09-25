@@ -241,6 +241,9 @@ export function State(
   }
 
   function open(index: number, skipHistory = false): void {
+    if (currentImage !== null) {
+      return;
+    }
     addContainerToDOM(options.animationSpeed, options.quitOnDocClick, close);
     if (options.activity) {
       addActivityIndicatorToDOM();
