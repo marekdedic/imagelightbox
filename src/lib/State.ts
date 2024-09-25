@@ -140,10 +140,10 @@ export function State(
     transitionDirection: TransitionDirection,
   ): void {
     const newImageView = ImageView(targetImages[newIndex], options, videoCache);
+    currentImage = newIndex;
+    currentImageView = newImageView;
     newImageView.startLoading(
       () => {
-        currentImage = newIndex;
-        currentImageView = newImageView;
         addNewImage(transitionDirection);
       },
       () => {
