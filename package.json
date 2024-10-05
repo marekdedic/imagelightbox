@@ -14,12 +14,14 @@
     ".": {
       "import": "./dist/imagelightbox.js",
       "require": "./dist/imagelightbox.umd.cjs",
-      "style": "./dist/imagelightbox.min.css"
+      "style": "./dist/imagelightbox.min.css",
+      "types": "./types/imagelightbox.d.ts"
     },
     "./jquery": {
       "import": "./dist/imagelightbox.jquery.js",
       "require": "./dist/imagelightbox.jquery.umd.cjs",
-      "style": "./dist/imagelightbox.min.css"
+      "style": "./dist/imagelightbox.min.css",
+      "types": "./types/imagelightbox.jquery.d.ts"
     }
   },
   "files": [

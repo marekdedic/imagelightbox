@@ -26,7 +26,7 @@ $ npm install --save imagelightbox
 
 After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs` files. Alternatively, you can use the `dist/imagelightbox.js` file if you are using ES6 modules.
 
-If you prefer to use jQuery, there are also jQuery wrappers available in `dist/imagelightbox.jquery.umd.cjs` or `dist/imagelightbox.jquery.js`. These wrappers mostly adapt the interface of the library to work with jQuery types and emit jQuery events. These are here mostly for legacy reasons and their use is discouraged.
+If you prefer to use jQuery, there are also jQuery versions available in `dist/imagelightbox.jquery.umd.cjs` or `dist/imagelightbox.jquery.js`. These mostly adapt the interface of the library to work with jQuery types and emit jQuery events. These are here mostly for legacy reasons and their use is discouraged.
 
 ## How to use
 
