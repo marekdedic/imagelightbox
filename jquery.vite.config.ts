@@ -11,7 +11,7 @@ export default defineConfig({
     },
     outDir: "../dist",
     rollupOptions: {
-      external: ["jquery", "./imagelightbox"],
+      external: ["jquery"],
       output: {
         assetFileNames: "imagelightbox.[ext]",
         globals: {
