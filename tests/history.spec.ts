@@ -41,7 +41,7 @@ test("has a working history", async ({ page }) => {
 });
 
 test("can open history links", async ({ page }) => {
-  await page.goto("/?imageLightboxIndex=2&imageLightboxSet=j");
+  await page.goto("/?imageLightboxIndex=2&imageLightboxSet=history");
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
@@ -51,7 +51,7 @@ test("can open history links", async ({ page }) => {
 
 test.describe("doesn't break on invalid history links", () => {
   test("invalid index", async ({ page }) => {
-    await page.goto("/?imageLightboxIndex=42&imageLightboxSet=j");
+    await page.goto("/?imageLightboxIndex=42&imageLightboxSet=history");
     await expect(page.locator("#ilb-image")).toBeHidden();
   });
   test("no index", async ({ page }) => {
@@ -99,7 +99,7 @@ test("has a working history with IDs", async ({ page }) => {
 });
 
 test("can open history links with IDs", async ({ page }) => {
-  await page.goto("/?imageLightboxIndex=2&imageLightboxSet=k");
+  await page.goto("/?imageLightboxIndex=2&imageLightboxSet=history-ids");
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
