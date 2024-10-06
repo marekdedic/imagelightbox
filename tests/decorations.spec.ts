@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test("shows the overlay", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("overlay").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
@@ -22,7 +22,7 @@ test("shows the overlay", async ({ page }) => {
 
 test("can be closed with the close button", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("close-button").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",

@@ -223,6 +223,10 @@ header h2 {
   margin-bottom: 0.625em;
 }
 
+#main_content h2:first-child {
+  border-top: none;
+}
+
 p {
   margin-bottom: 20px;
 }
@@ -238,6 +242,11 @@ ul li {
 #main_content li {
   display: inline-block;
   margin: 0.625em;
+}
+
+#main_content section {
+  border-top: 1px solid #999;
+  padding-bottom: 20px;
 }
 
 footer {
