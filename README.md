@@ -65,7 +65,7 @@ You can pass an object with options to the `ImageLightbox` constructor as a seco
 | `arrows`         | `boolean` | `false`               | Whether to show navigation arrows |
 | `button`         | `boolean` | `false`               | Whether to show a close button |
 | `caption`        | `boolean` | `false`               | Whether to show image captions, if they are available |
-| `enableKeyboard` | `boolean` | `true`                | Whether to enable keyboard navigation (previous/next with arrows, Escape to exit, Enter for fullscreen) |
+| `enableKeyboard` | `boolean` | `true`                | Whether to enable keyboard navigation (previous/next with arrows, Escape to exit) |
 | `history`        | `boolean` | `false`               | Whether to save the current lightbox state to the browser history and add perma-linkable URLs |
 | `fullscreen`     | `boolean` | `false`               | Whether to enable the availability to show the lightbox in fullscreen mode |
 | `gutter`         | `number` | `10`                   | The minimum amount of free space (in % relative to the window size) to always keep around the image |
