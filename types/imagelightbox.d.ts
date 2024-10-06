@@ -14,7 +14,6 @@ interface ILBOptions {
   preloadNext: boolean;
   quitOnDocClick: boolean;
   quitOnEnd: boolean;
-  quitOnEscKey: boolean;
   quitOnImgClick: boolean;
 }
 

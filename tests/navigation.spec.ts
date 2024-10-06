@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test("can be controlled with image clicks", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("overlay").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
@@ -49,7 +49,7 @@ test("can be controlled with image clicks", async ({ page }) => {
 
 test("can be controlled with keyboard", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("fullscreen").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
@@ -88,7 +88,7 @@ test("can be controlled with keyboard", async ({ page }) => {
 
 test("can be controlled with arrows", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("arrows").getByRole("link").first().click();
+  await page.getByTestId("quit").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",

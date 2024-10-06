@@ -15,7 +15,7 @@ test("has correct title", async ({ page }) => {
 
 test("opens and closes the lightbox", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("activity").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-activity-indicator")).toBeVisible();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-activity-indicator")).toBeHidden();
@@ -53,7 +53,7 @@ test("can add images dynamically", async ({ page }) => {
 
 test("quits on end", async ({ page }) => {
   await page.goto("/");
-  await page.getByTestId("quit").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",
@@ -75,7 +75,7 @@ test("quits on end", async ({ page }) => {
   );
   await page.keyboard.press("ArrowRight");
   await expect(page.locator("#ilb-image")).toBeHidden();
-  await page.getByTestId("quit").getByRole("link").first().click();
+  await page.getByTestId("basic").getByRole("link").first().click();
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expect(page.locator("#ilb-image")).toHaveAttribute(
     "src",

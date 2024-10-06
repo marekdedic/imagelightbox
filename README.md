@@ -57,25 +57,24 @@ If you prefer to use jQuery, there are also jQuery versions available in `dist/i
 
 You can pass an object with options to the `ImageLightbox` constructor as a second argument. The available options are:
 
-| Option           | Type      | Default value         | Description |
-| ---------------- | --------- | --------------------- | --- |
-| `activity`       | `boolean` | `false`               | Whether to show an activity indicator when loading or changing the images |
-| `allowedTypes`   | `string`  | `png\|jpg\|jpeg\|gif` | A list of allowed file types. Use an empty string to allow any type. |
-| `animationSpeed` | `number`  | `250`                 | The duration (in milliseconds) of all animations |
-| `arrows`         | `boolean` | `false`               | Whether to show navigation arrows |
-| `button`         | `boolean` | `false`               | Whether to show a close button |
-| `caption`        | `boolean` | `false`               | Whether to show image captions, if they are available |
-| `enableKeyboard` | `boolean` | `true`                | Whether to enable keyboard navigation (previous/next with arrows, Escape to exit) |
-| `history`        | `boolean` | `false`               | Whether to save the current lightbox state to the browser history and add perma-linkable URLs |
-| `fullscreen`     | `boolean` | `false`               | Whether to enable the availability to show the lightbox in fullscreen mode |
-| `gutter`         | `number` | `10`                   | The minimum amount of free space (in % relative to the window size) to always keep around the image |
-| `navigation`     | `boolean` | `false`               | Whether to show a navigation (panel with clickable dots for each image) |
-| `overlay`        | `boolean` | `false`               | Whether to show a dark page overlay under the image |
-| `preloadNext`    | `boolean` | `true`                | Whether to start preloading the next image upon navigation |
-| `quitOnEnd`      | `boolean` | `false`               | Whether to close the lightbox when navigation past the last image. Alternatively, the lightbox just loops to the first image. |
-| `quitOnImgClick` | `boolean` | `false`               | Whether to close the lightbox when the image is clicked. Alternatively, the previous/next image is shown based on the position of the click. Never quits on touch devices. |
-| `quitOnDocClick` | `boolean` | `true`                | Whether to close the lightbox when clicking outside of the image. |
-| `quitOnEscKey`   | `boolean` | `true`                | Whether to close the lightbox when the Escape key is pressed. Requires the `enableKeyboard` option to be `true`. |
+| Option           | Type      | Default value | Description |
+| ---------------- | --------- | ------------- | --- |
+| `activity`       | `boolean` | `true`        | Whether to show an activity indicator when loading or changing the images |
+| `allowedTypes`   | `string`  | `""`          | A list of allowed file types. Use an empty string to allow any type. |
+| `animationSpeed` | `number`  | `250`         | The duration (in milliseconds) of all animations |
+| `arrows`         | `boolean` | `true`        | Whether to show navigation arrows |
+| `button`         | `boolean` | `true`        | Whether to show a close button |
+| `caption`        | `boolean` | `false`       | Whether to show image captions, if they are available |
+| `enableKeyboard` | `boolean` | `true`        | Whether to enable keyboard navigation (previous/next with arrows, Escape to exit) |
+| `history`        | `boolean` | `false`       | Whether to save the current lightbox state to the browser history and add perma-linkable URLs |
+| `fullscreen`     | `boolean` | `true`        | Whether to enable the availability to show the lightbox in fullscreen mode |
+| `gutter`         | `number`  | `10`          | The minimum amount of free space (in % relative to the window size) to always keep around the image |
+| `navigation`     | `boolean` | `false`       | Whether to show a navigation (panel with clickable dots for each image) |
+| `overlay`        | `boolean` | `true`        | Whether to show a dark page overlay under the image |
+| `preloadNext`    | `boolean` | `true`        | Whether to start preloading the next image upon navigation |
+| `quitOnEnd`      | `boolean` | `true`        | Whether to close the lightbox when navigation past the last image. Alternatively, the lightbox just loops to the first image. |
+| `quitOnImgClick` | `boolean` | `false`       | Whether to close the lightbox when the image is clicked. Alternatively, the previous/next image is shown based on the position of the click. Never quits on touch devices. |
+| `quitOnDocClick` | `boolean` | `true`        | Whether to close the lightbox when clicking outside of the image. |
 
 ## Opening the lightbox with a JavaScript call
 
