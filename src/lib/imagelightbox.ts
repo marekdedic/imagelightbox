@@ -27,7 +27,6 @@ export class ImageLightbox {
       preloadNext: true,
       quitOnDocClick: true,
       quitOnEnd: false,
-      quitOnEscKey: true,
       quitOnImgClick: false,
       ...options,
     };
