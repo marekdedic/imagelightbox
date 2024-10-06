@@ -10,7 +10,7 @@ export function addKeyboardNavigation(
     return;
   }
   keyHandler = (e): void => {
-    if (options.quitOnEscKey && e.key === "Escape") {
+    if (e.key === "Escape") {
       e.preventDefault();
       closeLightbox();
     }

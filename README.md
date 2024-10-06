@@ -75,7 +75,6 @@ You can pass an object with options to the `ImageLightbox` constructor as a seco
 | `quitOnEnd`      | `boolean` | `false`               | Whether to close the lightbox when navigation past the last image. Alternatively, the lightbox just loops to the first image. |
 | `quitOnImgClick` | `boolean` | `false`               | Whether to close the lightbox when the image is clicked. Alternatively, the previous/next image is shown based on the position of the click. Never quits on touch devices. |
 | `quitOnDocClick` | `boolean` | `true`                | Whether to close the lightbox when clicking outside of the image. |
-| `quitOnEscKey`   | `boolean` | `true`                | Whether to close the lightbox when the Escape key is pressed. Requires the `enableKeyboard` option to be `true`. |
 
 ## Opening the lightbox with a JavaScript call
 
