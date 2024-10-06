@@ -17,236 +17,23 @@
             <h2>Image Lightbox, Responsive and Touch‑friendly</h2>
         </header>
 
-        <section id="downloads" class="clearfix">
+        <section class="clearfix">
             <a href="https://github.com/marekdedic/imagelightbox/zipball/master" class="button download-zip"><span>Download .zip</span></a>
             <a href="https://github.com/marekdedic/imagelightbox/tarball/master" class="button download-tar-gz"><span>Download .tar.gz</span></a>
             <a href="https://github.com/marekdedic/imagelightbox" class="button view-on-github"><span>View on GitHub</span></a>
         </section>
 
         <div id="main_content">
-            <section class="options">
-                <h2>With activity indication</h2>
-                <ul data-testid="activity">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="a"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="a"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="a"><img src="images/thumb3.jpg"></a></li>
+            <section>
+                <h2>Basic example</h2>
+                <ul data-testid="basic">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="basic"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="basic"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="basic"><img src="images/thumb3.jpg"></a></li>
                 </ul>
                 <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="a"]'),
-    {
-        activity: true,
-    },
-);
+new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="basic"]'));
                 </code></pre>
-
-                <h2>With overlay</h2>
-                <ul data-testid="overlay">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="b"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="b"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="b"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="b"]'),
-    {
-        overlay: true,
-    },
-);
-                </code></pre>
-
-                <h2>With "close" button</h2>
-                <ul data-testid="close-button">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="c"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="c"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="c"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="c"]'),
-    {
-        button: true,
-        quitOnDocClick: false,
-    },
-);
-                </code></pre>
-
-                <h2>With caption</h2>
-                <ul data-testid="caption">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="d" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="d"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="d"><img src="images/thumb3.jpg" alt="Just another sunset in Tanzania"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="d"]'),
-    {
-        caption: true,
-    },
-);
-                </code></pre>
-
-                <h2>With navigation</h2>
-                <ul data-testid="navigation">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="e"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="e"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="e"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="e"]'),
-    {
-        navigation: true,
-    },
-);
-                </code></pre>
-
-                <h2>With arrows</h2>
-                <ul data-testid="arrows">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="f"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="f"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="f"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="d"]'),
-    {
-        caption: true,
-    },
-);
-                </code></pre>
-
-                <h2>All of the above</h2>
-                <ul>
-                    <li><a href="images/demo1.jpg" data-imagelightbox="g" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="g" data-ilb2-caption="Traffic jam in Tanzania"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="g" data-ilb2-caption="Just another sunset in Tanzania"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="g"]'),
-    {
-        activity: true,
-        arrows: true,
-        button: true,
-        caption: true,
-        navigation: true,
-        overlay: true,
-        quitOnDocClick: false,
-    },
-);
-                </code></pre>
-
-                <h2>Quiting on reaching the end or clicking the image</h2>
-                <ul data-testid="quit">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="quit"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="quit"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="quit"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="quit"]'),
-    {
-        quitOnEnd: true,
-        quitOnImgClick: true,
-    },
-);
-                </code></pre>
-
-                <h2>With manual trigger</h2>
-                <ul>
-                    <li><a href="images/demo1.jpg" data-imagelightbox="h"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="h"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="h"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <button class="trigger_lightbox">Click Me!</button>
-                <pre><code>
-const manualOpenGallery = new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="h"]'),
-    {
-        arrows: true,
-    },
-);
-document
-    .getElementsByClassName("trigger_lightbox")
-    .item(0)
-    .addEventListener("click", () => {
-        manualOpenGallery.open();
-    });
-                </code></pre>
-
-                <h2>dynamically adding</h2>
-                <ul class="demo_dynamic" data-testid="dynamic">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="i"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="i"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="i"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <button class="add_image">Add another image</button>
-                <pre><code>
-const dynamicAddingGallery = new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="i"]'),
-    {
-        arrows: true,
-    },
-);
-document
-    .getElementsByClassName("add_image")
-    .item(0)
-    .addEventListener("click", () => {
-        const linkContainer = document
-            .getElementsByClassName("demo_dynamic")
-            .item(0)!;
-        const newLi = document.createElement("li");
-        linkContainer.appendChild(newLi);
-
-        const newAnchor = document.createElement("a");
-        newAnchor.dataset.imagelightbox = "i";
-        newAnchor.href = "images/demo4.jpg";
-        newLi.appendChild(newAnchor);
-
-        const newImg = document.createElement("img");
-        newImg.src = "images/thumb4.jpg";
-        newAnchor.appendChild(newImg);
-
-        dynamicAddingGallery.addImages(
-            document.querySelectorAll('a[data-imagelightbox="i"]'),
-        );
-    });
-                </code></pre>
-
-                <h2>With history & permalinks</h2>
-                <ul data-testid="history">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="j"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="j"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="j"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="j"]'),
-    {
-        arrows: true,
-        history: true,
-    },
-);
-                </code></pre>
-                Open with ?imageLightboxIndex=2 added to the url to open the third image (may need to add &imageLightboxSet=j as well because there are multiple examples)
-
-                <h2>History with ids</h2>
-                <ul data-testid="history-ids">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="k" data-ilb2-id="img1"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="k" data-ilb2-id="img2"><img src="images/thumb2.jpg"></a></li>
-                    <li><a href="images/demo3.jpg" data-imagelightbox="k" data-ilb2-id="img3"><img src="images/thumb3.jpg"></a></li>
-                </ul>
-                <pre><code>
-new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="k"]'),
-    {
-        arrows: true,
-        history: true,
-    },
-);
-                </code></pre>
-                Add data-ilb2-id="img2" and open with ?imageLightboxIndex=img2 added to the url to open that image (may need to add &imageLightboxSet=k as well because there are multiple examples)
 
                 <h2>Video support</h2>
                 <ul>
@@ -256,20 +43,107 @@ new ImageLightbox(
                 </ul>
                 Add data-ilb2-video to the link, containing the parameters of a HTML5 video tag as JSON. You can also include a sources field - a list of source tags similarily encoded.
 
-                <h2>Fullscreen button</h2>
-                <ul data-testid="fullscreen">
-                 <li><a href="images/demo1.jpg" data-imagelightbox="fullscreen"><img src="images/thumb1.jpg"></a></li>
-                 <li><a href="images/demo2.jpg" data-imagelightbox="fullscreen"><img src="images/thumb2.jpg"></a></li>
-                 <li><a href="images/demo3.jpg" data-imagelightbox="fullscreen"><img src="images/thumb3.jpg"></a></li>
+            </section>
+            <section>
+
+                <h2>Minimal example</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="minimal"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="minimal"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="minimal"><img src="images/thumb3.jpg"></a></li>
                 </ul>
                 <pre><code>
 new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="fullscreen"]'),
-    {
-        fullscreen: true,
-    },
+  document.querySelectorAll('a[data-imagelightbox="minimal"]'),
+  {
+    activity: false,
+    arrows: false,
+    button: false,
+    fullscreen: false,
+    overlay: false,
+    quitOnDocClick: false,
+  },
 );
                 </code></pre>
+
+                <h2>With caption</h2>
+                <ul data-testid="caption">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="caption" data-ilb2-caption="Sunset in Tanzania"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="caption"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="caption"><img src="images/thumb3.jpg" alt="Just another sunset in Tanzania"></a></li>
+                </ul>
+                <pre><code>
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="caption"]'),
+  {
+    caption: true,
+  },
+);
+                </code></pre>
+
+                <h2>With navigation</h2>
+                <ul data-testid="navigation">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="navigation"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="navigation"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="navigation"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="navigation"]'),
+  {
+    navigation: true,
+  },
+);
+                </code></pre>
+
+                <h2>Quit behavior</h2>
+                <ul data-testid="quit">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="quit"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="quit"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="quit"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>
+new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="quit"]'), {
+  quitOnDocClick: false,
+  quitOnEnd: false,
+  quitOnImgClick: true,
+});
+                </code></pre>
+
+              </section>
+              <section>
+
+                <h2>With history & permalinks</h2>
+                <ul data-testid="history">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="history"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="history"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="history"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="history"]'),
+  {
+    history: true,
+  },
+);
+                </code></pre>
+                Open with ?imageLightboxIndex=2 added to the url to open the third image (may need to add &imageLightboxSet=history as well because there are multiple examples)
+
+                <h2>History with ids</h2>
+                <ul data-testid="history-ids">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="history-ids" data-ilb2-id="img1"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="history-ids" data-ilb2-id="img2"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="history-ids" data-ilb2-id="img3"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <pre><code>
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="history-ids"]'),
+  {
+    history: true,
+  },
+);
+                </code></pre>
+                Add data-ilb2-id="img2" and open with ?imageLightboxIndex=img2 added to the url to open that image (may need to add &imageLightboxSet=history-ids as well because there are multiple examples)
 
                 <h2>Filter images by extension</h2>
                 <h3>Allow gif only</h3>
@@ -280,16 +154,74 @@ new ImageLightbox(
                 </ul>
                 <pre><code>
 new ImageLightbox(
-    document.querySelectorAll('a[data-imagelightbox="allowedtypes"]'),
-    {
-        allowedTypes: "gif",
-    },
+  document.querySelectorAll('a[data-imagelightbox="allowedtypes"]'),
+  {
+    allowedTypes: "gif",
+  },
 );
                 </code></pre>
 
             </section>
+            <section>
 
-            <section id="events">
+                <h2>With manual trigger</h2>
+                <ul>
+                    <li><a href="images/demo1.jpg" data-imagelightbox="trigger"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="trigger"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="trigger"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <button class="trigger_lightbox">Click Me!</button>
+                <pre><code>
+const manualOpenGallery = new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="trigger"]'),
+);
+document
+  .getElementsByClassName("trigger_lightbox")
+  .item(0)
+  .addEventListener("click", () => {
+    manualOpenGallery.open();
+  });
+                </code></pre>
+
+                <h2>Dynamically adding images</h2>
+                <ul class="demo_dynamic" data-testid="dynamic">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="dynamic"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="dynamic"><img src="images/thumb2.jpg"></a></li>
+                    <li><a href="images/demo3.jpg" data-imagelightbox="dynamic"><img src="images/thumb3.jpg"></a></li>
+                </ul>
+                <button class="add_image">Add another image</button>
+                <pre><code>
+const dynamicAddingGallery = new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="dynamic"]'),
+);
+document
+  .getElementsByClassName("add_image")
+  .item(0)
+  .addEventListener("click", () => {
+    const linkContainer = document
+      .getElementsByClassName("demo_dynamic")
+      .item(0);
+    const newLi = document.createElement("li");
+    linkContainer.appendChild(newLi);
+
+    const newAnchor = document.createElement("a");
+    newAnchor.dataset["imagelightbox"] = "dynamic";
+    newAnchor.href = "images/demo4.jpg";
+    newLi.appendChild(newAnchor);
+
+    const newImg = document.createElement("img");
+    newImg.src = "images/thumb4.jpg";
+    newAnchor.appendChild(newImg);
+
+    dynamicAddingGallery.addImages(
+      document.querySelectorAll('a[data-imagelightbox="dynamic"]'),
+    );
+  });
+                </code></pre>
+
+            </section>
+
+            <section>
                 <h2>Events</h2>
                 <ul>
                     <li><a href="images/demo1.jpg" data-imagelightbox="events"><img src="images/thumb1.jpg"></a></li>
@@ -298,23 +230,24 @@ new ImageLightbox(
                 </ul>
                 <pre><code>
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="events"]'));
+
 document.addEventListener("ilb:start", (e) => {
-    console.log("ilb:start");
-    console.log(e.target);
+  console.log("ilb:start");
+  console.log(e.target);
 });
 document.addEventListener("ilb:quit", () => {
-    console.log("ilb:quit");
+  console.log("ilb:quit");
 });
 document.addEventListener("ilb:loaded", () => {
-    console.log("ilb:loaded");
+  console.log("ilb:loaded");
 });
 document.addEventListener("ilb:previous", (e) => {
-    console.log("ilb:previous");
-    console.log(e.target);
+  console.log("ilb:previous");
+  console.log(e.target);
 });
 document.addEventListener("ilb:next", (e) => {
-    console.log("ilb:next");
-    console.log(e.target);
+  console.log("ilb:next");
+  console.log(e.target);
 });
                 </code></pre>
             </section>
