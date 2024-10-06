@@ -43,9 +43,9 @@ export function ImageView(
     image.dataset["ilb2Video"] !== undefined && videoId !== undefined;
   if (isVideo) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Checked by the if above
-    const videoElement = videoCache.element(videoId!);
-    if (videoElement !== undefined) {
-      [imageElement, isVideoPreloaded] = videoElement;
+    const preloadedVideo = videoCache.get(videoId!);
+    if (preloadedVideo !== undefined) {
+      [imageElement, isVideoPreloaded] = preloadedVideo.element();
     } else {
       isVideo = false;
     }
@@ -58,7 +58,18 @@ export function ImageView(
     nextImage: () => void,
     closeLightbox: () => void,
   ): void {
-    if (!isVideo) {
+    if (isVideo) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Checked by the if in the constructor
+      const preloadedVideo = videoCache.get(videoId!);
+      if (preloadedVideo?.shouldAutoplay() === true) {
+        const [videoElement, isLoaded] = preloadedVideo.element();
+        if (isLoaded) {
+          void videoElement.play();
+        } else {
+          videoElement.autoplay = true;
+        }
+      }
+    } else {
       (imageElement as HTMLImageElement).addEventListener("click", (e) => {
         e.stopPropagation();
         if (options.quitOnImgClick) {

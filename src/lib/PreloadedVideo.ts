@@ -3,6 +3,7 @@ import type { VideoOptions } from "./interfaces/VideoOptions";
 export interface PreloadedVideo {
   element(): [HTMLVideoElement, boolean];
   id(): string;
+  shouldAutoplay(): boolean;
 }
 
 export function PreloadedVideo(
@@ -58,18 +59,16 @@ export function PreloadedVideo(
   }
 
   function element(): [HTMLVideoElement, boolean] {
-    if (autoplay) {
-      if (isLoaded) {
-        void videoElement.play();
-      } else {
-        videoElement.autoplay = true;
-      }
-    }
     return [videoElement, isLoaded];
+  }
+
+  function shouldAutoplay(): boolean {
+    return autoplay;
   }
 
   return {
     element,
     id,
+    shouldAutoplay,
   };
 }
