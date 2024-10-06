@@ -12,6 +12,11 @@ import {
   removeContainerFromDOM,
   transitionOutContainer,
 } from "./container";
+import { fullscreenEnabled } from "./fullscreen";
+import {
+  addFullscreenButtonToDOM,
+  removeFullscreenButtonFromDOM,
+} from "./fullscreen-button";
 import { popHistory, pushQuitToHistory, pushToHistory } from "./history";
 import { ImageView } from "./ImageView";
 import {
@@ -176,6 +181,7 @@ export function State(
       currentImageView = null;
       removeArrowsFromDOM();
       removeCloseButtonFromDOM();
+      removeFullscreenButtonFromDOM();
       removeContainerFromDOM();
     });
   }
@@ -254,6 +260,9 @@ export function State(
     }
     if (options.button) {
       addCloseButtonToDOM(close);
+    }
+    if (options.fullscreen && fullscreenEnabled) {
+      addFullscreenButtonToDOM();
     }
     if (options.navigation) {
       addNavigationToDOM(

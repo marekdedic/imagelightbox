@@ -1,0 +1,16 @@
+#ilb-fullscreen-button {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+@media only screen and (max-width: 700px) {
+  #ilb-fullscreen-button {
+    top: 1em;
+    right: 1em;
+  }
+}

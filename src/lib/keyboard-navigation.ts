@@ -1,44 +1,11 @@
-import { getContainer } from "./container";
-
-const fullscreenEnabled: boolean =
-  // eslint-disable-next-line compat/compat -- The prefixed version fixes the incompatibility
-  document.fullscreenEnabled ||
-  ((document as LegacyDocument).webkitFullscreenEnabled ?? false);
+import { fullscreenEnabled, toggleFullscreen } from "./fullscreen";
 
 let keyHandler: ((e: KeyboardEvent) => void) | null = null;
-
-function toggleFullScreen(): void {
-  const container = getContainer();
-
-  /* eslint-disable compat/compat, @typescript-eslint/no-unnecessary-condition, @typescript-eslint/strict-boolean-expressions -- Polyfills for very old browsers */
-  const requestFullscreen = (): void => {
-    void (
-      container.requestFullscreen ||
-      (container as LegacyHTMLElement).webkitRequestFullScreen
-    ).call(container);
-  };
-  const exitFullScreen = (): void => {
-    void (
-      document.exitFullscreen ||
-      (document as LegacyDocument).webkitExitFullscreen
-    ).call(document);
-  };
-  /* eslint-enable */
-
-  if (
-    !document.fullscreenElement &&
-    !(document as LegacyDocument).webkitFullscreenElement
-  ) {
-    requestFullscreen();
-  } else {
-    exitFullScreen();
-  }
-}
 
 function fullscreenKeyHandler(e: KeyboardEvent): void {
   if (e.key === "Enter") {
     e.preventDefault();
-    toggleFullScreen();
+    toggleFullscreen();
   }
 }
 
