@@ -264,14 +264,6 @@ export function State(
     if (options.fullscreen && fullscreenEnabled) {
       addFullscreenButtonToDOM();
     }
-    if (options.navigation) {
-      addNavigationToDOM(
-        images(),
-        () => currentImage,
-        change,
-        options.animationSpeed,
-      );
-    }
     if (options.overlay) {
       darkenOverlay();
     }
@@ -284,6 +276,16 @@ export function State(
       new Event("ilb:start", { bubbles: true }),
     );
     startLoadingNewImage(index, TransitionDirection.None);
+
+    // Navigation needs to know current image, so it needs to be added after startLoadingNewImage
+    if (options.navigation) {
+      addNavigationToDOM(
+        images(),
+        () => currentImage,
+        change,
+        options.animationSpeed,
+      );
+    }
   }
 
   function openWithImage(image: HTMLAnchorElement): void {
