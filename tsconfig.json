@@ -3,9 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "module": "es6",
-    "moduleResolution": "node",
-
-    "skipLibCheck": true,
+    "moduleResolution": "bundler",
 
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
