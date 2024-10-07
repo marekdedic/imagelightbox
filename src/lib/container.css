@@ -14,5 +14,6 @@
 }
 
 .ilb-body {
+  /* stylelint-disable-next-line plugin/no-unsupported-browser-features -- body will be scrollable in old browsers, there is no polyfill */
   overflow: hidden;
 }
