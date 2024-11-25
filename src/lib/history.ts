@@ -6,41 +6,6 @@ interface HistoryState {
   imageLightboxSet?: string;
 }
 
-export function pushQuitToHistory(): void {
-  let newQuery = removeQueryField(
-    document.location.search,
-    "imageLightboxIndex",
-  );
-  newQuery = removeQueryField(newQuery, "imageLightboxSet");
-  window.history.pushState({}, "", document.location.pathname + newQuery);
-}
-
-export function pushToHistory(
-  index: number,
-  set: string | undefined,
-  images: Array<HTMLAnchorElement>,
-): void {
-  const newIndex = images[index].dataset["ilb2Id"] ?? index.toString();
-  let newQuery = addQueryField(
-    document.location.search,
-    "imageLightboxIndex",
-    newIndex,
-  );
-  const newHistoryState: HistoryState = {
-    imageLightboxIndex: newIndex,
-    imageLightboxSet: "",
-  };
-  if (set !== undefined) {
-    newHistoryState.imageLightboxSet = set;
-    newQuery = addQueryField(newQuery, "imageLightboxSet", set);
-  }
-  window.history.pushState(
-    newHistoryState,
-    "",
-    document.location.pathname + newQuery,
-  );
-}
-
 export function openHistory(
   set: string | undefined,
   images: Array<HTMLAnchorElement>,
@@ -107,5 +72,40 @@ export function popHistory(
       ? TransitionDirection.Right
       : TransitionDirection.Left,
     true,
+  );
+}
+
+export function pushQuitToHistory(): void {
+  let newQuery = removeQueryField(
+    document.location.search,
+    "imageLightboxIndex",
+  );
+  newQuery = removeQueryField(newQuery, "imageLightboxSet");
+  window.history.pushState({}, "", document.location.pathname + newQuery);
+}
+
+export function pushToHistory(
+  index: number,
+  set: string | undefined,
+  images: Array<HTMLAnchorElement>,
+): void {
+  const newIndex = images[index].dataset["ilb2Id"] ?? index.toString();
+  let newQuery = addQueryField(
+    document.location.search,
+    "imageLightboxIndex",
+    newIndex,
+  );
+  const newHistoryState: HistoryState = {
+    imageLightboxIndex: newIndex,
+    imageLightboxSet: "",
+  };
+  if (set !== undefined) {
+    newHistoryState.imageLightboxSet = set;
+    newQuery = addQueryField(newQuery, "imageLightboxSet", set);
+  }
+  window.history.pushState(
+    newHistoryState,
+    "",
+    document.location.pathname + newQuery,
   );
 }

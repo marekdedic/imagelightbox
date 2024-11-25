@@ -40,15 +40,6 @@ export function addNavigationItems(
   }
 }
 
-export function changeNavigationCurrent(currentIndex: number): void {
-  for (let i = 0; i < navigation.children.length; i++) {
-    navigation.children.item(i)?.classList.remove("ilb-navigation-active");
-  }
-  navigation.children
-    .item(currentIndex)
-    ?.classList.add("ilb-navigation-active");
-}
-
 export function addNavigationToDOM(
   images: Array<HTMLAnchorElement>,
   currentIndexFn: () => number | null,
@@ -69,4 +60,13 @@ export function addNavigationToDOM(
   navigation.addEventListener("touchend", (e) => {
     e.stopPropagation();
   });
+}
+
+export function changeNavigationCurrent(currentIndex: number): void {
+  for (let i = 0; i < navigation.children.length; i++) {
+    navigation.children.item(i)?.classList.remove("ilb-navigation-active");
+  }
+  navigation.children
+    .item(currentIndex)
+    ?.classList.add("ilb-navigation-active");
 }
