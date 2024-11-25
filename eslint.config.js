@@ -80,7 +80,10 @@ export default tseslint.config(
         "error",
       "@typescript-eslint/no-unnecessary-qualifier": "error",
       "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-use-before-define": "error",
+      "@typescript-eslint/no-use-before-define": [
+        "error",
+        { functions: false },
+      ],
       "@typescript-eslint/no-useless-empty-export": "error",
       "@typescript-eslint/parameter-properties": "error",
       "@typescript-eslint/prefer-enum-initializers": "error",
