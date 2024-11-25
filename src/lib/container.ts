@@ -31,8 +31,8 @@ export function darkenOverlay(): void {
   container.classList.add("ilb-overlay");
 }
 
-export function transitionOutContainer(): void {
-  container.style.opacity = "0";
+export function getContainer(): HTMLDivElement {
+  return container;
 }
 
 export function removeContainerFromDOM(): void {
@@ -45,6 +45,6 @@ export function removeContainerFromDOM(): void {
   document.body.classList.remove("ilb-body");
 }
 
-export function getContainer(): HTMLDivElement {
-  return container;
+export function transitionOutContainer(): void {
+  container.style.opacity = "0";
 }
