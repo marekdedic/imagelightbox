@@ -105,11 +105,9 @@ export function State(
   function transitionInNewImage(): void {
     currentImageView?.transitionIn(
       removeActivityIndicatorFromDOM,
-      /* eslint-disable @typescript-eslint/no-use-before-define -- Cyclical dependencies */
       previous,
       next,
       close,
-      /* eslint-enable */
     );
   }
 

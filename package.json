@@ -43,7 +43,7 @@
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-compat": "^6.0.0",
-    "eslint-plugin-perfectionist": "^3.2.0",
+    "eslint-plugin-perfectionist": "^4.0.3",
     "eslint-plugin-playwright": "^2.0.0",
     "eslint-plugin-prefer-arrow-functions": "^3.4.0",
     "eslint-plugin-prettier": "^5.2.1",
