@@ -133,6 +133,14 @@ export function State(
           "src",
           nextImage.getAttribute("href") ?? "",
         );
+        nextImageElement.setAttribute(
+          "srcset",
+          nextImage.dataset["ilb2Srcset"] ?? "",
+        );
+        nextImageElement.setAttribute(
+          "sizes",
+          nextImage.dataset["ilb2Sizes"] ?? "",
+        );
       }
       getContainer().dispatchEvent(new Event("ilb:loaded", { bubbles: true }));
     });
@@ -301,6 +309,7 @@ export function State(
         (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
           (new RegExp(`.(${options.allowedTypes})$`, "i").test(element.href) ||
+            element.dataset["ilb2Srcset"] !== undefined ||
             element.dataset["ilb2Video"] !== undefined),
       );
     videoCache.add(validImages);
