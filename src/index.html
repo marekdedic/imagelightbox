@@ -35,6 +35,29 @@
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="basic"]'));
                 </code></pre>
 
+                <h2>HTML5 responsive image example</h2>
+                <ul data-testid="basic">
+                    <li>
+                        <a data-ilb2-srcset="images/demo1.jpg 1200w" data-ilb2-sizes="(min-width: 30px) 1200px" data-imagelightbox="responsive">
+                            <img src="images/thumb1.jpg">
+                        </a>
+                    </li>
+                    <li>
+                        <a data-ilb2-srcset="images/demo2.jpg 1200w" data-ilb2-sizes="(min-width: 30px) 1200px" data-imagelightbox="responsive">
+                            <img src="images/thumb2.jpg">
+                        </a>
+                    </li>
+                    <li>
+                        <a data-ilb2-srcset="images/demo3.jpg 1200w" data-ilb2-sizes="(min-width: 30px) 1200px" data-imagelightbox="responsive">
+                            <img src="images/thumb3.jpg">
+                        </a>
+                    </li>
+                </ul>
+                Add data-ilb2-srcset and data-ilb2-sizes to the link, containing the parameters of a HTML5 image tag.
+                <pre><code>
+new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="responsive"]'));
+                </code></pre>
+
                 <h2>Video support</h2>
                 <ul>
                     <li><a href="images/demo1.jpg" data-imagelightbox="video"><img src="images/thumb1.jpg"></a></li>

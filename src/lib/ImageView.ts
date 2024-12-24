@@ -34,6 +34,8 @@ export function ImageView(
     document.createElement("img");
   imageElement.setAttribute("id", "ilb-image");
   imageElement.setAttribute("src", image.getAttribute("href") ?? "");
+  imageElement.setAttribute("srcset", image.dataset["ilb2Srcset"] ?? "");
+  imageElement.setAttribute("sizes", image.dataset["ilb2Sizes"] ?? "");
   const containerElement = document.createElement("div");
   containerElement.classList.add("ilb-image-container");
   let isVideoPreloaded: boolean | undefined = undefined;

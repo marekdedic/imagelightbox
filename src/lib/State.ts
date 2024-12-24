@@ -46,7 +46,7 @@ export function State(
   // The lightbox options
   options: ILBOptions,
   // The value of data-imagelightbox on the images
-  lightboxSet: string | undefined,
+  lightboxSet: string,
   initialImages: Array<HTMLAnchorElement>,
 ): State {
   // The clickable images in the lightbox
@@ -63,7 +63,7 @@ export function State(
 
   // !!! State initialization is at the bottom!
 
-  function set(): string | undefined {
+  function set(): string {
     return lightboxSet;
   }
 
@@ -132,6 +132,14 @@ export function State(
         nextImageElement.setAttribute(
           "src",
           nextImage.getAttribute("href") ?? "",
+        );
+        nextImageElement.setAttribute(
+          "srcset",
+          nextImage.dataset["ilb2Srcset"] ?? "",
+        );
+        nextImageElement.setAttribute(
+          "sizes",
+          nextImage.dataset["ilb2Sizes"] ?? "",
         );
       }
       getContainer().dispatchEvent(new Event("ilb:loaded", { bubbles: true }));
@@ -301,6 +309,7 @@ export function State(
         (element): boolean =>
           element.tagName.toLowerCase() === "a" &&
           (new RegExp(`.(${options.allowedTypes})$`, "i").test(element.href) ||
+            element.dataset["ilb2Srcset"] !== undefined ||
             element.dataset["ilb2Video"] !== undefined),
       );
     videoCache.add(validImages);

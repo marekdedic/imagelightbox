@@ -7,6 +7,13 @@ new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="basic"]'), {
   ...(isTest && { animationSpeed: 0 }),
 });
 
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="responsive"]'),
+  {
+    ...(isTest && { animationSpeed: 0 }),
+  },
+);
+
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="video"]'), {
   ...(isTest && { animationSpeed: 0 }),
 });
