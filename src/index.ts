@@ -144,4 +144,8 @@ document.addEventListener("ilb:next", (e) => {
   console.log("ilb:next");
   console.log(e.target);
 });
+document.addEventListener("ilb:error", (e) => {
+  console.log("ilb:error");
+  console.log(e.detail);
+});
 /* eslint-enable no-console */
