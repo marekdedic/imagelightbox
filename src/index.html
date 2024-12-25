@@ -250,6 +250,7 @@ document
                     <li><a href="images/demo1.jpg" data-imagelightbox="events"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="events"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="events"><img src="images/thumb3.jpg"></a></li>
+                    <li><a href="images/demo44.jpg" data-imagelightbox="events"><img src="images/thumb4.jpg"></a></li>
                 </ul>
                 <pre><code>
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="events"]'));
@@ -271,6 +272,10 @@ document.addEventListener("ilb:previous", (e) => {
 document.addEventListener("ilb:next", (e) => {
   console.log("ilb:next");
   console.log(e.target);
+});
+document.addEventListener("ilb:error", (e) => {
+  console.log("ilb:error");
+  console.log(e.detail);
 });
                 </code></pre>
             </section>
