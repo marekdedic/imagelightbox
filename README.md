@@ -148,6 +148,10 @@ document.addEventListener("ilb:next", (e) => {
     console.log("Next image: ");
     console.log(e.target);
 });
+document.addEventListener("ilb:error", (e) => {
+    console.log("Error loading image");
+    console.log(e.detail.target);
+});
 ```
 
 ## Using multiple lighboxes
