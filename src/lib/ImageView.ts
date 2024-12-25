@@ -32,6 +32,14 @@ export function ImageView(
   let swipeDiff = 0;
   let imageElement: HTMLImageElement | HTMLVideoElement =
     document.createElement("img");
+  imageElement.addEventListener("error", (e) => {
+    getContainer().dispatchEvent(
+      new CustomEvent("ilb:error", {
+        bubbles: true,
+        detail: { target: e.target },
+      }),
+    );
+  });
   imageElement.setAttribute("id", "ilb-image");
   imageElement.setAttribute("src", image.getAttribute("href") ?? "");
   imageElement.setAttribute("srcset", image.dataset["ilb2Srcset"] ?? "");

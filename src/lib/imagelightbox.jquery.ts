@@ -52,3 +52,6 @@ doc.on("ilb:previous", (e) => {
 doc.on("ilb:next", (e) => {
   $("#ilb-container").trigger("next.ilb2", e.target);
 });
+doc.on("ilb:error", (e) => {
+  $("#ilb-container").trigger("error.ilb2", e.detail);
+});

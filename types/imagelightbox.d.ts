@@ -1,3 +1,15 @@
+declare global {
+  interface Document {
+    addEventListener(
+      type: "ilb:error",
+      listener: (
+        this: Document,
+        ev: CustomEvent<{ target: HTMLImageElement }>,
+      ) => void,
+    ): void;
+  }
+}
+
 interface ILBOptions {
   activity: boolean;
   allowedTypes: string;
