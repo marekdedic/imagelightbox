@@ -1,7 +1,8 @@
 import "./container.css";
 
-const container = document.createElement("div");
+const container = document.createElement("dialog");
 container.setAttribute("id", "ilb-container");
+document.body.appendChild(container);
 
 let wrappedOnclick: ((e: Event) => void) | null = null;
 
@@ -12,7 +13,7 @@ export function addContainerToDOM(
 ): void {
   container.classList.remove("ilb-overlay");
   document.body.classList.add("ilb-body");
-  document.body.appendChild(container);
+  container.showModal();
   if (attachOnclick) {
     wrappedOnclick = (e): void => {
       e.stopPropagation();
@@ -31,7 +32,7 @@ export function darkenOverlay(): void {
   container.classList.add("ilb-overlay");
 }
 
-export function getContainer(): HTMLDivElement {
+export function getContainer(): HTMLDialogElement {
   return container;
 }
 
@@ -40,7 +41,7 @@ export function removeContainerFromDOM(): void {
     container.removeEventListener("click", wrappedOnclick);
     container.removeEventListener("touchend", wrappedOnclick);
   }
-  container.remove();
+  container.close();
   container.textContent = "";
   document.body.classList.remove("ilb-body");
 }
