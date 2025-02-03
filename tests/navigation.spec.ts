@@ -86,6 +86,23 @@ test("can be controlled with keyboard", async ({ page }) => {
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
 
+test("captures keyboard focus", async ({ page }) => {
+  await page.goto("/");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toHaveAttribute(
+    "src",
+    "images/demo1.jpg",
+  );
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
 test("can be controlled with arrows", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("quit").getByRole("link").first().click();
