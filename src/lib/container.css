@@ -1,12 +1,11 @@
 #ilb-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties -- inset is not supported by all browsers */
-  top: 0;
+  border: none;
+  height: 100%;
+  margin: 0;
+  max-height: 100%;
+  max-width: 100%;
+  width: 100%;
   opacity: 0;
-  z-index: 9998;
 }
 
 .ilb-overlay {
