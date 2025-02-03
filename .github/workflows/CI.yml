@@ -44,7 +44,7 @@ jobs:
           cp dist/webpack-stats.* relative-ci-artifacts/
 
       - name: Upload webpack-stats
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: relative-ci-artifacts
           path: relative-ci-artifacts
