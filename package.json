@@ -12,16 +12,16 @@
   "types": "./types/imagelightbox.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/imagelightbox.js",
-      "require": "./dist/imagelightbox.umd.cjs",
       "style": "./dist/imagelightbox.min.css",
-      "types": "./types/imagelightbox.d.ts"
+      "types": "./types/imagelightbox.d.ts",
+      "import": "./dist/imagelightbox.js",
+      "require": "./dist/imagelightbox.umd.cjs"
     },
     "./jquery": {
-      "import": "./dist/imagelightbox.jquery.js",
-      "require": "./dist/imagelightbox.jquery.umd.cjs",
       "style": "./dist/imagelightbox.min.css",
-      "types": "./types/imagelightbox.jquery.d.ts"
+      "types": "./types/imagelightbox.jquery.d.ts",
+      "import": "./dist/imagelightbox.jquery.js",
+      "require": "./dist/imagelightbox.jquery.umd.cjs"
     }
   },
   "files": [
