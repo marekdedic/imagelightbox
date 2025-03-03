@@ -75,7 +75,7 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: "Cache NPM dependencies"
-        uses: actions/cache@v4.0.0
+        uses: actions/cache@v4
         with:
           path: "~/.npm"
           key: npm-dependencies-${{ runner.os }}-${{ env.cache-version }}-${{ hashFiles('package.json') }}
