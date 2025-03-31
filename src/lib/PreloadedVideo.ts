@@ -11,10 +11,8 @@ export function PreloadedVideo(
   videoOptions: VideoOptions,
 ): PreloadedVideo {
   let tempId = image.dataset["ilb2Id"];
-  if (tempId === undefined) {
-    // Random id
-    tempId = `a${(((1 + Math.random()) * 0x10000) | 0).toString(16)}`;
-  }
+  // Random id
+  tempId ??= `a${(((1 + Math.random()) * 0x10000) | 0).toString(16)}`;
   image.dataset["ilb2VideoId"] = tempId;
   const videoId = tempId;
 
