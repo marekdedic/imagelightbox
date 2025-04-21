@@ -13,7 +13,7 @@
   cursor: pointer;
   z-index: 10000;
   margin: auto;
-  box-shadow: 0 0 3.125em rgba(0, 0, 0, 75%);
+  box-shadow: 0 0 3.125em rgb(0, 0, 0, 75%);
   opacity: 0;
   transition-property: left, opacity;
 }
