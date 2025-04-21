@@ -1,5 +1,5 @@
 #ilb-activity-indicator {
-  background-color: rgba(130, 130, 130, 80%);
+  background-color: rgb(130, 130, 130, 80%);
   border-radius: 50%;
   position: absolute;
   z-index: 10003;
@@ -7,7 +7,7 @@
   left: 50%;
   padding: 0.65em;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 2.5em rgba(130, 130, 130, 60%);
+  box-shadow: 0 0 2.5em rgb(130, 130, 130, 60%);
 }
 
 #ilb-activity-indicator div {
