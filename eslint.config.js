@@ -1,5 +1,6 @@
 import eslintComments from "@eslint-community/eslint-plugin-eslint-comments";
 import commentsConfig from "@eslint-community/eslint-plugin-eslint-comments/configs";
+import css from "@eslint/css";
 import js from "@eslint/js";
 import compat from "eslint-plugin-compat";
 import perfectionist from "eslint-plugin-perfectionist";
@@ -12,6 +13,11 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   globalIgnores(["coverage/", "dist/", "docs/"]),
+  {
+    extends: [css.configs.recommended],
+    files: ["**/*.css"],
+    language: "css/css",
+  },
   {
     extends: [
       js.configs.recommended,
