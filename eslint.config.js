@@ -6,10 +6,12 @@ import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
+import { globalIgnores } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
+  globalIgnores(["coverage/", "dist/", "docs/"]),
   {
     extends: [
       js.configs.recommended,

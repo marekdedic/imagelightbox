@@ -82,7 +82,7 @@
     "test": "nyc --reporter=lcov playwright test",
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'tests/**/*.ts' 'types/**/*.ts' '*.config.{js,ts}'",
+    "lint:eslint": "eslint --color",
     "lint:ts:typecheck": "tsc --noEmit",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint": "run-p -c --aggregate-output lint:*",
