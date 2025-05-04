@@ -3,6 +3,7 @@ import commentsConfig from "@eslint-community/eslint-plugin-eslint-comments/conf
 import css from "@eslint/css";
 import js from "@eslint/js";
 import json from "@eslint/json";
+import markdown from "@eslint/markdown";
 import compat from "eslint-plugin-compat";
 import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
@@ -32,6 +33,11 @@ export default tseslint.config(
     files: ["**/*.json"],
     ignores: ["package.json"],
     language: "json/json",
+  },
+  {
+    extends: [markdown.configs.recommended],
+    files: ["**/*.md"],
+    language: "markdown/commonmark",
   },
   {
     extends: [
