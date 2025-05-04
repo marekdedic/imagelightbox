@@ -4,6 +4,7 @@ import css from "@eslint/css";
 import js from "@eslint/js";
 import json from "@eslint/json";
 import compat from "eslint-plugin-compat";
+import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
@@ -20,6 +21,7 @@ export default tseslint.config(
     "docs/",
     "package-lock.json",
   ]),
+  packageJson.configs.recommended,
   {
     extends: [css.configs.recommended],
     files: ["**/*.css"],
@@ -28,6 +30,7 @@ export default tseslint.config(
   {
     extends: [json.configs.recommended],
     files: ["**/*.json"],
+    ignores: ["package.json"],
     language: "json/json",
   },
   {
