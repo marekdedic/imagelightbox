@@ -80,17 +80,21 @@ You can pass an object with options to the `ImageLightbox` constructor as a seco
 
 The lightbox can be opened with the `open()` method call.
 
-###### Example:
+### Example:
 
 ```js
+import { ImageLightbox } from "imagelightbox";
+
 const gallery = new ImageLightbox(
     document.querySelectorAll('a[data-imagelightbox="xyz"]'),
 );
 gallery.open();
 ```
-###### Example: Open specific image
+### Example: Open specific image
 
 ```js
+import { ImageLightbox } from "imagelightbox";
+
 const gallery = new ImageLightbox(
     document.querySelectorAll('a[data-imagelightbox="xyz"]'),
 );
@@ -129,6 +133,7 @@ The lightbox dispatches custom events upon opening, closing, image loading, and 
 These events are, respectively, `ilb:start`, `ilb:quit`, `ilb:loaded`, `ilb:next`, and `ilb:previous`.
 
 Usage example:
+
 ```js
 document.addEventListener("ilb:start", (e) => {
     console.log("The lightbox was started with element: ");
@@ -153,7 +158,6 @@ document.addEventListener("ilb:error", (e) => {
     console.log(e.detail.target);
 });
 ```
-
 ## Using multiple lighboxes
 
 Imagelightbox supports multiple independent image sets on the same page, each initialized indepently.
@@ -182,10 +186,12 @@ lightbox. The same is true when clicking an image with data-imagelightbox value 
 
 More images can be added to the lightbox after it has been initialized.
 
-###### Example:
+### Example:
 
 ```js
-const lightbox = new Imagelightbox(
+import { ImageLightbox } from "imagelightbox";
+
+const lightbox = new ImageLightbox(
     document.querySelectorAll('a[data-imagelightbox="xyz"]'),
 )
 const newAnchor = document.createElement("a");
@@ -205,7 +211,7 @@ When history is enabled, upon clicking on an image, the query field `imageLightb
 
 In some cases, this could lead to a different image being opened, for example if new images have been added to the set, or if the order of the images has changed. To solve this issue, whenever the HTML attribute `data-ilb2-id=X` is present in the image tag, this value is used instead of the image index (this means this id has to be different for each image and mustn't change over time to keep links working).
 
-###### Example:
+### Example:
 
 ```html
 <a href="image1.jpg" data-imagelightbox="images" data-ilb2-id="img1">

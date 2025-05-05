@@ -1,65 +1,58 @@
 import eslintComments from "@eslint-community/eslint-plugin-eslint-comments";
 import commentsConfig from "@eslint-community/eslint-plugin-eslint-comments/configs";
+import css from "@eslint/css";
 import js from "@eslint/js";
+import json from "@eslint/json";
+import markdown from "@eslint/markdown";
 import compat from "eslint-plugin-compat";
+import packageJson from "eslint-plugin-package-json";
 import perfectionist from "eslint-plugin-perfectionist";
 import playwright from "eslint-plugin-playwright";
 import preferArrowFunctions from "eslint-plugin-prefer-arrow-functions";
 import prettierRecommended from "eslint-plugin-prettier/recommended";
+import { globalIgnores } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  js.configs.recommended,
-  prettierRecommended,
-  commentsConfig.recommended,
-  compat.configs["flat/recommended"],
-  ...tseslint.configs.strictTypeChecked,
-  ...tseslint.configs.stylisticTypeChecked,
-  perfectionist.configs["recommended-natural"],
+  globalIgnores([
+    ".nyc_output/",
+    "coverage/",
+    "dist/",
+    "docs/",
+    "package-lock.json",
+  ]),
+  packageJson.configs.recommended,
   {
-    languageOptions: {
-      parserOptions: {
-        projectService: {
-          allowDefaultProject: ["*.js"],
-          defaultProject: "tsconfig.json",
-        },
-      },
-    },
+    extends: [css.configs.recommended],
+    files: ["**/*.css"],
+    language: "css/css",
+  },
+  {
+    extends: [json.configs.recommended],
+    files: ["**/*.json"],
+    ignores: ["package.json"],
+    language: "json/json",
+  },
+  {
+    extends: [markdown.configs.recommended],
+    files: ["**/*.md"],
+    language: "markdown/commonmark",
+  },
+  {
+    extends: [
+      js.configs.recommended,
+      prettierRecommended,
+      commentsConfig.recommended,
+      compat.configs["flat/recommended"],
+      perfectionist.configs["recommended-natural"],
+    ],
+    files: ["**/*.js", "**/*.ts"],
     plugins: {
       "eslint-comments": eslintComments,
       "prefer-arrow-functions": preferArrowFunctions,
     },
     rules: {
-      "@typescript-eslint/array-type": ["error", { default: "generic" }],
-      "@typescript-eslint/class-methods-use-this": "error",
-      "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/consistent-type-imports": "error",
-      "@typescript-eslint/default-param-last": "error",
-      "@typescript-eslint/explicit-function-return-type": "error",
-      "@typescript-eslint/explicit-member-accessibility": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "error",
-      "@typescript-eslint/init-declarations": "error",
-      "@typescript-eslint/method-signature-style": ["error", "method"],
-      "@typescript-eslint/no-import-type-side-effects": "error",
-      "@typescript-eslint/no-shadow": "error",
-      "@typescript-eslint/no-unnecessary-parameter-property-assignment":
-        "error",
-      "@typescript-eslint/no-unnecessary-qualifier": "error",
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-use-before-define": [
-        "error",
-        { functions: false },
-      ],
-      "@typescript-eslint/no-useless-empty-export": "error",
-      "@typescript-eslint/parameter-properties": "error",
-      "@typescript-eslint/prefer-enum-initializers": "error",
-      "@typescript-eslint/prefer-readonly": "error",
-      "@typescript-eslint/promise-function-async": "error",
-      "@typescript-eslint/require-array-sort-compare": "error",
-      "@typescript-eslint/strict-boolean-expressions": "error",
-      "@typescript-eslint/switch-exhaustiveness-check": "error",
-      "@typescript-eslint/typedef": "error",
       "array-callback-return": "error",
       "arrow-body-style": ["error", "as-needed"],
       "block-scoped-var": "error",
@@ -143,10 +136,55 @@ export default tseslint.config(
     },
   },
   {
-    ...playwright.configs["flat/recommended"],
+    extends: [
+      tseslint.configs.strictTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
+    files: ["**/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ["*.js"],
+          defaultProject: "tsconfig.json",
+        },
+      },
+    },
+    rules: {
+      "@typescript-eslint/array-type": ["error", { default: "generic" }],
+      "@typescript-eslint/class-methods-use-this": "error",
+      "@typescript-eslint/consistent-type-exports": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/default-param-last": "error",
+      "@typescript-eslint/explicit-function-return-type": "error",
+      "@typescript-eslint/explicit-member-accessibility": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/init-declarations": "error",
+      "@typescript-eslint/method-signature-style": ["error", "method"],
+      "@typescript-eslint/no-import-type-side-effects": "error",
+      "@typescript-eslint/no-shadow": "error",
+      "@typescript-eslint/no-unnecessary-parameter-property-assignment":
+        "error",
+      "@typescript-eslint/no-unnecessary-qualifier": "error",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-use-before-define": [
+        "error",
+        { functions: false },
+      ],
+      "@typescript-eslint/no-useless-empty-export": "error",
+      "@typescript-eslint/parameter-properties": "error",
+      "@typescript-eslint/prefer-enum-initializers": "error",
+      "@typescript-eslint/prefer-readonly": "error",
+      "@typescript-eslint/promise-function-async": "error",
+      "@typescript-eslint/require-array-sort-compare": "error",
+      "@typescript-eslint/strict-boolean-expressions": "error",
+      "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/typedef": "error",
+    },
+  },
+  {
+    extends: [playwright.configs["flat/recommended"]],
     files: ["tests/**/*.ts"],
     rules: {
-      ...playwright.configs["flat/recommended"].rules,
       "playwright/no-commented-out-tests": "error",
       "playwright/no-duplicate-hooks": "error",
       "playwright/no-get-by-title": "error",
@@ -169,14 +207,6 @@ export default tseslint.config(
       globals: {
         ...globals.node,
       },
-    },
-  },
-  {
-    files: ["**/*.js"],
-    rules: {
-      "@typescript-eslint/no-unsafe-argument": "off",
-      "@typescript-eslint/no-unsafe-assignment": "off",
-      "@typescript-eslint/no-unsafe-member-access": "off",
     },
   },
 );
