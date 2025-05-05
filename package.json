@@ -2,14 +2,17 @@
   "name": "imagelightbox",
   "version": "3.1.0",
   "description": "Image Lightbox, Responsive and Touch‑friendly",
+  "keywords": [
+    "jquery",
+    "lightbox"
+  ],
   "homepage": "https://marekdedic.github.io/imagelightbox",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marekdedic/imagelightbox.git"
+  },
   "license": "MIT",
-  "repository": "https://github.com/marekdedic/imagelightbox.git",
   "type": "module",
-  "main": "./dist/imagelightbox.umd.cjs",
-  "module": "./dist/imagelightbox.js",
-  "style": "./dist/imagelightbox.min.css",
-  "types": "./types/imagelightbox.d.ts",
   "exports": {
     ".": {
       "style": "./dist/imagelightbox.min.css",
@@ -24,6 +27,10 @@
       "require": "./dist/imagelightbox.jquery.umd.cjs"
     }
   },
+  "main": "./dist/imagelightbox.umd.cjs",
+  "module": "./dist/imagelightbox.js",
+  "types": "./types/imagelightbox.d.ts",
+  "style": "./dist/imagelightbox.min.css",
   "files": [
     "dist",
     "!dist/webpack-stats.jquery.json",
@@ -33,16 +40,47 @@
     "LICENSE",
     "README.md"
   ],
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "run-p -c --aggregate-output build:*",
+    "build:docs": "vite build --config docs.vite.config.ts",
+    "build:lib": "run-p -c --aggregate-output build:lib:*",
+    "build:lib:jquery": "vite build --config jquery.vite.config.ts",
+    "build:lib:native": "vite build --config native.vite.config.ts",
+    "clean": "rimraf dist/* docs/*",
+    "lint": "run-p -c --aggregate-output lint:*",
+    "lint:css": "run-p -c --aggregate-output lint:css:*",
+    "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
+    "lint:eslint": "eslint --color",
+    "lint:ts": "run-p -c --aggregate-output lint:ts:*",
+    "lint:ts:typecheck": "tsc --noEmit",
+    "playwright-interactive": "playwright test --ui",
+    "prepack": "npm run build",
+    "start": "vite --config docs.vite.config.ts",
+    "test": "nyc --reporter=lcov playwright test"
+  },
+  "browserslist": [
+    "cover 95%",
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not < 0.1%"
+  ],
   "devDependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.4.0",
+    "@eslint/css": "^0.7.0",
     "@eslint/js": "^9.9.1",
+    "@eslint/json": "^0.12.0",
+    "@eslint/markdown": "^6.4.0",
     "@playwright/test": "^1.47.0",
     "@types/jquery": "^3.3.31",
     "@types/node": "^22.0.0",
     "autoprefixer": "^10.4.17",
-    "eslint": "^9.9.0",
+    "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-compat": "^6.0.0",
+    "eslint-plugin-package-json": "^0.30.0",
     "eslint-plugin-perfectionist": "^4.0.3",
     "eslint-plugin-playwright": "^2.0.0",
     "eslint-plugin-prefer-arrow-functions": "^3.4.0",
@@ -65,36 +103,5 @@
     "typescript-eslint": "^8.3.0",
     "vite": "^6.0.2",
     "vite-plugin-istanbul": "^6.0.0"
-  },
-  "keywords": [
-    "jquery",
-    "lightbox"
-  ],
-  "scripts": {
-    "clean": "rimraf dist/* docs/*",
-    "prebuild": "npm run clean",
-    "build:docs": "vite build --config docs.vite.config.ts",
-    "build:lib:native": "vite build --config native.vite.config.ts",
-    "build:lib:jquery": "vite build --config jquery.vite.config.ts",
-    "build:lib": "run-p -c --aggregate-output build:lib:*",
-    "build": "run-p -c --aggregate-output build:*",
-    "start": "vite --config docs.vite.config.ts",
-    "test": "nyc --reporter=lcov playwright test",
-    "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
-    "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:ts:eslint": "eslint --color 'src/**/*.ts' 'tests/**/*.ts' 'types/**/*.ts' '*.config.{js,ts}'",
-    "lint:ts:typecheck": "tsc --noEmit",
-    "lint:ts": "run-p -c --aggregate-output lint:ts:*",
-    "lint": "run-p -c --aggregate-output lint:*",
-    "prepack": "npm run build",
-    "playwright-interactive": "playwright test --ui"
-  },
-  "browserslist": [
-    "cover 95%",
-    "> 0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead",
-    "not < 0.1%"
-  ]
+  }
 }
