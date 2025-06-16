@@ -75,7 +75,7 @@
     "@eslint/markdown": "^6.4.0",
     "@playwright/test": "^1.47.0",
     "@types/jquery": "^3.3.31",
-    "@types/node": "^22.0.0",
+    "@types/node": "^24.0.2",
     "autoprefixer": "^10.4.17",
     "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.0.1",
