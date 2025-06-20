@@ -45,6 +45,8 @@ export default tseslint.config(
       prettierRecommended,
       commentsConfig.recommended,
       compat.configs["flat/recommended"],
+      tseslint.configs.strict,
+      tseslint.configs.stylistic,
       perfectionist.configs["recommended-natural"],
     ],
     files: ["**/*.js", "**/*.ts"],
