@@ -2,12 +2,14 @@ version: 2
 updates:
 - package-ecosystem: github-actions
   directory: "/"
+  open-pull-requests-limit: 9999
   schedule:
     interval: weekly
   assignees:
     - marekdedic
 - package-ecosystem: npm
   directory: "/"
+  open-pull-requests-limit: 9999
   schedule:
     interval: weekly
   assignees:
