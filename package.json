@@ -54,8 +54,8 @@
     "lint:eslint": "eslint --color",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint:ts:typecheck": "tsc --noEmit",
-    "playwright-interactive": "playwright test --ui",
     "prepack": "npm run build",
+    "playwright-interactive": "playwright test --ui",
     "start": "vite --config docs.vite.config.ts",
     "test": "nyc --reporter=lcov playwright test"
   },
