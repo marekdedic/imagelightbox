@@ -36,9 +36,7 @@
     "!dist/webpack-stats.jquery.json",
     "!dist/webpack-stats.native.json",
     "docs",
-    "types",
-    "LICENSE",
-    "README.md"
+    "types"
   ],
   "scripts": {
     "prebuild": "npm run clean",
