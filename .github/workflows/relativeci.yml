@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send jquery bundle stats and build information to RelativeCI
-        uses: relative-ci/agent-action@v3.0.1
+        uses: relative-ci/agent-action@v3.1.0
         with:
           key: ${{ secrets.RELATIVE_CI_KEY_JQUERY }}
           token: ${{ secrets.GITHUB_TOKEN }}
           webpackStatsFile: webpack-stats.jquery.json
 
       - name: Send native bundle stats and build information to RelativeCI
-        uses: relative-ci/agent-action@v3.0.1
+        uses: relative-ci/agent-action@v3.1.0
         with:
           key: ${{ secrets.RELATIVE_CI_KEY_NATIVE }}
           token: ${{ secrets.GITHUB_TOKEN }}
