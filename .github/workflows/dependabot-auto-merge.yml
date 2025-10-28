@@ -4,6 +4,7 @@ on: "pull_request_target"
 permissions:
   pull-requests: write
   contents: write
+  workflows: write
 
 jobs:
   dependabot:
