@@ -3,6 +3,10 @@ on:
   release:
     types: [published]
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   cache-version: 1
 
@@ -20,7 +24,7 @@ jobs:
       - name: "Setup Node.js"
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: "https://registry.npmjs.org"
 
       - name: "Cache NPM dependencies"
@@ -56,7 +60,5 @@ jobs:
             README.md
 
       - name: "Publish"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         run: |
-          npm publish --provenance
+          npm publish
