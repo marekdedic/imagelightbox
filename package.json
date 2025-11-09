@@ -51,6 +51,7 @@
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:eslint": "eslint --color",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
+    "lint:ts:attw": "attw --pack",
     "lint:ts:typecheck": "tsc --noEmit",
     "prepack": "npm run build",
     "playwright-interactive": "playwright test --ui",
@@ -66,6 +67,7 @@
     "not < 0.1%"
   ],
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.4.0",
     "@eslint/css": "^0.14.0",
     "@eslint/js": "^9.9.1",
