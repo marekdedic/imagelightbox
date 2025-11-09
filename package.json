@@ -15,16 +15,28 @@
   "type": "module",
   "exports": {
     ".": {
-      "style": "./dist/imagelightbox.min.css",
-      "types": "./types/imagelightbox.d.ts",
-      "import": "./dist/imagelightbox.js",
-      "require": "./dist/imagelightbox.umd.cjs"
+      "import": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.d.ts",
+        "default": "./dist/imagelightbox.js"
+      },
+      "require": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.d.cts",
+        "default": "./dist/imagelightbox.umd.cjs"
+      }
     },
     "./jquery": {
-      "style": "./dist/imagelightbox.min.css",
-      "types": "./types/imagelightbox.jquery.d.ts",
-      "import": "./dist/imagelightbox.jquery.js",
-      "require": "./dist/imagelightbox.jquery.umd.cjs"
+      "import": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.jquery.d.ts",
+        "default": "./dist/imagelightbox.jquery.js"
+      },
+      "require": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.jquery.d.cts",
+        "default": "./dist/imagelightbox.jquery.umd.cjs"
+      }
     }
   },
   "main": "./dist/imagelightbox.umd.cjs",
