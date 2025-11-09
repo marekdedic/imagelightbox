@@ -1,0 +1,6 @@
+{
+  "main": "../dist/imagelightbox.jquery.umd.cjs",
+  "module": "../dist/imagelightbox.jquery.js",
+  "types": "../types/imagelightbox.jquery.d.ts",
+  "style": "../dist/imagelightbox.min.css"
+}

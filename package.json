@@ -15,16 +15,28 @@
   "type": "module",
   "exports": {
     ".": {
-      "style": "./dist/imagelightbox.min.css",
-      "types": "./types/imagelightbox.d.ts",
-      "import": "./dist/imagelightbox.js",
-      "require": "./dist/imagelightbox.umd.cjs"
+      "import": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.d.ts",
+        "default": "./dist/imagelightbox.js"
+      },
+      "require": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.d.cts",
+        "default": "./dist/imagelightbox.umd.cjs"
+      }
     },
     "./jquery": {
-      "style": "./dist/imagelightbox.min.css",
-      "types": "./types/imagelightbox.jquery.d.ts",
-      "import": "./dist/imagelightbox.jquery.js",
-      "require": "./dist/imagelightbox.jquery.umd.cjs"
+      "import": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.jquery.d.ts",
+        "default": "./dist/imagelightbox.jquery.js"
+      },
+      "require": {
+        "style": "./dist/imagelightbox.min.css",
+        "types": "./types/imagelightbox.jquery.d.cts",
+        "default": "./dist/imagelightbox.jquery.umd.cjs"
+      }
     }
   },
   "main": "./dist/imagelightbox.umd.cjs",
@@ -36,6 +48,7 @@
     "!dist/webpack-stats.jquery.json",
     "!dist/webpack-stats.native.json",
     "docs",
+    "jquery",
     "types"
   ],
   "scripts": {
@@ -51,6 +64,7 @@
     "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
     "lint:eslint": "eslint --color",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
+    "lint:ts:attw": "attw --pack",
     "lint:ts:typecheck": "tsc --noEmit",
     "prepack": "npm run build",
     "playwright-interactive": "playwright test --ui",
@@ -66,6 +80,7 @@
     "not < 0.1%"
   ],
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@eslint-community/eslint-plugin-eslint-comments": "^4.4.0",
     "@eslint/css": "^0.14.0",
     "@eslint/js": "^9.9.1",
