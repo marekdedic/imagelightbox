@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: "Cache NPM dependencies"
         uses: actions/cache@v4
@@ -42,7 +42,7 @@ jobs:
     needs: build
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: "Download artifact"
         uses: actions/download-artifact@v6
