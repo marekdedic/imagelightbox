@@ -33,7 +33,7 @@ jobs:
           npm run build
 
       - name: "Upload artifact"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "docs"
           path: docs
@@ -44,7 +44,7 @@ jobs:
           cp dist/webpack-stats.* relative-ci-artifacts/
 
       - name: Upload webpack-stats
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: relative-ci-artifacts
           path: relative-ci-artifacts
@@ -96,7 +96,7 @@ jobs:
       - name: "Upload coverage results"
         uses: coverallsapp/github-action@v2.3.7
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: playwright-report-jquery-${{ matrix.jquery-version }}
