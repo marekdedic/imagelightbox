@@ -94,7 +94,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-compat": "^6.0.0",
     "eslint-plugin-package-json": "^0.85.0",
-    "eslint-plugin-perfectionist": "^4.0.3",
+    "eslint-plugin-perfectionist": "^5.0.0",
     "eslint-plugin-playwright": "^2.0.0",
     "eslint-plugin-prefer-arrow-functions": "^3.4.0",
     "eslint-plugin-prettier": "^5.2.1",
