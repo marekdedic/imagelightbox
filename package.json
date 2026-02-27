@@ -12,6 +12,7 @@
     "url": "git+https://github.com/marekdedic/imagelightbox.git"
   },
   "license": "MIT",
+  "author": "Marek Dědič",
   "type": "module",
   "exports": {
     ".": {
@@ -43,6 +44,7 @@
   "module": "./dist/imagelightbox.js",
   "types": "./types/imagelightbox.d.ts",
   "style": "./dist/imagelightbox.min.css",
+  "sideEffects": true,
   "files": [
     "dist",
     "!dist/webpack-stats.jquery.json",
