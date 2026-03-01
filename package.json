@@ -12,6 +12,7 @@
     "url": "git+https://github.com/marekdedic/imagelightbox.git"
   },
   "license": "MIT",
+  "author": "Marek Dědič",
   "type": "module",
   "exports": {
     ".": {
@@ -43,6 +44,7 @@
   "module": "./dist/imagelightbox.js",
   "types": "./types/imagelightbox.d.ts",
   "style": "./dist/imagelightbox.min.css",
+  "sideEffects": true,
   "files": [
     "dist",
     "!dist/webpack-stats.jquery.json",
@@ -93,7 +95,7 @@
     "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-compat": "^6.0.0",
-    "eslint-plugin-package-json": "^0.88.0",
+    "eslint-plugin-package-json": "^0.89.1",
     "eslint-plugin-perfectionist": "^5.0.0",
     "eslint-plugin-playwright": "^2.0.0",
     "eslint-plugin-prefer-arrow-functions": "^3.4.0",
