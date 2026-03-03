@@ -8,10 +8,10 @@ export function addQueryField(
 
   if (query) {
     const keyRegex = new RegExp(`([?&])${key}=[^&]*`);
-    if (keyRegex.exec(query) !== null) {
-      newQuery = query.replace(keyRegex, `$1${newField}`);
-    } else {
+    if (keyRegex.exec(query) === null) {
       newQuery = `${query}&${newField}`;
+    } else {
+      newQuery = query.replace(keyRegex, `$1${newField}`);
     }
   }
   return newQuery;

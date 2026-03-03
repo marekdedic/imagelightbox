@@ -1,7 +1,7 @@
 import { ImageLightbox } from "./lib/imagelightbox";
 
 declare const TEST: boolean | undefined;
-const isTest: boolean = typeof TEST !== "undefined" ? TEST : false;
+const isTest: boolean = typeof TEST === "undefined" ? false : TEST;
 
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="basic"]'), {
   ...(isTest && { animationSpeed: 0 }),

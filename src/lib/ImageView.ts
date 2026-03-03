@@ -54,10 +54,10 @@ export function ImageView(
   if (isVideo) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Checked by the if above
     const preloadedVideo = videoCache.get(videoId!);
-    if (preloadedVideo !== undefined) {
-      [imageElement, isVideoPreloaded] = preloadedVideo.element();
-    } else {
+    if (preloadedVideo === undefined) {
       isVideo = false;
+    } else {
+      [imageElement, isVideoPreloaded] = preloadedVideo.element();
     }
   }
   containerElement.appendChild(imageElement);
