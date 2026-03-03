@@ -59,10 +59,10 @@ export class ImageLightbox {
   }
 
   public open(image?: HTMLAnchorElement): void {
-    if (image !== undefined) {
-      this.s.openWithImage(image);
-    } else {
+    if (image === undefined) {
       this.s.open(0);
+    } else {
+      this.s.openWithImage(image);
     }
   }
 
