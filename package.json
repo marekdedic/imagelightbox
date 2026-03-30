@@ -87,7 +87,7 @@
     "@eslint/css": "^1.0.0",
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.0.0",
-    "@eslint/markdown": "^7.0.0",
+    "@eslint/markdown": "^8.0.0",
     "@playwright/test": "^1.47.0",
     "@types/jquery": "^3.3.31",
     "@types/node": "^25.0.2",
