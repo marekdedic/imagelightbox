@@ -89,7 +89,7 @@
     "@eslint/json": "^1.0.0",
     "@eslint/markdown": "^8.0.0",
     "@playwright/test": "^1.47.0",
-    "@types/jquery": "^3.3.31",
+    "@types/jquery": "^4.0.0",
     "@types/node": "^25.0.2",
     "autoprefixer": "^10.4.17",
     "eslint": "^10.0.2",
