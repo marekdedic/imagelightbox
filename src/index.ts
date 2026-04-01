@@ -1,4 +1,5 @@
 import { ImageLightbox } from "./lib/imagelightbox";
+import "./index.d";
 
 declare const TEST: boolean | undefined;
 const isTest: boolean = typeof TEST === "undefined" ? false : TEST;
