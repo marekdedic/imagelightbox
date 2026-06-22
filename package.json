@@ -90,7 +90,7 @@
     "@eslint/markdown": "^8.0.0",
     "@playwright/test": "^1.47.0",
     "@types/jquery": "^4.0.1",
-    "@types/node": "^25.0.2",
+    "@types/node": "^26.0.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.0.1",
