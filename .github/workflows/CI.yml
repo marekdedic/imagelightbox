@@ -94,7 +94,7 @@ jobs:
           HOME: /root
 
       - name: "Upload coverage results"
-        uses: coverallsapp/github-action@v2.3.7
+        uses: coverallsapp/github-action@v2.3.8
 
       - uses: actions/upload-artifact@v7
         if: always()
