@@ -38,5 +38,28 @@
         <li><a data-ilb2-video='{"controls":"controls", "autoplay":true, "muted":"muted", "sources":[{"src":"images/video.m4v", "type":"video/mp4"}]}' data-imagelightbox="autoplay-video"><img src="images/video-thumb.jpg"></a></li>
     </ul>
 </section>
+
+<section>
+    <h2>Programmatic control</h2>
+    <ul data-testid="programmatic">
+        <li><a href="images/demo1.jpg" data-imagelightbox="programmatic"><img src="images/thumb1.jpg"></a></li>
+        <li><a href="images/demo2.jpg" data-imagelightbox="programmatic"><img src="images/thumb2.jpg"></a></li>
+        <li><a href="images/demo3.jpg" data-imagelightbox="programmatic"><img src="images/thumb3.jpg"></a></li>
+    </ul>
+    <button class="programmatic_open">Open</button>
+    <button class="programmatic_open_third">Open the third image</button>
+    <button class="programmatic_open_foreign">Open a foreign image</button>
+    <button class="programmatic_previous">Previous</button>
+    <button class="programmatic_next">Next</button>
+    <button class="programmatic_close">Close</button>
+</section>
+
+<section>
+    <h2>Caption with nothing to fall back on</h2>
+    <ul data-testid="caption-fallback">
+        <li><a href="images/demo1.jpg" data-imagelightbox="caption-fallback" data-ilb2-caption="A caption"><img src="images/thumb1.jpg"></a></li>
+        <li><a href="images/demo2.jpg" data-imagelightbox="caption-fallback">A link with no image inside it</a></li>
+    </ul>
+</section>
 </body>
 </html>

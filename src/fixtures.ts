@@ -55,3 +55,59 @@ new ImageLightbox(
     ...(isTest && { animationSpeed: 0 }),
   },
 );
+
+const programmaticGallery = new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="programmatic"]'),
+  {
+    ...(isTest && { animationSpeed: 0 }),
+  },
+);
+const onClick = (className: string, handler: () => void): void => {
+  document
+    .getElementsByClassName(className)
+    .item(0)
+    ?.addEventListener("click", handler);
+};
+onClick("programmatic_open", () => {
+  programmaticGallery.open();
+});
+onClick("programmatic_open_third", () => {
+  const third = document.querySelectorAll<HTMLAnchorElement>(
+    'a[data-imagelightbox="programmatic"]',
+  )[2];
+  programmaticGallery.open(third);
+});
+onClick("programmatic_open_foreign", () => {
+  // An image that belongs to a different gallery must be rejected
+  const foreign = document.querySelector<HTMLAnchorElement>(
+    'a[data-imagelightbox="no-keyboard"]',
+  );
+  if (foreign !== null) {
+    programmaticGallery.open(foreign);
+  }
+});
+onClick("programmatic_previous", () => {
+  programmaticGallery.previous();
+});
+onClick("programmatic_next", () => {
+  programmaticGallery.next();
+});
+onClick("programmatic_close", () => {
+  programmaticGallery.close();
+});
+
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="caption-fallback"]'),
+  {
+    caption: true,
+    ...(isTest && { animationSpeed: 0 }),
+  },
+);
+
+// A gallery whose selector matches nothing must not blow up
+new ImageLightbox(
+  document.querySelectorAll('a[data-imagelightbox="no-such-gallery"]'),
+  {
+    ...(isTest && { animationSpeed: 0 }),
+  },
+);

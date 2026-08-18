@@ -55,3 +55,16 @@ test("stays open when clicking the caption", async ({ page }) => {
   await expect(page.locator("#ilb-image")).toBeVisible();
   await expectImage(page, "images/demo1.jpg");
 });
+
+test("clears the caption when there is nothing to fall back on", async ({
+  page,
+}) => {
+  await page.goto("/fixtures.html");
+  await page.getByTestId("caption-fallback").getByRole("link").first().click();
+  await expectImage(page, "images/demo1.jpg");
+  await expect(page.getByText("A caption")).toHaveId("ilb-caption");
+  await page.locator("#ilb-arrow-right").click();
+  await expectImage(page, "images/demo2.jpg");
+  // The second link has neither a caption attribute nor an image to take an alt from
+  await expect(page.locator("#ilb-caption")).toBeHidden();
+});
