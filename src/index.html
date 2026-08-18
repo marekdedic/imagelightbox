@@ -36,7 +36,7 @@ new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="basic"]'));
                 </code></pre>
 
                 <h2>HTML5 responsive image example</h2>
-                <ul data-testid="basic">
+                <ul data-testid="responsive">
                     <li>
                         <a data-ilb2-srcset="images/demo1.jpg 1200w" data-ilb2-sizes="(min-width: 30px) 1200px" data-imagelightbox="responsive">
                             <img src="images/thumb1.jpg">
@@ -59,7 +59,7 @@ new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="responsive"]'
                 </code></pre>
 
                 <h2>Video support</h2>
-                <ul>
+                <ul data-testid="video">
                     <li><a href="images/demo1.jpg" data-imagelightbox="video"><img src="images/thumb1.jpg"></a></li>
 					<li><a data-ilb2-video='{"controls":"controls", "autoplay":false, "sources":[{"src":"images/video.m4v", "type":"video/mp4"}]}' data-imagelightbox="video"><img src="images/video-thumb.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="video"><img src="images/thumb3.jpg"></a></li>
@@ -70,7 +70,7 @@ new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="responsive"]'
             <section>
 
                 <h2>Minimal example</h2>
-                <ul>
+                <ul data-testid="minimal">
                     <li><a href="images/demo1.jpg" data-imagelightbox="minimal"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="minimal"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="minimal"><img src="images/thumb3.jpg"></a></li>
@@ -170,7 +170,7 @@ new ImageLightbox(
 
                 <h2>Filter images by extension</h2>
                 <h3>Allow gif only</h3>
-                <ul>
+                <ul data-testid="allowedtypes">
                     <li><a href="images/demo1.jpg" data-imagelightbox="allowedtypes"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="allowedtypes"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="allowedtypes"><img src="images/thumb3.jpg"></a></li>
@@ -245,8 +245,17 @@ document
             </section>
 
             <section>
+                <h2>Navigation with dynamically added images</h2>
+                <ul class="demo_dynamic_navigation" data-testid="dynamic-navigation">
+                    <li><a href="images/demo1.jpg" data-imagelightbox="dynamic-navigation"><img src="images/thumb1.jpg"></a></li>
+                    <li><a href="images/demo2.jpg" data-imagelightbox="dynamic-navigation"><img src="images/thumb2.jpg"></a></li>
+                </ul>
+                <button class="add_image_navigation">Add image to the navigation gallery</button>
+            </section>
+
+            <section>
                 <h2>Events</h2>
-                <ul>
+                <ul data-testid="events">
                     <li><a href="images/demo1.jpg" data-imagelightbox="events"><img src="images/thumb1.jpg"></a></li>
                     <li><a href="images/demo2.jpg" data-imagelightbox="events"><img src="images/thumb2.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="events"><img src="images/thumb3.jpg"></a></li>

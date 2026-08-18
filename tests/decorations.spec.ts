@@ -44,3 +44,14 @@ test("shows a caption", async ({ page }) => {
     "ilb-caption",
   );
 });
+
+test("stays open when clicking the caption", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("caption").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expect(page.locator("#ilb-caption")).toBeVisible();
+  // The caption sits inside the container, but its clicks must not quit
+  await page.locator("#ilb-caption").click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expectImage(page, "images/demo1.jpg");
+});
