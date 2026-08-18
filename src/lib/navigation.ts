@@ -4,6 +4,12 @@ import { TransitionDirection } from "./TransitionDirection";
 
 const navigation = document.createElement("div");
 navigation.classList.add("ilb-navigation");
+navigation.addEventListener("click", (e) => {
+  e.stopPropagation();
+});
+navigation.addEventListener("touchend", (e) => {
+  e.stopPropagation();
+});
 
 export function addNavigationItems(
   images: Array<HTMLAnchorElement>,
@@ -53,13 +59,6 @@ export function addNavigationToDOM(
     changeNavigationCurrent(currentIndex);
   }
   getContainer().appendChild(navigation);
-
-  navigation.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
-  navigation.addEventListener("touchend", (e) => {
-    e.stopPropagation();
-  });
 }
 
 export function changeNavigationCurrent(currentIndex: number): void {
@@ -69,4 +68,8 @@ export function changeNavigationCurrent(currentIndex: number): void {
   navigation.children
     .item(currentIndex)
     ?.classList.add("ilb-navigation-active");
+}
+
+export function removeNavigationFromDOM(): void {
+  navigation.remove();
 }

@@ -21,6 +21,7 @@ export default tseslint.config(
     "dist/",
     "docs/",
     "package-lock.json",
+    "test-results/",
   ]),
   packageJson.configs.recommended,
   {
@@ -201,6 +202,10 @@ export default tseslint.config(
     extends: [playwright.configs["flat/recommended"]],
     files: ["tests/**/*.ts"],
     rules: {
+      "playwright/expect-expect": [
+        "error",
+        { assertFunctionNames: ["expectImage"] },
+      ],
       "playwright/no-commented-out-tests": "error",
       "playwright/no-duplicate-hooks": "error",
       "playwright/no-get-by-title": "error",

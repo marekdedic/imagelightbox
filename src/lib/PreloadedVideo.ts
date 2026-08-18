@@ -26,7 +26,8 @@ export function PreloadedVideo(
   for (const [key, value] of Object.entries(videoOptions)) {
     switch (key) {
       case "autoplay":
-        autoplay = true;
+        // The value comes from untyped JSON, so an explicit negative must be honoured
+        autoplay = value !== false && value !== "false" && value !== "";
         break;
       case "controls":
       case "loop":

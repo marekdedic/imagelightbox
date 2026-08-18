@@ -1,7 +1,7 @@
 import type { VideoSourceOptions } from "./VideoSourceOptions";
 
 export interface VideoOptions {
-  autoplay?: "autoplay";
+  autoplay?: "autoplay" | boolean;
   controls?: "controls";
   height?: number;
   loop?: "loop";

@@ -27,6 +27,7 @@ import {
   addNavigationItems,
   addNavigationToDOM,
   changeNavigationCurrent,
+  removeNavigationFromDOM,
 } from "./navigation";
 import { TransitionDirection } from "./TransitionDirection";
 import { VideoCache } from "./VideoCache";
@@ -188,6 +189,7 @@ export function State(
       removeArrowsFromDOM();
       removeCloseButtonFromDOM();
       removeFullscreenButtonFromDOM();
+      removeNavigationFromDOM();
       removeContainerFromDOM();
     });
   }
@@ -321,12 +323,19 @@ export function State(
         openWithImage(image);
       });
     }
-    addNavigationItems(
-      validImages,
-      () => currentImage,
-      change,
-      options.animationSpeed,
-    );
+    /*
+     * The navigation is a single shared element, so it may only be touched
+     * while this gallery is the open one. Otherwise it is built from scratch by
+     * addNavigationToDOM when the gallery is opened.
+     */
+    if (options.navigation && currentImage !== null) {
+      addNavigationItems(
+        validImages,
+        () => currentImage,
+        change,
+        options.animationSpeed,
+      );
+    }
   }
 
   // State initialization
