@@ -55,3 +55,40 @@ test("updates the navigation strip for an image added while open", async ({
     /ilb-navigation-active/,
   );
 });
+
+test("doesn't show navigation items from an unrelated gallery", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByTestId("navigation").getByRole("link").first().click();
+  await expectImage(page, "images/demo1.jpg");
+  await expect(page.locator(".ilb-navigation button")).toHaveCount(3);
+  /*
+   * The plain dynamic gallery is a separate instance with navigation disabled,
+   * so adding an image to it must not touch the open gallery's strip.
+   */
+  await page.evaluate(() => {
+    document.querySelector<HTMLButtonElement>(".add_image")?.click();
+  });
+  await expect(page.getByTestId("dynamic").getByRole("link")).toHaveCount(4);
+  await expect(page.locator(".ilb-navigation button")).toHaveCount(3);
+});
+
+test("keeps the navigation strip intact across reopening", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("navigation").getByRole("link").first().click();
+  await expectImage(page, "images/demo1.jpg");
+  await expect(page.locator(".ilb-navigation button")).toHaveCount(3);
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await expect(page.locator(".ilb-navigation button")).toHaveCount(0);
+  // Reopening must neither lose the items nor duplicate them
+  await page.getByTestId("navigation").getByRole("link").nth(1).click();
+  await expectImage(page, "images/demo2.jpg");
+  await expect(page.locator(".ilb-navigation button")).toHaveCount(3);
+  await expect(page.locator(".ilb-navigation button").nth(1)).toHaveClass(
+    /ilb-navigation-active/,
+  );
+  await page.locator(".ilb-navigation button").nth(2).click();
+  await expectImage(page, "images/demo3.jpg");
+});
