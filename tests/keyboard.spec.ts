@@ -34,3 +34,23 @@ test("still navigates with the arrows when the keyboard is disabled", async ({
   await page.getByTestId("no-keyboard").getByRole("link").nth(2).click();
   await expectImage(page, "images/demo3.jpg");
 });
+
+test("ignores escape when the keyboard is disabled", async ({ page }) => {
+  await page.goto("/fixtures.html");
+  await page.getByTestId("no-keyboard").getByRole("link").first().click();
+  await expectImage(page, "images/demo1.jpg");
+  await page.keyboard.press("Escape");
+  await settle();
+  /*
+   * The container is a modal dialog, which the browser would dismiss on escape
+   * on its own. That has to be suppressed, or the lightbox would be left
+   * thinking it is still open.
+   */
+  await expect(page.locator("#ilb-container")).toBeVisible();
+  await expectImage(page, "images/demo1.jpg");
+  // The gallery still has to be usable afterwards
+  await page.locator("#ilb-close-button").dispatchEvent("click");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await page.getByTestId("no-keyboard").getByRole("link").nth(1).click();
+  await expectImage(page, "images/demo2.jpg");
+});

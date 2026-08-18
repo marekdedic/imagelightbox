@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 
 import { expect, test } from "playwright-test-coverage";
 
-import { expectImage } from "./helpers";
+import { expectImage, settle } from "./helpers";
 
 const ILB_EVENTS = [
   "ilb:start",
@@ -71,6 +71,21 @@ test("fires a quit event when closing", async ({ page }) => {
   await page.keyboard.press("Escape");
   await expect(page.locator("#ilb-image")).toBeHidden();
   await expect.poll(() => events).toContain("ilb:quit");
+});
+
+test("quits exactly once on escape", async ({ page }) => {
+  const events = collectEvents(page);
+  await page.goto("/");
+  await page.getByTestId("events").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await settle();
+  /*
+   * Escape reaches both the dialog and the keyboard navigation, so a single
+   * press must still only tear the lightbox down once.
+   */
+  expect(events.filter((event) => event === "ilb:quit")).toHaveLength(1);
 });
 
 test("fires an error event for an image that fails to load", async ({

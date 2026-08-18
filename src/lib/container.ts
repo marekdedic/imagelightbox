@@ -3,6 +3,15 @@ import "./container.css";
 const container = document.createElement("dialog");
 container.setAttribute("id", "ilb-container");
 document.body.appendChild(container);
+/*
+ * A modal dialog is dismissed by the browser on escape, which would close the
+ * lightbox behind its back and leave it thinking it is still open. Closing is
+ * driven by the lightbox itself instead - on escape by the keyboard navigation,
+ * if it is enabled.
+ */
+container.addEventListener("cancel", (e) => {
+  e.preventDefault();
+});
 
 let wrappedOnclick: ((e: Event) => void) | null = null;
 
