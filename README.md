@@ -2,7 +2,7 @@
 
 [![NPM Version](https://img.shields.io/npm/v/imagelightbox?logo=npm)](https://www.npmjs.com/package/imagelightbox)
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/marekdedic/imagelightbox/CI.yml?branch=master&logo=github)](https://github.com/marekdedic/imagelightbox/actions)
-[![Coveralls](https://img.shields.io/coverallsCoverage/github/marekdedic/imagelightbox?branch=master&logo=coveralls)](https://coveralls.io/github/marekdedic/imagelightbox)
+[![Codecov (with branch)](https://img.shields.io/codecov/c/github/marekdedic/imagelightbox/master?logo=codecov)](https://app.codecov.io/gh/marekdedic/imagelightbox)
 [![NPM Downloads](https://img.shields.io/npm/dm/imagelightbox?logo=npm)](https://www.npmjs.com/package/imagelightbox)
 [![NPM License](https://img.shields.io/npm/l/imagelightbox)](https://github.com/marekdedic/imagelightbox/blob/master/LICENSE)
 [![RelativeCI native bundle](https://badges.relative-ci.com/badges/mqvYqDg4xPM2gcxviDAG?branch=master&style=flat)](https://app.relative-ci.com/projects/mqvYqDg4xPM2gcxviDAG)
