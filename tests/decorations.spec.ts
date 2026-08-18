@@ -8,6 +8,16 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
+test("shows an activity indicator while the image loads", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("basic").getByRole("link").first().click();
+  await expect(page.locator("#ilb-activity-indicator")).toBeVisible();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  // It is taken down again once the image is there
+  await expect(page.locator("#ilb-activity-indicator")).toBeHidden();
+  await expectImage(page, "images/demo1.jpg");
+});
+
 test("shows the overlay", async ({ page }) => {
   await page.goto("/");
   await page.getByTestId("basic").getByRole("link").first().click();

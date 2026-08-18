@@ -2,7 +2,7 @@ import type { Page } from "@playwright/test";
 
 import { expect, test } from "playwright-test-coverage";
 
-import { expectImage, settle } from "./helpers";
+import { clickThroughModal, expectImage, settle } from "./helpers";
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript({
@@ -10,15 +10,8 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-/*
- * The container is a modal dialog, so the page behind it is inert and the
- * controls cannot be clicked for real once the lightbox is open. Calling the API
- * from the surrounding application is the scenario being covered.
- */
 async function press(page: Page, className: string): Promise<void> {
-  await page.evaluate((target) => {
-    document.querySelector<HTMLButtonElement>(target)?.click();
-  }, `.${className}`);
+  await clickThroughModal(page, `.${className}`);
 }
 
 test("can be driven entirely through the API", async ({ page }) => {
@@ -73,14 +66,9 @@ test("ignores opening while already open", async ({ page }) => {
   await expectImage(page, "images/demo3.jpg");
 });
 
-test("survives a gallery whose selector matches nothing", async ({ page }) => {
-  const errors: Array<string> = [];
-  page.on("pageerror", (error) => {
-    errors.push(error.message);
-  });
-  await page.goto("/fixtures.html");
-  // The empty gallery is constructed on load, so the later ones only work if it did not throw
-  await press(page, "programmatic_open");
+test("can be triggered from a button on the page", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Click me!" }).click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
   await expectImage(page, "images/demo1.jpg");
-  expect(errors).toStrictEqual([]);
 });

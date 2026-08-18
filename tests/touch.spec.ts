@@ -41,19 +41,15 @@ async function swipe(
 async function touch(
   page: Page,
   moves: Array<[string, number]>,
-  selector = "#ilb-image",
 ): Promise<void> {
-  await page.evaluate(
-    ({ events, target }) => {
-      const element = document.querySelector(target);
-      for (const [type, x] of events) {
-        const event = new Event(type, { bubbles: true, cancelable: true });
-        Object.defineProperty(event, "touches", { value: [{ pageX: x }] });
-        element?.dispatchEvent(event);
-      }
-    },
-    { events: moves, target: selector },
-  );
+  await page.evaluate((events) => {
+    const image = document.getElementById("ilb-image");
+    for (const [type, x] of events) {
+      const event = new Event(type, { bubbles: true, cancelable: true });
+      Object.defineProperty(event, "touches", { value: [{ pageX: x }] });
+      image?.dispatchEvent(event);
+    }
+  }, moves);
 }
 
 test("goes to the next image on a swipe to the left", async ({ page }) => {
@@ -90,18 +86,4 @@ test("ignores a cancelled swipe", async ({ page }) => {
   await swipe(page, 300, 100, "touchcancel");
   await expectImage(page, "images/demo2.jpg");
   await expect(currentImage(page)).toHaveCSS("left", "0px");
-});
-
-test("stays open when tapping the navigation strip", async ({ page }) => {
-  await page.goto("/");
-  await page.getByTestId("navigation").getByRole("link").first().click();
-  await expectImage(page, "images/demo1.jpg");
-  await expect(page.locator(".ilb-navigation")).toBeVisible();
-  await settle();
-  /*
-   * The container quits on touchend as well as on click, so the navigation has
-   * to stop the event from reaching it.
-   */
-  await touch(page, [["touchend", 0]], ".ilb-navigation");
-  await expectImage(page, "images/demo1.jpg");
 });

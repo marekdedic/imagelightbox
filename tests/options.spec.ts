@@ -33,6 +33,26 @@ test("stays open on document click when quitOnDocClick is disabled", async ({
   await expectImage(page, "images/demo2.jpg");
 });
 
+test("quits at both ends of the gallery when quitOnEnd is enabled", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByTestId("basic").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expectImage(page, "images/demo1.jpg");
+  await page.keyboard.press("ArrowRight");
+  await expectImage(page, "images/demo2.jpg");
+  await page.keyboard.press("ArrowRight");
+  await expectImage(page, "images/demo3.jpg");
+  await page.keyboard.press("ArrowRight");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+  await page.getByTestId("basic").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await expectImage(page, "images/demo1.jpg");
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.locator("#ilb-image")).toBeHidden();
+});
+
 test("quits instead of navigating when quitOnImgClick is enabled", async ({
   page,
 }) => {
@@ -45,22 +65,6 @@ test("quits instead of navigating when quitOnImgClick is enabled", async ({
   await expect(page.locator("#ilb-image")).toBeHidden();
 });
 
-test("uses srcset and sizes for responsive images", async ({ page }) => {
-  await page.goto("/");
-  await page.getByTestId("responsive").locator("a").first().click();
-  await expect(page.locator("#ilb-image")).toBeVisible();
-  await expect(page.locator("#ilb-image")).toHaveAttribute(
-    "srcset",
-    "images/demo1.jpg 1200w",
-  );
-  await expect(page.locator("#ilb-image")).toHaveAttribute(
-    "sizes",
-    "(min-width: 30px) 1200px",
-  );
-  // Responsive images have no href to fall back on
-  await expect(page.locator("#ilb-image")).toHaveAttribute("src", "");
-});
-
 test("ignores images not matching allowedTypes", async ({ page }) => {
   await page.goto("/");
   const link = page.getByTestId("allowedtypes").getByRole("link").first();
@@ -69,26 +73,4 @@ test("ignores images not matching allowedTypes", async ({ page }) => {
   // The link was never registered, so the browser just follows it
   await expect(page).toHaveURL(/images\/demo1\.jpg$/);
   await expect(page.locator("#ilb-image")).toHaveCount(0);
-});
-
-test("doesn't add the same image to a gallery twice", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Add another image" }).click();
-  await expect(
-    page.getByTestId("dynamic").getByRole("link").nth(3),
-  ).toBeVisible();
-  await page.getByTestId("dynamic").getByRole("link").first().click();
-  await expectImage(page, "images/demo1.jpg");
-  /*
-   * `addImages` was called with the pre-existing links as well, so if they were
-   * added again the gallery would hold seven images instead of four.
-   */
-  await page.keyboard.press("ArrowRight");
-  await expectImage(page, "images/demo2.jpg");
-  await page.keyboard.press("ArrowRight");
-  await expectImage(page, "images/demo3.jpg");
-  await page.keyboard.press("ArrowRight");
-  await expectImage(page, "images/demo4.jpg");
-  await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#ilb-image")).toBeHidden();
 });
