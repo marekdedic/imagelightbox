@@ -21,6 +21,7 @@ export default tseslint.config(
     "dist/",
     "docs/",
     "package-lock.json",
+    "test-results/",
   ]),
   packageJson.configs.recommended,
   {
