@@ -1,6 +1,19 @@
+import type { Page } from "@playwright/test";
+
 import { expect, test } from "playwright-test-coverage";
 
-import { expectImage } from "./helpers";
+import { expectImage, settle } from "./helpers";
+
+const playbackState = async (page: Page): Promise<PlaybackState> =>
+  await page.locator("video#ilb-image").evaluate((video: HTMLVideoElement) => ({
+    currentTime: video.currentTime,
+    paused: video.paused,
+  }));
+
+interface PlaybackState {
+  currentTime: number;
+  paused: boolean;
+}
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript({
@@ -66,4 +79,28 @@ test("reuses the same preloaded video element", async ({ page }) => {
     "data-ilb-test-marker",
     "marked",
   );
+});
+
+test("doesn't autoplay a video with autoplay disabled", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("video").locator("a").nth(1).click();
+  await expect(page.locator("video#ilb-image")).toBeVisible();
+  await settle();
+  expect(await playbackState(page)).toStrictEqual({
+    currentTime: 0,
+    paused: true,
+  });
+});
+
+test("autoplays a video with autoplay enabled", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("video").locator("a").nth(3).click();
+  await expect(page.locator("video#ilb-image")).toBeVisible();
+  /*
+   * Playback making progress is the signal to wait for - paused flips to false
+   * a moment before currentTime actually starts moving.
+   */
+  await expect
+    .poll(async () => (await playbackState(page)).currentTime)
+    .toBeGreaterThan(0);
 });
