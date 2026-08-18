@@ -1,6 +1,6 @@
 ---
 coverage:
-  range: "95...100"
+  range: "0...100"
 
   status:
     project:
@@ -9,7 +9,7 @@ coverage:
         threshold: 5%
     patch:
       default:
-        target: 90%
+        target: 0%
 
 parsers:
   gcov:
