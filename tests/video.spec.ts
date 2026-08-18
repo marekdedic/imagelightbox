@@ -93,8 +93,8 @@ test("doesn't autoplay a video with autoplay disabled", async ({ page }) => {
 });
 
 test("autoplays a video with autoplay enabled", async ({ page }) => {
-  await page.goto("/");
-  await page.getByTestId("video").locator("a").nth(3).click();
+  await page.goto("/fixtures.html");
+  await page.getByTestId("autoplay-video").locator("a").first().click();
   await expect(page.locator("video#ilb-image")).toBeVisible();
   /*
    * Playback making progress is the signal to wait for - paused flips to false

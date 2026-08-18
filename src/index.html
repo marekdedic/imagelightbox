@@ -63,7 +63,6 @@ new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="responsive"]'
                     <li><a href="images/demo1.jpg" data-imagelightbox="video"><img src="images/thumb1.jpg"></a></li>
 					<li><a data-ilb2-video='{"controls":"controls", "autoplay":false, "sources":[{"src":"images/video.m4v", "type":"video/mp4"}]}' data-imagelightbox="video"><img src="images/video-thumb.jpg"></a></li>
                     <li><a href="images/demo3.jpg" data-imagelightbox="video"><img src="images/thumb3.jpg"></a></li>
-                    <li><a data-ilb2-video='{"controls":"controls", "autoplay":true, "muted":"muted", "sources":[{"src":"images/video.m4v", "type":"video/mp4"}]}' data-imagelightbox="video"><img src="images/video-thumb.jpg"></a></li>
                 </ul>
                 Add data-ilb2-video to the link, containing the parameters of a HTML5 video tag as JSON. You can also include a sources field - a list of source tags similarily encoded.
 
@@ -243,15 +242,6 @@ document
   });
                 </code></pre>
 
-            </section>
-
-            <section>
-                <h2>Navigation with dynamically added images</h2>
-                <ul class="demo_dynamic_navigation" data-testid="dynamic-navigation">
-                    <li><a href="images/demo1.jpg" data-imagelightbox="dynamic-navigation"><img src="images/thumb1.jpg"></a></li>
-                    <li><a href="images/demo2.jpg" data-imagelightbox="dynamic-navigation"><img src="images/thumb2.jpg"></a></li>
-                </ul>
-                <button class="add_image_navigation">Add image to the navigation gallery</button>
             </section>
 
             <section>

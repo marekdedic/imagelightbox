@@ -122,37 +122,6 @@ document
     );
   });
 
-const dynamicNavigationGallery = new ImageLightbox(
-  document.querySelectorAll('a[data-imagelightbox="dynamic-navigation"]'),
-  {
-    navigation: true,
-    ...(isTest && { animationSpeed: 0 }),
-  },
-);
-document
-  .getElementsByClassName("add_image_navigation")
-  .item(0)
-  ?.addEventListener("click", () => {
-    const linkContainer = document
-      .getElementsByClassName("demo_dynamic_navigation")
-      .item(0);
-    const newLi = document.createElement("li");
-    linkContainer?.appendChild(newLi);
-
-    const newAnchor = document.createElement("a");
-    newAnchor.dataset["imagelightbox"] = "dynamic-navigation";
-    newAnchor.href = "images/demo3.jpg";
-    newLi.appendChild(newAnchor);
-
-    const newImg = document.createElement("img");
-    newImg.src = "images/thumb3.jpg";
-    newAnchor.appendChild(newImg);
-
-    dynamicNavigationGallery.addImages(
-      document.querySelectorAll('a[data-imagelightbox="dynamic-navigation"]'),
-    );
-  });
-
 new ImageLightbox(document.querySelectorAll('a[data-imagelightbox="events"]'), {
   ...(isTest && { animationSpeed: 0 }),
 });

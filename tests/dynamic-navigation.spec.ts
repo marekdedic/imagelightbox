@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 test("shows a navigation item for an image added while closed", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/fixtures.html");
   await expect(page.locator(".ilb-navigation button")).toHaveCount(0);
   await page
     .getByRole("button", { name: "Add image to the navigation gallery" })
@@ -30,7 +30,7 @@ test("shows a navigation item for an image added while closed", async ({
 test("updates the navigation strip for an image added while open", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/fixtures.html");
   await page
     .getByTestId("dynamic-navigation")
     .getByRole("link")
