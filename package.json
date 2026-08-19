@@ -12,7 +12,11 @@
     "url": "git+https://github.com/marekdedic/imagelightbox.git"
   },
   "license": "MIT",
-  "author": "Marek Dědič",
+  "author": {
+    "name": "Marek Dědič",
+    "email": "developer@dedic.eu",
+    "url": "https://dedic.eu/"
+  },
   "type": "module",
   "exports": {
     ".": {
