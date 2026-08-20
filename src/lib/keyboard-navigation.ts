@@ -1,3 +1,4 @@
+import type { ILBOptions } from "./interfaces/ILBOptions";
 let keyHandler: ((e: KeyboardEvent) => void) | null = null;
 
 export function addKeyboardNavigation(

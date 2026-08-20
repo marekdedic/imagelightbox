@@ -1,6 +1,20 @@
 import $ from "jquery";
 
+import type { ILBOptions } from "./interfaces/ILBOptions";
+
 import { ImageLightbox } from "./imagelightbox";
+
+declare global {
+  interface JQuery {
+    addToImageLightbox(elements: JQuery<HTMLAnchorElement>): void;
+    imageLightbox(opts?: Partial<ILBOptions>): JQuery;
+    loadNextImage(): void;
+    loadPreviousImage(): void;
+    openHistory(): void;
+    quitImageLightbox(): void;
+    startImageLightbox(element?: JQuery<HTMLAnchorElement>): void;
+  }
+}
 
 $.fn.imageLightbox = function (opts?: Partial<ILBOptions>): JQuery {
   const lightbox = new ImageLightbox(

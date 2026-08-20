@@ -1,3 +1,5 @@
+import type { ILBOptions } from "./interfaces/ILBOptions";
+
 import {
   addActivityIndicatorToDOM,
   removeActivityIndicatorFromDOM,

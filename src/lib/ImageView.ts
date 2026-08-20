@@ -1,3 +1,4 @@
+import type { ILBOptions } from "./interfaces/ILBOptions";
 import type { VideoCache } from "./VideoCache";
 
 import { getContainer } from "./container";
