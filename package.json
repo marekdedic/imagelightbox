@@ -53,7 +53,6 @@
     "dist",
     "!dist/webpack-stats.jquery.json",
     "!dist/webpack-stats.native.json",
-    "docs",
     "jquery",
     "types"
   ],
