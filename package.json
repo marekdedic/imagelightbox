@@ -21,24 +21,24 @@
   "exports": {
     ".": {
       "import": {
-        "style": "./dist/imagelightbox.min.css",
+        "style": "./dist/imagelightbox.css",
         "types": "./types/imagelightbox.d.ts",
         "default": "./dist/imagelightbox.js"
       },
       "require": {
-        "style": "./dist/imagelightbox.min.css",
+        "style": "./dist/imagelightbox.css",
         "types": "./types/imagelightbox.d.cts",
         "default": "./dist/imagelightbox.umd.cjs"
       }
     },
     "./jquery": {
       "import": {
-        "style": "./dist/imagelightbox.min.css",
+        "style": "./dist/imagelightbox.css",
         "types": "./types/imagelightbox.jquery.d.ts",
         "default": "./dist/imagelightbox.jquery.js"
       },
       "require": {
-        "style": "./dist/imagelightbox.min.css",
+        "style": "./dist/imagelightbox.css",
         "types": "./types/imagelightbox.jquery.d.cts",
         "default": "./dist/imagelightbox.jquery.umd.cjs"
       }
@@ -47,7 +47,7 @@
   "main": "./dist/imagelightbox.umd.cjs",
   "module": "./dist/imagelightbox.js",
   "types": "./types/imagelightbox.d.ts",
-  "style": "./dist/imagelightbox.min.css",
+  "style": "./dist/imagelightbox.css",
   "sideEffects": true,
   "files": [
     "dist",
