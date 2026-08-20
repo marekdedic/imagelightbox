@@ -28,6 +28,8 @@ After that include the `dist/imagelightbox.css` and `dist/imagelightbox.umd.cjs`
 
 If you prefer to use jQuery, there are also jQuery versions available in `dist/imagelightbox.jquery.umd.cjs` or `dist/imagelightbox.jquery.js`. These mostly adapt the interface of the library to work with jQuery types and emit jQuery events. These are here mostly for legacy reasons and their use is discouraged.
 
+TypeScript declarations are bundled with the package, so no separate `@types` package is needed.
+
 ## How to use
 
 ```html
@@ -55,7 +57,15 @@ If you prefer to use jQuery, there are also jQuery versions available in `dist/i
 
 ## Options
 
-You can pass an object with options to the `ImageLightbox` constructor as a second argument. The available options are:
+You can pass an object with options to the `ImageLightbox` constructor as a second argument. In TypeScript, the option type is exported as `ILBOptions`:
+
+```ts
+import { ImageLightbox, type ILBOptions } from "imagelightbox";
+
+const options: Partial<ILBOptions> = { caption: true };
+```
+
+The available options are:
 
 | Option           | Type      | Default value | Description |
 | ---------------- | --------- | ------------- | --- |

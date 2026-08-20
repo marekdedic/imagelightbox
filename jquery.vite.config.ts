@@ -1,5 +1,6 @@
 import { resolve } from "path";
 import webpackStats from "rollup-plugin-webpack-stats";
+import dts from "unplugin-dts/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -21,7 +22,16 @@ export default defineConfig({
     },
     sourcemap: true,
   },
-  plugins: [webpackStats({ fileName: "webpack-stats.jquery.json" })],
+  plugins: [
+    dts({
+      bundleTypes: true,
+      entryRoot: "src/lib",
+      include: ["src/lib/**/*.ts"],
+      outDirs: "dist",
+      root: __dirname,
+    }),
+    webpackStats({ fileName: "webpack-stats.jquery.json" }),
+  ],
   publicDir: false,
   root: "src",
 });

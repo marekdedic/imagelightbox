@@ -1,4 +1,4 @@
-interface ILBOptions {
+export interface ILBOptions {
   activity: boolean;
   allowedTypes: string;
   animationSpeed: number;
@@ -15,14 +15,4 @@ interface ILBOptions {
   quitOnDocClick: boolean;
   quitOnEnd: boolean;
   quitOnImgClick: boolean;
-}
-
-interface JQuery {
-  addToImageLightbox(elements: JQuery<HTMLAnchorElement>): void;
-  imageLightbox(opts?: Partial<ILBOptions>): JQuery;
-  loadNextImage(): void;
-  loadPreviousImage(): void;
-  openHistory(): void;
-  quitImageLightbox(): void;
-  startImageLightbox(element?: JQuery<HTMLAnchorElement>): void;
 }

@@ -1,5 +1,21 @@
+import type { ILBOptions } from "./interfaces/ILBOptions";
+
 import { openHistory } from "./history";
 import { State } from "./State";
+
+declare global {
+  interface Document {
+    addEventListener(
+      type: "ilb:error",
+      listener: (
+        this: Document,
+        ev: CustomEvent<{ target: HTMLImageElement }>,
+      ) => void,
+    ): void;
+  }
+}
+
+export type { ILBOptions };
 
 export class ImageLightbox {
   private readonly s: State;

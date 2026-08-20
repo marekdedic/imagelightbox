@@ -22,31 +22,31 @@
     ".": {
       "import": {
         "style": "./dist/imagelightbox.css",
-        "types": "./types/imagelightbox.d.ts",
+        "types": "./dist/imagelightbox.d.ts",
         "default": "./dist/imagelightbox.js"
       },
       "require": {
         "style": "./dist/imagelightbox.css",
-        "types": "./types/imagelightbox.d.cts",
+        "types": "./dist/imagelightbox.d.cts",
         "default": "./dist/imagelightbox.umd.cjs"
       }
     },
     "./jquery": {
       "import": {
         "style": "./dist/imagelightbox.css",
-        "types": "./types/imagelightbox.jquery.d.ts",
+        "types": "./dist/imagelightbox.jquery.d.ts",
         "default": "./dist/imagelightbox.jquery.js"
       },
       "require": {
         "style": "./dist/imagelightbox.css",
-        "types": "./types/imagelightbox.jquery.d.cts",
+        "types": "./dist/imagelightbox.jquery.d.cts",
         "default": "./dist/imagelightbox.jquery.umd.cjs"
       }
     }
   },
   "main": "./dist/imagelightbox.umd.cjs",
+  "types": "./dist/imagelightbox.d.ts",
   "module": "./dist/imagelightbox.js",
-  "types": "./types/imagelightbox.d.ts",
   "style": "./dist/imagelightbox.css",
   "sideEffects": true,
   "files": [
@@ -58,10 +58,11 @@
   ],
   "scripts": {
     "prebuild": "npm run clean",
-    "build": "run-p -c --aggregate-output build:*",
+    "build": "run-p -c --aggregate-output build:docs build:lib",
     "build:docs": "vite build --config docs.vite.config.ts",
-    "build:lib": "run-p -c --aggregate-output build:lib:*",
-    "build:lib:jquery": "vite build --config jquery.vite.config.ts",
+    "build:lib": "run-s build:lib:jquery build:lib:native build:lib:cjs-types",
+    "build:lib:cjs-types": "cp dist/imagelightbox.d.ts dist/imagelightbox.d.cts && cp dist/imagelightbox.jquery.d.ts dist/imagelightbox.jquery.d.cts",
+    "build:lib:jquery": "vite build --config jquery.vite.config.ts && mv dist/imagelightbox.d.ts dist/imagelightbox.jquery.d.ts",
     "build:lib:native": "vite build --config native.vite.config.ts",
     "clean": "rimraf dist/* docs/*",
     "lint": "run-p -c --aggregate-output lint:*",
@@ -91,6 +92,7 @@
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^2.0.0",
     "@eslint/markdown": "^8.0.0",
+    "@microsoft/api-extractor": "^7.58.13",
     "@playwright/test": "^1.47.0",
     "@types/jquery": "^4.0.1",
     "@types/node": "^26.0.0",
@@ -119,6 +121,7 @@
     "stylelint-prettier": "^5.0.0",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.0",
+    "unplugin-dts": "^1.0.3",
     "vite": "^8.0.8",
     "vite-plugin-istanbul": "^9.0.1"
   }
