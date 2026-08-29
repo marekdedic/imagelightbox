@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "bundler",
 
