@@ -6,6 +6,7 @@ export default defineConfig({
   build: {
     outDir: "../docs",
     sourcemap: true,
+    target: "es2017",
   },
   plugins: [istanbulPlugin({ include: "src/lib/**/*.ts" })],
   root: "src",

@@ -21,6 +21,7 @@ export default defineConfig({
       },
     },
     sourcemap: true,
+    target: "es2017",
   },
   plugins: [
     dts({
