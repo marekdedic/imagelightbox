@@ -78,12 +78,8 @@
     "test": "nyc --reporter=lcov playwright test"
   },
   "browserslist": [
-    "cover 95%",
-    "> 0.5%",
-    "last 2 versions",
-    "Firefox ESR",
-    "not dead",
-    "not < 0.1%"
+    "baseline 2019",
+    "not edge 18"
   ],
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
