@@ -5,12 +5,7 @@ export default {
   rules: {
     "color-function-notation": "legacy",
     "media-feature-range-notation": "prefix",
-    "plugin/no-unsupported-browser-features": [
-      true,
-      {
-        severity: "warning",
-      },
-    ],
+    "plugin/no-unsupported-browser-features": true,
     "selector-class-pattern": "ilb-.*",
     "selector-id-pattern": "ilb-.*",
   },
