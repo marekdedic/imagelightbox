@@ -67,7 +67,7 @@
     "clean": "rimraf dist/* docs/*",
     "lint": "run-p -c --aggregate-output lint:*",
     "lint:css": "run-p -c --aggregate-output lint:css:*",
-    "lint:css:stylelint": "stylelint --color 'src/**/*.css'",
+    "lint:css:stylelint": "stylelint --color --report-needless-disables 'src/**/*.css'",
     "lint:eslint": "eslint --color",
     "lint:ts": "run-p -c --aggregate-output lint:ts:*",
     "lint:ts:attw": "attw --pack",
