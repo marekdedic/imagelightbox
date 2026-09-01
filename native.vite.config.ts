@@ -1,3 +1,5 @@
+import browserslist from "browserslist";
+import { browserslistToTargets } from "lightningcss";
 import { resolve } from "path";
 import webpackStats from "rollup-plugin-webpack-stats";
 import dts from "unplugin-dts/vite";
@@ -18,6 +20,10 @@ export default defineConfig({
     },
     sourcemap: true,
     target: "es2017",
+  },
+  css: {
+    lightningcss: { targets: browserslistToTargets(browserslist()) },
+    transformer: "lightningcss",
   },
   plugins: [
     dts({
