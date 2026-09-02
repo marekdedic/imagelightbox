@@ -18,6 +18,9 @@
     "url": "https://dedic.eu/"
   },
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "exports": {
     ".": {
       "import": {
