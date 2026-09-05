@@ -110,6 +110,7 @@
     "eslint-plugin-prefer-arrow-functions": "^3.4.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^17.0.0",
+    "jiti": "^2.7.0",
     "jquery": ">=1.12.4 <5.0.0",
     "lightningcss": "^1.33.0",
     "npm-run-all2": "^9.0.3",
