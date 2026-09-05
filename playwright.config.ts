@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  forbidOnly: process.env.CI !== undefined,
+  forbidOnly: process.env["CI"] !== undefined,
   fullyParallel: true,
   projects: [
     {
@@ -17,8 +17,8 @@ export default defineConfig({
       use: { ...devices["Desktop Safari"] },
     },
   ],
-  reporter: process.env.CI === undefined ? "list" : "html",
-  retries: process.env.CI === undefined ? 0 : 2,
+  reporter: process.env["CI"] === undefined ? "list" : "html",
+  retries: process.env["CI"] === undefined ? 0 : 2,
   testDir: "./tests",
   use: {
     baseURL: "http://127.0.0.1:5173",
@@ -26,7 +26,7 @@ export default defineConfig({
   },
   webServer: {
     command: "npm run start -- --host",
-    reuseExistingServer: process.env.CI === undefined,
+    reuseExistingServer: process.env["CI"] === undefined,
     url: "http://127.0.0.1:5173",
   },
 });
