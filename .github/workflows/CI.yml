@@ -114,7 +114,7 @@ jobs:
           HOME: /root
 
       - name: "Upload coverage results"
-        uses: codecov/codecov-action@v7.0.0
+        uses: codecov/codecov-action@v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
