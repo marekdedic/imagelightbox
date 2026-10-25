@@ -13,7 +13,7 @@ export default defineConfig({
       name: "imagelightbox",
     },
     outDir: "../dist",
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         assetFileNames: "imagelightbox.[ext]",
       },
