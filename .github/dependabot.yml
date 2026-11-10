@@ -15,3 +15,8 @@ updates:
       interval: weekly
     assignees:
       - marekdedic
+    groups:
+      stylelint:
+        patterns:
+          - stylelint
+          - stylelint-config-standard
