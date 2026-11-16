@@ -1,9 +1,8 @@
 ---
 name: "Dependabot auto-merge"
-"on": "pull_request_target"
+"on": "pull_request"
 
 permissions:
-  actions: write
   pull-requests: write
   contents: write
 
@@ -11,7 +10,7 @@ jobs:
   dependabot:
     name: "Dependabot auto-merge"
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
       - name: "Fetch Dependabot metadata"
         id: "metadata"
