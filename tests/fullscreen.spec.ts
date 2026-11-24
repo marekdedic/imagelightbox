@@ -13,28 +13,25 @@ test.beforeEach(async ({ page }) => {
 });
 
 /**
- * Headless browsers refuse to actually enter fullscreen, so the fullscreen API
- * is faked to record which element the lightbox asks to make fullscreen. The
- * fake is installed on the container itself, so it has to be set up after the
- * lightbox has been opened.
+ * The fullscreen API is faked to record which element the lightbox asks to
+ * make fullscreen, so that the tests don't depend on the browser actually
+ * entering fullscreen.
  */
 async function fakeFullscreenAPI(page: Page): Promise<void> {
   await page.evaluate(() => {
     const recorder = globalThis as unknown as FullscreenRecorder;
     recorder.ilbFullscreenCalls = [];
-    const container = document.getElementById("ilb-container");
+    const root = document.documentElement;
     let currentElement: Element | null = null;
     Object.defineProperty(document, "fullscreenElement", {
       configurable: true,
       get: () => currentElement,
     });
-    if (container !== null) {
-      // The lightbox discards the returned promise, so the stubs don't need one
-      container.requestFullscreen = ((): void => {
-        recorder.ilbFullscreenCalls.push(`request:${container.id}`);
-        currentElement = container;
-      }) as () => Promise<void>;
-    }
+    // The lightbox doesn't use the returned value, so the stubs don't need a promise
+    root.requestFullscreen = ((): void => {
+      recorder.ilbFullscreenCalls.push(`request:${root.tagName}`);
+      currentElement = root;
+    }) as () => Promise<void>;
     // eslint-disable-next-line compat/compat -- Only overwriting the fullscreen API for the test
     document.exitFullscreen = ((): void => {
       recorder.ilbFullscreenCalls.push("exit");
@@ -49,7 +46,7 @@ async function fullscreenCalls(page: Page): Promise<Array<string>> {
   );
 }
 
-test("makes the container fullscreen and back with the fullscreen button", async ({
+test("makes the page fullscreen and back with the fullscreen button", async ({
   page,
 }) => {
   await page.goto("/");
@@ -61,13 +58,13 @@ test("makes the container fullscreen and back with the fullscreen button", async
   await page.locator("#ilb-fullscreen-button").click();
   await expect
     .poll(async () => await fullscreenCalls(page))
-    .toStrictEqual(["request:ilb-container"]);
+    .toStrictEqual(["request:HTML"]);
 
   // A second click leaves fullscreen instead of requesting it again
   await page.locator("#ilb-fullscreen-button").click();
   await expect
     .poll(async () => await fullscreenCalls(page))
-    .toStrictEqual(["request:ilb-container", "exit"]);
+    .toStrictEqual(["request:HTML", "exit"]);
 });
 
 test("keeps the lightbox open when clicking the fullscreen button", async ({
@@ -94,4 +91,17 @@ test("removes the fullscreen button when the lightbox closes", async ({
   await expect(page.locator("#ilb-fullscreen-button")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page.locator("#ilb-fullscreen-button")).toHaveCount(0);
+});
+
+test("leaves fullscreen when the lightbox closes", async ({ page }) => {
+  await page.goto("/");
+  await page.getByTestId("basic").getByRole("link").first().click();
+  await expect(page.locator("#ilb-image")).toBeVisible();
+  await fakeFullscreenAPI(page);
+  await page.locator("#ilb-fullscreen-button").click();
+  await page.keyboard.press("Escape");
+  await expect(page.locator("#ilb-fullscreen-button")).toHaveCount(0);
+  await expect
+    .poll(async () => await fullscreenCalls(page))
+    .toStrictEqual(["request:HTML", "exit"]);
 });

@@ -125,7 +125,7 @@ To use captions, add an "ilb2-caption" data-attribute to the element, or as a fa
 
 ## Fullscreen
 
-To enable fullscreen, set the `fullscreen` option to true. The user can then launch the fullscreen view by pressing the Enter key.
+To enable fullscreen, set the `fullscreen` option to true. The user can then switch the page to fullscreen with the button in the bottom right corner of the lightbox.
 
 ## Video
 
