@@ -1,6 +1,6 @@
 import "./button.css";
 import { getContainer } from "./container";
-import { toggleFullscreen } from "./fullscreen";
+import { leaveFullscreen, toggleFullscreen } from "./fullscreen";
 import "./fullscreen-button.css";
 
 const fullscreenButton = document.createElement("button");
@@ -18,4 +18,6 @@ export function addFullscreenButtonToDOM(): void {
 
 export function removeFullscreenButtonFromDOM(): void {
   fullscreenButton.remove();
+  // The whole page is fullscreen, so it has to be left together with the lightbox
+  leaveFullscreen();
 }
